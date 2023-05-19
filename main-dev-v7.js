@@ -830,20 +830,6 @@ $('.form__success-button, .form__button-close').on('click', function () {
 		successButton.closest('.remodal').find('form').show();
 	}, 300);
 })
-/*
-var urlpath = window.location.href,
-	offerModal = $('[data-remodal-id="offer"]').remodal(),
-	privacyModal = $('[data-remodal-id="privacy"]').remodal(),
-	payModal = $('[data-remodal-id="reccur_payment"]').remodal();
-
-if (urlpath.indexOf("popup=offer") > -1) {
-	offerModal.open();
-} else if (urlpath.indexOf("popup=privacy") > -1) {
-	privacyModal.open();
-} else if (urlpath.indexOf("popup=reccur_payment") > -1) {
-	payModal.open();
-}
-*/
 
 const bodyScrollControls = {
 	scrollBarWidth: window.innerWidth - document.body.clientWidth,
