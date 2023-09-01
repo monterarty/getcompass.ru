@@ -1,254 +1,81 @@
-window.REMODAL_GLOBALS = {
-	NAMESPACE: 'remodal',
-	DEFAULTS: {
-		hashTracking: false
-	}
-};
-//Easing effects
-(function () {
-	"use strict";
-	// Based on easing equations from Robert Penner (http://www.robertpenner.com/easing)
-	var baseEasings = {};
-	$.each(["Quad", "Cubic", "Quart", "Quint", "Expo"], function (i, name) {
-		baseEasings[name] = function (p) {
-			return Math.pow(p, i + 2);
-		};
-	});
-	$.extend(baseEasings, {
-		Sine: function (p) {
-			return 1 - Math.cos(p * Math.PI / 2);
-		},
-		Circ: function (p) {
-			return 1 - Math.sqrt(1 - p * p);
-		},
-		Elastic: function (p) {
-			return p === 0 || p === 1 ? p :
-				-Math.pow(2, 8 * (p - 1)) * Math.sin(((p - 1) * 80 - 7.5) * Math.PI / 15);
-		},
-		Back: function (p) {
-			return p * p * (3 * p - 2);
-		},
-		Bounce: function (p) {
-			var pow2,
-				bounce = 4;
+/* ------------------------*/
+/* ------------------------*/
+/*        main-v11.1js     */
+/* ------------------------*/
+/* ------------------------*/
 
-			while (p < ((pow2 = Math.pow(2, --bounce)) - 1) / 11) {}
-			return 1 / Math.pow(4, 3 - bounce) - 7.5625 * Math.pow((pow2 * 3 - 2) / 22 - p, 2);
-		}
-	});
-	$.each(baseEasings, function (name, easeIn) {
-		$.easing["easeIn" + name] = easeIn;
-		$.easing["easeOut" + name] = function (p) {
-			return 1 - easeIn(1 - p);
-		};
-		$.easing["easeInOut" + name] = function (p) {
-			return p < 0.5 ?
-				easeIn(p * 2) / 2 :
-				1 - easeIn(p * -2 + 2) / 2;
-		};
-	});
-})();
-
-/*
- *  Remodal - v1.1.1
- *  Responsive, lightweight, fast, synchronized with CSS animations, fully customizable modal window plugin with declarative configuration and hash tracking.
- *  http://vodkabears.github.io/remodal/
- *
- *  Made by Ilya Makarov
- *  Under MIT License
- */
-
-! function (a, b) {
-	"function" == typeof define && define.amd ? define(["jquery"], function (c) {
-		return b(a, c)
-	}) : "object" == typeof exports ? b(a, require("jquery")) : b(a, a.jQuery || a.Zepto)
-}(this, function (a, b) {
-	"use strict";
-
-	function c(a) {
-		if (w && "none" === a.css("animation-name") && "none" === a.css("-webkit-animation-name") && "none" === a.css("-moz-animation-name") && "none" === a.css("-o-animation-name") && "none" === a.css("-ms-animation-name")) return 0;
-		var b, c, d, e, f = a.css("animation-duration") || a.css("-webkit-animation-duration") || a.css("-moz-animation-duration") || a.css("-o-animation-duration") || a.css("-ms-animation-duration") || "0s",
-			g = a.css("animation-delay") || a.css("-webkit-animation-delay") || a.css("-moz-animation-delay") || a.css("-o-animation-delay") || a.css("-ms-animation-delay") || "0s",
-			h = a.css("animation-iteration-count") || a.css("-webkit-animation-iteration-count") || a.css("-moz-animation-iteration-count") || a.css("-o-animation-iteration-count") || a.css("-ms-animation-iteration-count") || "1";
-		for (f = f.split(", "), g = g.split(", "), h = h.split(", "), e = 0, c = f.length, b = Number.NEGATIVE_INFINITY; e < c; e++) d = parseFloat(f[e]) * parseInt(h[e], 10) + parseFloat(g[e]), d > b && (b = d);
-		return b
-	}
-
-	function d() {
-		if (b(document).height() <= b(window).height()) return 0;
-		var a, c, d = document.createElement("div"),
-			e = document.createElement("div");
-		return d.style.visibility = "hidden", d.style.width = "100px", document.body.appendChild(d), a = d.offsetWidth, d.style.overflow = "scroll", e.style.width = "100%", d.appendChild(e), c = e.offsetWidth, d.parentNode.removeChild(d), a - c
-	}
-
-	function e() {
-		if (!x) {
-			var a, c, e = b("html"),
-				f = k("is-locked");
-			e.hasClass(f) || (c = b(document.body), a = parseInt(c.css("padding-right"), 10) + d(), c.css("padding-right", a + "px"), e.addClass(f))
-		}
-	}
-
-	function f() {
-		if (!x) {
-			var a, c, e = b("html"),
-				f = k("is-locked");
-			e.hasClass(f) && (c = b(document.body), a = parseInt(c.css("padding-right"), 10) - d(), c.css("padding-right", a + "px"), e.removeClass(f))
-		}
-	}
-
-	function g(a, b, c, d) {
-		var e = k("is", b),
-			f = [k("is", u.CLOSING), k("is", u.OPENING), k("is", u.CLOSED), k("is", u.OPENED)].join(" ");
-		a.$bg.removeClass(f).addClass(e), a.$overlay.removeClass(f).addClass(e), a.$wrapper.removeClass(f).addClass(e), a.$modal.removeClass(f).addClass(e), a.state = b, !c && a.$modal.trigger({
-			type: b,
-			reason: d
-		}, [{
-			reason: d
-		}])
-	}
-
-	function h(a, d, e) {
-		var f = 0,
-			g = function (a) {
-				a.target === this && f++
-			},
-			h = function (a) {
-				a.target === this && 0 === --f && (b.each(["$bg", "$overlay", "$wrapper", "$modal"], function (a, b) {
-					e[b].off(r + " " + s)
-				}), d())
-			};
-		b.each(["$bg", "$overlay", "$wrapper", "$modal"], function (a, b) {
-			e[b].on(r, g).on(s, h)
-		}), a(), 0 === c(e.$bg) && 0 === c(e.$overlay) && 0 === c(e.$wrapper) && 0 === c(e.$modal) && (b.each(["$bg", "$overlay", "$wrapper", "$modal"], function (a, b) {
-			e[b].off(r + " " + s)
-		}), d())
-	}
-
-	function i(a) {
-		a.state !== u.CLOSED && (b.each(["$bg", "$overlay", "$wrapper", "$modal"], function (b, c) {
-			a[c].off(r + " " + s)
-		}), a.$bg.removeClass(a.settings.modifier), a.$overlay.removeClass(a.settings.modifier).hide(), a.$wrapper.hide(), f(), g(a, u.CLOSED, !0))
-	}
-
-	function j(a) {
-		var b, c, d, e, f = {};
-		for (a = a.replace(/\s*:\s*/g, ":").replace(/\s*,\s*/g, ","), b = a.split(","), e = 0, c = b.length; e < c; e++) b[e] = b[e].split(":"), d = b[e][1], ("string" == typeof d || d instanceof String) && (d = "true" === d || "false" !== d && d), ("string" == typeof d || d instanceof String) && (d = isNaN(d) ? d : +d), f[b[e][0]] = d;
-		return f
-	}
-
-	function k() {
-		for (var a = q, b = 0; b < arguments.length; ++b) a += "-" + arguments[b];
-		return a
-	}
-
-	function l() {
-		var a, c, d = location.hash.replace("#", "");
-		if (d) {
-			try {
-				c = b('[data-remodal-id="' + d + '"]')
-			} catch (e) {}
-			c && c.length && (a = b[p].lookup[c.data(p)], a && a.settings.hashTracking && a.open())
-		} else n && n.state === u.OPENED && n.settings.hashTracking && n.close()
-	}
-
-	function m(a, c) {
-		var d = b(document.body),
-			e = d,
-			f = this;
-		f.settings = b.extend({}, t, c), f.index = b[p].lookup.push(f) - 1, f.state = u.CLOSED, f.$overlay = b("." + k("overlay")), null !== f.settings.appendTo && f.settings.appendTo.length && (e = b(f.settings.appendTo)), f.$overlay.length || (f.$overlay = b("<div>").addClass(k("overlay") + " " + k("is", u.CLOSED)).hide(), e.append(f.$overlay)), f.$bg = b("." + k("bg")).addClass(k("is", u.CLOSED)), f.$modal = a.addClass(q + " " + k("is-initialized") + " " + f.settings.modifier + " " + k("is", u.CLOSED)).attr("tabindex", "-1"), f.$wrapper = b("<div>").addClass(k("wrapper") + " " + f.settings.modifier + " " + k("is", u.CLOSED)).hide().append(f.$modal), e.append(f.$wrapper), f.$wrapper.on("click." + q, '[data-remodal-action="close"]', function (a) {
-			a.preventDefault(), f.close()
-		}), f.$wrapper.on("click." + q, '[data-remodal-action="cancel"]', function (a) {
-			a.preventDefault(), f.$modal.trigger(v.CANCELLATION), f.settings.closeOnCancel && f.close(v.CANCELLATION)
-		}), f.$wrapper.on("click." + q, '[data-remodal-action="confirm"]', function (a) {
-			a.preventDefault(), f.$modal.trigger(v.CONFIRMATION), f.settings.closeOnConfirm && f.close(v.CONFIRMATION)
-		}), f.$wrapper.on("mousedown." + q, function (a) {
-			var c = b(a.target);
-			c.hasClass(k("wrapper")) && f.settings.closeOnOutsideClick && f.close()
+function showOldBrowserMsg() {
+	const oldMsg = document.querySelector('.navbar__old-msg');
+	if (oldMsg) {
+		oldMsg.classList.add('is--display-block');
+		document.querySelector('.navbar__old-close').addEventListener('click', () => {
+			oldMsg.classList.remove('is--show');
 		})
+		setTimeout(function () {
+			oldMsg.classList.add('is--show');
+		}, 100)
 	}
-	var n, o, p = "remodal",
-		q = a.REMODAL_GLOBALS && a.REMODAL_GLOBALS.NAMESPACE || p,
-		r = b.map(["animationstart", "webkitAnimationStart", "MSAnimationStart", "oAnimationStart"], function (a) {
-			return a + "." + q
-		}).join(" "),
-		s = b.map(["animationend", "webkitAnimationEnd", "MSAnimationEnd", "oAnimationEnd"], function (a) {
-			return a + "." + q
-		}).join(" "),
-		t = b.extend({
-			hashTracking: !0,
-			closeOnConfirm: !0,
-			closeOnCancel: !0,
-			closeOnEscape: !0,
-			closeOnOutsideClick: !0,
-			modifier: "",
-			appendTo: null
-		}, a.REMODAL_GLOBALS && a.REMODAL_GLOBALS.DEFAULTS),
-		u = {
-			CLOSING: "closing",
-			CLOSED: "closed",
-			OPENING: "opening",
-			OPENED: "opened"
-		},
-		v = {
-			CONFIRMATION: "confirmation",
-			CANCELLATION: "cancellation"
-		},
-		w = function () {
-			var a = document.createElement("div").style;
-			return void 0 !== a.animationName || void 0 !== a.WebkitAnimationName || void 0 !== a.MozAnimationName || void 0 !== a.msAnimationName || void 0 !== a.OAnimationName
-		}(),
-		x = /iPad|iPhone|iPod/.test(navigator.platform);
-	m.prototype.open = function () {
-		var a, c = this;
-		c.state !== u.OPENING && c.state !== u.CLOSING && (a = c.$modal.attr("data-remodal-id"), a && c.settings.hashTracking && (o = b(window).scrollTop(), location.hash = a), n && n !== c && i(n), n = c, e(), c.$bg.addClass(c.settings.modifier), c.$overlay.addClass(c.settings.modifier).show(), c.$wrapper.show().scrollTop(0), c.$modal.focus(), h(function () {
-			g(c, u.OPENING)
-		}, function () {
-			g(c, u.OPENED)
-		}, c))
-	}, m.prototype.close = function (a) {
-		var c = this;
-		c.state !== u.OPENING && c.state !== u.CLOSING && c.state !== u.CLOSED && (c.settings.hashTracking && c.$modal.attr("data-remodal-id") === location.hash.substr(1) && (location.hash = "", b(window).scrollTop(o)), h(function () {
-			g(c, u.CLOSING, !1, a)
-		}, function () {
-			c.$bg.removeClass(c.settings.modifier), c.$overlay.removeClass(c.settings.modifier).hide(), c.$wrapper.hide(), f(), g(c, u.CLOSED, !1, a)
-		}, c))
-	}, m.prototype.getState = function () {
-		return this.state
-	}, m.prototype.destroy = function () {
-		var a, c = b[p].lookup;
-		i(this), this.$wrapper.remove(), delete c[this.index], a = b.grep(c, function (a) {
-			return !!a
-		}).length, 0 === a && (this.$overlay.remove(), this.$bg.removeClass(k("is", u.CLOSING) + " " + k("is", u.OPENING) + " " + k("is", u.CLOSED) + " " + k("is", u.OPENED)))
-	}, b[p] = {
-		lookup: []
-	}, b.fn[p] = function (a) {
-		var c, d;
-		return this.each(function (e, f) {
-			d = b(f), null == d.data(p) ? (c = new m(d, a), d.data(p, c.index), c.settings.hashTracking && d.attr("data-remodal-id") === location.hash.substr(1) && c.open()) : c = b[p].lookup[d.data(p)]
-		}), c
-	}, b(document).ready(function () {
-		b(document).on("click", "[data-remodal-target]", function (a) {
-			a.preventDefault();
-			var c = a.currentTarget,
-				d = c.getAttribute("data-remodal-target"),
-				e = b('[data-remodal-id="' + d + '"]');
-			b[p].lookup[e.data(p)].open()
-		}), b(document).find("." + q).each(function (a, c) {
-			var d = b(c),
-				e = d.data("remodal-options");
-			e ? ("string" == typeof e || e instanceof String) && (e = j(e)) : e = {}, d[p](e)
-		}), b(document).on("keydown." + q, function (a) {
-			n && n.settings.closeOnEscape && n.state === u.OPENED && 27 === a.keyCode && n.close()
-		}), b(window).on("hashchange." + q, l)
-	})
-});
+}
+
+if (navigator.userAgent.indexOf(' UCBrowser/') >= 0) {
+	showOldBrowserMsg()
+}
+
+var Detector = new oldBrowserDetector({
+	c: 87,
+	f: 73,
+	o: 70,
+	s: {
+		d: 12
+	}
+}, function () {
+	showOldBrowserMsg()
+})
+
+Detector.detect();
+
+switch (platform.name) {
+	case 'Safari':
+		switch (platform.os.family) {
+			case 'iOS':
+				if (platform.version.split('.')[0] <= 13) {
+					showOldBrowserMsg()
+				}
+				break;
+			case 'OS X':
+				if (platform.version.split('.')[0] <= 12) {
+					showOldBrowserMsg()
+				}
+				break;
+		}
+		break;
+	case 'Chrome':
+		if (platform.version.split('.')[0] <= 87) {
+			showOldBrowserMsg()
+		}
+		break;
+	case 'Chrome Mobile':
+		if (platform.version.split('.')[0] <= 87) {
+			showOldBrowserMsg()
+		}
+		break;
+	case 'Opera':
+		if (platform.version.split('.')[0] <= 73) {
+			showOldBrowserMsg()
+		}
+		break;
+	case 'Firefox':
+		if (platform.version.split('.')[0] <= 73) {
+			showOldBrowserMsg()
+		}
+		break;
+}
 
 $(document).ready(function () {
 	$(".w-webflow-badge").removeClass("w-webflow-badge").empty();
 });
 
-var detect = new MobileDetect(window.navigator.userAgent);
+var os = platform.os.family;
 
 function getOS() {
 	"use strict";
@@ -259,7 +86,7 @@ function getOS() {
 		iosPlatforms = ['iPhone', 'iPad', 'iPod'],
 		os = null;
 	if (macosPlatforms.indexOf(platform) !== -1) {
-		os = 'macOS';
+		os = 'OS X';
 	} else if (iosPlatforms.indexOf(platform) !== -1) {
 		os = 'iOS';
 	} else if (windowsPlatforms.indexOf(platform) !== -1) {
@@ -267,7 +94,7 @@ function getOS() {
 	} else if (/Huawei/.test(userAgent)) {
 		os = 'Huawei';
 	} else if (/Android/.test(userAgent)) {
-		os = 'AndroidOS';
+		os = 'Android';
 	} else if (/Linux/.test(platform)) {
 		os = 'Linux';
 	}
@@ -289,10 +116,10 @@ function iOS() {
 		||
 		(navigator.userAgent.includes("Mac") && "ontouchend" in document)
 }
-var os = detect.os();
-if (os === null || os == 'AndroidOS') {
+
+if (os === null || os == 'Android') {
 	os = getOS();
-	if (os == 'macOS') {
+	if (os == 'OS X') {
 		if (iOS()) {
 			os = 'iOS';
 		}
@@ -309,7 +136,7 @@ if (isTouchDevice()) {
 	$('body').addClass('is--touch-device');
 }
 
-if (['iOS', 'AndroidOS', 'Huawei'].indexOf(os) + 1) {
+if (['iOS', 'Android', 'Huawei'].indexOf(os) + 1) {
 	$('body').addClass('is--touch-device');
 	$('.page-wrapper').removeClass('is--overflow-clip');
 	$('.cta__dropdown, .bn__dropdown').addClass('is--hidden-list');
@@ -319,7 +146,7 @@ if (['iOS', 'AndroidOS', 'Huawei'].indexOf(os) + 1) {
 				ym(ymetrikaID, 'reachGoal', '12');
 				location.href = $(this).find('.appstore').attr('href');
 				break;
-			case 'AndroidOS':
+			case 'Android':
 				ym(ymetrikaID, 'reachGoal', '14');
 				location.href = $(this).find('.playmarket').attr('href');
 				break;
@@ -331,7 +158,7 @@ if (['iOS', 'AndroidOS', 'Huawei'].indexOf(os) + 1) {
 				ym(ymetrikaID, 'reachGoal', '17');
 				location.href = $(this).find('.linux').attr('href');
 				break;
-			case 'macOS':
+			case 'OS X':
 				ym(ymetrikaID, 'reachGoal', '16');
 				location.href = $(this).find('.mac').attr('href');
 				break;
@@ -343,6 +170,39 @@ if (['iOS', 'AndroidOS', 'Huawei'].indexOf(os) + 1) {
 	})
 }
 
+//Определеяем систему и добавляем класс в body
+switch (os) {
+	case 'iOS':
+		$('body').addClass('is--ios');
+		break;
+	case 'Android':
+		$('body').addClass('is--android');
+		break;
+	case 'Windows':
+              $('body').addClass('is--windows');
+		break;
+	case 'Linux':
+              $('body').addClass('is--linux');
+		break;
+	case 'OS X':
+              $('body').addClass('is--mac');
+		break;
+	case 'Huawei':
+		$('body').addClass('is--android');
+		break;
+}
+
+//Скрываем кнопку при клике на другие платформы
+$('.cta__list-other-button').on('click', function() {
+    $(this).parent().addClass('is--open');
+});
+
+//Возвращаем к исходному состоянию
+$('.cta__dd_bn, .bn__dropdown-sml').on('click', function() {
+    $('.cta__dd-list-other-wrap').removeClass('is--open');
+})
+
+$('body').addClass('is--js-success');
 
 // Маска для инпутов (телефон)
 function addInputPhoneMask() {
@@ -921,7 +781,16 @@ $('input').on('focusout', function () {
 
 //Доскрол до вопроса при клике на мобилке
 $('.faq__trigger').on('click', function () {
-	if ($(window).width() < 768 && !$(this).hasClass('w--open')) {
+	var toggle = $(this),
+		wrapper = toggle.parent('.faq__item');
+	if (wrapper.hasClass('is--open')) {
+		closeDropdown(wrapper)
+	} else {
+		openDropdown(wrapper);
+	}
+	closeDropdown($('.faq__item.is--open').not(wrapper));
+
+	if ($(window).width() < 768 && !$(this).hasClass('is--open')) {
 		var headerHeight = $('.w-nav').height() + 12,
 			faqTrigger = $(this);
 
@@ -932,6 +801,46 @@ $('.faq__trigger').on('click', function () {
 		}, 500);
 	}
 })
+
+$('.faq__item').each(function () {
+	closeDropdown($(this));
+})
+
+$('.faq__show-button').on('click', function () {
+	$(this).parent('.faq__wrapper').addClass('is--open');
+});
+
+$('.faq__close-button').on('click', function () {
+	$(this).parent('.faq__wrapper').removeClass('is--open');
+});
+
+$('.faq__wrapper').removeClass('is--open');
+
+function openDropdown(dropdown) {
+	var dropdownContent = dropdown.find('.faq__resp-wrapper'),
+		dropdownInnerContent = dropdown.find('.faq__resp');
+
+	dropdownContent.css({
+		height: dropdownContent.find('div').innerHeight(),
+	});
+	dropdownInnerContent.css({
+		opacity: 1
+	});
+	dropdown.addClass('is--open');
+}
+
+function closeDropdown(dropdown) {
+	var dropdownContent = dropdown.find('.faq__resp-wrapper'),
+		dropdownInnerContent = dropdown.find('.faq__resp');
+
+	dropdownContent.css({
+		height: 0
+	});
+	dropdownInnerContent.css({
+		opacity: 0
+	});
+	dropdown.removeClass('is--open');
+}
 
 //Скопировать ссылку на билд
 var closingMessageTimeout = setTimeout(function () {}, 0);
@@ -1051,28 +960,30 @@ $(".w-tab-content").swipe({
 
 var allSliders = [];
 if ($(window).width() < 768) {
-	if ($('.w-tabs').length || $('.blog-hero__filter-button').length > 2) sliderInit();
+	if ($('.hero__slider').length || $('.w-tabs').length || $('.blog-hero__filter-button').length > 2) sliderInit();
 };
 var blogCategorySlider = false;
 
 function sliderInit() {
-	$('.w-tabs').each(function (i) {
-		let tabsEl = $(this);
-		tabsEl.addClass('swiper-container');
-		tabsEl.find('.w-tab-menu').addClass('swiper-wrapper');
-		tabsEl.find('.w-tab-link:last').addClass('is--last');
-		tabsEl.find('.w-tab-link').each(function () {
-			$(this).addClass('swiper-slide');
-		})
-		allSliders[i] = new Swiper(tabsEl[0], {
-			slidesPerView: "auto",
-			spaceBetween: 0,
-			speed: 400
+	if ($('.w-tabs').length > 0) {
+		$('.w-tabs').each(function (i) {
+			let tabsEl = $(this);
+			tabsEl.addClass('swiper-container');
+			tabsEl.find('.w-tab-menu').addClass('swiper-wrapper');
+			tabsEl.find('.w-tab-link:last').addClass('is--last');
+			tabsEl.find('.w-tab-link').each(function () {
+				$(this).addClass('swiper-slide');
+			})
+			allSliders[i] = new Swiper(tabsEl[0], {
+				slidesPerView: "auto",
+				spaceBetween: 0,
+				speed: 400
+			});
+			allSliders[i].on('transitionStart', function () {
+				$(allSliders[i].slidesEl).find('.w-tab-link').eq(allSliders[i].snapIndex).trigger('click');
+			});
 		});
-		allSliders[i].on('slideChange', function () {
-			$(allSliders[i].slidesEl).find('.w-tab-link').eq(allSliders[i].activeIndex).trigger('click');
-		});
-	});
+	}
 	if ($('.blog-hero__filter').length) {
 		$('.blog-hero__filter').addClass('swiper-container');
 		$('.blog-hero__filter-track').addClass('swiper-wrapper');
@@ -1084,6 +995,7 @@ function sliderInit() {
 			$(this).addClass('swiper-slide');
 		})
 		var currentPageIndex = $('.blog-hero__filter-button').index($('.blog-hero__filter-button.w--current'));
+
 		var blogCategorySlider = new Swiper('.blog-hero__filter', {
 			slidesPerView: "auto",
 			spaceBetween: 0,
@@ -1095,9 +1007,12 @@ function sliderInit() {
 }
 
 function sliderDisable() {
+	if (allSliders.length > 1) {
+		allSliders.forEach((swiper) => {
+			swiper.destroy(true, true);
+		});
+	}
 	$('.w-tabs').each(function (i) {
-		if (allSliders[i])
-			allSliders[i].destroy(true, true);
 		let tabsEl = $(this);
 		tabsEl.removeClass('swiper-container');
 		tabsEl.find('.w-tab-menu').removeClass('swiper-wrapper').css({
@@ -1221,6 +1136,13 @@ if ($('.article__content').length) {
 				.replace(/<p>{{cta_banner}}<\/p>/g, '<div class="cta-banner-place"></div>')
 				.replace(/<p>{{cta_book}}<\/p>/g, '<div class="cta-book-place"></div>')
 			);
+        $(this).find('a').each(function() {
+            if ($(this).text().indexOf('{{') + 1) {
+                $(this).addClass('article__cta-button');
+                $(this).parent().addClass('article__cta-button-wrap');
+                $(this).html(`<div>${$(this).text().replace(/[{}]+/g,'')}</div><div class="article-cta__button-icon w-embed"><svg width="100%" height="100%" viewBox="0 0 11 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.99254 9.93963L5.03374 8.99148L8.36293 5.66229H0V4.27734H8.36293L5.03374 0.953481L5.99254 0L10.9624 4.96982L5.99254 9.93963Z" fill="currentColor"></path></svg></div>`);
+            }
+        })
 	});
 
 	if ($('.cta-banner-place').length) {
@@ -1301,7 +1223,7 @@ $('form').on('submit', function (e) {
 					ym(ymetrikaID, 'reachGoal', '10');
 					_tmr.push({
 						type: 'reachGoal',
-						id: 3321743,
+						id: 3381982,
 						goal: 'Demo'
 					});
 					form.closest('.remodal').addClass('is--success').removeClass('is--no-radius');
@@ -1312,7 +1234,7 @@ $('form').on('submit', function (e) {
 				}
 			},
 			error: function (xhr, resp, text) {
-				errorMessage.find('div').html('Возникла ошибка при отправке формы, проверьте интернет соединение или попробуйте позже.');
+				errorMessage.find('div').html('Возникла ошибка при отправке формы, проверьте интернет-соединение или попробуйте позже.');
 				button.val(initialBtnText);
 				errorMessage.show();
 				setTimeout(function () {
@@ -1461,96 +1383,123 @@ $('.footer__email-link').on('click', function () {
 	ym(ymetrikaID, 'reachGoal', '6');
 });
 
-$('.bn__dropdown .w-dropdown-toggle, .cta__dropdown .w-dropdown-toggle').on('click', function () {
-	//console.log('Идентификатор 11');
+$('.bn__dropdown .w-dropdown-toggle').on('click', function () {
+	//Ленд – Нажата “Попробовать бесплатно” в шапке
 	ym(ymetrikaID, 'reachGoal', '11');
 	_tmr.push({
 		type: 'reachGoal',
-		id: 3321743,
+		id: 3381982,
 		goal: 'besplatno'
 	});
 });
 
-$('.price__block.is--left .w-dropdown-toggle').on('click', function () {
-	ym(ymetrikaID, 'reachGoal', '22');
+$('.cta__dropdown .w-dropdown-toggle').on('click', function () {
+	//Ленд – Нажата любая кнопка Попробовать в контенте лендинга
+	if (!$(this).closest('.price__block').length) {
+		ym(ymetrikaID, 'reachGoal', '50');
+		_tmr.push({
+			type: 'reachGoal',
+			id: 3381982,
+			goal: 'besplatno'
+		});
+	}
+});
+
+$('.price__block.is--start .w-dropdown-toggle').on('click', function () {
+	//Ленд – Нажата кнопка Попробовать, тариф Старт
+	ym(ymetrikaID, 'reachGoal', '65');
+	_tmr.push({
+		type: 'reachGoal',
+		id: 3381982,
+		goal: 'besplatno'
+	});
 })
 
 $('.price__block.is--center .w-dropdown-toggle').on('click', function () {
-	ym(ymetrikaID, 'reachGoal', '24');
+	//Ленд – Нажата кнопка Попробовать, тариф Образование
+	ym(ymetrikaID, 'reachGoal', '66');
+	_tmr.push({
+		type: 'reachGoal',
+		id: 3381982,
+		goal: 'besplatno'
+	});
 })
 
-$('.price__block.is--right .w-dropdown-toggle').on('click', function () {
-	ym(ymetrikaID, 'reachGoal', '25');
+$('.price__block.is--corp .w-dropdown-toggle').on('click', function () {
+	//Ленд – Нажата кнопка Попробовать, тариф Бизнес
+	ym(ymetrikaID, 'reachGoal', '67');
 })
 
 $('.logo-vendor__item').on('click', function () {
-	//console.log('Идентификатор 23');
-	ym(ymetrikaID, 'reachGoal', '23');
+    //console.log('Идентификатор 23');
+    if (!$(this).hasClass('w-dropdown-toggle')) {
+        ym(ymetrikaID, 'reachGoal', '23');
+    }
 });
 
-$('.ddown__link-sml.appstore, .cta__list-item.appstore, .logo-vendor__item.appstore').on('click', function () {
+$('.cta__list-item.appstore, .logo-vendor__item.appstore').on('click', function () {
 	//console.log('Идентификатор 12');
 	ym(ymetrikaID, 'reachGoal', '12');
 	ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
 	_tmr.push({
 		type: 'reachGoal',
-		id: 3321743,
-		goal: 'otkrytstor'
+		id: 3381982,
+		goal: 'click'
 	});
 });
 
-$('.ddown__link-sml.playmarket, .cta__list-item.playmarket, .logo-vendor__item.playmarket').on('click', function () {
+$('.cta__list-item.playmarket, .logo-vendor__item.playmarket').on('click', function () {
 	//console.log('Идентификатор 14');
 	ym(ymetrikaID, 'reachGoal', '14');
 	ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
 	_tmr.push({
 		type: 'reachGoal',
-		id: 3321743,
-		goal: 'otkrytstor'
+		id: 3381982,
+		goal: 'click'
 	});
 });
 
-$('.ddown__link-sml.huawei, .cta__list-item.huawei, .logo-vendor__item.huawei').on('click', function () {
+$('.cta__list-item.huawei, .logo-vendor__item.huawei').on('click', function () {
 	//console.log('Идентификатор 13');
 	ym(ymetrikaID, 'reachGoal', '13');
 	ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
 	_tmr.push({
 		type: 'reachGoal',
-		id: 3321743,
-		goal: 'otkrytstor'
+		id: 3381982,
+		goal: 'click'
 	});
 });
 
-$('.ddown__link-sml.win, .cta__list-item.win, .logo-vendor__item.win').on('click', function () {
+$('.cta__list-item.win, .logo-vendor__item.win').on('click', function () {
 	//console.log('Идентификатор 15'); //win
 	ym(ymetrikaID, 'reachGoal', '15');
 	ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
 	_tmr.push({
 		type: 'reachGoal',
-		id: 3321743,
-		goal: 'otkrytstor'
+		id: 3381982,
+		goal: 'click'
 	});
 });
 
-$('.ddown__link-sml.mac, .cta__list-item.mac, .logo-vendor__item.mac').on('click', function () {
+$('.cta__list-item.mac-apple, .cta__list-item.mac-intel, .logo-vendor__item.mac').on('click', function () {
 	//console.log('Идентификатор 16'); //mac
 	ym(ymetrikaID, 'reachGoal', '16');
 	ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
 	_tmr.push({
 		type: 'reachGoal',
-		id: 3321743,
-		goal: 'otkrytstor'
+		id: 3381982,
+		goal: 'click'
 	});
 });
 
-$('.ddown__link-sml.linux, .cta__list-item.linux, .logo-vendor__item.linux').on('click', function () {
+$('.cta__list-item.linux, .logo-vendor__item.linux').on('click', function () {
 	//console.log('Идентификатор 17'); //linux
 	ym(ymetrikaID, 'reachGoal', '17');
 	ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
 	_tmr.push({
 		type: 'reachGoal',
-		id: 3321743,
-		goal: 'otkrytstor'
+		id: 3381982,
+		goal: 'click'
 	});
 });
 
@@ -1581,7 +1530,7 @@ function analyticsModal(hash) {
 			break;
 		case '#comand':
 			console.log('Идентификатор Модалка крупных команд');
-			ym(ymetrikaID, 'reachGoal', '30');
+			ym(ymetrikaID, 'reachGoal', '9');
 			break;
 		case '#video-czech':
 			//console.log('Идентификатор 18');
