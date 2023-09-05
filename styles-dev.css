@@ -1,6 +1,6 @@
 /* --------------------------*/
 /* --------------------------*/
-/*       styles-v11.css       */
+/*       styles-v12.css       */
 /* --------------------------*/
 /* --------------------------*/
 
@@ -56,6 +56,13 @@
 .is--linux .cta__dd-list-wrap div:nth-child(4) {order: 3}
 .is--linux .cta__dd-list-wrap div:nth-child(5) {order: 1}
 
+.is--windows .cta__dd-mac-list .cta__dd-list-wrap div:nth-child(1),
+.is--linux .cta__dd-mac-list .cta__dd-list-wrap div:nth-child(1) {order: 1;max-height:5rem;opacity:1}
+.is--windows .cta__dd-mac-list .cta__dd-list-wrap div:nth-child(2),
+.is--linux .cta__dd-mac-list .cta__dd-list-wrap div:nth-child(2) {order: 2;max-height:5rem;opacity:1}
+.is--mac .cta__dd-mac-list .cta__dd-list-wrap div:nth-child(1) {order: 1}
+.is--mac .cta__dd-mac-list .cta__dd-list-wrap div:nth-child(2) {order: 2}
+
 .is--copy-done .is--copy-done-icon {transform: scale(1);opacity: 1}
 .is--copy-done .is--copy-initital-icon {transform: scale(.5);opacity: 0}
 .article__mobile-content,
@@ -73,6 +80,7 @@
 .tab-menu__description {
 	height: 0;
 }
+.cta__dd-mac-list .cta__dd-list-wrap::before{content:'';position:absolute;left:calc( 50% - 0.33rem );top:-.33333333rem;filter:drop-shadow(0 -1px 0 #f0f0f0);border-bottom:.44rem solid #fff;border-right:.33rem solid transparent;border-left:.33rem solid transparent}
 
 .navbar__wrapper{background-color:rgba(243,243,247,.9)}
 @supports((-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px))){
@@ -124,6 +132,14 @@ html.remodal-is-locked body {
 
 .is--tiny-font body {
 	font-weight:300;
+}
+
+.is--touch-device .cta__list-item:hover {
+    background-color:transparent;
+}
+
+.is--touch-device .cta__list-item:active {
+    background-color: #f8f8f8;
 }
 
 .is--touch-device .price__calc-button:active {
@@ -393,7 +409,9 @@ html * {
 }
 
 @media (max-width:767px) {
-
+    .cta__dd-mac-list .cta__dd-list-wrap::before{margin-left:-.5rem;border-left-width:.5rem;border-right-width:.5rem;border-bottom-width:.83rem;top:-.75rem}
+    .cta__dd-mac-list .cta__dd-list-wrap::before{left: calc( var(--arrowLeft) - 2rem )}
+    
 	.article__content figure:last-child:not(.article__desctop-content figure, .article__mobile-content figure),
 	.article__desctop-content:last-child figure,
 	.article__desctop-content:nth-last-child(2) figure,
