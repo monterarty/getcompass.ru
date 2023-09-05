@@ -1,6 +1,6 @@
 /* ------------------------*/
 /* ------------------------*/
-/*        main-v11.1js     */
+/*        main-v12.js       */
 /* ------------------------*/
 /* ------------------------*/
 
@@ -660,28 +660,18 @@ tarifDown.on('click', function () {
 	}
 })
 
-$('.tooltip').each(function () {
-	$content = $(this).data('tooltip-content');
-	tippy(this, {
-		content: $content,
-		hideOnClick: true,
-		trigger: "mouseenter focus click",
-		maxWidth: 'none',
-		allowHTML: true,
-		zIndex: 999,
-		popperOptions: {
-			modifiers: [
-				{
-					name: 'flip',
-					options: {
-						padding: 80,
-						flipVariations: false, // true by default
-					},
-                },
-            ]
-		}
-	});
-})
+/* Set center mobile mac dropdown list */
+const setCenterVendorMacList = () => {
+    const vendorMacDD = document.querySelector('.logo-vendors__mobile-link.is--dropdown');
+    const vendorMacDdRect = vendorMacDD.getBoundingClientRect();
+    const vendorMacDDList = document.querySelector('.is--logo-vendors-mac-list');
+    vendorMacDDList.style.left = `-${vendorMacDdRect.x}px`;
+    vendorMacDDList.style.width = window.innerWidth;
+}
+
+if (window.clientWidth < 768) {
+    setCenterVendorMacList();
+}
 
 $('.form__success-button, .form__button-close').on('click', function () {
 	var successButton = $(this);
@@ -1284,6 +1274,7 @@ window.addEventListener("resize", (event) => {
 		$('.article__toc-button').siblings('.article__toc-links').removeAttr('style').removeClass('is--open');
 		sliderDisable();
 	} else {
+        setCenterVendorMacList();
 		if (!allSliders[0] || allSliders[0].destroyed)
 			sliderInit();
 	}
