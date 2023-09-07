@@ -209,15 +209,18 @@ $('.cta__dd_bn, .bn__dropdown-sml').on('click', function() {
 
 //Центруем всплывашку платформ на мобилке
 const setCenterVendorMacList = () => {
-    const vendorMacDD = document.querySelector('.logo-vendors__mobile-link.is--dropdown');
-    const vendorMacDdRect = vendorMacDD.getBoundingClientRect();
-    const vendorMacDDList = document.querySelector('.is--logo-vendors-mac-list');
-    vendorMacDDList.style.left = `-${vendorMacDdRect.x}px`;
-    vendorMacDDList.style.width = window.innerWidth;
-}
-
-if (window.clientWidth < 768) {
-    setCenterVendorMacList();
+    const vendorMacDD = document.querySelectorAll('.is--mac-dropdown');
+    vendorMacDD.forEach(dropdown => {
+        const vendorMacDdRect = dropdown.getBoundingClientRect();
+        const vendorMacDDList = dropdown.querySelector('.w-dropdown-list');
+            if (window.innerWidth < 768) {
+                vendorMacDDList.style.left = `-${vendorMacDdRect.x}px`;
+                vendorMacDDList.style.setProperty('--arrowLeft', `${vendorMacDdRect.x + vendorMacDdRect.width / 2}px`);
+            } else {
+                vendorMacDDList.style.removeProperty('left');
+                vendorMacDDList.style.removeProperty('--arrowLeft');
+            }
+    })
 }
 
 $('body').addClass('is--js-success');
@@ -1207,6 +1210,7 @@ function getScrollPercentage() {
 }
 
 window.addEventListener("resize", (event) => {
+	setCenterVendorMacList();
 	if ($(window).width() > 767) {
 		$('.w-tab-content').each(function () {
 			$(this).removeAttr('style');
@@ -1214,7 +1218,6 @@ window.addEventListener("resize", (event) => {
 		$('.article__toc-button').siblings('.article__toc-links').removeAttr('style').removeClass('is--open');
 		sliderDisable();
 	} else {
-        setCenterVendorMacList();
 		if (!allSliders[0] || allSliders[0].destroyed)
 			sliderInit();
 	}
@@ -1235,6 +1238,7 @@ window.addEventListener("scroll", (event) => {
 
 
 document.addEventListener("DOMContentLoaded", function () {
+	setCenterVendorMacList();
 	setTimeout(function () {
 		//Пользователь на сайте больше минуты
 		ym(ymetrikaID, 'reachGoal', '4');
