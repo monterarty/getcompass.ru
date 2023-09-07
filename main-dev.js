@@ -197,14 +197,32 @@ $('.cta__list-other-button').on('click', function() {
     $(this).parent().addClass('is--open');
 });
 
+//Закрываем список при клике на ссылку для скачивания
+$('.cta__list-item:not(.cta__list-other-button)').on('click', function() {
+    $(".w-dropdown").trigger("w-close");
+});
+
 //Возвращаем к исходному состоянию
 $('.cta__dd_bn, .bn__dropdown-sml').on('click', function() {
     $('.cta__dd-list-other-wrap').removeClass('is--open');
-})
+});
+
+//Центруем всплывашку платформ на мобилке
+const setCenterVendorMacList = () => {
+    const vendorMacDD = document.querySelector('.logo-vendors__mobile-link.is--dropdown');
+    const vendorMacDdRect = vendorMacDD.getBoundingClientRect();
+    const vendorMacDDList = document.querySelector('.is--logo-vendors-mac-list');
+    vendorMacDDList.style.left = `-${vendorMacDdRect.x}px`;
+    vendorMacDDList.style.width = window.innerWidth;
+}
+
+if (window.clientWidth < 768) {
+    setCenterVendorMacList();
+}
 
 $('body').addClass('is--js-success');
 
-// Маска для инпутов (телефон)
+//Маска для инпутов (телефон)
 function addInputPhoneMask() {
 	const phoneInputs = document.querySelectorAll("input[data-tel-input]");
 	const regExp = /\D/g;
@@ -594,84 +612,6 @@ window.fsAttributes.push([
 		});
   },
 ]);
-
-var tarifPrice = $('.tarif__price'),
-	members = $('.price__calc-count'),
-	tarifUp = $('.price__plus'),
-	tarifDown = $('.price__minus'),
-	tarifWrapper = $('.price__block.is--center'),
-	index = 0,
-	prices = [
-    ["20", "7 490"],
-    ["30", "13 990"],
-    ["50", "23 990"],
-    ["80", "41 990"],
-    ["100", "53 990"],
-    ["150", "53 990"],
-	["200", "53 990"],
-	["300", "53 990"],
-	["400", "53 990"],
-	["500", "53 990"]
-  ]
-
-tarifUp.on('click', function () {
-	if (!$(this).hasClass('is--disable')) {
-		index = index + 1 > prices.length - 1 ? prices.length - 1 : index + 1;
-		members.html(prices[index][0]);
-		tarifPrice.html(prices[index][1]);
-		if (index == prices.length - 1) {
-			$(this).addClass('is--disable');
-		} else {
-			$(this).removeClass('is--disable');
-		}
-		if (index < 1) {
-			tarifDown.addClass('is--disable');
-		} else {
-			tarifDown.removeClass('is--disable');
-		}
-		if (index > 4) {
-			tarifWrapper.addClass('is--more-150');
-		} else {
-			tarifWrapper.removeClass('is--more-150');
-		}
-	}
-})
-
-tarifDown.on('click', function () {
-	if (!$(this).hasClass('is--disable')) {
-		index = index - 1 < 1 ? 0 : index - 1;
-		members.html(prices[index][0]);
-		tarifPrice.html(prices[index][1]);
-		if (index == prices.length - 1) {
-			tarifUp.addClass('is--disable');
-		} else {
-			tarifUp.removeClass('is--disable');
-		}
-		if (index < 1) {
-			tarifDown.addClass('is--disable');
-		} else {
-			tarifDown.removeClass('is--disable');
-		}
-		if (index > 4) {
-			tarifWrapper.addClass('is--more-150');
-		} else {
-			tarifWrapper.removeClass('is--more-150');
-		}
-	}
-})
-
-/* Set center mobile mac dropdown list */
-const setCenterVendorMacList = () => {
-    const vendorMacDD = document.querySelector('.logo-vendors__mobile-link.is--dropdown');
-    const vendorMacDdRect = vendorMacDD.getBoundingClientRect();
-    const vendorMacDDList = document.querySelector('.is--logo-vendors-mac-list');
-    vendorMacDDList.style.left = `-${vendorMacDdRect.x}px`;
-    vendorMacDDList.style.width = window.innerWidth;
-}
-
-if (window.clientWidth < 768) {
-    setCenterVendorMacList();
-}
 
 $('.form__success-button, .form__button-close').on('click', function () {
 	var successButton = $(this);
