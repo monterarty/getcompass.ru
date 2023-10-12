@@ -1,8 +1,12 @@
 /* ------------------------*/
 /* ------------------------*/
-/*        main-v12.js       */
+/*        main-v13.js      */
 /* ------------------------*/
 /* ------------------------*/
+
+const body = document.body;
+
+body.classList.add('is--js-success');
 
 function showOldBrowserMsg() {
 	const oldMsg = document.querySelector('.navbar__old-msg');
@@ -29,22 +33,24 @@ var Detector = new oldBrowserDetector({
 		d: 12
 	}
 }, function () {
-	showOldBrowserMsg()
+    const browserInfoObj = oldBrowserDetector.getBrowser();
+    if (browserInfoObj.n != 'x' && browserInfoObj.v != 0)    
+	   showOldBrowserMsg();
 })
 
 Detector.detect();
-
 switch (platform.name) {
 	case 'Safari':
 		switch (platform.os.family) {
 			case 'iOS':
-				if (platform.version.split('.')[0] <= 13) {
-					showOldBrowserMsg()
+				if (platform.version.split('.')[0] <= 13 && platform.os.version.split('.')[0] <= 13) {
+					showOldBrowserMsg();
 				}
 				break;
 			case 'OS X':
 				if (platform.version.split('.')[0] <= 12) {
 					showOldBrowserMsg()
+                    document.querySelector('.navbar__old-msg').textContent = platform.os.version.split('.')[0] + platform.name;
 				}
 				break;
 		}
@@ -133,65 +139,146 @@ function isTouchDevice() {
 }
 
 if (isTouchDevice()) {
-	$('body').addClass('is--touch-device');
+	body.classList.add('is--touch-device');
 }
 
 if (['iOS', 'Android', 'Huawei'].indexOf(os) + 1) {
-	$('body').addClass('is--touch-device');
-	$('.page-wrapper').removeClass('is--overflow-clip');
-	$('.cta__dropdown, .bn__dropdown').addClass('is--hidden-list');
-	$('.cta__dropdown, .bn__dropdown').on('click', function (e) {
-		switch (os) {
+    const ctaDropdowns = document.querySelectorAll('.cta__dropdown');
+	body.classList.add('is--touch-device');
+	document.querySelector('.page-wrapper').classList.remove('is--overflow-clip');
+    
+    Array.prototype.forEach.call(ctaDropdowns, ctaDropdown => {
+        ctaDropdown.classList.add('is--hidden-list');
+        ctaDropdown.addEventListener('click', ()=> {
+            switch (os) {
 			case 'iOS':
 				ym(ymetrikaID, 'reachGoal', '12');
-				location.href = $(this).find('.appstore').attr('href');
+				ctaDropdown.querySelector('.appstore').click();
 				break;
 			case 'Android':
 				ym(ymetrikaID, 'reachGoal', '14');
-				location.href = $(this).find('.playmarket').attr('href');
-				break;
-			case 'Windows':
-				ym(ymetrikaID, 'reachGoal', '15');
-				location.href = $(this).find('.win').attr('href');
-				break;
-			case 'Linux':
-				ym(ymetrikaID, 'reachGoal', '17');
-				location.href = $(this).find('.linux').attr('href');
-				break;
-			case 'OS X':
-				ym(ymetrikaID, 'reachGoal', '16');
-				location.href = $(this).find('.mac').attr('href');
+				ctaDropdown.querySelector('.playmarket').click();
 				break;
 			case 'Huawei':
 				ym(ymetrikaID, 'reachGoal', '13');
-				location.href = $(this).find('.huawei').attr('href');
+				ctaDropdown.querySelector('.huawei').click();
 				break;
 		}
-	})
+        })
+    })
 }
 
 //Определеяем систему и добавляем класс в body
 switch (os) {
 	case 'iOS':
-		$('body').addClass('is--ios');
+		body.classList.add('is--ios');
 		break;
 	case 'Android':
-		$('body').addClass('is--android');
+		body.classList.add('is--android');
 		break;
 	case 'Windows':
-              $('body').addClass('is--windows');
+        body.classList.add('is--windows');
 		break;
 	case 'Linux':
-              $('body').addClass('is--linux');
+        body.classList.add('is--linux');
 		break;
 	case 'OS X':
-              $('body').addClass('is--mac');
+        body.classList.add('is--mac');
 		break;
 	case 'Huawei':
-		$('body').addClass('is--android');
+		body.classList.add('is--android');
 		break;
 }
 
+const instructionLinks = {
+    appstore: '/download/appstore',
+    playmarket: '/download/playmarket',
+    huawei: '/download/huawei',
+    macintel: '/download/mac-os-intel',
+    macapple: '/download/mac-os-m1-m2',
+    windows: '/download/windows',
+    linuxdeb: '/download/ubuntu',
+    linuxtar: '/download/linux'
+};
+
+const downloadLinks = document.querySelectorAll('.appstore, .playmarket, .huawei, .macintel, .macapple, .windows, .linuxdeb, .linuxtar');
+const mobileClassNames = ['appstore', 'playmarket', 'huawei'];
+const mobileBodyClassNames = ['is--ios', 'is--android', 'is--huawei'];
+const url = new URL(location);
+const urlParams = url.searchParams;
+const startDownload = urlParams.get('start-download') || '';
+const platformClass = urlParams.get('platform') || '';
+const sourceID = urlParams.get('source_id') || '';
+const utmTag = urlParams.get('utm_tag') || '';
+ 
+
+//Удаляем параметры URL
+urlParams.delete("platform");
+urlParams.delete("start-download");
+window.history.pushState({}, '', url.toString());
+
+Array.prototype.forEach.call(downloadLinks, downloadLink => {
+    openInstruction(downloadLink);
+    if (!mobileClassNames.some(className => downloadLink.classList.contains(className))
+        && !mobileBodyClassNames.some(className => document.body.classList.contains(className))) {
+        downloadLink.setAttribute('download','download');
+    } else if (!mobileClassNames.some(className => downloadLink.classList.contains(className))
+            && mobileBodyClassNames.some(className => document.body.classList.contains(className))) {
+        downloadLink.removeAttribute('download');
+        downloadLink.setAttribute('build-link', downloadLink.getAttribute('href'));
+        downloadLink.setAttribute('href', '#');
+    }
+    
+    
+    
+})
+window.addEventListener('load', () => {
+    if (startDownload) {
+        const platformDownloadLink = document.querySelector('.' + platformClass)?.getAttribute('href');
+        location.href = platformDownloadLink;
+    }
+});
+
+function openInstruction(downloadLink) {
+    downloadLink.addEventListener('click', (e) => {
+        var instructionLink = '';
+        for (platform in instructionLinks) {
+            if (downloadLink.classList.contains(platform) 
+                && window.location.pathname.indexOf(instructionLinks[platform]) < 0
+                && (!mobileBodyClassNames.some(className => document.body.classList.contains(className)) 
+                    || mobileClassNames.some(className => downloadLink.classList.contains(className)))) {
+                
+                e.preventDefault();
+                instructionLink = window.location.origin + instructionLinks[platform] + '/?start-download=true&platform=' + platform;
+                window.location.href = instructionLink
+            }
+            //На странице скачивания повторно нажат download
+            if (window.location.href.indexOf('download') + 1 > 0) {
+                ym(ymetrikaID, 'reachGoal', '76');
+            }
+        }
+    })
+}
+        
+if ( mobileBodyClassNames.some(className => document.body.classList.contains(className)) ) {
+        
+        var closingMessageTimeout = setTimeout(function () {}, 0);
+        const clipboard = new ClipboardJS('[build-link]', {
+            text: function (trigger) {
+                return trigger.getAttribute('build-link');
+            }
+        });
+
+        clipboard.on('success', function (e) {
+            showCopyNote();
+            e.clearSelection();
+        });
+
+        clipboard.on('error', function (e) {
+            showCopyNote('Не получилось скопировать ссылку. Возможно, ваш&nbsp;браузер устарел.', true);
+        });
+}
+                        
 //Скрываем кнопку при клике на другие платформы
 $('.cta__list-other-button').on('click', function() {
     $(this).parent().addClass('is--open');
@@ -203,27 +290,40 @@ $('.cta__list-item:not(.cta__list-other-button)').on('click', function() {
 });
 
 //Возвращаем к исходному состоянию
-$('.cta__dd_bn, .bn__dropdown-sml').on('click', function() {
+$('.cta__dd_bn').on('click', function() {
     $('.cta__dd-list-other-wrap').removeClass('is--open');
 });
 
 //Центруем всплывашку платформ на мобилке
-const setCenterVendorMacList = () => {
-    const vendorMacDD = document.querySelectorAll('.is--mac-dropdown');
-    vendorMacDD.forEach(dropdown => {
-        const vendorMacDdRect = dropdown.getBoundingClientRect();
-        const vendorMacDDList = dropdown.querySelector('.w-dropdown-list');
+const setCenterCTAListArrow = (dropdown) => {
+    const hasArrowCTALists = document.querySelectorAll('.cta__dd-list.is--has-arrow, .cta__dd-list.is--mobile-has-arrow');
+    Array.prototype.forEach.call(hasArrowCTALists, CTAList => {
+        CTAList.style.removeProperty('left');
+        const CTAListRect = CTAList.getBoundingClientRect();
+        const CTADropdown = CTAList.closest('.w-dropdown');
+        const CTADropdownList = CTADropdown.querySelector('.w-dropdown-list');
+        const CTAListInnerWrap = CTAList.querySelector('.cta__dd-list-wrap');
+        const CTATextCenterArrow = CTADropdown.querySelector('.cta__dd-center-arrow');
+        const CTATextCenterArrowRect = CTATextCenterArrow.getBoundingClientRect();
+    
             if (window.innerWidth < 768) {
-                vendorMacDDList.style.left = `-${vendorMacDdRect.x}px`;
-                vendorMacDDList.style.setProperty('--arrowLeft', `${vendorMacDdRect.x + vendorMacDdRect.width / 2}px`);
+                if (CTAListRect.x != 0)
+                    CTADropdownList.style.setProperty('--popupLeft', `-${CTAListRect.x}px`);
+                    //alert(JSON.stringify(CTAListRect));
+                    CTADropdownList.style.setProperty('--arrowLeft', `${CTATextCenterArrowRect.x - CTAListInnerWrap.getBoundingClientRect().x + CTATextCenterArrowRect.width / 2}px`);
             } else {
-                vendorMacDDList.style.removeProperty('left');
-                vendorMacDDList.style.removeProperty('--arrowLeft');
+                CTADropdownList.style.removeProperty('left');
+                CTADropdownList.style.setProperty('--arrowLeft', `${CTATextCenterArrowRect.x - CTAListRect.x + CTATextCenterArrowRect.width / 2}px`);
             }
-    })
+    });
 }
 
-$('body').addClass('is--js-success');
+const CTADropdowns = document.querySelectorAll('.w-dropdown');
+Array.prototype.forEach.call(CTADropdowns, dropdown => {
+    dropdown.querySelector('.w-dropdown-toggle').addEventListener('click', () => {
+        setCenterCTAListArrow(dropdown);
+    }) 
+});
 
 //Маска для инпутов (телефон)
 function addInputPhoneMask() {
@@ -417,7 +517,6 @@ nameInputs.forEach((input) => {
 			return e.preventDefault();
 	});
 	input.addEventListener('input', function (e) {
-		console.log(e);
 		if (e.inputType == "insertFromPaste") {
 			// На случай, если умудрились ввести через копипаст или авто-дополнение.
 			input.value = input.value.replace(/[^а-яА-ЯЁёІіЇїҐґЄєa-zA-ZẞßÄäÜüÖöÀàÈèÉéÌìÍíÎîÒòÓóÙùÚúÂâÊêÔôÛûËëÏïŸÿÇçÑñœ’`'.-\s]/g, "").slice(0, 50);
@@ -535,7 +634,7 @@ function checkValidationFormOnSubmit(formClassName) {
 		if (formValidation(form)) {
 			return true;
 		} else {
-			form.querySelector('.w-button').value = "Отправить";
+			form.querySelector('.w-button').value = form.querySelector('.w-button').getAttribute('data-btn-default');
 			return false;
 		}
 	};
@@ -550,19 +649,9 @@ function checkValidationFormOnSubmit(formClassName) {
 	$(formClassName).submit(onSubmitHandler);
 }
 
-if ($('#command-form').length) {
-	checkValidationFormOnSubmit('#command-form');
+if ($('#wf-form-Consultation-Form').length) {
+	checkValidationFormOnSubmit('#wf-form-Consultation-Form');
 }
-if ($('#process-form').length) {
-	checkValidationFormOnSubmit('#process-form');
-}
-if ($('#demo-form').length) {
-	checkValidationFormOnSubmit('#demo-form');
-}
-
-$('.switch__slider').on('click', function () {
-	$(this).closest('.price__wrapper').toggleClass('is--monthly');
-})
 
 // Типограф Стетей, заголовков и шорттекстов
 var tp = new Typograf({
@@ -625,14 +714,14 @@ $('.form__success-button, .form__button-close').on('click', function () {
 })
 
 const bodyScrollControls = {
-	scrollBarWidth: window.innerWidth - document.body.clientWidth,
-
 	disable() {
-		document.body.style.marginRight = `${this.scrollBarWidth}px`;
-		document.querySelector('.w-nav').style.right = `${this.scrollBarWidth}px`;
-		document.querySelector('.cookie').style.marhinRight = `${this.scrollBarWidth}px`;
+        const scrollBarWidth = window.innerWidth - document.body.clientWidth;
+        
+		document.body.style.marginRight = `${scrollBarWidth}px`;
+		document.querySelector('.w-nav').style.right = `${scrollBarWidth}px`;
+		document.querySelector('.cookie').style.marhinRight = `${scrollBarWidth}px`;
 		if (document.getElementById('carrotquest-messenger-collapsed-container'))
-			document.getElementById('carrotquest-messenger-collapsed-container').style.setProperty("right", `${this.scrollBarWidth}px`, "important");
+			document.getElementById('carrotquest-messenger-collapsed-container').style.setProperty("right", `${scrollBarWidth}px`, "important");
 		document.body.style.paddingRight = null;
 		document.body.style.overflowY = 'hidden';
 	},
@@ -653,9 +742,10 @@ $(document).on('opening', '.remodal', function (e) {
 	let currentModal = $('.remodal.remodal-is-opening'),
 		modalId = '#' + currentModal.data('remodal-id'),
 		iframeInModal = currentModal.find('iframe'),
+        formInModal = currentModal.find('form'),
 		ScrollElement = currentModal.find('.popup__scroll-content');
-	if (['#money', '#video-czech', '#video-detailing-group', '#video-daily', '#video-good-people'].includes(modalId)) {
-		$('html').addClass('is--black-overlay is--center-modal');
+	if (['#video-mac-intel', '#video-mac-apple', '#video-linux-deb-standart', '#video-linux-deb-terminal', '#video-linux-tar', '#video-windows', '#video-czech', '#video-detailing-group', '#video-daily', '#video-good-people'].includes(modalId)) {
+		$('html').addClass('is--black-overlay is--center-modal is---video-overlay');
 	} else {
 		$('html').addClass('is--white-overlay');
 	}
@@ -668,12 +758,18 @@ $(document).on('opening', '.remodal', function (e) {
 		let player = new Vimeo.Player(iframeInModal[0]);
 		player.play();
 	}
+    
+    if (formInModal.length) {
+        $('html').addClass('is--disable-bg-close');
+    }
 });
 
 $(document).on('closing', '.remodal', function (e) {
 	let currentModal = $('.remodal.remodal-is-closing'),
 		iframeInModal = currentModal.find('iframe'),
-		formInModal = currentModal.find('form');
+		formInModal = currentModal.find('form'),
+        formButton = formInModal.find('.button-submit');
+    
 	setTimeout(function () {
 		$('.form__button-close').removeClass("is--hidden");
 		$('.remodal.is--success').removeClass("is--success");
@@ -683,7 +779,7 @@ $(document).on('closing', '.remodal', function (e) {
 			formInModal.find('.input-icon').each(function () {
 				$(this).removeClass('display-none');
 			})
-			formInModal.find('.button-submit').val('Отправить');
+			formButton.val(formButton.data('btn-default'));
 			formInModal[0].reset();
 			formInModal.show();
 			formInModal.find('input').each(function () {
@@ -700,7 +796,7 @@ $(document).on('closing', '.remodal', function (e) {
 
 $(document).on('closed', '.remodal', function (e) {
 	bodyScrollControls.enable();
-	$('html').removeClass('is--black-overlay is--white-overlay remodal-is-locked is--center-modal');
+	$('html').removeClass('is--black-overlay is--white-overlay remodal-is-locked is--center-modal is--disable-bg-close is---video-overlay');
 });
 
 $('input').on('focusout', function () {
@@ -775,21 +871,34 @@ function closeDropdown(dropdown) {
 	dropdown.removeClass('is--open');
 }
 
-//Скопировать ссылку на билд
-var closingMessageTimeout = setTimeout(function () {}, 0);
-var clipboard = new ClipboardJS('[build-link]', {
-	text: function (trigger) {
-		return trigger.getAttribute('build-link');
-	}
-});
+//Copy fields
+const copyFields = document.querySelectorAll('[clipboard-field]');
 
-clipboard.on('success', function (e) {
-	showCopyNote();
-	e.clearSelection();
-});
-
-clipboard.on('error', function (e) {
-	showCopyNote('Не получилось скопировать ссылку. Возможно, ваш&nbsp;браузер устарел.', true);
+Array.prototype.forEach.call(copyFields, (copyField) => {
+    const copyBtn = copyField.querySelector('[clipboard-btn]');
+    const copyBtnTooltip = copyField.querySelector('[clipboard-tooltip]');
+    const copyText = copyField.querySelector('[clipboard-text]').textContent;
+    const copyClipboard = new ClipboardJS(copyBtn, {
+        text: function (trigger) {
+            return copyText;
+        }
+    });
+    copyClipboard.on('success', function (e) {
+        copyBtnTooltip.textContent = 'Скопировано'
+        copyBtn.classList.add('is--done');
+        setTimeout(() => {
+            copyBtn.classList.remove('is--done');
+        }, 2000);
+        e.clearSelection();
+    });
+    copyClipboard.on('error', function (e) {
+        copyBtnTooltip.textContent = 'Ошибка!'
+        copyBtn.classList.add('is--fail');
+        setTimeout(() => {
+            copyBtn.classList.remove('is--fail');
+        }, 2000);
+        e.clearSelection();
+    });
 });
 
 $('.article__social-share-link--copy').css('display', 'inline-block');
@@ -1010,7 +1119,7 @@ function removeAnchorFormURL() {
 	}, 100);
 };
 
-$('.menu__navlink').on('click', function () {
+$('a[href^="#"]').on('click', function () {
 	removeAnchorFormURL();
 })
 
@@ -1125,14 +1234,15 @@ $('form').on('submit', function (e) {
 	var form = $(this),
 		formData = new FormData($(this)[0]),
 		currentHost = `${window.location.protocol}//${window.location.host}/`,
-		url = currentHost + 'www/getcompass/requestDemo',
+		url = currentHost + 'www/getcompass/requestConsultation',
 		button = form.find('[type="submit"]'),
-		initialBtnText = button.val(),
 		successMessage = form.siblings('.w-form-done'),
 		errorMessage = form.siblings('.w-form-fail');
 	if (formValidation(form[0])) {
 		if (formData.get('team_size') == '')
 			formData.set('team_size', 0);
+        formData.set('source_id', sourceID);
+        formData.set('utm_tag', utmTag);
 		button.val(button.data('wait'));
 		$.ajax({
 			url: url,
@@ -1149,7 +1259,7 @@ $('form').on('submit', function (e) {
 			success: function (result) {
 				const isSuccessful = JSON.parse(result).status == "ok"
 				if (isSuccessful) {
-					button.val(initialBtnText);
+					button.val(button.data('btn-default'));
 					successMessage.show();
 					errorMessage.hide();
 					form.hide();
@@ -1160,15 +1270,16 @@ $('form').on('submit', function (e) {
 						goal: 'Demo'
 					});
 					form.closest('.remodal').addClass('is--success').removeClass('is--no-radius');
-					form.closest('.remodal').find('.form__button-close').addClass("is--hidden");
+					//form.closest('.remodal').find('.form__button-close').addClass("is--hidden");
 					if ($('html').hasClass('remodal-is-locked')) {
-						$('html').addClass('is--black-overlay is--center-modal').removeClass('is--white-overlay');
+						$('html').removeClass('is--white-overlay');
+                        $('html').removeClass('is--disable-bg-close');
 					}
 				}
 			},
 			error: function (xhr, resp, text) {
 				errorMessage.find('div').html('Возникла ошибка при отправке формы, проверьте интернет-соединение или попробуйте позже.');
-				button.val(initialBtnText);
+                button.val(button.data('btn-default'));
 				errorMessage.show();
 				setTimeout(function () {
 					errorMessage.hide();
@@ -1178,7 +1289,9 @@ $('form').on('submit', function (e) {
 			}
 		});
 		return false;
-	}
+	} else {
+        return false;
+    }
 });
 
 function formToJson(form) {
@@ -1210,7 +1323,7 @@ function getScrollPercentage() {
 }
 
 window.addEventListener("resize", (event) => {
-	setCenterVendorMacList();
+	setCenterCTAListArrow();
 	if ($(window).width() > 767) {
 		$('.w-tab-content').each(function () {
 			$(this).removeAttr('style');
@@ -1232,47 +1345,56 @@ window.addEventListener("resize", (event) => {
 //Показываем кнопку "Попробовать бесплатно"
 window.addEventListener("scroll", (event) => {
 	if ($('.business__section').length && $(window).scrollTop() + $(window).height() >= $('.business__section').offset().top && $(window).width() < 768) {
-		$('.menu-wrapper--is--mobile .bn__dropdown').removeClass('is--hidden');
+		$('.menu-wrapper--is--mobile .cta__dropdown').removeClass('is--hidden');
 	}
 });
-
-
 document.addEventListener("DOMContentLoaded", function () {
-	setCenterVendorMacList();
-	setTimeout(function () {
-		//Пользователь на сайте больше минуты
-		ym(ymetrikaID, 'reachGoal', '4');
-	}, 60000);
+    setCenterCTAListArrow();
+    setTimeout(function () {
+        //Пользователь на сайте больше минуты
+        ym(ymetrikaID, 'reachGoal', '4');
+    }, 60000);
 
-	var scrollEvent50 = false,
-		scrollEvent75 = false,
-		scrollEvent100 = false; // Сообщение ещё не выводилось
-	window.onscroll = function () {
-		if ($('body').hasClass('is--home-page')) {
-			if ($('.w-nav-button').hasClass('w--open'))
-				$('.w-nav-button').trigger('click');
-			if (!scrollEvent50 && getScrollPercentage() > 50) {
-				if ($('.popup__video-iframe').find('iframe').length) {
-					$('.popup__video-iframe').find('iframe').each(function () {
-						$(this).attr('src', $(this).data('src'));
-					});
-				}
-				//Страница прокручена на 50%
-				ym(ymetrikaID, 'reachGoal', '1');
-				scrollEvent50 = true;
-			}
-			if (!scrollEvent75 && getScrollPercentage() > 75) {
-				//console.log('Страница прокручена на 75%');
-				ym(ymetrikaID, 'reachGoal', '2');
-				scrollEvent75 = true;
-			}
-			if (!scrollEvent100 && getScrollPercentage() > 95) {
-				//Страница прокручена на 100%
-				ym(ymetrikaID, 'reachGoal', '3');
-				scrollEvent100 = true;
-			}
-		}
-	}
+    var scrollEvent10 = false,
+        scrollEvent50 = false,
+        scrollEvent75 = false,
+        scrollEvent100 = false; // Сообщение ещё не выводилось
+    window.onscroll = function () {
+        if ($('body').hasClass('is--home-page')) {
+            if ($('.w-nav-button').hasClass('w--open'))
+                $('.w-nav-button').trigger('click');
+            if (!scrollEvent50 && getScrollPercentage() > 50) {
+                if ($('.popup__video-iframe').find('iframe').length) {
+                    $('.popup__video-iframe').find('iframe').each(function () {
+                        $(this).attr('src', $(this).data('src'));
+                    });
+                }
+                //Страница прокручена на 50%
+                ym(ymetrikaID, 'reachGoal', '1');
+                scrollEvent50 = true;
+            }
+            if (!scrollEvent75 && getScrollPercentage() > 75) {
+                //console.log('Страница прокручена на 75%');
+                ym(ymetrikaID, 'reachGoal', '2');
+                scrollEvent75 = true;
+            }
+            if (!scrollEvent100 && getScrollPercentage() > 95) {
+                //Страница прокручена на 100%
+                ym(ymetrikaID, 'reachGoal', '3');
+                scrollEvent100 = true;
+            }
+        } else if ($('body').hasClass('is--download-page')) {
+            if (!scrollEvent10 && getScrollPercentage() > 10) {
+                if ($('.popup__video-iframe').find('iframe').length) {
+                    $('.popup__video-iframe').find('iframe').each(function () {
+                        $(this).attr('src', $(this).data('src'));
+                    });
+                }
+                console.log('Страница прокручена на 10%');
+                scrollEvent10 = true;
+            }
+        }
+    }
 });
 
 //Фикс кнопки назалд и закрытия модального окна
@@ -1313,12 +1435,12 @@ $('.blog-footer__link--store').on('click', function () {
 	ym(ymetrikaID, 'reachGoal', '64');
 });
 
-$('.footer__email-link').on('click', function () {
+$('.footer__item-contact-link.is--email-link').on('click', function () {
 	//console.log('Идентификатор 6');
 	ym(ymetrikaID, 'reachGoal', '6');
 });
 
-$('.bn__dropdown .w-dropdown-toggle').on('click', function () {
+$('.navbar__wrapper .cta__dd_bn.w-dropdown-toggle').on('click', function () {
 	//Ленд – Нажата “Попробовать бесплатно” в шапке
 	ym(ymetrikaID, 'reachGoal', '11');
 	_tmr.push({
@@ -1405,7 +1527,7 @@ $('.cta__list-item.huawei, .logo-vendor__item.huawei').on('click', function () {
 	});
 });
 
-$('.cta__list-item.win, .logo-vendor__item.win').on('click', function () {
+$('.cta__list-item.windows, .logo-vendor__item.windows, .download-ins__text-platform-link.windows, [data-platform="windows"]').on('click', function () {
 	//console.log('Идентификатор 15'); //win
 	ym(ymetrikaID, 'reachGoal', '15');
 	ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
@@ -1416,7 +1538,7 @@ $('.cta__list-item.win, .logo-vendor__item.win').on('click', function () {
 	});
 });
 
-$('.cta__list-item.mac-apple, .cta__list-item.mac-intel, .logo-vendor__item.mac').on('click', function () {
+$('.cta__list-item.macintel, .cta__list-item.macapple').on('click', function () {
 	//console.log('Идентификатор 16'); //mac
 	ym(ymetrikaID, 'reachGoal', '16');
 	ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
@@ -1427,7 +1549,7 @@ $('.cta__list-item.mac-apple, .cta__list-item.mac-intel, .logo-vendor__item.mac'
 	});
 });
 
-$('.cta__list-item.linux, .logo-vendor__item.linux').on('click', function () {
+$('.cta__list-item.linuxdeb, .cta__list-item.linuxtar').on('click', function () {
 	//console.log('Идентификатор 17'); //linux
 	ym(ymetrikaID, 'reachGoal', '17');
 	ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
@@ -1453,34 +1575,45 @@ $('.reccurent-target').on('click', function () {
 	ym(ymetrikaID, 'reachGoal', '31');
 });
 
+$('.mediakit__link').on('click', function () {
+	ym(ymetrikaID, 'reachGoal', '82');
+});
+
+if (window.location.href.indexOf('mediakit') + 1 > 0) {
+    ym(ymetrikaID, 'reachGoal', '81');
+}
+
 function analyticsModal(hash) {
 	switch (hash) {
-		case '#demo':
-			//console.log('Идентификатор 9');
+		case '#consultation':
 			ym(ymetrikaID, 'reachGoal', '9');
 			break;
-		case '#process':
-			//console.log('Идентификатор Модалка переноса процессов');
-			ym(ymetrikaID, 'reachGoal', '9');
+		case '#video-mac-intel':
+			ym(ymetrikaID, 'reachGoal', '71');
 			break;
-		case '#comand':
-			console.log('Идентификатор Модалка крупных команд');
-			ym(ymetrikaID, 'reachGoal', '9');
+		case '#video-mac-apple':
+			ym(ymetrikaID, 'reachGoal', '72');
+			break;
+        case '#video-linux-deb-standart':
+        case '#video-linux-deb-terminal':
+			ym(ymetrikaID, 'reachGoal', '73');
+			break;
+        case '#video-linux-tar':
+			ym(ymetrikaID, 'reachGoal', '74');
+			break;
+        case '#video-windows':
+			ym(ymetrikaID, 'reachGoal', '75');
 			break;
 		case '#video-czech':
-			//console.log('Идентификатор 18');
 			ym(ymetrikaID, 'reachGoal', '18');
 			break;
 		case '#video-detailing-group':
-			//console.log('Идентификатор 19');
 			ym(ymetrikaID, 'reachGoal', '19');
 			break;
 		case '#video-daily':
-			//console.log('Идентификатор 20');
 			ym(ymetrikaID, 'reachGoal', '20');
 			break;
 		case '#video-good-people':
-			//console.log('Идентификатор 21');
 			ym(ymetrikaID, 'reachGoal', '21');
 			break;
 	}
