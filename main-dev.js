@@ -1,6 +1,6 @@
 /* ------------------------*/
 /* ------------------------*/
-/*        main-v13.js      */
+/*    `   main-v13.js      */
 /* ------------------------*/
 /* ------------------------*/
 
@@ -235,7 +235,12 @@ Array.prototype.forEach.call(downloadLinks, downloadLink => {
 window.addEventListener('load', () => {
     if (startDownload) {
         const platformDownloadLink = document.querySelector('.' + platformClass)?.getAttribute('href');
-        location.href = platformDownloadLink;
+        //const link = document.createElement('a');
+        //link.setAttribute('href', platformDownloadLink);
+        //body.appendChild(link);
+        //link.click();
+        //window.history.pushState({}, '', url.toString());
+        location.href = platformDownloadLink;        
     }
 });
 
@@ -251,7 +256,7 @@ function openInstruction(downloadLink) {
                 e.preventDefault();
                 instructionLink = window.location.origin + instructionLinks[platform] + '/?start-download=true&platform=' + platform;
                 window.location.href = instructionLink
-            }
+            } 
             //На странице скачивания повторно нажат download
             if (window.location.href.indexOf('download') + 1 > 0) {
                 ym(ymetrikaID, 'reachGoal', '76');
@@ -736,6 +741,10 @@ const bodyScrollControls = {
 	},
 };
 
+$('[data-remodal-id="consultation"]').remodal({
+    closeOnOutsideClick: false
+})
+
 $(document).on('opening', '.remodal', function (e) {
 	bodyScrollControls.disable();
 	$('html').addClass('remodal-is-locked');
@@ -758,10 +767,6 @@ $(document).on('opening', '.remodal', function (e) {
 		let player = new Vimeo.Player(iframeInModal[0]);
 		player.play();
 	}
-    
-    if (formInModal.length) {
-        $('html').addClass('is--disable-bg-close');
-    }
 });
 
 $(document).on('closing', '.remodal', function (e) {
@@ -796,7 +801,7 @@ $(document).on('closing', '.remodal', function (e) {
 
 $(document).on('closed', '.remodal', function (e) {
 	bodyScrollControls.enable();
-	$('html').removeClass('is--black-overlay is--white-overlay remodal-is-locked is--center-modal is--disable-bg-close is---video-overlay');
+	$('html').removeClass('is--black-overlay is--white-overlay remodal-is-locked is--center-modal is---video-overlay');
 });
 
 $('input').on('focusout', function () {
