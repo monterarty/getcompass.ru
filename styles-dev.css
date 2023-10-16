@@ -1,6 +1,6 @@
 /* --------------------------*/
 /* --------------------------*/
-/*       styles-v12.css       */
+/*       styles-v13.css      */
 /* --------------------------*/
 /* --------------------------*/
 
@@ -107,10 +107,7 @@
 
 .navbar__progress-bar,
 .w-tabs:after,
-.w-tabs:before {
-	display: none
-}
-
+.w-tabs:before {display: none}
 html body #carrotquest-messenger-collapsed-container{z-index:900!important}
 *{outline:0!important}
 body{padding:0}
@@ -128,36 +125,15 @@ input:-webkit-autofill:focus,input:-webkit-autofill:hover{-webkit-box-shadow:0 0
 input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 input[type=number]{-moz-appearance:textfield}
 input.input-error {border-color: #ff6a64 !important}
-
-.is--disable-bg-close .remodal-overlay,
-.is--disable-bg-close .remodal-wrapper{pointer-events:none}
-
-.is--disable-bg-close .remodal{pointer-events:auto}
-
 .remodal,
 .remodal-wrapper:after{vertical-align: top}
 .remodal-overlay{background:rgba(4,4,10,.8);transition:.3s}
 .remodal-wrapper{overflow-x:hidden;padding:6.67rem 0}
-
-html.remodal-is-locked body {
-	overflow: hidden;
-	-ms-touch-action: none;
-	touch-action: none
-}
-
-.is---video-overlay .popup__scroll-content::before {
-	content: '';
-	position: absolute;
-	left: 0;
-	right: 0;
-	z-index: 100;
-	height: 2.77rem;
-	background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.20) 55.2%, rgba(0, 0, 0, 0.00) 100%);
-}
-
+html.remodal-is-locked body {overflow: hidden;-ms-touch-action: none;touch-action: none}
+.is---video-overlay .popup__scroll-content::before {content: '';position: absolute;left: 0;right: 0;z-index: 100;height: 2.77rem;background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.20) 55.2%, rgba(0, 0, 0, 0.00) 100%)}
 .popup__scroll-content,
 .remodal {
-	max-height: calc(100vh - 4.66rem);
+	/*max-height: calc(100vh - 4.66rem);*/
 	-webkit-overflow-scrolling: touch;
 	-ms-overflow-style: none;
 	scrollbar-width: none;
@@ -281,9 +257,12 @@ html.remodal-is-locked body {
 	background-color: rgba(103, 115, 128, .05)
 }
 
-.blog-footer__link--store:hover .blog-footer__link-text,
-.is--touch-device .blog-footer__link--store:active .blog-footer__link-text {
+.blog-footer__link--store:hover .blog-footer__link-text {
 	border-color: #333e49
+}
+
+.is--touch-device .blog-footer__link--store:active .blog-footer__link-text {
+	border-color: transparent
 }
 
 .blog-footer__link--store.is--404-link:hover .blog-footer__link-text,
@@ -429,7 +408,7 @@ html.remodal-is-locked body {
 
 .is--touch-device .blog-footer__link:active {
 	color: #333e49;
-	border-color: #333e49
+	border-bottom-color: transparent
 }
 
 .is--touch-device .article__header-crumb:hover {
@@ -603,11 +582,11 @@ html * {
     
     @supports (aspect-ratio: 1 / 1) {
         .scope__img-w.is--search{aspect-ratio:1.096}
-	    .scope__img-w.is--activity{aspect-ratio:1.06}
-	    .scope__img-w.is--bot{aspect-ratio:1.023}
-	    .scope__img-w.is--focus{aspect-ratio:1.039}
-	    .scope__img-w.is--guest{aspect-ratio:1.006}
-	    .scope__img-w.is--time{aspect-ratio:1.0258}
+	.scope__img-w.is--activity{aspect-ratio:1.06}
+	.scope__img-w.is--bot{aspect-ratio:1.023}
+	.scope__img-w.is--focus{aspect-ratio:1.039}
+	.scope__img-w.is--guest{aspect-ratio:1.006}
+	.scope__img-w.is--time{aspect-ratio:1.0258}
         .scope__img-w.is--comment{aspect-ratio:1.237}
         .feature__notify-item {aspect-ratio:.909}
         .feature__stat-phone {aspect-ratio:.765}
