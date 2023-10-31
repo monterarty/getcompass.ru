@@ -1626,11 +1626,13 @@ var scrollBarWidth = window.innerWidth - document.body.clientWidth;
 const bodyScrollControls = {
 	disable() {
         //const scrollBarWidth = window.innerWidth - document.body.clientWidth;
-        body.style.top = `-${window.scrollY}px`;
-        scrollDistance = window.scrollY;
-        body.style.position = 'fixed';
-        body.style.left = 0;
-        body.style.right = 0;
+        if (['iOS', 'Android', 'Huawei'].indexOf(os) + 1) {
+            body.style.top = `-${window.scrollY}px`;
+            scrollDistance = window.scrollY;
+            body.style.position = 'fixed';
+            body.style.left = 0;
+            body.style.right = 0;
+        }
 		document.body.style.marginRight = `${scrollBarWidth}px`;
 		document.querySelector('.w-nav').style.right = `${scrollBarWidth}px`;
 		document.querySelector('.cookie').style.marhinRight = `${scrollBarWidth}px`;
@@ -1641,9 +1643,9 @@ const bodyScrollControls = {
 	},
 	enable() {
         body.removeAttribute('style');
-        window.scrollTo(0, scrollDistance);
-		document.body.style.marginRight = null;
-		document.body.style.paddingRight = null;
+        if (['iOS', 'Android', 'Huawei'].indexOf(os) + 1) {
+            window.scrollTo(0, scrollDistance);
+        }
 		document.querySelector('.cookie').style.marhinRight = 0;
 		document.querySelector('.w-nav').style.right = 0;
 		if (document.getElementById('carrotquest-messenger-collapsed-container'))
@@ -2305,7 +2307,8 @@ document.addEventListener("DOMContentLoaded", function () {
         scrollEvent50 = false,
         scrollEvent75 = false,
         scrollEvent100 = false; // Сообщение ещё не выводилось
-    window.onscroll = function () {
+    window.onscroll = function (e) {
+        
         if ($('.w-nav-button').hasClass('w--open'))
                 $('.w-nav-button').trigger('click');
         if ( getPage() == 'home' || getPage() == 'download' ) {
