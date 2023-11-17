@@ -15,783 +15,7 @@
 /*   hastracking fix    */
 /* ---------------------*/
 /* ---------------------*/
-window.REMODAL_GLOBALS={NAMESPACE:"remodal",DEFAULTS:{hashTracking:!1}},
-    !(function(root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    define(['jquery'], function($) {
-      return factory(root, $);
-    });
-  } else if (typeof exports === 'object') {
-    factory(root, require('jquery'));
-  } else {
-    factory(root, root.jQuery || root.Zepto);
-  }
-})(this, function(global, $) {
-
-  'use strict';
-
-  /**
-   * Name of the plugin
-   * @private
-   * @const
-   * @type {String}
-   */
-  var PLUGIN_NAME = 'remodal';
-
-  /**
-   * Namespace for CSS and events
-   * @private
-   * @const
-   * @type {String}
-   */
-  var NAMESPACE = global.REMODAL_GLOBALS && global.REMODAL_GLOBALS.NAMESPACE || PLUGIN_NAME;
-
-  /**
-   * Animationstart event with vendor prefixes
-   * @private
-   * @const
-   * @type {String}
-   */
-  var ANIMATIONSTART_EVENTS = $.map(
-    ['animationstart', 'webkitAnimationStart', 'MSAnimationStart', 'oAnimationStart'],
-
-    function(eventName) {
-      return eventName + '.' + NAMESPACE;
-    }
-
-  ).join(' ');
-
-  /**
-   * Animationend event with vendor prefixes
-   * @private
-   * @const
-   * @type {String}
-   */
-  var ANIMATIONEND_EVENTS = $.map(
-    ['animationend', 'webkitAnimationEnd', 'MSAnimationEnd', 'oAnimationEnd'],
-
-    function(eventName) {
-      return eventName + '.' + NAMESPACE;
-    }
-
-  ).join(' ');
-
-  /**
-   * Default settings
-   * @private
-   * @const
-   * @type {Object}
-   */
-  var DEFAULTS = $.extend({
-    hashTracking: true,
-    closeOnConfirm: true,
-    closeOnCancel: true,
-    closeOnEscape: true,
-    closeOnOutsideClick: true,
-    modifier: '',
-    appendTo: null
-  }, global.REMODAL_GLOBALS && global.REMODAL_GLOBALS.DEFAULTS);
-
-  /**
-   * States of the Remodal
-   * @private
-   * @const
-   * @enum {String}
-   */
-  var STATES = {
-    CLOSING: 'closing',
-    CLOSED: 'closed',
-    OPENING: 'opening',
-    OPENED: 'opened'
-  };
-
-  /**
-   * Reasons of the state change.
-   * @private
-   * @const
-   * @enum {String}
-   */
-  var STATE_CHANGE_REASONS = {
-    CONFIRMATION: 'confirmation',
-    CANCELLATION: 'cancellation'
-  };
-
-  /**
-   * Is animation supported?
-   * @private
-   * @const
-   * @type {Boolean}
-   */
-  var IS_ANIMATION = (function() {
-    var style = document.createElement('div').style;
-
-    return style.animationName !== undefined ||
-      style.WebkitAnimationName !== undefined ||
-      style.MozAnimationName !== undefined ||
-      style.msAnimationName !== undefined ||
-      style.OAnimationName !== undefined;
-  })();
-
-  /**
-   * Is iOS?
-   * @private
-   * @const
-   * @type {Boolean}
-   */
-  var IS_IOS = /iPad|iPhone|iPod/.test(navigator.platform);
-
-  /**
-   * Current modal
-   * @private
-   * @type {Remodal}
-   */
-  var current;
-
-  /**
-   * Scrollbar position
-   * @private
-   * @type {Number}
-   */
-  var scrollTop;
-
-  /**
-   * Returns an animation duration
-   * @private
-   * @param {jQuery} $elem
-   * @returns {Number}
-   */
-  function getAnimationDuration($elem) {
-    if (
-      IS_ANIMATION &&
-      $elem.css('animation-name') === 'none' &&
-      $elem.css('-webkit-animation-name') === 'none' &&
-      $elem.css('-moz-animation-name') === 'none' &&
-      $elem.css('-o-animation-name') === 'none' &&
-      $elem.css('-ms-animation-name') === 'none'
-    ) {
-      return 0;
-    }
-
-    var duration = $elem.css('animation-duration') ||
-      $elem.css('-webkit-animation-duration') ||
-      $elem.css('-moz-animation-duration') ||
-      $elem.css('-o-animation-duration') ||
-      $elem.css('-ms-animation-duration') ||
-      '0s';
-
-    var delay = $elem.css('animation-delay') ||
-      $elem.css('-webkit-animation-delay') ||
-      $elem.css('-moz-animation-delay') ||
-      $elem.css('-o-animation-delay') ||
-      $elem.css('-ms-animation-delay') ||
-      '0s';
-
-    var iterationCount = $elem.css('animation-iteration-count') ||
-      $elem.css('-webkit-animation-iteration-count') ||
-      $elem.css('-moz-animation-iteration-count') ||
-      $elem.css('-o-animation-iteration-count') ||
-      $elem.css('-ms-animation-iteration-count') ||
-      '1';
-
-    var max;
-    var len;
-    var num;
-    var i;
-
-    duration = duration.split(', ');
-    delay = delay.split(', ');
-    iterationCount = iterationCount.split(', ');
-
-    // The 'duration' size is the same as the 'delay' size
-    for (i = 0, len = duration.length, max = Number.NEGATIVE_INFINITY; i < len; i++) {
-      num = parseFloat(duration[i]) * parseInt(iterationCount[i], 10) + parseFloat(delay[i]);
-
-      if (num > max) {
-        max = num;
-      }
-    }
-
-    return max;
-  }
-
-  /**
-   * Returns a scrollbar width
-   * @private
-   * @returns {Number}
-   */
-  function getScrollbarWidth() {
-    if ($(document).height() <= $(window).height()) {
-      return 0;
-    }
-
-    var outer = document.createElement('div');
-    var inner = document.createElement('div');
-    var widthNoScroll;
-    var widthWithScroll;
-
-    outer.style.visibility = 'hidden';
-    outer.style.width = '100px';
-    document.body.appendChild(outer);
-
-    widthNoScroll = outer.offsetWidth;
-
-    // Force scrollbars
-    outer.style.overflow = 'scroll';
-
-    // Add inner div
-    inner.style.width = '100%';
-    outer.appendChild(inner);
-
-    widthWithScroll = inner.offsetWidth;
-
-    // Remove divs
-    outer.parentNode.removeChild(outer);
-
-    return widthNoScroll - widthWithScroll;
-  }
-
-  /**
-   * Locks the screen
-   * @private
-   */
-  function lockScreen() {
-    if (IS_IOS) {
-      return;
-    }
-
-    var $html = $('html');
-    var lockedClass = namespacify('is-locked');
-    var paddingRight;
-    var $body;
-
-    if (!$html.hasClass(lockedClass)) {
-      $body = $(document.body);
-
-      // Zepto does not support '-=', '+=' in the `css` method
-      paddingRight = parseInt($body.css('padding-right'), 10) + getScrollbarWidth();
-
-      $body.css('padding-right', paddingRight + 'px');
-      $html.addClass(lockedClass);
-    }
-  }
-
-  /**
-   * Unlocks the screen
-   * @private
-   */
-  function unlockScreen() {
-    if (IS_IOS) {
-      return;
-    }
-
-    var $html = $('html');
-    var lockedClass = namespacify('is-locked');
-    var paddingRight;
-    var $body;
-
-    if ($html.hasClass(lockedClass)) {
-      $body = $(document.body);
-
-      // Zepto does not support '-=', '+=' in the `css` method
-      paddingRight = parseInt($body.css('padding-right'), 10) - getScrollbarWidth();
-
-      $body.css('padding-right', paddingRight + 'px');
-      $html.removeClass(lockedClass);
-    }
-  }
-
-  /**
-   * Sets a state for an instance
-   * @private
-   * @param {Remodal} instance
-   * @param {STATES} state
-   * @param {Boolean} isSilent If true, Remodal does not trigger events
-   * @param {String} Reason of a state change.
-   */
-  function setState(instance, state, isSilent, reason) {
-
-    var newState = namespacify('is', state);
-    var allStates = [namespacify('is', STATES.CLOSING),
-                     namespacify('is', STATES.OPENING),
-                     namespacify('is', STATES.CLOSED),
-                     namespacify('is', STATES.OPENED)].join(' ');
-
-    instance.$bg
-      .removeClass(allStates)
-      .addClass(newState);
-
-    instance.$overlay
-      .removeClass(allStates)
-      .addClass(newState);
-
-    instance.$wrapper
-      .removeClass(allStates)
-      .addClass(newState);
-
-    instance.$modal
-      .removeClass(allStates)
-      .addClass(newState);
-
-    instance.state = state;
-    !isSilent && instance.$modal.trigger({
-      type: state,
-      reason: reason
-    }, [{ reason: reason }]);
-  }
-
-  /**
-   * Synchronizes with the animation
-   * @param {Function} doBeforeAnimation
-   * @param {Function} doAfterAnimation
-   * @param {Remodal} instance
-   */
-  function syncWithAnimation(doBeforeAnimation, doAfterAnimation, instance) {
-    var runningAnimationsCount = 0;
-
-    var handleAnimationStart = function(e) {
-      if (e.target !== this) {
-        return;
-      }
-
-      runningAnimationsCount++;
-    };
-
-    var handleAnimationEnd = function(e) {
-      if (e.target !== this) {
-        return;
-      }
-
-      if (--runningAnimationsCount === 0) {
-
-        // Remove event listeners
-        $.each(['$bg', '$overlay', '$wrapper', '$modal'], function(index, elemName) {
-          instance[elemName].off(ANIMATIONSTART_EVENTS + ' ' + ANIMATIONEND_EVENTS);
-        });
-
-        doAfterAnimation();
-      }
-    };
-
-    $.each(['$bg', '$overlay', '$wrapper', '$modal'], function(index, elemName) {
-      instance[elemName]
-        .on(ANIMATIONSTART_EVENTS, handleAnimationStart)
-        .on(ANIMATIONEND_EVENTS, handleAnimationEnd);
-    });
-
-    doBeforeAnimation();
-
-    // If the animation is not supported by a browser or its duration is 0
-    if (
-      getAnimationDuration(instance.$bg) === 0 &&
-      getAnimationDuration(instance.$overlay) === 0 &&
-      getAnimationDuration(instance.$wrapper) === 0 &&
-      getAnimationDuration(instance.$modal) === 0
-    ) {
-
-      // Remove event listeners
-      $.each(['$bg', '$overlay', '$wrapper', '$modal'], function(index, elemName) {
-        instance[elemName].off(ANIMATIONSTART_EVENTS + ' ' + ANIMATIONEND_EVENTS);
-      });
-
-      doAfterAnimation();
-    }
-  }
-
-  /**
-   * Closes immediately
-   * @private
-   * @param {Remodal} instance
-   */
-  function halt(instance) {
-    if (instance.state === STATES.CLOSED) {
-      return;
-    }
-
-    $.each(['$bg', '$overlay', '$wrapper', '$modal'], function(index, elemName) {
-      instance[elemName].off(ANIMATIONSTART_EVENTS + ' ' + ANIMATIONEND_EVENTS);
-    });
-
-    instance.$bg.removeClass(instance.settings.modifier);
-    instance.$overlay.removeClass(instance.settings.modifier).hide();
-    instance.$wrapper.hide();
-    unlockScreen();
-    setState(instance, STATES.CLOSED, true);
-  }
-
-  /**
-   * Parses a string with options
-   * @private
-   * @param str
-   * @returns {Object}
-   */
-  function parseOptions(str) {
-    var obj = {};
-    var arr;
-    var len;
-    var val;
-    var i;
-
-    // Remove spaces before and after delimiters
-    str = str.replace(/\s*:\s*/g, ':').replace(/\s*,\s*/g, ',');
-
-    // Parse a string
-    arr = str.split(',');
-    for (i = 0, len = arr.length; i < len; i++) {
-      arr[i] = arr[i].split(':');
-      val = arr[i][1];
-
-      // Convert a string value if it is like a boolean
-      if (typeof val === 'string' || val instanceof String) {
-        val = val === 'true' || (val === 'false' ? false : val);
-      }
-
-      // Convert a string value if it is like a number
-      if (typeof val === 'string' || val instanceof String) {
-        val = !isNaN(val) ? +val : val;
-      }
-
-      obj[arr[i][0]] = val;
-    }
-
-    return obj;
-  }
-
-  /**
-   * Generates a string separated by dashes and prefixed with NAMESPACE
-   * @private
-   * @param {...String}
-   * @returns {String}
-   */
-  function namespacify() {
-    var result = NAMESPACE;
-
-    for (var i = 0; i < arguments.length; ++i) {
-      result += '-' + arguments[i];
-    }
-
-    return result;
-  }
-
-  /**
-   * Handles the hashchange event
-   * @private
-   * @listens hashchange
-   */
-  function handleHashChangeEvent() {
-    var id = location.hash.replace('#', '');
-    var instance;
-    var $elem;
-
-    if (!id) {
-
-      // Check if we have currently opened modal and animation was completed
-      if (current && current.state === STATES.OPENED && current.settings.hashTracking) {
-        current.close();
-      }
-    } else {
-
-      // Catch syntax error if your hash is bad
-      try {
-        $elem = $(
-          '[data-' + PLUGIN_NAME + '-id="' + id + '"]'
-        );
-      } catch (err) {}
-
-      if ($elem && $elem.length) {
-        instance = $[PLUGIN_NAME].lookup[$elem.data(PLUGIN_NAME)];
-
-        if (instance && instance.settings.hashTracking) {
-          instance.open();
-        }
-      }
-
-    }
-  }
-
-  /**
-   * Remodal constructor
-   * @constructor
-   * @param {jQuery} $modal
-   * @param {Object} options
-   */
-  function Remodal($modal, options) {
-    var $body = $(document.body);
-    var $appendTo = $body;
-    var remodal = this;
-
-    remodal.settings = $.extend({}, DEFAULTS, options);
-    remodal.index = $[PLUGIN_NAME].lookup.push(remodal) - 1;
-    remodal.state = STATES.CLOSED;
-
-    remodal.$overlay = $('.' + namespacify('overlay'));
-
-    if (remodal.settings.appendTo !== null && remodal.settings.appendTo.length) {
-      $appendTo = $(remodal.settings.appendTo);
-    }
-
-    if (!remodal.$overlay.length) {
-      remodal.$overlay = $('<div>').addClass(namespacify('overlay') + ' ' + namespacify('is', STATES.CLOSED)).hide();
-      $appendTo.append(remodal.$overlay);
-    }
-
-    remodal.$bg = $('.' + namespacify('bg')).addClass(namespacify('is', STATES.CLOSED));
-
-    remodal.$modal = $modal
-      .addClass(
-        NAMESPACE + ' ' +
-        namespacify('is-initialized') + ' ' +
-        remodal.settings.modifier + ' ' +
-        namespacify('is', STATES.CLOSED))
-      .attr('tabindex', '-1');
-
-    remodal.$wrapper = $('<div>')
-      .addClass(
-        namespacify('wrapper') + ' ' +
-        remodal.settings.modifier + ' ' +
-        namespacify('is', STATES.CLOSED))
-      .hide()
-      .append(remodal.$modal);
-    $appendTo.append(remodal.$wrapper);
-
-    // Add the event listener for the close button
-    remodal.$wrapper.on('click.' + NAMESPACE, '[data-' + PLUGIN_NAME + '-action="close"]', function(e) {
-      e.preventDefault();
-
-      remodal.close();
-    });
-
-    // Add the event listener for the cancel button
-    remodal.$wrapper.on('click.' + NAMESPACE, '[data-' + PLUGIN_NAME + '-action="cancel"]', function(e) {
-      e.preventDefault();
-
-      remodal.$modal.trigger(STATE_CHANGE_REASONS.CANCELLATION);
-
-      if (remodal.settings.closeOnCancel) {
-        remodal.close(STATE_CHANGE_REASONS.CANCELLATION);
-      }
-    });
-
-    // Add the event listener for the confirm button
-    remodal.$wrapper.on('click.' + NAMESPACE, '[data-' + PLUGIN_NAME + '-action="confirm"]', function(e) {
-      e.preventDefault();
-
-      remodal.$modal.trigger(STATE_CHANGE_REASONS.CONFIRMATION);
-
-      if (remodal.settings.closeOnConfirm) {
-        remodal.close(STATE_CHANGE_REASONS.CONFIRMATION);
-      }
-    });
-
-    // Add the event listener for the overlay
-    remodal.$wrapper.on('click.' + NAMESPACE, function(e) {
-      var $target = $(e.target);
-
-      if (!$target.hasClass(namespacify('wrapper'))) {
-        return;
-      }
-
-      if (remodal.settings.closeOnOutsideClick) {
-        remodal.close();
-      }
-    });
-  }
-
-  /**
-   * Opens a modal window
-   * @public
-   */
-  Remodal.prototype.open = function() {
-    var remodal = this;
-    var id;
-
-    // Check if the animation was completed
-    if (remodal.state === STATES.OPENING || remodal.state === STATES.CLOSING) {
-      return;
-    }
-
-    id = remodal.$modal.attr('data-' + PLUGIN_NAME + '-id');
-
-    if (id && remodal.settings.hashTracking) {
-      scrollTop = $(window).scrollTop();
-      location.hash = id;
-    }
-
-    if (current && current !== remodal) {
-      halt(current);
-    }
-
-    current = remodal;
-    lockScreen();
-    remodal.$bg.addClass(remodal.settings.modifier);
-    remodal.$overlay.addClass(remodal.settings.modifier).show();
-    remodal.$wrapper.show().scrollTop(0);
-    remodal.$modal.focus();
-
-    syncWithAnimation(
-      function() {
-        setState(remodal, STATES.OPENING);
-      },
-
-      function() {
-        setState(remodal, STATES.OPENED);
-      },
-
-      remodal);
-  };
-
-  /**
-   * Closes a modal window
-   * @public
-   * @param {String} reason
-   */
-  Remodal.prototype.close = function(reason) {
-    var remodal = this;
-
-    // Check if the animation was completed
-    if (remodal.state === STATES.OPENING || remodal.state === STATES.CLOSING || remodal.state === STATES.CLOSED) {
-      return;
-    }
-
-    if (
-      remodal.settings.hashTracking &&
-      remodal.$modal.attr('data-' + PLUGIN_NAME + '-id') === location.hash.substr(1)
-    ) {
-      location.hash = '';
-      $(window).scrollTop(scrollTop);
-    }
-
-    syncWithAnimation(
-      function() {
-        setState(remodal, STATES.CLOSING, false, reason);
-      },
-
-      function() {
-        remodal.$bg.removeClass(remodal.settings.modifier);
-        remodal.$overlay.removeClass(remodal.settings.modifier).hide();
-        remodal.$wrapper.hide();
-        unlockScreen();
-
-        setState(remodal, STATES.CLOSED, false, reason);
-      },
-
-      remodal);
-  };
-
-  /**
-   * Returns a current state of a modal
-   * @public
-   * @returns {STATES}
-   */
-  Remodal.prototype.getState = function() {
-    return this.state;
-  };
-
-  /**
-   * Destroys a modal
-   * @public
-   */
-  Remodal.prototype.destroy = function() {
-    var lookup = $[PLUGIN_NAME].lookup;
-    var instanceCount;
-
-    halt(this);
-    this.$wrapper.remove();
-
-    delete lookup[this.index];
-    instanceCount = $.grep(lookup, function(instance) {
-      return !!instance;
-    }).length;
-
-    if (instanceCount === 0) {
-      this.$overlay.remove();
-      this.$bg.removeClass(
-        namespacify('is', STATES.CLOSING) + ' ' +
-        namespacify('is', STATES.OPENING) + ' ' +
-        namespacify('is', STATES.CLOSED) + ' ' +
-        namespacify('is', STATES.OPENED));
-    }
-  };
-
-  /**
-   * Special plugin object for instances
-   * @public
-   * @type {Object}
-   */
-  $[PLUGIN_NAME] = {
-    lookup: []
-  };
-
-  /**
-   * Plugin constructor
-   * @constructor
-   * @param {Object} options
-   * @returns {JQuery}
-   */
-  $.fn[PLUGIN_NAME] = function(opts) {
-    var instance;
-    var $elem;
-
-    this.each(function(index, elem) {
-      $elem = $(elem);
-
-      if ($elem.data(PLUGIN_NAME) == null) {
-        instance = new Remodal($elem, opts);
-        $elem.data(PLUGIN_NAME, instance.index);
-
-        if (
-          instance.settings.hashTracking &&
-          $elem.attr('data-' + PLUGIN_NAME + '-id') === location.hash.substr(1)
-        ) {
-          instance.open();
-        }
-      } else {
-        instance = $[PLUGIN_NAME].lookup[$elem.data(PLUGIN_NAME)];
-      }
-    });
-
-    return instance;
-  };
-
-  $(document).ready(function() {
-
-    // data-remodal-target opens a modal window with the special Id
-    $(document).on('click', '[data-' + PLUGIN_NAME + '-target]', function(e) {
-      e.preventDefault();
-
-      var elem = e.currentTarget;
-      var id = elem.getAttribute('data-' + PLUGIN_NAME + '-target');
-      var $target = $('[data-' + PLUGIN_NAME + '-id="' + id + '"]');
-
-      $[PLUGIN_NAME].lookup[$target.data(PLUGIN_NAME)].open();
-    });
-
-    // Auto initialization of modal windows
-    // They should have the 'remodal' class attribute
-    // Also you can write the `data-remodal-options` attribute to pass params into the modal
-    $(document).find('.' + NAMESPACE).each(function(i, container) {
-      var $container = $(container);
-      var options = $container.data(PLUGIN_NAME + '-options');
-
-      if (!options) {
-        options = {};
-      } else if (typeof options === 'string' || options instanceof String) {
-        options = parseOptions(options);
-      }
-
-      $container[PLUGIN_NAME](options);
-    });
-
-    // Handles the keydown event
-    $(document).on('keydown.' + NAMESPACE, function(e) {
-      if (current && current.settings.closeOnEscape && current.state === STATES.OPENED && e.keyCode === 27) {
-        current.close();
-      }
-    });
-
-    // Handles the hashchange event
-    $(window).on('hashchange.' + NAMESPACE, handleHashChangeEvent);
-  });
-});
+window.REMODAL_GLOBALS={NAMESPACE:"remodal",DEFAULTS:{hashTracking:!1}},function(t,n){"function"==typeof define&&define.amd?define(["jquery"],function(a){return n(t,a)}):"object"==typeof exports?n(t,require("jquery")):n(t,t.jQuery||t.Zepto)}(this,function(t,n){"use strict";var a,e,i,o="remodal",s=t.REMODAL_GLOBALS&&t.REMODAL_GLOBALS.NAMESPACE||o,r=n.map(["animationstart","webkitAnimationStart","MSAnimationStart","oAnimationStart"],function(t){return t+"."+s}).join(" "),l=n.map(["animationend","webkitAnimationEnd","MSAnimationEnd","oAnimationEnd"],function(t){return t+"."+s}).join(" "),d=n.extend({hashTracking:!0,closeOnConfirm:!0,closeOnCancel:!0,closeOnEscape:!0,closeOnOutsideClick:!0,modifier:"",appendTo:null},t.REMODAL_GLOBALS&&t.REMODAL_GLOBALS.DEFAULTS),c={CLOSING:"closing",CLOSED:"closed",OPENING:"opening",OPENED:"opened"},p={CONFIRMATION:"confirmation",CANCELLATION:"cancellation"},m=void 0!==(i=document.createElement("div").style).animationName||void 0!==i.WebkitAnimationName||void 0!==i.MozAnimationName||void 0!==i.msAnimationName||void 0!==i.OAnimationName,f=/iPad|iPhone|iPod/.test(navigator.platform);function u(t){if(m&&"none"===t.css("animation-name")&&"none"===t.css("-webkit-animation-name")&&"none"===t.css("-moz-animation-name")&&"none"===t.css("-o-animation-name")&&"none"===t.css("-ms-animation-name"))return 0;var n,a,e,i,o=t.css("animation-duration")||t.css("-webkit-animation-duration")||t.css("-moz-animation-duration")||t.css("-o-animation-duration")||t.css("-ms-animation-duration")||"0s",s=t.css("animation-delay")||t.css("-webkit-animation-delay")||t.css("-moz-animation-delay")||t.css("-o-animation-delay")||t.css("-ms-animation-delay")||"0s",r=t.css("animation-iteration-count")||t.css("-webkit-animation-iteration-count")||t.css("-moz-animation-iteration-count")||t.css("-o-animation-iteration-count")||t.css("-ms-animation-iteration-count")||"1";for(i=0,o=o.split(", "),s=s.split(", "),r=r.split(", "),a=o.length,n=Number.NEGATIVE_INFINITY;i<a;i++)(e=parseFloat(o[i])*parseInt(r[i],10)+parseFloat(s[i]))>n&&(n=e);return n}function h(){if(n(document).height()<=n(window).height())return 0;var t,a,e=document.createElement("div"),i=document.createElement("div");return e.style.visibility="hidden",e.style.width="100px",document.body.appendChild(e),t=e.offsetWidth,e.style.overflow="scroll",i.style.width="100%",e.appendChild(i),a=i.offsetWidth,e.parentNode.removeChild(e),t-a}function g(){if(!f){var t,a,e=n("html"),i=E("is-locked");e.hasClass(i)&&(t=parseInt((a=n(document.body)).css("padding-right"),10)-h(),a.css("padding-right",t+"px"),e.removeClass(i))}}function C(t,n,a,e){var i=E("is",n),o=[E("is",c.CLOSING),E("is",c.OPENING),E("is",c.CLOSED),E("is",c.OPENED)].join(" ");t.$bg.removeClass(o).addClass(i),t.$overlay.removeClass(o).addClass(i),t.$wrapper.removeClass(o).addClass(i),t.$modal.removeClass(o).addClass(i),t.state=n,a||t.$modal.trigger({type:n,reason:e},[{reason:e}])}function v(t,a,e){var i=0,o=function(t){t.target===this&&i++},s=function(t){t.target===this&&0==--i&&(n.each(["$bg","$overlay","$wrapper","$modal"],function(t,n){e[n].off(r+" "+l)}),a())};n.each(["$bg","$overlay","$wrapper","$modal"],function(t,n){e[n].on(r,o).on(l,s)}),t(),0===u(e.$bg)&&0===u(e.$overlay)&&0===u(e.$wrapper)&&0===u(e.$modal)&&(n.each(["$bg","$overlay","$wrapper","$modal"],function(t,n){e[n].off(r+" "+l)}),a())}function O(t){t.state!==c.CLOSED&&(n.each(["$bg","$overlay","$wrapper","$modal"],function(n,a){t[a].off(r+" "+l)}),t.$bg.removeClass(t.settings.modifier),t.$overlay.removeClass(t.settings.modifier).hide(),t.$wrapper.hide(),g(),C(t,c.CLOSED,!0))}function E(){for(var t=s,n=0;n<arguments.length;++n)t+="-"+arguments[n];return t}function y(){var t,e,i=location.hash.replace("#","");if(i){try{e=n("[data-"+o+'-id="'+i+'"]')}catch(s){}e&&e.length&&(t=n[o].lookup[e.data(o)])&&t.settings.hashTracking&&t.open()}else a&&a.state===c.OPENED&&a.settings.hashTracking&&a.close()}function N(t,a){var e=n(document.body),i=this;i.settings=n.extend({},d,a),i.index=n[o].lookup.push(i)-1,i.state=c.CLOSED,i.$overlay=n("."+E("overlay")),null!==i.settings.appendTo&&i.settings.appendTo.length&&(e=n(i.settings.appendTo)),i.$overlay.length||(i.$overlay=n("<div>").addClass(E("overlay")+" "+E("is",c.CLOSED)).hide(),e.append(i.$overlay)),i.$bg=n("."+E("bg")).addClass(E("is",c.CLOSED)),i.$modal=t.addClass(s+" "+E("is-initialized")+" "+i.settings.modifier+" "+E("is",c.CLOSED)).attr("tabindex","-1"),i.$wrapper=n("<div>").addClass(E("wrapper")+" "+i.settings.modifier+" "+E("is",c.CLOSED)).hide().append(i.$modal),e.append(i.$wrapper),i.$wrapper.on("click."+s,"[data-"+o+'-action="close"]',function(t){t.preventDefault(),i.close()}),i.$wrapper.on("click."+s,"[data-"+o+'-action="cancel"]',function(t){t.preventDefault(),i.$modal.trigger(p.CANCELLATION),i.settings.closeOnCancel&&i.close(p.CANCELLATION)}),i.$wrapper.on("click."+s,"[data-"+o+'-action="confirm"]',function(t){t.preventDefault(),i.$modal.trigger(p.CONFIRMATION),i.settings.closeOnConfirm&&i.close(p.CONFIRMATION)}),i.$wrapper.on("click."+s,function(t){n(t.target).hasClass(E("wrapper"))&&i.settings.closeOnOutsideClick&&i.close()})}N.prototype.open=function(){var t,i=this;i.state!==c.OPENING&&i.state!==c.CLOSING&&((t=i.$modal.attr("data-"+o+"-id"))&&i.settings.hashTracking&&(e=n(window).scrollTop(),location.hash=t),a&&a!==i&&O(a),a=i,function t(){if(!f){var a,e,i=n("html"),o=E("is-locked");i.hasClass(o)||(a=parseInt((e=n(document.body)).css("padding-right"),10)+h(),e.css("padding-right",a+"px"),i.addClass(o))}}(),i.$bg.addClass(i.settings.modifier),i.$overlay.addClass(i.settings.modifier).show(),i.$wrapper.show().scrollTop(0),i.$modal.focus(),v(function(){C(i,c.OPENING)},function(){C(i,c.OPENED)},i))},N.prototype.close=function(t){var a=this;a.state!==c.OPENING&&a.state!==c.CLOSING&&a.state!==c.CLOSED&&(a.settings.hashTracking&&a.$modal.attr("data-"+o+"-id")===location.hash.substr(1)&&(location.hash="",n(window).scrollTop(e)),v(function(){C(a,c.CLOSING,!1,t)},function(){a.$bg.removeClass(a.settings.modifier),a.$overlay.removeClass(a.settings.modifier).hide(),a.$wrapper.hide(),g(),C(a,c.CLOSED,!1,t)},a))},N.prototype.getState=function(){return this.state},N.prototype.destroy=function(){var t,a=n[o].lookup;O(this),this.$wrapper.remove(),delete a[this.index],0===(t=n.grep(a,function(t){return!!t}).length)&&(this.$overlay.remove(),this.$bg.removeClass(E("is",c.CLOSING)+" "+E("is",c.OPENING)+" "+E("is",c.CLOSED)+" "+E("is",c.OPENED)))},n[o]={lookup:[]},n.fn[o]=function(t){var a,e;return this.each(function(i,s){null==(e=n(s)).data(o)?(a=new N(e,t),e.data(o,a.index),a.settings.hashTracking&&e.attr("data-"+o+"-id")===location.hash.substr(1)&&a.open()):a=n[o].lookup[e.data(o)]}),a},n(document).ready(function(){n(document).on("click","[data-"+o+"-target]",function(t){t.preventDefault();var a=t.currentTarget.getAttribute("data-"+o+"-target"),e=n("[data-"+o+'-id="'+a+'"]');n[o].lookup[e.data(o)].open()}),n(document).find("."+s).each(function(t,a){var e=n(a),i=e.data(o+"-options");i?("string"==typeof i||i instanceof String)&&(i=function t(n){var a,e,i,o,s={};for(o=0,e=(a=(n=n.replace(/\s*:\s*/g,":").replace(/\s*,\s*/g,",")).split(",")).length;o<e;o++)a[o]=a[o].split(":"),("string"==typeof(i=a[o][1])||i instanceof String)&&(i="true"===i||"false"!==i&&i),("string"==typeof i||i instanceof String)&&(i=isNaN(i)?i:+i),s[a[o][0]]=i;return s}(i)):i={},e[o](i)}),n(document).on("keydown."+s,function(t){a&&a.settings.closeOnEscape&&a.state===c.OPENED&&27===t.keyCode&&a.close()}),n(window).on("hashchange."+s,y)})});
 
 /* ---------------------*/
 /* ---------------------*/
@@ -913,31 +137,30 @@ switch (platform.name) {
 				}
 				break;
 			case 'OS X':
-				if (platform.version.split('.')[0] <= 12) {
-					showOldBrowserMsg()
-                    document.querySelector('.navbar__old-msg').textContent = platform.os.version.split('.')[0] + platform.name;
+				if (platform.version.split('.')[0] <= 13) {
+					showOldBrowserMsg();
 				}
 				break;
 		}
 		break;
 	case 'Chrome':
 		if (platform.version.split('.')[0] <= 87) {
-			showOldBrowserMsg()
+			showOldBrowserMsg();
 		}
 		break;
 	case 'Chrome Mobile':
 		if (platform.version.split('.')[0] <= 87) {
-			showOldBrowserMsg()
+			showOldBrowserMsg();
 		}
 		break;
 	case 'Opera':
 		if (platform.version.split('.')[0] <= 73) {
-			showOldBrowserMsg()
+			showOldBrowserMsg();
 		}
 		break;
 	case 'Firefox':
 		if (platform.version.split('.')[0] <= 73) {
-			showOldBrowserMsg()
+			showOldBrowserMsg();
 		}
 		break;
 }
@@ -1007,8 +230,208 @@ if (isTouchDevice()) {
 	body.classList.add('is--touch-device');
 }
 
+// Функция для создания ссылки с SVG и названием
+function createDownloadLink(options) {
+  const linkText = options[0],
+        linkPlatform = options[1],
+        linkClass = options[2],
+        linkUrl = options[3],
+        onPremiseLinkUrl = options[4],
+        linkTag = options[5],
+        svgIcon = options[6],
+        svgDarkIcon = options[7]
+  
+  // Создаем элемент
+  const downloadItemWrap = document.createElement('div');
+  downloadItemWrap.classList.add('cta__list-item-wrap');
+  
+  const link = document.createElement('a');
+  // Устанавливаем атрибут href
+
+  if (getPage() == 'on-premise') { 
+    link.href = onPremiseLinkUrl;
+  } else {
+    link.href = linkUrl;
+  }
+  link.classList.add('cta__list-item', 'w-inline-block', linkClass);
+  link.setAttribute('download', 'download');
+  link.addEventListener('click', () => {
+    $(".w-dropdown").trigger("w-close");
+  })
+
+  // Создаем иконку
+  const svgWrapper = document.createElement('div');
+  svgWrapper.classList.add('cta__list-item-icon', 'is--vector-full', 'w-embed');
+  
+  const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svgElement.setAttribute('width', '22');
+  svgElement.setAttribute('height', '22');
+  svgElement.setAttribute('viewBox', '0 0 22 22');
+  svgElement.innerHTML = svgIcon;
+
+  const svgDarkElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svgDarkElement.setAttribute('width', '22');
+  svgDarkElement.setAttribute('height', '22');
+  svgDarkElement.setAttribute('viewBox', '0 0 22 22');
+  svgDarkElement.innerHTML = svgDarkIcon;
+
+  // Создаем элементы для отображения текста ссылки
+  const linkShortText = document.createElement('span');
+  linkShortText.textContent = linkText;
+
+  const linkPlatformName = document.createElement('span');
+  linkPlatformName.textContent = linkPlatform;
+
+  const linkTextElement = document.createElement('div');
+  linkTextElement.classList.add('cta__list-item-name');
+
+  linkTextElement.appendChild(linkShortText)
+  linkTextElement.appendChild(linkPlatformName)
+
+  // Добавляем элементы внутрь ссылки
+  svgWrapper.appendChild(svgElement);
+  if (svgDarkIcon) {
+    svgWrapper.appendChild(svgDarkElement);
+    svgDarkElement.classList.add('is--dark-icon');
+    svgElement.classList.add('is--light-icon');
+  }
+  link.appendChild(svgWrapper);
+  link.appendChild(linkTextElement);
+  
+  if (linkTag) {
+     const tagElement = document.createElement('div');
+     tagElement.classList.add('cta__list-item-tag');
+     tagElement.textContent = linkTag;
+     link.appendChild(tagElement);
+  }
+  downloadItemWrap.appendChild(link);
+  return downloadItemWrap;
+}
+
+
+const downloadLinksData = {
+  macintel: ['Скачать для ',
+             'MacOS',
+             'macintel',
+             'https://update.getcompass.com/apps/compass-mac.dmg',
+             'https://update-onpremise.getcompass.ru/apps/compass-on-premise-mac.dmg',
+              'Intel',
+              '<path d="M15.4258 11.0566C15.4258 9.82812 15.9902 8.93164 17.0859 8.23438C16.4551 7.33789 15.5254 6.87305 14.2969 6.77344C13.1016 6.67383 11.8066 7.4375 11.3418 7.4375C10.8438 7.4375 9.71484 6.80664 8.81836 6.80664C6.95898 6.83984 5 8.26758 5 11.2227C5 12.0859 5.13281 12.9824 5.46484 13.9121C5.89648 15.1406 7.42383 18.1289 9.01758 18.0625C9.84766 18.0625 10.4453 17.4648 11.541 17.4648C12.6035 17.4648 13.1348 18.0625 14.0645 18.0625C15.6914 18.0625 17.0859 15.3398 17.4844 14.1113C15.3262 13.082 15.4258 11.123 15.4258 11.0566ZM13.5664 5.61133C14.4629 4.54883 14.3633 3.55273 14.3633 3.1875C13.5664 3.25391 12.6367 3.75195 12.1055 4.34961C11.5078 5.01367 11.1758 5.84375 11.2422 6.74023C12.1055 6.80664 12.9023 6.375 13.5664 5.61133Z" fill="currentColor"></path>'],
+  macapple: ['Скачать для ', 
+             'MacOS', 
+             'macapple', 
+             'https://update.getcompass.com/apps/compass-mac-arm64.dmg', 
+             'https://update-onpremise.getcompass.ru/apps/compass-on-premise-mac-arm64.dmg', 
+             'M1/M2', 
+             '<path d="M15.4258 11.0566C15.4258 9.82812 15.9902 8.93164 17.0859 8.23438C16.4551 7.33789 15.5254 6.87305 14.2969 6.77344C13.1016 6.67383 11.8066 7.4375 11.3418 7.4375C10.8438 7.4375 9.71484 6.80664 8.81836 6.80664C6.95898 6.83984 5 8.26758 5 11.2227C5 12.0859 5.13281 12.9824 5.46484 13.9121C5.89648 15.1406 7.42383 18.1289 9.01758 18.0625C9.84766 18.0625 10.4453 17.4648 11.541 17.4648C12.6035 17.4648 13.1348 18.0625 14.0645 18.0625C15.6914 18.0625 17.0859 15.3398 17.4844 14.1113C15.3262 13.082 15.4258 11.123 15.4258 11.0566ZM13.5664 5.61133C14.4629 4.54883 14.3633 3.55273 14.3633 3.1875C13.5664 3.25391 12.6367 3.75195 12.1055 4.34961C11.5078 5.01367 11.1758 5.84375 11.2422 6.74023C12.1055 6.80664 12.9023 6.375 13.5664 5.61133Z" fill="currentColor"></path>'],
+  windows: ['Скачать для ', 
+            'Windows', 
+            'windows', 
+            'https://update.getcompass.com/apps/compass-win.exe', 
+            'https://update-onpremise.getcompass.ru/apps/compass-on-premise-win.exe', 
+            '', 
+            '<path d="M4.01636 6.08452V11.1519H10.1172V5.25108L4.01636 6.08452ZM4.01636 16.9193L10.1172 17.7528V11.9186H4.01636V16.9193ZM10.7839 17.8528L18.9517 18.9529V11.9186H10.7839V17.8528ZM10.7839 5.15106V11.1519H18.9517V4.01758L10.7839 5.15106Z" fill="currentColor"></path>'],
+  linuxdeb: ['Скачать для ', 
+             'Linux', 
+             'linuxdeb', 
+             'https://update.getcompass.com/apps/compass-linux.deb', 
+             'https://update-onpremise.getcompass.ru/apps/compass-on-premise-linux.deb', 
+             '.deb', 
+             '<path d="M11.2344 3C6.68555 3 3 6.68555 3 11.2344C3 15.7832 6.68555 19.4688 11.2344 19.4688C15.7832 19.4688 19.4688 15.7832 19.4688 11.2344C19.4688 6.68555 15.7832 3 11.2344 3ZM12.9609 6.08789C13.2598 5.58984 13.9238 5.42383 14.4219 5.72266C14.9199 6.02148 15.0859 6.65234 14.7871 7.15039C14.5215 7.68164 13.8574 7.84766 13.3594 7.54883C12.8613 7.25 12.6621 6.61914 12.9609 6.08789ZM5.88867 12.2969C5.29102 12.2969 4.82617 11.832 4.82617 11.2344C4.82617 10.6699 5.29102 10.2051 5.88867 10.2051C6.48633 10.2051 6.95117 10.6699 6.95117 11.2344C6.95117 11.832 6.48633 12.2969 5.88867 12.2969ZM6.81836 12.3965C7.54883 11.832 7.54883 10.7031 6.81836 10.1055C7.11719 9.00977 7.78125 8.08008 8.71094 7.44922L9.47461 8.77734C7.78125 9.97266 7.78125 12.5293 9.47461 13.7246L8.71094 15.0195C7.78125 14.4219 7.11719 13.4922 6.81836 12.3965ZM14.4219 16.7793C13.8906 17.0781 13.2598 16.9121 12.9609 16.3809C12.6621 15.8828 12.8613 15.252 13.3594 14.9531C13.8574 14.6543 14.5215 14.8203 14.7871 15.3516C15.0859 15.8496 14.9199 16.4805 14.4219 16.7793ZM14.4219 14.4883C13.5254 14.123 12.5625 14.6875 12.4297 15.6504C12.2305 15.6836 10.8027 16.1152 9.20898 15.3184L9.93945 13.9902C11.832 14.8535 14.0566 13.5918 14.2227 11.5332H15.75C15.6836 12.6953 15.1855 13.7246 14.4219 14.4883ZM14.2227 10.9688C14.0566 8.91016 11.8652 7.61523 9.93945 8.51172L9.20898 7.18359C10.8027 6.38672 12.2305 6.81836 12.3965 6.85156C12.5625 7.81445 13.5254 8.37891 14.4219 8.01367C15.1855 8.77734 15.6836 9.80664 15.75 10.9688H14.2227Z" fill="currentColor"></path>'],
+  linuxtar: ['Скачать для ', 
+             'Linux', 
+             'linuxtar', 
+             'https://update.getcompass.com/apps/compass-linux.tar', 
+             'https://update-onpremise.getcompass.ru/apps/compass-on-premise-linux.tar', 
+             '.tar', 
+             '<path d="m10.122 6.1925c0.06-0.0225 0.1425-0.03 0.195 0 0.015 0.0075 0.03 0.0225 0.0225 0.0375v0.015h0.0075c-0.015 0.045-0.09 0.0375-0.1275 0.0525s-0.0675 0.0525-0.105 0.0525-0.0975-0.015-0.105-0.0525c-0.0075-0.0525 0.0675-0.105 0.1125-0.105zm0.765 0.105c-0.0375-0.015-0.1125-0.0075-0.12-0.0525v-0.015c-0.0075-0.015 0.0075-0.03 0.015-0.0375 0.0649-0.02627 0.1375-0.02627 0.2025 0 0.045 0 0.12 0.0525 0.1125 0.105-0.0075 0.0375-0.0675 0.045-0.105 0.045s-0.0675-0.03-0.105-0.045zm-1.32 1.0875c0.225 0.15 0.51752 0.3525 0.88502 0.3525s0.8025-0.2025 1.065-0.3525c0.1425-0.0975 0.3375-0.2475 0.4875-0.3525 0.12-0.0975 0.1125-0.195 0.2175-0.195 0.0975 0.0075 0.0225 0.0975-0.1125 0.2475-0.1425 0.0975-0.3525 0.2475-0.525 0.3525-0.33 0.15-0.72 0.3975-1.1325 0.3975-0.405 0-0.73502-0.2025-0.96752-0.3525-0.12-0.0975-0.21-0.195-0.285-0.2475-0.12-0.0975-0.105-0.2475-0.0525-0.2475 0.0825 0.0075 0.0975 0.0975 0.15 0.15 0.075 0.045 0.165 0.15 0.27 0.2475z" fill="#fff"></path><path d="m11.098 6.2975c-0.0075 0.0375-0.0675 0.045-0.105 0.045s-0.0675-0.03-0.105-0.045-0.1125-0.0075-0.12-0.0525v-0.015c-0.0075-0.015 0.0075-0.03 0.015-0.0375 0.0649-0.02627 0.1375-0.02627 0.2025 0 0.045 0 0.12 0.0525 0.1125 0.105z" fill="#B4B4B4"></path><path d="m14.472 10.235v0.69h-0.4125c0.3745 0.6828 0.6426 1.4188 0.795 2.1825 0.1125-0.0075 0.2475 0.015 0.39 0.045 0.06-0.1575 0.0975-0.315 0.12-0.4725 0.1425-1.0425-0.5175-2.0625-0.8925-2.445zm0 0v0.69h-0.4125c0.3745 0.6828 0.6426 1.4188 0.795 2.1825 0.1125-0.0075 0.2475 0.015 0.39 0.045 0.06-0.1575 0.0975-0.315 0.12-0.4725 0.1425-1.0425-0.5175-2.0625-0.8925-2.445zm3.4875 5.9775v-0.0675l-0.0075-0.0075c-0.1275-0.15-0.1875-0.3975-0.255-0.69-0.06-0.3-0.135-0.5925-0.375-0.7875-0.045-0.0375-0.09-0.045-0.1425-0.0975-0.0428-0.0284-0.0916-0.0464-0.1425-0.0525 0.21-0.615 0.2325-1.2375 0.1275-1.83-0.0525-0.3225-0.1425-0.6375-0.2625-0.9375-0.405-1.0575-1.11-1.98-1.65-2.61-0.2775-0.3525-0.5625-0.705-0.78-1.08-0.2475-0.4275-0.4125-0.885-0.405-1.4475 0.015-1.0425 0.0825-2.67-0.6525-3.6825-0.39-0.5475-1.0275-0.9225-2.0325-0.9225-0.12 0-0.24 0.0075-0.3675 0.015-0.9525 0.075-1.545 0.42-1.9125 0.9075-0.8625 1.14-0.45751 3.03-0.48751 3.8175-0.06 0.8175-0.225 1.4625-0.795 2.265-0.2325 0.27-0.5025 0.6-0.765 0.975-0.5025 0.705-1.005 1.545-1.2975 2.415-0.1875 0.5625-0.2925 1.14-0.24 1.695l0.0225 0.1725c-0.03 0.0225-0.06 0.0525-0.0825 0.0975-0.2025 0.2025-0.345 0.45-0.5025 0.63-0.1575 0.15-0.3675 0.2025-0.6075 0.3-0.24 0.105-0.5025 0.2025-0.6525 0.51-0.075 0.1425-0.105 0.3-0.105 0.45s0.0225 0.3075 0.045 0.405c0.045 0.3 0.09 0.5475 0.03 0.7275-0.1875 0.51-0.21 0.8625-0.0825 1.1175 0.135 0.2475 0.405 0.345 0.7125 0.45 0.615 0.15 1.4475 0.0975 2.1075 0.45 0.6975 0.345 1.4175 0.5025 1.98 0.3525 0.405-0.09 0.7425-0.3525 0.9225-0.7125 0.0375 0 0.06751 0 0.10501-0.0075 0.42-0.0225 0.88501-0.195 1.605-0.24 0.2025-0.015 0.42 0.0075 0.66 0.0375 0.3825 0.06 0.8175 0.1425 1.2975 0.1125 0.015 0.0975 0.045 0.1425 0.0825 0.2475h0.0075c0.2925 0.585 0.84 0.8475 1.425 0.8025s1.2075-0.3975 1.7175-0.975c0.4725-0.5775 1.275-0.8175 1.8-1.1325 0.2625-0.1425 0.48-0.345 0.495-0.6375 0.015-0.3-0.15-0.6075-0.54-1.035zm-5.835-10.732c-0.03-0.0975-0.075-0.15-0.135-0.2475-0.0675-0.0525-0.1275-0.105-0.2025-0.105h-0.015c-0.0675 0-0.135 0.0225-0.195 0.105-0.075 0.0675-0.1275 0.15-0.1575 0.2475-0.0375 0.0975-0.06 0.195-0.0675 0.3v0.015c0 0.0675 0.0075 0.135 0.015 0.2025-0.15-0.0525-0.33-0.105-0.4575-0.1575-0.0075-0.045-0.015-0.0975-0.015-0.1425v-0.015c-0.0075-0.2025 0.03-0.3975 0.1125-0.5775 0.06-0.165 0.1725-0.3075 0.3225-0.405 0.135-0.0975 0.2925-0.15 0.45-0.15h0.015c0.1575 0 0.3 0.0525 0.4425 0.15 0.1425 0.105 0.2475 0.2475 0.33 0.405 0.0825 0.1875 0.12 0.3375 0.1275 0.54 0-0.015 0.0075-0.03 0.0075-0.045v0.075c-0.0075 0-0.0075-0.0075-0.0075-0.015 0 0.1725-0.045 0.3525-0.1125 0.5175-0.0375 0.09-0.09 0.18-0.165 0.2475-0.0225-0.015-0.045-0.0225-0.0675-0.03-0.075-0.0375-0.15-0.0525-0.2175-0.0975-0.0522-0.02531-0.1078-0.04299-0.165-0.0525 0.0375-0.045 0.1125-0.0975 0.1425-0.15 0.0375-0.0975 0.06-0.195 0.0675-0.3v-0.015c0-0.0975-0.015-0.2025-0.0525-0.3zm-3.12-0.33c0.0375-0.15 0.11251-0.285 0.21751-0.405 0.0975-0.0975 0.19499-0.15 0.31499-0.15h0.0225c0.11103 0.0016 0.21869 0.03836 0.3075 0.105 0.1125 0.0975 0.20252 0.2175 0.26252 0.345 0.0675 0.15 0.105 0.3 0.1125 0.5025 0.0075 0.0525 0.0075 0.09 0.0075 0.1275 0 0.03 0 0.0525-0.0075 0.075v0.06c-0.0193 0.00765-0.0394 0.01269-0.06 0.015-0.12 0.045-0.21002 0.105-0.30002 0.15 0.0075-0.06 0.0075-0.1275 0-0.195v-0.015c-0.0075-0.0975-0.03-0.15-0.06-0.2475-0.02501-0.07704-0.06883-0.14664-0.1275-0.2025-0.01953-0.01664-0.04221-0.0292-0.06669-0.03693-0.02447-0.00773-0.05025-0.01048-0.07581-0.00807h-0.015c-0.0525 0-0.0975 0.03-0.135 0.0975-0.0525 0.06-0.0825 0.1275-0.0975 0.2025-0.015 0.0825-0.02249 0.165-0.01499 0.2475v0.015c0.0075 0.0975 0.03 0.15 0.06 0.2475 0.0375 0.0975 0.075 0.15 0.1275 0.2025 0.0075 0.0075 0.01499 0.015 0.02249 0.015-0.0525 0.045-0.0825 0.0525-0.1275 0.105-0.03085 0.02479-0.06665 0.04269-0.105 0.0525-0.075-0.0975-0.1425-0.195-0.2025-0.3075-0.075-0.1575-0.1125-0.3225-0.12-0.495-0.015-0.1725 0.0075-0.345 0.06-0.5025zm0.0825 1.5825c0.165-0.105 0.285-0.21 0.3675-0.255 0.075-0.0525 0.105-0.075 0.1275-0.0975h0.0075c0.1275-0.1575 0.33-0.3525 0.63002-0.4575 0.105-0.0225 0.225-0.045 0.36-0.045 0.2475 0 0.555 0.045 0.915 0.3 0.225 0.15 0.3975 0.2025 0.8025 0.3525 0.195 0.0975 0.3075 0.195 0.3675 0.3v-0.105c0.0525 0.1125 0.0525 0.24 0.0075 0.3525-0.09 0.24-0.39 0.4875-0.8025 0.6375-0.21 0.0975-0.3825 0.2475-0.5925 0.345-0.21 0.105-0.4425 0.225-0.765 0.2025-0.1151 0.00953-0.2308-0.00847-0.3375-0.0525-0.09-0.045-0.1725-0.09-0.24752-0.1425-0.15-0.105-0.2775-0.255-0.465-0.3525-0.3075-0.1875-0.4725-0.39-0.525-0.5325-0.0525-0.2025 0-0.3525 0.15-0.45zm0.12 11.745c-0.045 0.555-0.36749 0.855-0.85499 0.9675-0.495 0.0975-1.155 0-1.8225-0.345-0.7275-0.405-1.605-0.3525-2.16-0.4575-0.285-0.045-0.465-0.15-0.555-0.3-0.0825-0.15-0.0825-0.45 0.0975-0.9225 0.09-0.255 0.0225-0.57-0.0225-0.84-0.0375-0.3-0.06-0.5325 0.0375-0.705 0.12-0.255 0.3-0.3 0.5175-0.405 0.225-0.0975 0.4875-0.15 0.6975-0.345v-0.0075c0.195-0.2025 0.3375-0.45 0.51-0.63 0.1425-0.15 0.285-0.2475 0.5025-0.2475h0.0075c0.0375 0 0.075 0 0.12 0.0075 0.285 0.045 0.5325 0.255 0.7725 0.5625l0.69 1.2525h0.0075c0.18 0.3975 0.57 0.8025 0.9 1.23 0.33 0.45 0.585 0.8475 0.555 1.1775v0.0075zm2.4675-0.48c-0.7425 0.1725-1.53 0.12-2.265-0.285-0.09-0.045-0.18001-0.0975-0.26251-0.1575-0.0825-0.1425-0.1875-0.2775-0.3075-0.3975-0.0552-0.094-0.12624-0.1777-0.21-0.2475 0.1425 0 0.2625-0.0225 0.36-0.0525 0.105-0.0525 0.19501-0.1425 0.23251-0.2475 0.0825-0.2025-1e-5 -0.525-0.26251-0.8775-0.2625-0.345-0.705-0.7425-1.35-1.14-0.2475-0.1575-0.435-0.3225-0.5775-0.5025-0.1425-0.1725-0.24-0.3525-0.3-0.54-0.12-0.405-0.105-0.8175-0.0075-1.2375 0.1125-0.495 0.3375-0.975 0.555-1.3875 0.15-0.2625 0.2925-0.495 0.4125-0.6825 0.075-0.0525 0.0225 0.09-0.2925 0.6825l-0.0225 0.045c-0.3 0.5625-0.8625 1.875-0.09 2.895 0.03-0.7425 0.195-1.4775 0.4875-2.16 0.0975-0.225 0.225-0.4875 0.36-0.78 0.4425-0.9375 0.98251-2.1525 1.035-3.1725 0.0375 0.03 0.165 0.105 0.2175 0.15 0.165 0.105 0.29249 0.255 0.44999 0.3525 0.1575 0.15 0.36002 0.2475 0.66752 0.2475 0.03 0.0075 0.0525 0.0075 0.0825 0.0075 0.3075 0 0.555-0.0975 0.7575-0.2025 0.2175-0.0975 0.39-0.2475 0.555-0.3h0.0075c0.3525-0.0975 0.63-0.3 0.795-0.525 0.27 1.065 0.9075 2.61 1.3125 3.36 0.3981 0.7058 0.6817 1.4703 0.84 2.265 0.1125-0.0075 0.2475 0.015 0.39 0.045 0.06-0.1575 0.0975-0.315 0.12-0.4725 0.1425-1.0425-0.5175-2.0625-0.8925-2.445-0.0225-0.015-0.045-0.0375-0.06-0.0525-0.165-0.15-0.1725-0.255-0.09-0.255 0.0525 0.045 0.0975 0.09 0.15 0.1425 0.42 0.435 0.9075 1.1325 1.095 1.9275 0.06 0.2175 0.09 0.45 0.09 0.6825 0 0.1875-0.0225 0.3825-0.0675 0.57 0.045 0.0225 0.0975 0.045 0.15 0.0525 0.7875 0.3975 1.0725 0.6975 0.9375 1.1475v-0.03h-0.15c0.1125-0.3525-0.135-0.6225-0.81-0.915-0.69-0.3-1.245-0.255-1.3425 0.345-0.0075 0.03-0.0075 0.0525-0.015 0.105-0.0525 0.015-0.105 0.0375-0.1575 0.045-0.3225 0.2025-0.5025 0.5025-0.6 0.8925-0.0975 0.3975-0.1275 0.8625-0.1575 1.4025-0.015 0.2475-0.1275 0.63-0.24 1.0125-0.4575 0.3225-0.975 0.57-1.53 0.69zm6.225-0.3825c-0.4725 0.3-1.32 0.5325-1.86 1.1775-0.4725 0.555-1.0425 0.855-1.545 0.8925s-0.9375-0.15-1.1925-0.675h-0.0075c-0.1575-0.3-0.09-0.7725 0.045-1.2675 0.135-0.5025 0.3225-1.0125 0.3525-1.425 0.0225-0.5325 0.0525-0.9975 0.1425-1.3575 0.0975-0.3525 0.24-0.6 0.4875-0.7425l0.0375-0.015c0.0225 0.45 0.255 0.93 0.6675 1.035 0.4425 0.0975 1.0875-0.255 1.3575-0.5775l0.1575-0.0075c0.24-0.0075 0.4425 0.0075 0.645 0.2025 0.1575 0.15 0.2325 0.3975 0.3 0.66 0.0675 0.3 0.12 0.585 0.3075 0.795 0.375 0.3975 0.495 0.6825 0.4875 0.855-0.015 0.2025-0.1425 0.3-0.3825 0.45zm-3.4275-7.38v0.69h-0.4125c0.3745 0.6828 0.6426 1.4188 0.795 2.1825 0.1125-0.0075 0.2475 0.015 0.39 0.045 0.06-0.1575 0.0975-0.315 0.12-0.4725 0.1425-1.0425-0.5175-2.0625-0.8925-2.445z" fill="#B4B4B4"></path><path d="m10.348 6.245c-0.015 0.045-0.09 0.0375-0.1275 0.0525s-0.0675 0.0525-0.105 0.0525-0.0975-0.015-0.105-0.0525c-0.0075-0.0525 0.0675-0.105 0.1125-0.105 0.06-0.0225 0.1425-0.03 0.195 0 0.015 0.0075 0.03 0.0225 0.0225 0.0375v0.015h0.0075zm1.7625 0.84c-0.1425 0.0975-0.3525 0.2475-0.525 0.3525-0.33 0.15-0.72 0.3975-1.1325 0.3975-0.405 0-0.73502-0.2025-0.96752-0.3525-0.12-0.0975-0.21-0.195-0.285-0.2475-0.12-0.0975-0.105-0.2475-0.0525-0.2475 0.0825 0.0075 0.0975 0.0975 0.15 0.15 0.075 0.045 0.165 0.15 0.27 0.2475 0.225 0.15 0.51752 0.3525 0.88502 0.3525s0.8025-0.2025 1.065-0.3525c0.1425-0.0975 0.3375-0.2475 0.4875-0.3525 0.12-0.0975 0.1125-0.195 0.2175-0.195 0.0975 0.0075 0.0225 0.0975-0.1125 0.2475z" fill="currentColor"></path>','<path d="M10.0055 5.5513C10.073 5.5249 10.1669 5.5161 10.2255 5.5513C10.2431 5.55863 10.2607 5.57623 10.2519 5.59383V5.60997H10.2607C10.2431 5.6613 10.1581 5.65397 10.1155 5.66863C10.073 5.6833 10.0393 5.72877 9.99821 5.72877C9.95421 5.72877 9.88675 5.71263 9.87795 5.6701C9.86915 5.61143 9.95421 5.5513 10.0055 5.5513ZM10.8723 5.66863C10.8298 5.65397 10.7447 5.6613 10.7359 5.60997V5.59383C10.7286 5.57623 10.7447 5.55863 10.7535 5.54983C10.8269 5.5205 10.909 5.5205 10.9823 5.54983C11.0337 5.54983 11.1187 5.60997 11.1099 5.6701C11.1026 5.71263 11.0337 5.72143 10.9926 5.72143C10.9515 5.72143 10.9149 5.68477 10.8723 5.66863ZM9.37635 6.9021C9.63155 7.07223 9.96301 7.30103 10.3795 7.30103C10.7961 7.30103 11.2889 7.07223 11.5866 6.9021C11.7479 6.7921 11.9679 6.62197 12.1395 6.50317C12.2745 6.3917 12.2671 6.2817 12.3859 6.2817C12.4959 6.2905 12.4109 6.3917 12.2583 6.56183C12.097 6.6733 11.8579 6.84343 11.6629 6.96223C11.2889 7.13237 10.8474 7.4125 10.3795 7.4125C9.92048 7.4125 9.54648 7.18223 9.28248 7.0121C9.14754 6.9021 9.04488 6.7921 8.95981 6.73343C8.82341 6.62197 8.84101 6.45183 8.90114 6.45183C8.99354 6.46063 9.01114 6.56183 9.06981 6.62197C9.15488 6.6733 9.25608 6.7921 9.37635 6.9021Z" fill="currentColor"/><g opacity="0.5"><path d="M11.11 5.6701C11.1027 5.71263 11.0337 5.71997 10.9927 5.71997C10.9516 5.71997 10.9149 5.68623 10.8724 5.6701C10.8299 5.6525 10.7448 5.6613 10.736 5.61143V5.59383C10.7287 5.57623 10.7448 5.55863 10.7536 5.54983C10.8269 5.5205 10.9091 5.5205 10.9824 5.54983C11.0337 5.54983 11.1188 5.60997 11.11 5.6701Z" fill="currentColor"/><path d="M14.935 10.1317V10.9134H14.4672C14.8925 11.6878 15.1961 12.5224 15.3692 13.3877C15.4968 13.3789 15.6478 13.4053 15.8092 13.439C15.8781 13.2601 15.9206 13.0812 15.947 12.9037C16.1084 11.7216 15.3604 10.5658 14.935 10.1317ZM14.935 10.1317V10.9134H14.4672C14.8925 11.6878 15.1961 12.5224 15.3692 13.3877C15.4968 13.3789 15.6478 13.4053 15.8092 13.439C15.8781 13.2601 15.9206 13.0812 15.947 12.9037C16.1084 11.7216 15.3604 10.5658 14.935 10.1317ZM18.8877 16.9077V16.83L18.8789 16.8212C18.7352 16.651 18.6662 16.3709 18.59 16.0394C18.5225 15.6992 18.4374 15.3677 18.1646 15.1477C18.1133 15.1037 18.062 15.0964 18.0033 15.0362C17.9548 15.0045 17.8995 14.9844 17.842 14.9776C18.0796 14.2809 18.106 13.574 17.9872 12.9037C17.927 12.537 17.8258 12.1806 17.6894 11.8404C17.2304 10.6421 16.431 9.59638 15.8194 8.88212C15.5041 8.48318 15.1814 8.08425 14.935 7.65892C14.6549 7.17492 14.4672 6.65572 14.476 6.01772C14.4936 4.83705 14.5698 2.99198 13.7368 1.84505C13.2938 1.22465 12.5722 0.799316 11.4341 0.799316C11.2977 0.799316 11.1613 0.808116 11.0161 0.816916C9.93662 0.901983 9.26488 1.29212 8.84835 1.84358C7.87155 3.13718 8.33062 5.27852 8.29688 6.17025C8.22795 7.09718 8.04168 7.82758 7.39488 8.73692C7.13088 9.04492 6.82582 9.41892 6.52955 9.84278C5.95902 10.6421 5.38995 11.594 5.05848 12.5796C4.84582 13.2176 4.72702 13.8717 4.78568 14.5009L4.81208 14.6974C4.77251 14.7261 4.74033 14.7639 4.71822 14.8074C4.48795 15.0362 4.32662 15.3178 4.14915 15.5217C3.97022 15.6918 3.73262 15.7505 3.45982 15.862C3.18848 15.9793 2.89075 16.0908 2.72062 16.4398C2.63555 16.6012 2.60182 16.7786 2.60182 16.9488C2.60182 17.1189 2.62675 17.2978 2.65315 17.4078C2.70302 17.7481 2.75582 18.0282 2.68688 18.2321C2.47422 18.8114 2.44782 19.2104 2.59302 19.4993C2.74555 19.7794 3.05208 19.8909 3.39968 20.0097C4.09782 20.1798 5.04235 20.1197 5.79035 20.5186C6.57942 20.9102 7.39488 21.0892 8.03435 20.919C8.49195 20.8164 8.87475 20.5186 9.07862 20.1124C9.12115 20.1124 9.15488 20.1124 9.19742 20.1021C9.67408 20.0772 10.2006 19.8821 11.0161 19.8308C11.2464 19.8132 11.4928 19.8396 11.7641 19.8733C12.1982 19.9408 12.691 20.0346 13.2352 20.0009C13.2513 20.1109 13.2865 20.1622 13.329 20.281H13.3364C13.6678 20.944 14.2897 21.2417 14.9526 21.1904C15.6156 21.139 16.321 20.7401 16.8989 20.086C17.4342 19.4318 18.3436 19.159 18.9376 18.8026C19.2368 18.6413 19.4832 18.411 19.4993 18.0796C19.5169 17.7393 19.3292 17.3917 18.8877 16.9077ZM12.2745 4.74172C12.2408 4.63172 12.1894 4.57158 12.122 4.46158C12.0457 4.40292 11.9768 4.34278 11.8917 4.34278H11.8756C11.8317 4.34178 11.7883 4.35204 11.7495 4.37258C11.7108 4.39312 11.6779 4.42326 11.6541 4.46012C11.5696 4.53564 11.5076 4.63311 11.4752 4.74172C11.4328 4.85065 11.407 4.96537 11.3989 5.08198V5.09812C11.3989 5.17585 11.4077 5.25212 11.4165 5.32838C11.2464 5.26972 11.0425 5.20958 10.8973 5.14945C10.8877 5.09617 10.8823 5.04223 10.8812 4.98812V4.97198C10.8712 4.74705 10.9144 4.52294 11.0073 4.31785C11.0763 4.12901 11.205 3.96784 11.374 3.85878C11.5216 3.75012 11.6996 3.6906 11.8829 3.68865H11.9005C12.0794 3.68865 12.2408 3.74732 12.4021 3.85878C12.5634 3.97758 12.6822 4.14038 12.7761 4.31785C12.87 4.53052 12.9125 4.70065 12.9198 4.92945C12.9198 4.91332 12.9286 4.89572 12.9286 4.87958V4.96465C12.9198 4.96465 12.9198 4.95585 12.9198 4.94705C12.9198 5.14212 12.87 5.34598 12.7937 5.53372C12.7524 5.63975 12.6883 5.7354 12.606 5.81385C12.5822 5.79913 12.5565 5.78778 12.5297 5.78012C12.4446 5.73758 12.3596 5.72145 12.2833 5.67012C12.2238 5.64165 12.1606 5.62189 12.0956 5.61145C12.1396 5.55865 12.2232 5.49998 12.2569 5.43985C12.2998 5.33099 12.326 5.21627 12.3346 5.09958V5.08345C12.3354 4.96732 12.315 4.85055 12.2745 4.74172ZM8.73982 4.36772C8.78358 4.19731 8.86757 4.03988 8.98475 3.90865C9.09475 3.79865 9.20475 3.73852 9.34262 3.73852H9.36755C9.49368 3.73998 9.61542 3.78252 9.71662 3.85732C9.84138 3.96597 9.94226 4.09931 10.0129 4.24892C10.0938 4.42792 10.1372 4.62158 10.1405 4.81798C10.1493 4.87665 10.1493 4.92065 10.1493 4.96318C10.1493 4.99692 10.1493 5.02185 10.1405 5.04825V5.11572C10.1189 5.12454 10.0962 5.13046 10.073 5.13332C9.93662 5.18318 9.83542 5.25065 9.73275 5.30345C9.7413 5.22987 9.7413 5.15556 9.73275 5.08198V5.06438C9.72395 4.95438 9.69902 4.89425 9.66528 4.78425C9.63661 4.69712 9.58671 4.61849 9.52008 4.55545C9.49796 4.53659 9.47229 4.52234 9.44459 4.51352C9.41689 4.50471 9.38771 4.50151 9.35875 4.50412H9.34262C9.28248 4.50412 9.23115 4.53785 9.18862 4.61412C9.13195 4.67961 9.09396 4.75915 9.07862 4.84438C9.06025 4.93606 9.05433 5.02979 9.06102 5.12305V5.14065C9.06982 5.25212 9.09475 5.31078 9.12995 5.42225C9.1596 5.50857 9.20879 5.58687 9.27368 5.65105C9.28248 5.65985 9.29128 5.66865 9.30008 5.66865C9.23995 5.71852 9.20622 5.72732 9.15488 5.78598C9.12004 5.81429 9.07953 5.8348 9.03608 5.84612C8.94966 5.73695 8.87263 5.62067 8.80582 5.49852C8.72317 5.32237 8.67726 5.13125 8.67088 4.93678C8.6545 4.74448 8.67892 4.55086 8.73982 4.36772ZM8.83222 6.16145C9.01848 6.04265 9.15488 5.92385 9.24875 5.87252C9.29962 5.83934 9.34769 5.80206 9.39248 5.76105H9.40128C9.54648 5.58358 9.77528 5.36212 10.1156 5.24332C10.3626 5.18013 10.6207 5.17328 10.8708 5.2233C11.1208 5.27331 11.3565 5.3789 11.5602 5.53225C11.8154 5.70238 12.0105 5.76105 12.4696 5.93118C12.691 6.04265 12.8186 6.15265 12.8861 6.27145V6.15265C12.9448 6.28025 12.9448 6.42398 12.8949 6.55158C12.7922 6.82438 12.4534 7.10452 11.9856 7.27465C11.748 7.38465 11.5514 7.55478 11.3138 7.66625C11.0762 7.78358 10.8122 7.91998 10.447 7.89505C10.3171 7.90594 10.1864 7.88583 10.0657 7.83638C9.96798 7.7896 9.87386 7.73567 9.78408 7.67505C9.61395 7.55478 9.46875 7.38465 9.25608 7.27465C8.90848 7.06198 8.72075 6.83318 8.66208 6.67185C8.60342 6.44158 8.66208 6.27145 8.83222 6.16145ZM8.96862 19.4714C8.91728 20.1021 8.55208 20.4409 7.99915 20.5685C7.43742 20.6785 6.68942 20.5685 5.93408 20.1769C5.10835 19.7193 4.11542 19.778 3.48475 19.6592C3.16208 19.6078 2.95822 19.489 2.85702 19.3189C2.76315 19.1488 2.76315 18.8085 2.96702 18.2732C3.06968 17.9842 2.99195 17.6278 2.94208 17.3213C2.89808 16.981 2.87315 16.7185 2.98462 16.522C3.11955 16.233 3.32342 16.1832 3.57128 16.0629C3.82502 15.9529 4.12275 15.8928 4.36035 15.6728V15.664C4.58182 15.4352 4.74315 15.1536 4.93968 14.9497C5.10102 14.7796 5.26235 14.6696 5.50875 14.6696H5.51755C5.5627 14.6686 5.60785 14.6715 5.65248 14.6784C5.97515 14.7297 6.25675 14.9673 6.52808 15.3149L7.30982 16.7346H7.31862C7.52395 17.1849 7.96395 17.644 8.33942 18.128C8.71342 18.6384 9.00235 19.0901 8.96862 19.4626V19.4714ZM11.7641 18.9288C10.9237 19.1238 10.0305 19.0637 9.19742 18.6061C9.09344 18.5547 8.99387 18.4949 8.89968 18.4272C8.8038 18.2622 8.68696 18.1104 8.55208 17.9754C8.48904 17.8695 8.40816 17.7752 8.31302 17.6968C8.45167 17.6974 8.58962 17.6772 8.72222 17.6366C8.83955 17.5765 8.94222 17.4753 8.98622 17.355C9.07862 17.1262 8.98622 16.761 8.68702 16.3606C8.39075 15.9705 7.88915 15.5188 7.15728 15.07C6.90863 14.918 6.68747 14.7251 6.50315 14.4994C6.35145 14.3194 6.23591 14.1117 6.16288 13.8878C6.03674 13.4294 6.0337 12.9457 6.15408 12.4857C6.28168 11.924 6.53688 11.3798 6.78475 10.912C6.95342 10.6157 7.11475 10.3517 7.25115 10.139C7.33622 10.0804 7.27608 10.2417 6.91968 10.912L6.89328 10.9633C6.55448 11.6013 5.91648 13.0885 6.79062 14.2442C6.82505 13.4014 7.01292 12.5718 7.34502 11.7964C7.45502 11.5412 7.60022 11.2434 7.75275 10.912C8.25435 9.85012 8.86595 8.47292 8.92608 7.31718C8.96862 7.35092 9.11235 7.43452 9.17248 7.48732C9.35875 7.60465 9.50395 7.77625 9.68142 7.88625C9.7821 7.98164 9.90107 8.05564 10.0311 8.10379C10.1612 8.15194 10.2997 8.17323 10.4382 8.16638C10.472 8.17518 10.4969 8.17518 10.5321 8.17518C10.8812 8.17518 11.1613 8.06518 11.3901 7.94638C11.6365 7.83492 11.833 7.66478 12.0208 7.60612H12.0266C12.3844 7.51267 12.7011 7.30326 12.9272 7.01065C13.2337 8.21772 13.9568 9.96892 14.4144 10.8196C14.8661 11.6189 15.1873 12.4857 15.3677 13.3862C15.4938 13.3774 15.6464 13.4024 15.8077 13.4376C15.8766 13.2586 15.9192 13.0797 15.9456 12.9008C16.1069 11.7201 15.3589 10.5644 14.9336 10.1302C14.9086 10.1141 14.8822 10.0877 14.8661 10.0716C14.6784 9.90145 14.6696 9.78265 14.7634 9.78265C14.8221 9.83252 14.8734 9.88532 14.9336 9.94398C15.4088 10.4368 15.9617 11.2273 16.1744 12.1278C16.2992 12.5919 16.3077 13.0795 16.1993 13.5476C16.2526 13.5759 16.31 13.5957 16.3694 13.6062C17.2626 14.058 17.5868 14.3982 17.4328 14.9072V14.8734H17.2626C17.3902 14.4745 17.1101 14.168 16.3445 13.8365C15.5628 13.4962 14.9336 13.5476 14.8236 14.2281C14.8148 14.2618 14.8148 14.2868 14.806 14.3454C14.7473 14.363 14.6872 14.3894 14.627 14.3968C14.2618 14.627 14.058 14.9673 13.948 15.4088C13.8365 15.859 13.8028 16.387 13.769 16.9986C13.7514 17.2788 13.6238 17.7129 13.4977 18.1456C12.9785 18.5122 12.3918 18.7909 11.7626 18.9273L11.7641 18.9288ZM18.8188 18.4946C18.2834 18.8349 17.3228 19.0974 16.7112 19.8293C16.1758 20.4585 15.5305 20.7973 14.96 20.8413C14.3909 20.8824 13.8981 20.6712 13.6092 20.0757H13.6004C13.4214 19.7354 13.4977 19.2001 13.6517 18.6384C13.8042 18.0693 14.0184 17.4914 14.0506 17.025C14.077 16.4208 14.1093 15.8928 14.212 15.485C14.3234 15.0861 14.4848 14.806 14.7649 14.6446L14.8089 14.627C14.8324 15.1374 15.0964 15.6816 15.5642 15.8004C16.0658 15.9104 16.7962 15.5114 17.1028 15.1462L17.2802 15.1374C17.553 15.1286 17.7818 15.1462 18.0121 15.3662C18.191 15.5364 18.2761 15.8165 18.3524 16.1142C18.4286 16.4545 18.4873 16.7772 18.7 17.0162C19.1253 17.4665 19.2617 17.7892 19.2529 17.9842C19.2353 18.2145 19.0916 18.3245 18.8188 18.4946ZM14.935 10.1317V10.9134H14.4672C14.8925 11.6878 15.1961 12.5209 15.3692 13.3862C15.4953 13.3774 15.6478 13.4024 15.8092 13.4376C15.8781 13.2586 15.9206 13.0797 15.947 12.9022C16.1084 11.7201 15.3604 10.5658 14.935 10.1317Z" fill="currentColor"/><path d="M10.2607 5.60996C10.2431 5.66129 10.1581 5.65396 10.1155 5.66863C10.073 5.68329 10.0393 5.72876 9.99821 5.72876C9.95421 5.72876 9.88675 5.71263 9.87795 5.67009C9.86915 5.61143 9.95421 5.55129 10.0055 5.55129C10.073 5.52489 10.1669 5.51609 10.2255 5.55129C10.2431 5.55863 10.2607 5.57623 10.2519 5.59383V5.60996H10.2607ZM12.2583 6.56329C12.097 6.67329 11.8579 6.84196 11.6629 6.96223C11.2889 7.13236 10.8474 7.41249 10.3795 7.41249C9.92048 7.41249 9.54648 7.18223 9.28248 7.01209C9.14754 6.90209 9.04488 6.79209 8.95981 6.73343C8.82341 6.62196 8.84101 6.45183 8.90114 6.45183C8.99354 6.46063 9.01114 6.56183 9.07128 6.62196C9.15488 6.67329 9.25755 6.79209 9.37635 6.90209C9.63155 7.07223 9.96301 7.30103 10.3795 7.30103C10.7961 7.30103 11.2889 7.07223 11.5866 6.90209C11.7479 6.79209 11.9679 6.62196 12.1395 6.50316C12.2745 6.39169 12.2671 6.28169 12.3859 6.28169C12.4959 6.29049 12.4109 6.39316 12.2583 6.56329Z" fill="currentColor"/></g><path d="M12.8876 6.15408V6.27288C12.8187 6.15408 12.6911 6.04408 12.4711 5.93261C12.012 5.76248 11.8155 5.70381 11.5617 5.53368C11.3578 5.38011 11.1219 5.2744 10.8716 5.22438C10.6213 5.17436 10.3629 5.18132 10.1156 5.24474C9.83438 5.34751 9.58749 5.52683 9.40279 5.76248H9.39399C9.34873 5.80355 9.30017 5.84083 9.24879 5.87394C9.15639 5.92381 9.01999 6.04408 8.83226 6.16288C8.66213 6.27288 8.60346 6.44301 8.66213 6.67181C8.72079 6.83314 8.90853 7.06341 9.25759 7.27608C9.47026 7.38608 9.61399 7.55621 9.78559 7.67501C9.86919 7.73368 9.96306 7.78648 10.0643 7.83634C10.1853 7.88652 10.3165 7.90714 10.4471 7.89648C10.8137 7.92141 11.0777 7.78648 11.3153 7.66621C11.5529 7.55621 11.748 7.38754 11.9856 7.27608C12.4549 7.10594 12.7923 6.82581 12.8949 6.55301C12.921 6.48953 12.9338 6.42139 12.9325 6.35279C12.9312 6.28418 12.916 6.21656 12.8876 6.15408ZM10.736 5.59234C10.7287 5.57621 10.7448 5.55861 10.7536 5.54981C10.8269 5.52048 10.9091 5.52048 10.9839 5.54981C11.0337 5.54981 11.1188 5.60994 11.1115 5.67008C11.1027 5.71261 11.0337 5.71994 10.9912 5.71994C10.9487 5.71994 10.9149 5.68621 10.8739 5.67008C10.8299 5.65248 10.7448 5.66128 10.736 5.60994V5.59234ZM10.0056 5.54981C10.0731 5.52488 10.1669 5.51608 10.2256 5.54981C10.2432 5.55861 10.2608 5.57621 10.252 5.59381V5.60994H10.2608C10.2432 5.66128 10.1581 5.65248 10.1156 5.66861C10.0731 5.68474 10.0393 5.72874 9.99826 5.72874C9.95426 5.72874 9.88679 5.71261 9.87799 5.67008C9.86919 5.60994 9.95426 5.54981 10.0056 5.54981ZM12.2584 6.56181C12.0971 6.67181 11.8595 6.84194 11.6629 6.96074C11.2889 7.13088 10.8475 7.41248 10.3796 7.41248C9.92053 7.41248 9.54653 7.18221 9.28253 7.01208C9.14759 6.90208 9.04493 6.79208 8.95986 6.73194C8.82493 6.62194 8.84253 6.45181 8.90119 6.45181C8.99359 6.46061 9.01119 6.56181 9.07133 6.62194C9.15639 6.67181 9.25759 6.79208 9.37639 6.90061C9.63159 7.07221 9.96306 7.30101 10.3796 7.30101C10.7961 7.30101 11.2889 7.07221 11.5867 6.90208C11.748 6.79208 11.968 6.62194 12.1396 6.50314C12.2745 6.39168 12.2672 6.28168 12.386 6.28168C12.496 6.29048 12.4109 6.39168 12.2584 6.56181ZM19.2544 17.9871C19.2368 18.2159 19.0931 18.3259 18.8203 18.4961C18.2849 18.8363 17.3243 19.0989 16.7127 19.8307C16.1773 20.4599 15.5305 20.7987 14.9615 20.8427C14.3924 20.8838 13.8981 20.6711 13.6092 20.0771H13.6019C13.4229 19.7369 13.4992 19.2015 13.6517 18.6398C13.8057 18.0707 14.0184 17.4929 14.0521 17.0265C14.0771 16.4222 14.1108 15.8942 14.2135 15.4865C14.3235 15.0875 14.4848 14.8074 14.7664 14.6461L14.8075 14.6285C14.8339 15.1389 15.0979 15.683 15.5643 15.8018C16.0659 15.9118 16.7963 15.5129 17.1043 15.1462L17.2817 15.1389C17.5531 15.1301 17.7833 15.1462 18.0121 15.3677C18.1911 15.5378 18.2761 15.8179 18.3524 16.1157C18.4287 16.4559 18.4888 16.7786 18.7015 17.0162C19.1268 17.4679 19.2617 17.7906 19.2544 17.9857V17.9871ZM8.96866 19.4655V19.4729C8.91733 20.1035 8.55213 20.4423 8.00066 20.5699C7.43893 20.6799 6.69093 20.5699 5.93413 20.1783C5.10986 19.7193 4.11546 19.7794 3.48626 19.6606C3.16359 19.6093 2.95826 19.4905 2.85706 19.3203C2.76319 19.1502 2.76319 18.8099 2.96706 18.2746C3.06973 17.9857 2.99346 17.6293 2.94213 17.3227C2.89959 16.9825 2.87466 16.7199 2.98613 16.5234C3.12106 16.2345 3.32346 16.1831 3.57133 16.0643C3.82653 15.9543 4.12426 15.8942 4.36186 15.6742V15.6654C4.58186 15.4351 4.74319 15.155 4.93973 14.9511C5.10106 14.781 5.26239 14.671 5.50879 14.671H5.51759C5.56159 14.671 5.60266 14.671 5.65399 14.6798C5.97666 14.7297 6.25679 14.9687 6.52959 15.3163L7.31133 16.7361H7.32013C7.52399 17.1863 7.96546 17.6454 8.33946 18.1294C8.71346 18.6398 9.00239 19.0915 8.97013 19.4641L8.96866 19.4655Z" fill="currentColor"/>'],
+  appstore: ['Перейти в ', 
+             'AppStore', 
+             'appstore', 
+             'https://redirect.appmetrica.yandex.com/serve/244294711257416556', 
+             'https://redirect.appmetrica.yandex.com/serve/244294711257416556', 
+             '', 
+             '<path d="M4.25338 2.67078H17.7578C18.7745 2.67078 19.5994 3.49562 19.5994 4.51229V18.0168C19.5994 19.0334 18.7745 19.8583 17.7578 19.8583H4.25338C3.23671 19.8583 2.41187 19.0334 2.41187 18.0168V4.51229C2.41187 3.49562 3.23671 2.67078 4.25338 2.67078ZM14.727 16.1944C14.938 16.5627 15.4099 16.6855 15.7744 16.4745C16.1427 16.2635 16.2655 15.7916 16.0544 15.4271L15.5058 14.4795C14.8881 14.2915 14.3817 14.4373 13.9866 14.9169L14.727 16.1944ZM9.39812 14.1266H16.3767C16.7987 14.1266 17.144 13.7813 17.144 13.3593C17.144 12.9372 16.7987 12.592 16.3767 12.592H14.4201L11.911 8.24904L12.6975 6.89092C12.9085 6.52262 12.7819 6.05457 12.4174 5.84356C12.0491 5.63255 11.5811 5.75916 11.3701 6.12362L11.0286 6.71444L10.6872 6.12362C10.4762 5.75532 10.0043 5.63255 9.63982 5.84356C9.27152 6.05457 9.14875 6.52645 9.35976 6.89092L12.6515 12.592H10.269C9.49404 12.592 9.06051 13.5012 9.39812 14.1266ZM5.63452 14.1266H6.74711L5.99515 15.4271C5.78414 15.7954 5.91075 16.2635 6.27522 16.4745C6.64352 16.6855 7.11157 16.5589 7.32258 16.1944C8.58479 14.0115 9.52856 12.3694 10.1616 11.2799C10.8023 10.1673 10.3457 9.05471 9.8892 8.67873C9.38661 9.54961 8.63466 10.854 7.6295 12.592H5.63452C5.21251 12.592 4.86722 12.9372 4.86722 13.3593C4.86722 13.7851 5.21251 14.1266 5.63452 14.1266Z" fill="currentColor"/>'],
+  playmarket: ['Перейти в ', 
+               'Google Play', 
+               'playmarket', 
+               'https://redirect.appmetrica.yandex.com/serve/532525089422325047', 
+               'https://redirect.appmetrica.yandex.com/serve/532525089422325047', 
+               '', 
+               '<path d="M11.7677 11.03L3.46533 19.356C3.19031 19.0597 3.04436 18.6977 3.00496 18.2877C2.99812 18.2148 3.00054 18.1406 3.00054 18.0668C3.00054 13.3579 3.00054 8.64895 3.00054 3.94002C3.00054 3.45021 3.13724 3.01844 3.43558 2.67175L11.7677 11.03Z" fill="currentColor"/><path d="M12.4697 11.6851L15.3799 14.6051L13.3313 15.7052C10.8229 17.0517 8.31456 18.3985 5.80618 19.7455C5.3434 19.9946 4.86453 20.0736 4.35511 19.9249C4.33587 19.9201 4.31705 19.9137 4.29882 19.9059C4.28716 19.9003 4.27912 19.8882 4.28475 19.8938L12.4697 11.6851Z" fill="currentColor"/><path d="M15.3855 7.40097L12.4797 10.3157L4.28394 2.09687C4.79538 1.92836 5.29917 1.98077 5.78889 2.24361C7.6545 3.24662 9.52078 4.24829 11.3877 5.24861C12.6357 5.91862 13.8839 6.58824 15.1322 7.25745C15.2195 7.30461 15.3047 7.35541 15.3855 7.40097Z" fill="currentColor"/><path d="M13.1251 11.0171C14.1705 9.96896 15.2086 8.92725 16.264 7.86861L17.3987 8.47654C17.9169 8.7539 18.434 9.03287 18.9527 9.30942C19.6322 9.67225 20.0053 10.2366 20.0001 11.0091C19.9948 11.7815 19.6161 12.3374 18.9326 12.697C18.0758 13.1481 17.225 13.6109 16.3738 14.0717C16.2825 14.1213 16.2214 14.1406 16.1326 14.0515C15.1443 13.0526 14.1525 12.0564 13.1572 11.0631C13.1453 11.0487 13.1345 11.0333 13.1251 11.0171Z" fill="currentColor"/>'],
+  huawei: ['Перейти в ', 
+           'AppGallery', 
+           'huawei', 'https://redirect.appmetrica.yandex.com/serve/244294713874627369', 
+           'https://redirect.appmetrica.yandex.com/serve/244294713874627369', 
+           '', 
+           '<path d="M2.50012 18.4013V4.59358C2.51263 4.57017 2.52259 4.5455 2.52983 4.51997C2.62162 4.01137 2.87438 3.59588 3.31028 3.32495C3.54707 3.17773 3.83087 3.10634 4.09339 3.00037H17.9015C17.9153 3.00879 17.9281 3.02298 17.9428 3.0252C18.7232 3.12275 19.5028 3.84287 19.4997 4.94122C19.4877 9.31069 19.4952 13.6802 19.4926 18.0496C19.4959 18.2262 19.4788 18.4025 19.4416 18.5751C19.2363 19.4437 18.5104 19.994 17.5831 19.994C13.7448 19.994 9.90624 19.994 6.06756 19.994C5.46981 19.994 4.87029 20.0109 4.27564 19.9878C3.56082 19.9612 3.02604 19.6131 2.69967 18.9746C2.60788 18.7963 2.56664 18.5933 2.50012 18.4013ZM10.6434 12.0683L10.705 12.0448C10.7303 11.7442 10.76 11.444 10.78 11.1429C10.8638 9.86674 10.8859 8.59235 10.6633 7.32594C10.5848 6.87941 10.4744 6.44175 10.2709 6.03159C10.2239 5.9367 10.1649 5.90256 10.062 5.92872C9.89086 5.97306 9.71571 6.00099 9.5472 6.05287C9.251 6.14838 8.99132 6.33263 8.80334 6.58065C8.61535 6.82867 8.50815 7.12847 8.49626 7.43945C8.49538 7.46718 8.49497 7.49481 8.49504 7.52234C8.49602 7.93558 8.60224 8.33045 8.75522 8.71207C9.22704 9.88802 9.90239 10.9491 10.6039 11.996C10.619 12.0191 10.6305 12.0448 10.6434 12.0683ZM11.2926 12.0475L11.3396 12.0519C11.3713 12.0147 11.4009 11.9758 11.4283 11.9353C11.8579 11.2342 12.3014 10.5412 12.7107 9.82816C13.0291 9.273 13.2987 8.6899 13.4375 8.05802C13.5785 7.41462 13.4982 6.82709 12.9825 6.35662C12.7045 6.10387 12.3617 6.01917 12.0069 5.94069C11.8847 5.91379 11.8104 5.9308 11.7541 5.99171C11.7268 6.02119 11.7037 6.06093 11.6815 6.11096C11.4819 6.55926 11.3711 7.03062 11.2979 7.51173C11.0886 8.87569 11.1374 10.2436 11.2487 11.6116C11.2497 11.6272 11.2508 11.6429 11.252 11.6585C11.2523 11.6621 11.2526 11.6657 11.2529 11.6694C11.2631 11.7961 11.2795 11.922 11.2926 12.0479V12.0475ZM10.2691 12.3361C10.1067 11.9856 9.9362 11.6391 9.7579 11.2969C9.03539 9.90995 8.18416 8.59301 7.21497 7.36358C7.21338 7.36156 7.21179 7.35955 7.2102 7.35753C7.20993 7.3572 7.20967 7.35686 7.20941 7.35653C6.87107 7.70063 6.60323 8.05492 6.44093 8.48105C6.20325 9.1045 6.31589 9.66321 6.76376 10.1536C6.77348 10.1641 6.78329 10.1744 6.79317 10.1847C6.88285 10.2779 6.97913 10.3646 7.08126 10.4441C7.11879 10.4741 7.15651 10.5038 7.1944 10.5332C7.95317 11.122 8.78274 11.5921 9.62783 12.0364C9.8006 12.1272 9.97402 12.217 10.1476 12.3064C10.1872 12.3198 10.2279 12.3299 10.2691 12.3366V12.3361ZM14.7837 7.35077C13.5709 8.90895 12.5484 10.5398 11.7599 12.3171L11.7601 12.3171C11.8246 12.3105 11.8869 12.2904 11.9431 12.2581C12.072 12.1883 12.2013 12.119 12.3306 12.0497C12.6635 11.8714 12.9965 11.693 13.3235 11.5043C13.9598 11.1371 14.586 10.7505 15.1292 10.2499C15.4045 9.99533 15.6001 9.69114 15.648 9.31335C15.6546 9.26082 15.6589 9.2093 15.6611 9.15873C15.6612 9.15731 15.6612 9.15589 15.6613 9.15447C15.6908 8.42247 15.2653 7.88778 14.7837 7.35077ZM9.96359 12.7224L9.97955 12.6758C8.58007 11.757 7.11584 10.9465 5.64275 10.1439C5.2206 11.3588 6.14605 12.7024 7.40452 12.7277C7.9763 12.739 8.54807 12.7378 9.11985 12.7367C9.35468 12.7362 9.58952 12.7357 9.82435 12.7361C9.87091 12.7361 9.91703 12.7268 9.96359 12.7224ZM16.3491 10.1434C16.3486 10.1437 16.3481 10.144 16.3476 10.1442C14.8701 10.955 13.4091 11.76 12.0242 12.6989C12.0634 12.7218 12.1076 12.7346 12.1528 12.736C12.1536 12.736 12.1543 12.736 12.1551 12.736C12.158 12.7361 12.161 12.7361 12.1639 12.7361C12.1906 12.7361 12.2172 12.7361 12.2439 12.7361C12.4054 12.7362 12.567 12.7365 12.7286 12.7367C13.0514 12.7373 13.3742 12.7378 13.6971 12.7368C13.7118 12.7367 13.7265 12.7367 13.7412 12.7366C13.8846 12.7361 14.028 12.7352 14.1713 12.7339C14.4135 12.7339 14.6591 12.7339 14.8968 12.686C16.0268 12.4586 16.7354 11.23 16.3476 10.1442C16.3475 10.144 16.3474 10.1437 16.3473 10.1434H16.3491ZM6.53539 13.1055C6.72606 13.4478 6.95 13.7214 7.25686 13.9196C7.50061 14.0767 7.75344 14.1567 8.00925 14.13C8.0127 14.1296 8.01615 14.1292 8.0196 14.1288C8.15595 14.113 8.29312 14.0668 8.43019 13.9857C8.7927 13.7701 9.15007 13.5439 9.50721 13.3177C9.63062 13.2395 9.754 13.1614 9.87756 13.0838C9.89663 13.0713 9.90594 13.0434 9.94408 12.9871L6.53539 13.1055ZM12.034 12.9866C12.0538 13.0111 12.0674 13.0294 12.0777 13.0431C12.0936 13.0645 12.1015 13.0751 12.112 13.0815C12.23 13.1548 12.348 13.2282 12.4659 13.3016C12.8528 13.5425 13.2399 13.7834 13.6304 14.0189C13.8091 14.1237 14.0201 14.1592 14.2232 14.1187C14.813 14.0141 15.1544 13.6052 15.4648 13.1055L12.034 12.9866ZM11.2438 15.2069C11.2494 15.2276 11.2541 15.2464 11.2584 15.2637C11.2664 15.2955 11.2732 15.3226 11.2824 15.3487C11.339 15.512 11.3961 15.675 11.4532 15.8381C11.5786 16.1961 11.7039 16.5541 11.8242 16.9136C11.8437 16.9719 11.8684 17.0054 11.9036 17.0233C11.9328 17.0381 11.969 17.0422 12.0154 17.0408C12.1178 17.0377 12.1883 17.0351 12.2256 16.9145C12.3182 16.6138 12.4269 16.3181 12.5297 16.021C12.5462 15.974 12.5679 15.9292 12.6011 15.8489C12.7342 16.2303 12.8548 16.5677 12.9639 16.9091C13.0007 17.024 13.0659 17.04 13.1705 17.0422C13.2008 17.0428 13.2273 17.0409 13.2507 17.0352C13.2757 17.0291 13.297 17.0185 13.3153 17.0019C13.3168 17.0005 13.3183 16.9991 13.3197 16.9976C13.3412 16.9764 13.3583 16.9463 13.3723 16.9043C13.547 16.3806 13.7332 15.8609 13.9142 15.3394C13.9266 15.2956 13.9368 15.2512 13.9448 15.2064C13.9443 15.2064 13.9438 15.2065 13.9434 15.2065C13.9142 15.2089 13.8849 15.2097 13.8557 15.2088C13.8551 15.2088 13.8546 15.2087 13.8541 15.2087C13.841 15.2083 13.8279 15.2075 13.8148 15.2064C13.7951 15.2026 13.7765 15.2001 13.7589 15.1989C13.6105 15.1886 13.5392 15.27 13.4956 15.4326C13.4334 15.6662 13.3567 15.8962 13.2753 16.1401C13.2405 16.2443 13.2049 16.3511 13.1692 16.4617C13.169 16.461 13.1687 16.4603 13.1685 16.4596C13.0397 16.0707 12.9207 15.7224 12.8104 15.3714C12.7767 15.2634 12.7393 15.2031 12.614 15.1987C12.6091 15.1985 12.6041 15.1984 12.5989 15.1984C12.4615 15.1984 12.4216 15.2632 12.3901 15.3758C12.3521 15.5065 12.308 15.6354 12.2639 15.7643C12.2437 15.8235 12.2235 15.8827 12.2038 15.942C12.169 16.0464 12.1345 16.1511 12.1 16.2558C12.0827 16.3082 12.0655 16.3606 12.0482 16.413C12.0479 16.4123 12.0477 16.4117 12.0474 16.4111C11.9045 16.0606 11.7794 15.7031 11.6726 15.3399C11.6495 15.2625 11.6166 15.2226 11.5607 15.2099C11.5393 15.2051 11.5147 15.2043 11.4859 15.2069C11.4353 15.2103 11.3849 15.2093 11.3309 15.2081C11.3307 15.2081 11.3304 15.2081 11.3302 15.2081C11.3021 15.2075 11.273 15.2069 11.2425 15.2069H11.2438ZM5.56781 15.2135V17.0267H5.93231H5.9332V16.3025V16.3017H6.77573V17.0244H7.13402V15.2166H6.76908V15.9354H5.92655V15.9345V15.2135H5.56781ZM15.6028 15.2064H14.2725V15.2077V17.0244H15.6365H15.6387V16.7016H14.6365V16.2418V16.2405H15.2972H15.2994V15.9075H14.6383V15.5359H15.601L15.601 15.5329L15.6028 15.2064ZM7.67413 15.2139C7.67413 15.327 7.67253 15.4386 7.67076 15.5491C7.6705 15.5649 7.67024 15.5807 7.66999 15.5964C7.66539 15.8774 7.66091 16.1516 7.67989 16.424C7.70739 16.8187 7.9903 17.0479 8.41112 17.0657C8.42613 17.0663 8.44103 17.0666 8.45579 17.0667C8.46635 17.0667 8.47683 17.0666 8.48725 17.0663C8.87068 17.0567 9.15994 16.8473 9.20531 16.4773C9.24966 16.1012 9.23147 15.7172 9.23946 15.3368C9.23797 15.2953 9.23397 15.254 9.22748 15.2131H8.87007C8.87007 15.3971 8.87007 15.5727 8.87007 15.7478C8.86932 15.7987 8.8693 15.8496 8.86934 15.9006C8.86934 15.9051 8.86934 15.9097 8.86935 15.9143C8.86947 16.0654 8.8696 16.2165 8.85229 16.3654C8.85187 16.369 8.85144 16.3726 8.85101 16.3762C8.8234 16.6009 8.67618 16.7094 8.45099 16.7086C8.44687 16.7086 8.44272 16.7086 8.43855 16.7085C8.43636 16.7084 8.43416 16.7083 8.43196 16.7083C8.20581 16.7012 8.05637 16.5708 8.0444 16.3389C8.02976 16.0635 8.03597 15.7868 8.03376 15.5106C8.03376 15.4135 8.03376 15.3164 8.03376 15.2139H7.67413ZM11.3577 17.032C11.3418 16.9876 11.332 16.9508 11.317 16.9167C11.085 16.3846 10.8469 15.8582 10.623 15.3244C10.5876 15.2398 10.5392 15.2165 10.4799 15.2082C10.46 15.2054 10.4388 15.2043 10.4165 15.2032C10.407 15.2027 10.3974 15.2022 10.3875 15.2015C10.278 15.1949 10.2194 15.2304 10.1747 15.3346C10.0178 15.6998 9.85719 16.0636 9.69653 16.4274C9.62551 16.5882 9.55448 16.7491 9.48379 16.91C9.46893 16.9492 9.45626 16.9893 9.44585 17.0299C9.44579 17.0301 9.44572 17.0304 9.44565 17.0306C9.79109 17.0537 9.7871 17.0515 9.93609 16.7584C9.95275 16.7312 9.97516 16.708 10.0017 16.6904C10.0283 16.6727 10.0584 16.6611 10.09 16.6564C10.2771 16.6435 10.466 16.6595 10.6531 16.6484C10.7024 16.6455 10.7435 16.65 10.777 16.6639C10.8295 16.6857 10.863 16.7304 10.8793 16.8054C10.8956 16.8813 10.9234 16.9395 10.9629 16.9799C10.9634 16.9804 10.9639 16.9808 10.9643 16.9813C11.0259 17.0432 11.1155 17.0626 11.234 17.0395C11.2745 17.0343 11.3152 17.0317 11.356 17.0315L11.3577 17.032ZM16.1025 15.2139V17.0253H16.4435V15.2139H16.1025Z" fill="currentColor"/><path d="M10.6687 16.3118H10.1188C10.1815 16.1616 10.2427 16.0185 10.3083 15.8651C10.3354 15.8016 10.3633 15.7363 10.3924 15.668C10.4913 15.8985 10.5769 16.0972 10.6687 16.3118Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M8.75522 8.71207C8.6022 8.33036 8.49597 7.93695 8.49504 7.52234C8.49602 7.93558 8.60224 8.33045 8.75522 8.71207Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M11.2926 12.0479L11.3391 12.0524C11.3393 12.0522 11.3394 12.0521 11.3396 12.0519L11.2926 12.0475V12.0479ZM11.2482 11.6121C11.2494 11.6275 11.2507 11.643 11.252 11.6585C11.2508 11.6429 11.2497 11.6272 11.2487 11.6116C11.1374 10.2436 11.0886 8.87569 11.2979 7.51173C11.3711 7.03062 11.4819 6.55926 11.6815 6.11096C11.7037 6.06093 11.7268 6.02119 11.7541 5.99171C11.7266 6.02123 11.7034 6.06114 11.681 6.11144C11.4815 6.55973 11.3711 7.03109 11.2974 7.5122C11.0881 8.87616 11.1369 10.2441 11.2482 11.6121Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M11.7601 12.3171L11.7599 12.3175C11.8245 12.311 11.8869 12.2909 11.9431 12.2585C12.0776 12.1855 12.2126 12.1131 12.3475 12.0408C12.6747 11.8654 13.002 11.6899 13.3235 11.5047C13.9598 11.1371 14.5859 10.7527 15.1292 10.2503C15.4045 9.99574 15.6001 9.69156 15.648 9.31376C15.6546 9.26109 15.659 9.20943 15.6611 9.15873C15.6589 9.2093 15.6546 9.26082 15.648 9.31335C15.6001 9.69114 15.4045 9.99533 15.1292 10.2499C14.586 10.7505 13.9598 11.1371 13.3235 11.5043C12.9965 11.693 12.6635 11.8714 12.3306 12.0497C12.2013 12.119 12.072 12.1883 11.9431 12.2581C11.8869 12.2904 11.8246 12.3105 11.7601 12.3171Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M16.3476 10.1442C16.3475 10.144 16.3474 10.1437 16.3473 10.1434C14.8693 10.9544 13.4077 11.7579 12.0224 12.6988C12.0621 12.7221 12.107 12.7348 12.1528 12.736C12.1076 12.7346 12.0634 12.7218 12.0242 12.6989C13.4091 11.76 14.8701 10.955 16.3476 10.1442ZM13.7412 12.7366C13.7265 12.7367 13.7118 12.7367 13.6971 12.7368C13.3742 12.7378 13.0514 12.7373 12.7286 12.7367C12.567 12.7365 12.4054 12.7362 12.2439 12.7361C12.3781 12.7363 12.5124 12.7365 12.6466 12.7367C13.0115 12.7374 13.3764 12.738 13.7412 12.7366Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M12.034 12.9866L12.0326 12.9866C12.0528 13.0116 12.0665 13.03 12.0769 13.0439C12.0925 13.0648 12.1003 13.0753 12.1107 13.082C12.2287 13.1552 12.3466 13.2286 12.4645 13.302C12.8514 13.5429 13.2385 13.7839 13.629 14.0194C13.8082 14.1243 14.0197 14.1597 14.2232 14.1187C14.0201 14.1592 13.8091 14.1237 13.6304 14.0189C13.2399 13.7834 12.8528 13.5425 12.4659 13.3016C12.348 13.2282 12.23 13.1548 12.112 13.0815C12.1015 13.0751 12.0936 13.0645 12.0777 13.0431C12.0674 13.0294 12.0538 13.0111 12.034 12.9866Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M9.49982 13.3225C9.62565 13.2428 9.75147 13.163 9.87756 13.0838C9.754 13.1614 9.63062 13.2395 9.50721 13.3177C9.15007 13.5439 8.7927 13.7701 8.43019 13.9857C8.79111 13.7717 9.14552 13.5471 9.49982 13.3225ZM8.0196 14.1288C8.01615 14.1292 8.0127 14.1296 8.00925 14.13C7.75344 14.1567 7.50061 14.0767 7.25686 13.9196C7.50305 14.0794 7.75955 14.1593 8.0196 14.1288Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M9.23667 12.737C9.43256 12.7366 9.62845 12.7361 9.82435 12.7361C9.58952 12.7357 9.35468 12.7362 9.11985 12.7367C8.54807 12.7378 7.9763 12.739 7.40452 12.7277C8.01524 12.7398 8.62595 12.7384 9.23667 12.737Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M5.92565 15.2135H5.56603V17.0275H5.93231V17.0267H5.56781V15.2135L5.92565 15.2135ZM5.92655 15.9345V15.9354H6.76908V15.2166H7.13402L6.76818 15.2166V15.9345H5.92655ZM7.13402 17.0244H6.77573V16.3017H5.9332V16.3025H6.77483V17.0253H7.13402L7.13402 17.0244Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M10.4799 15.2082C10.4582 15.2047 10.4351 15.2035 10.4108 15.2021C10.4024 15.2016 10.3939 15.2012 10.3853 15.2006C10.2758 15.1944 10.2168 15.2299 10.1725 15.3336C10.0157 15.6989 9.855 16.0627 9.69435 16.4265C9.62332 16.5873 9.55229 16.7481 9.4816 16.9091C9.46664 16.9486 9.45391 16.9888 9.44346 17.0297C9.44426 17.0298 9.44506 17.0298 9.44585 17.0299C9.45626 16.9893 9.46893 16.9492 9.48379 16.91C9.55448 16.7491 9.62551 16.5882 9.69653 16.4274C9.85719 16.0636 10.0178 15.6998 10.1747 15.3346C10.2194 15.2304 10.278 15.1949 10.3875 15.2015C10.3974 15.2022 10.407 15.2027 10.4165 15.2032C10.4388 15.2043 10.46 15.2054 10.4799 15.2082ZM10.8771 16.8045C10.8946 16.881 10.923 16.9394 10.9629 16.9799C10.9234 16.9395 10.8956 16.8813 10.8793 16.8054C10.863 16.7304 10.8295 16.6857 10.777 16.6639C10.8282 16.686 10.8611 16.7305 10.8771 16.8045ZM10.1188 16.3118C10.1815 16.1616 10.2427 16.0185 10.3083 15.8651C10.3354 15.8016 10.3633 15.7363 10.3924 15.668C10.2931 15.9012 10.2088 16.0994 10.1188 16.3118Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M15.601 15.5372V15.5329L15.601 15.5359H14.6383V15.9075L14.6383 15.5372H15.601ZM15.2972 16.2405H14.6365V16.2418H15.2972V16.2405ZM15.6365 17.0244V17.0257H14.2702V15.2077H14.2725V17.0244H15.6365Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M16.1025 15.2139L16.1016 15.214V17.0253H16.4426L16.1025 17.0253V15.2139Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2691 12.3366C10.2283 12.3303 10.1881 12.3206 10.1489 12.3078C9.97493 12.2179 9.80107 12.1277 9.62783 12.0364C9.8006 12.1272 9.97402 12.217 10.1476 12.3064C10.1872 12.3198 10.2279 12.3299 10.2691 12.3366ZM7.1944 10.5332C7.15651 10.5038 7.11879 10.4741 7.08126 10.4441C6.97913 10.3646 6.88285 10.2779 6.79317 10.1847C6.88322 10.2784 6.97994 10.3656 7.08256 10.4454C7.11966 10.475 7.15694 10.5042 7.1944 10.5332ZM7.2102 7.35753C7.21179 7.35955 7.21338 7.36156 7.21497 7.36358L7.21072 7.357L7.2102 7.35753Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M7.67076 15.5491C7.67253 15.4386 7.67413 15.327 7.67413 15.2139L8.03156 15.2139H7.67238C7.67238 15.3443 7.67017 15.4724 7.66799 15.599C7.66318 15.8776 7.65849 16.1494 7.6777 16.424C7.70564 16.8236 7.98456 17.0479 8.40893 17.0657C8.42469 17.0663 8.44032 17.0667 8.45579 17.0667C8.44103 17.0666 8.42613 17.0663 8.41112 17.0657C7.9903 17.0479 7.70739 16.8187 7.67989 16.424C7.66091 16.1516 7.66539 15.8774 7.66999 15.5964C7.67024 15.5807 7.6705 15.5649 7.67076 15.5491ZM8.43855 16.7085C8.44272 16.7086 8.44687 16.7086 8.45099 16.7086C8.67618 16.7094 8.8234 16.6009 8.85101 16.3762C8.85144 16.3726 8.85187 16.369 8.85229 16.3654L8.84881 16.3761C8.86741 16.2238 8.86728 16.069 8.86715 15.9143C8.86715 15.9111 8.86715 15.908 8.86715 15.9048L8.86934 15.9006C8.8693 15.8496 8.86932 15.7987 8.87007 15.7478V15.2131L9.22529 15.2131H8.86788C8.86788 15.2751 8.86818 15.3358 8.86848 15.396C8.86907 15.5143 8.86965 15.6302 8.86788 15.7478C8.86711 15.8001 8.86711 15.8524 8.86715 15.9048L8.46008 16.691L8.43855 16.7085ZM8.46008 16.691L8.45099 16.7086C8.67494 16.7087 8.82129 16.6002 8.84881 16.3761L8.46008 16.691Z" fill="currentColor"/>']
+}
+
+//Создаем выпадающий список с ссылками 
+const downloadLinksList = document.createElement('div')
+downloadLinksList.classList.add('cta__dd-list-inner-wrap');
+const downloadLinksOtherWrap = document.createElement('div');
+downloadLinksOtherWrap.classList.add('cta__dd-list-other-wrap');
+const downloadLinksOtherLink = document.createElement('a');
+downloadLinksOtherLink.classList.add('cta__list-item', 'cta__list-other-button', 'w-inline-block');
+downloadLinksOtherLink.href = "#";
+const downloadLinksOtherIconWrap = document.createElement('div')
+downloadLinksOtherIconWrap.classList.add('cta__list-item-icon', 'is--vector-full', 'w-embed');
+const downloadLinksOtherIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+downloadLinksOtherIcon.innerHTML = '<path fill-rule="evenodd" clip-rule="evenodd" d="M11.5 15.9998H16.3334C17.0698 15.9998 17.6667 15.4029 17.6667 14.6665V7.99984C17.6667 7.26346 17.0698 6.6665 16.3334 6.6665H5.66671C4.93033 6.6665 4.33337 7.26346 4.33337 7.99984V14.6665C4.33337 15.4029 4.93033 15.9998 5.66671 15.9998H10.5V17.6665H7.00004C6.7239 17.6665 6.50004 17.8904 6.50004 18.1665C6.50004 18.4426 6.7239 18.6665 7.00004 18.6665H11H15C15.2762 18.6665 15.5 18.4426 15.5 18.1665C15.5 17.8904 15.2762 17.6665 15 17.6665H11.5V15.9998Z" fill="currentColor"></path>';
+downloadLinksOtherIcon.setAttribute('width', '22');
+downloadLinksOtherIcon.setAttribute('height', '22');
+downloadLinksOtherIcon.setAttribute('viewBox', '0 0 22 22');
+const downloadLinksOtherArrowWrap = document.createElement('div')
+downloadLinksOtherArrowWrap.classList.add('cta__list-item-icon', 'is--vector-full', 'is--arrow', 'w-embed');
+const downloadLinksOtherArrow = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+downloadLinksOtherArrow.innerHTML = '<path fill-rule="evenodd" clip-rule="evenodd" d="M24.1263 13.0612C24.5412 13.4761 24.5412 14.1489 24.1263 14.5638L17.7513 20.9388C17.3364 21.3537 16.6636 21.3537 16.2487 20.9388L9.8737 14.5638C9.45877 14.1489 9.45877 13.4761 9.8737 13.0612C10.2886 12.6463 10.9614 12.6463 11.3763 13.0612L17 18.6849L22.6237 13.0612C23.0386 12.6463 23.7114 12.6463 24.1263 13.0612Z" fill="currentColor"></path>';
+downloadLinksOtherArrow.setAttribute('width', '34');
+downloadLinksOtherArrow.setAttribute('height', '34');
+downloadLinksOtherArrow.setAttribute('viewBox', '0 0 34 34');
+downloadLinksOtherArrowWrap.appendChild(downloadLinksOtherArrow);
+downloadLinksOtherIconWrap.appendChild(downloadLinksOtherIcon);
+const downloadOtherLinksTextNode = document.createTextNode('Другие платформы');
+downloadLinksOtherLink.appendChild(downloadLinksOtherIconWrap);
+downloadLinksOtherLink.appendChild(downloadOtherLinksTextNode);
+downloadLinksOtherLink.appendChild(downloadLinksOtherArrowWrap);
+downloadLinksOtherWrap.appendChild(downloadLinksOtherLink);
+downloadLinksList.appendChild(downloadLinksOtherWrap);
+
+//Скрываем кнопку при клике на другие платформы
+downloadLinksOtherLink.addEventListener('click', () => {
+  downloadLinksOtherWrap.classList.add('is--open');
+})
+
+var downloadLinksNodes = [];
+
+for (key in downloadLinksData) {
+  const downloadLink = createDownloadLink(downloadLinksData[key]);
+  downloadLinksNodes.push(downloadLink.querySelector('.cta__list-item'));
+  downloadLinksList.appendChild(downloadLink);
+}
+
+const ctaDropdowns = document.querySelectorAll('.cta__dropdown');
+const allDownloadDropdowns = [
+  ...ctaDropdowns,
+  ...document.querySelectorAll('.cta__vendor-dd'),
+  ...document.querySelectorAll('.footer__item-download-dd'),
+  ...document.querySelectorAll('.blog-footer__mac-dropdown'),
+  ...document.querySelectorAll('.download__cta-dd'),
+  ...document.querySelectorAll('.fast-work__platform-dd')
+
+]
+
+allDownloadDropdowns.forEach(downloadDropdown => {
+  downloadDropdown.querySelector('.w-dropdown-toggle').addEventListener('click', () => {
+    if (!downloadDropdown.classList.contains('w-open')) {
+      downloadLinksOtherWrap.classList.remove('is--open');
+      downloadDropdown.querySelector('.cta__dd-list-wrap').appendChild(downloadLinksList);
+    }
+  })
+})
+
 if (['iOS', 'Android', 'Huawei'].indexOf(os) + 1) {
-    const ctaDropdowns = document.querySelectorAll('.cta__dropdown');
 	body.classList.add('is--touch-device');
 	document.querySelector('.page-wrapper').classList.remove('is--overflow-clip');
     
@@ -1063,7 +486,11 @@ const instructionLinks = {
     linuxtar: '/download/linux'
 };
 
-const downloadLinks = document.querySelectorAll('.appstore, .playmarket, .huawei, .macintel, .macapple, .windows, .linuxdeb, .linuxtar, [data-platform="windows"]');
+const downloadLinks = [
+  ...downloadLinksNodes,
+  ...document.querySelectorAll('.appstore, .playmarket, .huawei, .macintel, .macapple, .windows, .linuxdeb, .linuxtar, [data-platform="windows"]')
+];
+
 const mobileClassNames = ['appstore', 'playmarket', 'huawei'];
 const mobileBodyClassNames = ['is--ios', 'is--android', 'is--huawei'];
 const url = new URL(location);
@@ -1072,7 +499,7 @@ const startDownload = urlParams.get('start-download') || '';
 const platformClass = urlParams.get('platform') || '';
 const sourceID = urlParams.get('source_id') || '';
 const utmTag = urlParams.get('utm_tag') || '';
- 
+
 
 //Удаляем параметры URL
 urlParams.delete("platform");
@@ -1080,68 +507,86 @@ urlParams.delete("start-download");
 window.history.pushState({}, '', url.toString());
 
 Array.prototype.forEach.call(downloadLinks, downloadLink => {
-    //Цели яндекс на клик по стору
-    downloadLink.addEventListener('click', (e) => {
-        if (getPage() !== 'on-premise' && getPage() !== 'download') {
-            for (platform in instructionLinks) {
-                if (downloadLink.classList.contains(platform)) {
-                    console.log(platform);
-                    switch (platform) {
-                        case 'appstore':
-                            ym(ymetrikaID, 'reachGoal', '12');
-                            break;
-                        case 'huawei':
-                            ym(ymetrikaID, 'reachGoal', '13');
-                            break;
-                        case 'playmarket':
-                            ym(ymetrikaID, 'reachGoal', '14');
-                            break;
-                        case 'windows':
-                            ym(ymetrikaID, 'reachGoal', '15');
-                            break;
-                        case 'macintel':
-                        case 'macapple':
-                            ym(ymetrikaID, 'reachGoal', '16');
-                            break;
-                        case 'linuxdeb':
-                        case 'linuxtar':
-                            ym(ymetrikaID, 'reachGoal', '17');
-                            break;
-                    }
-                }
-            }
+  //Цели яндекс на клик по стору
+  downloadLink.addEventListener('click', (e) => {
+    if (getPage() !== 'on-premise' && getPage() !== 'download') {
+      for (platform in instructionLinks) {
+        if (downloadLink.classList.contains(platform)) {
+          switch (platform) {
+            case 'appstore':
+              ym(ymetrikaID, 'reachGoal', '12');
+              break;
+            case 'huawei':
+              ym(ymetrikaID, 'reachGoal', '13');
+              break;
+            case 'playmarket':
+              ym(ymetrikaID, 'reachGoal', '14');
+              break;
+            case 'windows':
+              ym(ymetrikaID, 'reachGoal', '15');
+              break;
+            case 'macintel':
+            case 'macapple':
+              ym(ymetrikaID, 'reachGoal', '16');
+              break;
+            case 'linuxdeb':
+            case 'linuxtar':
+              ym(ymetrikaID, 'reachGoal', '17');
+              break;
+          }
         }
-        if (getPage() == 'home') {
-            ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
-            _tmr.push({
-                type: 'reachGoal',
-                id: 3381982,
-                goal: 'click'
-            });
-        } else if (getPage() == 'on-premise') {
-            ym(ymetrikaID, 'reachGoal', '305'); //Переход в стор
+      }
+    }
+    if (downloadLink.closest('footer')) {
+      ym(ymetrikaID, 'reachGoal', '23');
+    }
+    if (getPage() == 'home') {
+      for (platform in instructionLinks) {
+        if (downloadLink.classList.contains(platform)) {
+          switch (platform) {
+            case 'windows':
+            case 'macintel':
+            case 'macapple':
+            case 'linuxdeb':
+            case 'linuxtar':
+              ym(ymetrikaID, 'reachGoal', '52');
+              break;
+          }
         }
-    });
-
-    if (getPage() !== 'on-premise') {
-        openInstruction(downloadLink);
+      }
+      ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
+      _tmr.push({
+        type: 'reachGoal',
+        id: 3381982,
+        goal: 'click'
+      });
+    } else if (getPage() == 'on-premise') {
+      ym(ymetrikaID, 'reachGoal', '305'); //Переход в стор
     }
+  });
 
-    if (!mobileClassNames.some(className => downloadLink.classList.contains(className)) &&
-        !mobileBodyClassNames.some(className => document.body.classList.contains(className))) {
-        downloadLink.setAttribute('download', 'download');
-    } else if (!mobileClassNames.some(className => downloadLink.classList.contains(className)) &&
-        mobileBodyClassNames.some(className => document.body.classList.contains(className))) {
-        downloadLink.removeAttribute('download');
-        downloadLink.setAttribute('build-link', downloadLink.getAttribute('href'));
-        downloadLink.setAttribute('href', '#');
-    }
+  if (getPage() !== 'on-premise') {
+    openInstruction(downloadLink);
+  }
+
+  if (!mobileClassNames.some(className => downloadLink.classList.contains(className)) &&
+    !mobileBodyClassNames.some(className => document.body.classList.contains(className))) {
+    downloadLink.setAttribute('download', 'download');
+  } else if (!mobileClassNames.some(className => downloadLink.classList.contains(className)) &&
+    mobileBodyClassNames.some(className => document.body.classList.contains(className))) {
+    downloadLink.removeAttribute('download');
+    downloadLink.setAttribute('build-link', downloadLink.getAttribute('href'));
+    downloadLink.setAttribute('href', '#');
+  }
 });
 
 window.addEventListener('load', () => {
     if (startDownload) {
-        const platformDownloadLink = document.querySelector('.' + platformClass)?.getAttribute('href');
-        location.href = platformDownloadLink;
+        downloadLinksNodes.forEach(link => {
+          if (link.classList.contains(platformClass)) {
+            location.href = link.getAttribute('href');
+          }
+        })
     }
 });
 
@@ -1184,21 +629,6 @@ if ( mobileBodyClassNames.some(className => document.body.classList.contains(cla
             showCopyNote('Не получилось скопировать ссылку. Возможно, ваш&nbsp;браузер устарел.', true);
         });
 }
-                        
-//Скрываем кнопку при клике на другие платформы
-$('.cta__list-other-button').on('click', function() {
-    $(this).parent().addClass('is--open');
-});
-
-//Закрываем список при клике на ссылку для скачивания
-$('.cta__list-item:not(.cta__list-other-button)').on('click', function() {
-    $(".w-dropdown").trigger("w-close");
-});
-
-//Возвращаем к исходному состоянию
-$('.cta__dropdown .w-dropdown-toggle').on('click', function() {
-    $('.cta__dd-list-other-wrap').removeClass('is--open');
-});
 
 //Центруем всплывашку платформ на мобилке
 const setCenterCTAListArrow = (dropdown) => {
@@ -1512,7 +942,7 @@ function formValidation(form) {
 				isValid = false;
 			}
 
-
+/*
 			if (dataset.minLength && value.trim().length < dataset.minLength) {
 				input.classList.add('input-error');
 				isValid = false;
@@ -1522,6 +952,7 @@ function formValidation(form) {
 				input.classList.add('input-error');
 				isValid = false;
 			}
+            */
 		}
 
 		if (dataset.required === 'true') {
@@ -2352,12 +1783,6 @@ $('.article-cta').on('click', function () {
 	ym(ymetrikaID, 'reachGoal', '63');
 });
 
-
-$('.footer__item-download.appstore, .footer__item-download.playmarket, .footer__item-download.huawei, .blog-footer__link--store').on('click', function () {
-	//переходы в сторы в блоге
-	ym(ymetrikaID, 'reachGoal', '23');
-});
-
 $('.footer__item-contact-link.is--email-link').on('click', function () {
 	//console.log('Идентификатор 6');
 	ym(ymetrikaID, 'reachGoal', '6');
@@ -2375,7 +1800,7 @@ $('.navbar__wrapper .w-dropdown-toggle').on('click', function () {
 
 $('.cta__dropdown .w-dropdown-toggle').on('click', function () {
 	//Ленд – Нажата любая кнопка Попробовать в контенте лендинга
-	if (!$(this).closest('.price__block').length) {
+	if (!$(this).closest('.price__block').length && getPage() == 'home' && !$(this).closest('.navbar__wrapper').length) {
 		ym(ymetrikaID, 'reachGoal', '50');
 		_tmr.push({
 			type: 'reachGoal',
@@ -2409,13 +1834,6 @@ $('.price__block.is--corp .w-dropdown-toggle').on('click', function () {
 	//Ленд – Нажата кнопка Попробовать, тариф Бизнес
 	ym(ymetrikaID, 'reachGoal', '67');
 })
-
-$('.logo-vendor__item').on('click', function () {
-    //console.log('Идентификатор 23');
-    if (!$(this).hasClass('w-dropdown-toggle')) {
-        ym(ymetrikaID, 'reachGoal', '23');
-    }
-});
 
 $('#carrot-messenger-collapsed-frame').on('click', function () {
 	//Идентификатор 5
