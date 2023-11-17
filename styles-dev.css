@@ -38,7 +38,37 @@ html.remodal-is-locked{overflow:hidden;-ms-touch-action:none;touch-action:none}.
 .cta__dd-list-other-wrap.is--open::before {opacity:1}
 .cta__dd-list-other-wrap.is--open .cta__list-item{opacity:0;pointer-events:none}
 .cta__dd-list-other-wrap::before{content:'';position:absolute;background-color:#E6E6E6;left:1.33rem;right:1.33rem;height:1px;top:50%;transform:translateY(-50%);opacity:0}
+.is--short-text .cta__list-item span:first-child{display:none}
 
+
+html body [data-list-type="linux"] .cta__dd-list-inner-wrap > div:nth-child(2),
+html body [data-list-type="linux"] .cta__dd-list-inner-wrap > div:nth-child(3),
+html body [data-list-type="linux"] .cta__dd-list-inner-wrap > div:nth-child(4),
+html body [data-list-type="mac"] .cta__dd-list-inner-wrap > div:nth-child(4),
+html body [data-list-type="mac"] .cta__dd-list-inner-wrap > div:nth-child(5),
+html body [data-list-type="mac"] .cta__dd-list-inner-wrap > div:nth-child(6),
+html body [data-list-type="linux"] .cta__dd-list-inner-wrap > div:nth-child(7),
+html body [data-list-type="linux"] .cta__dd-list-inner-wrap > div:nth-child(8),
+html body [data-list-type="linux"] .cta__dd-list-inner-wrap > div:nth-child(9),
+html body [data-list-type="mac"] .cta__dd-list-inner-wrap > div:nth-child(7),
+html body [data-list-type="mac"] .cta__dd-list-inner-wrap > div:nth-child(8),
+html body [data-list-type="mac"] .cta__dd-list-inner-wrap > div:nth-child(9),
+html body .is--linux-list .cta__dd-list-inner-wrap > div:nth-child(2),
+html body .is--linux-list .cta__dd-list-inner-wrap > div:nth-child(3),
+html body .is--linux-list .cta__dd-list-inner-wrap > div:nth-child(4),
+html body .is--mac-list .cta__dd-list-inner-wrap > div:nth-child(4),
+html body .is--mac-list .cta__dd-list-inner-wrap > div:nth-child(5),
+html body .is--mac-list .cta__dd-list-inner-wrap > div:nth-child(6),
+html body .is--linux-list .cta__dd-list-inner-wrap > div:nth-child(7),
+html body .is--linux-list .cta__dd-list-inner-wrap > div:nth-child(8),
+html body .is--linux-list .cta__dd-list-inner-wrap > div:nth-child(9),
+html body .is--mac-list .cta__dd-list-inner-wrap > div:nth-child(7),
+html body .is--mac-list .cta__dd-list-inner-wrap > div:nth-child(8),
+html body .is--mac-list .cta__dd-list-inner-wrap > div:nth-child(9),
+html body [data-list-type="linux"] .cta__dd-list-other-wrap,
+html body [data-list-type="mac"] .cta__dd-list-other-wrap,
+html body .is--linux-list .cta__dd-list-other-wrap,
+html body .is--mac-list .cta__dd-list-other-wrap {display:none}
 .is--mac .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(4),
 .is--mac .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(5),
 .is--mac .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(6),
@@ -109,7 +139,9 @@ html.remodal-is-locked{overflow:hidden;-ms-touch-action:none;touch-action:none}.
 .is--has-arrow .cta__dd-list-wrap::before{content:'';position: absolute;left:calc( var(--arrowLeft) - .44rem );top: -.44444444rem;filter: drop-shadow(0 -1px 0 #f0f0f0);border-bottom: .66rem solid #fff;border-right: .44rem solid transparent;border-left: .44rem solid transparent}
 .is--has-arrow.is--open-top .cta__dd-list-wrap::before{border-top:.66rem;border-bottom:0;top:auto;bottom:-.44rem}
 .is--has-arrow.is--dark .cta__dd-list-wrap::before{filter:none;border-bottom-color:#333445}
-
+.is--dark .is--light-icon{display: none;}
+.is--dark-icon{display: none;}
+.is--dark .is--dark-icon{display: block;}
 
 .navbar__wrapper{background-color:rgba(243,243,247,.9)}
 @supports((-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px))){
@@ -598,6 +630,7 @@ html * {
     html input.input-error {
 	   border-color: rgba(255, 106, 100, 0.50)!important
     }
+	.is--short-text .cta__list-item span:first-child{display:inline}
     .navbar__wrapper .cta__dd-list-inner-wrap{max-height:calc( 100dvh - 5.45rem);overflow:auto;-webkit-overflow-scrolling: touch;-ms-overflow-style: none;scrollbar-width: none}
     .download-ins__copy-text::after{content:"";position:absolute;right:0;top:0;height:100%;width:2rem;background-image:linear-gradient(to right, transparent, rgb(241 241 243))}
     .is--mobile-platforms .download__hero{background-image: linear-gradient(180deg, rgba(145, 155, 234, 0.25) 0.05%, rgba(145, 155, 234, 0.28) 26.2%, rgba(151, 166, 236, 0.10) 54.89%, rgba(151, 166, 236, 0.40) 71.91%, rgba(145, 155, 234, 0.30) 100.02%)}
