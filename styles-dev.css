@@ -24,7 +24,7 @@ html.remodal-is-locked{overflow:hidden;-ms-touch-action:none;touch-action:none}.
 
 /* --------------------------*/
 /* --------------------------*/
-/*       styles-v13.css      */
+/*       styles-v16.css      */
 /* --------------------------*/
 /* --------------------------*/
 
@@ -589,6 +589,16 @@ html.remodal-is-locked body {overflow: hidden;-ms-touch-action: none;touch-actio
 
 .is--touch-device .navbar__old-close:active {
 	opacity: 1
+}
+
+.is--touch-device .price__block-gray-link:hover {
+    color: var(--dark-grey);
+    border-color: transparent
+}
+
+.is--touch-device .price__block-gray-link:active {
+    color: var(--base-colors--black);
+    border-color: var(--base-colors--black)
 }
 
 html * {
