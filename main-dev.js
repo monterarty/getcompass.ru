@@ -91,6 +91,9 @@ const getPage = () => {
     if (body.classList.contains('is--on-premise-page')) {
 	   return 'on-premise';
     }
+    if (body.classList.contains('is--blog-post-page')) {
+	   return 'post';
+    }
     if (window.location.href.indexOf('download') + 1 > 0) {
         return 'download';
     }
@@ -1004,7 +1007,17 @@ if (article) {
 	article.innerHTML = tp.execute(article.innerHTML);
 	relatedArticles.innerHTML = tp.execute(relatedArticles.innerHTML);
 }
-//Типографируем подгруженные статьи
+
+//UTM метки в блоге на страницах статей
+if (getPage() == 'post') {
+    const homeLinks = document.querySelectorAll('[href="/"]');
+    
+    Array.prototype.forEach.call(homeLinks, (homeLink) => {
+        homeLink.setAttribute('href', `/?utm_source=blog&utm_medium=${window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)}&source_id=blog`)
+    })
+}
+
+//Типографируем подгруженные статьи`
 window.fsAttributes = window.fsAttributes || [];
 window.fsAttributes.push([
   'cmsload',
@@ -1021,10 +1034,10 @@ window.fsAttributes.push([
 			})
 		}
 
-		// The callback passes a `listInstances` array with all the `CMSList` instances on the page.
+		// The callback passes a listInstances array with all the CMSList instances on the page.
 		const [listInstance] = listInstances;
 
-		// The `renderitems` event runs whenever the list renders items after switching pages.
+		// The renderitems event runs whenever the list renders items after switching pages.
 		listInstance.on('renderitems', (renderedItems) => {
 			if ($('.blog-grid__card-title').length) {
 				$('.blog-grid__card-title').each(function () {
@@ -1085,6 +1098,10 @@ const bodyScrollControls = {
 		document.body.style.overflowY = null;
 	},
 };
+
+$('[data-remodal-id="consultation-on-premise"]').remodal({
+    closeOnOutsideClick: false
+})
 
 $('[data-remodal-id="consultation"]').remodal({
     closeOnOutsideClick: false
@@ -1784,7 +1801,7 @@ $('.article-cta').on('click', function () {
 	ym(ymetrikaID, 'reachGoal', '63');
 });
 
-$('.footer__item-contact-link.is--email-link').on('click', function () {
+$('.footer__item-contact-link.is--email-link, .blog-footer__link-email').on('click', function () {
 	//console.log('Идентификатор 6');
 	ym(ymetrikaID, 'reachGoal', '6');
 });
@@ -1886,6 +1903,9 @@ function analyticsModal(hash) {
 			    ym(ymetrikaID, 'reachGoal', '9');
             }
 			break;
+        case '#consultation-on-premise':
+            ym(ymetrikaID, 'reachGoal', '301');
+            break;
 		case '#video-mac-intel':
 			ym(ymetrikaID, 'reachGoal', '71');
 			break;
