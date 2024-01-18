@@ -79,7 +79,7 @@ window.REMODAL_GLOBALS={NAMESPACE:"remodal",DEFAULTS:{hashTracking:!1}},function
 
 /* ------------------------*/
 /* ------------------------*/
-/*      ` main-v15.js      */
+/*      ` main-v18.js      */
 /* ------------------------*/
 /* ------------------------*/
 
@@ -173,7 +173,6 @@ $(document).ready(function () {
 });
 
 var os = platform.os.family;
-
 function getOS() {
 	"use strict";
 	var userAgent = window.navigator.userAgent,
@@ -427,10 +426,12 @@ const allDownloadDropdowns = [
 ]
 
 allDownloadDropdowns.forEach(downloadDropdown => {
-  downloadDropdown.querySelector('.w-dropdown-toggle').addEventListener('click', () => {
+  downloadDropdown.querySelector('.w-dropdown-toggle').addEventListener('mousedown', (e) => {
     if (!downloadDropdown.classList.contains('w-open')) {
-      downloadLinksOtherWrap.classList.remove('is--open');
-      downloadDropdown.querySelector('.cta__dd-list-wrap').appendChild(downloadLinksList);
+        downloadLinksOtherWrap.classList.remove('is--open');
+        downloadDropdown.querySelector('.cta__dd-list-wrap').appendChild(downloadLinksList);
+        e.preventDefault;
+        return false;
     }
   })
 })
@@ -1007,6 +1008,17 @@ if (article) {
 	article.innerHTML = tp.execute(article.innerHTML);
 	relatedArticles.innerHTML = tp.execute(relatedArticles.innerHTML);
 }
+
+// Типограф вопросов и ответов
+const faqContentBlocks = document.querySelectorAll('.faq__content');
+const faqTitles = document.querySelectorAll('.faq__quess-text');
+
+Array.prototype.forEach.call(faqContentBlocks, (contentWrap) => {
+    contentWrap.innerHTML = tp.execute(contentWrap.innerHTML);
+})
+Array.prototype.forEach.call(faqTitles, (contentWrap) => {
+    contentWrap.innerHTML = tp.execute(contentWrap.innerHTML);
+})
 
 //UTM метки в блоге на страницах статей
 if (getPage() == 'post') {
