@@ -24,7 +24,7 @@ html.remodal-is-locked{overflow:hidden;-ms-touch-action:none;touch-action:none}.
 
 /* --------------------------*/
 /* --------------------------*/
-/*       styles-v16.css      */
+/*       styles-v18.css      */
 /* --------------------------*/
 /* --------------------------*/
 
@@ -196,6 +196,8 @@ html.remodal-is-locked body {overflow: hidden;-ms-touch-action: none;touch-actio
 	position: relative;
 }
 
+
+
 .is--center-modal .remodal,
 .is--center-modal .remodal-wrapper:after {
 	vertical-align: middle
@@ -208,6 +210,10 @@ html.remodal-is-locked body {overflow: hidden;-ms-touch-action: none;touch-actio
 
 .remodal-wrapper {
 	padding: 6.67rem 0
+}
+
+.faq__content em {
+   color: #8C8C8C
 }
 
 .is--tiny-font body {
@@ -225,7 +231,7 @@ html.remodal-is-locked body {overflow: hidden;-ms-touch-action: none;touch-actio
 
 .is--touch-device .navbar__popup-link:active,
 .is--touch-device .menu__navlink:active{
-  border-bottom-color: #2d343c
+  border-bottom-color: var(--black);
 }
 
 .is--touch-device .popup__form-email-link:hover,
@@ -424,7 +430,7 @@ html.remodal-is-locked body {overflow: hidden;-ms-touch-action: none;touch-actio
 .is--touch-device .button-submit.is--black:hover,
 .is--touch-device .cta__btn.is--black:hover,
 .is--touch-device .form__success-button.is--black:hover {
-	background-color: #2d343c
+	background-color: var(--black);
 }
 
 .is--touch-device .button-submit.is--black:active,
@@ -502,16 +508,20 @@ html.remodal-is-locked body {overflow: hidden;-ms-touch-action: none;touch-actio
 	border-bottom-color: #2574a9
 }
 
+.is--touch-device .faq_content a:hover {
+    color: var(--black);
+}
+
 .is--touch-device .cookie-button:hover,
 .is--touch-device .navbar__button:hover {
-	color: #2d343c;
+	color: var(--black);
 	background-color: transparent
 }
 
 .is--touch-device .cookie-button:active,
 .is--touch-device .navbar__button:active {
 	color: #fff;
-	background-color: #2d343c
+	background-color: var(--black);
 }
 
 .is--touch-device .article__social-share-link.article__social-share-link--copy:hover,
@@ -549,8 +559,14 @@ html.remodal-is-locked body {overflow: hidden;-ms-touch-action: none;touch-actio
 	border-color: rgba(103, 115, 128, .8)
 }
 
+.is--touch-device .hero__screens-github:hover,
 .is--touch-device .article__content .article-cta__subtitle p a:hover {
 	color: #677380
+}
+
+.is--touch-device .faq_content a:active,
+.is--touch-device .hero__screens-github:active {
+    color: var(--base-colors--sea);
 }
 
 .is--touch-device .article__toc-box a:hover {
@@ -560,12 +576,12 @@ html.remodal-is-locked body {overflow: hidden;-ms-touch-action: none;touch-actio
 .is--touch-device.is--download-page .cta__btn:hover,
 .is--touch-device .bn__dropdown-sml.is-bordered:hover {
 	background-color: transparent;
-	color: #2d343c
+	color: var(--black);
 }
 
 .is--touch-device.is--download-page .cta__btn:active,
 .is--touch-device .bn__dropdown-sml.is-bordered:active {
-	background-color: #2d343c;
+	background-color: var(--black);
 	color: #fff
 }
 
@@ -707,7 +723,7 @@ html * {
     }
     
 	.is--touch-device .cookie-button:hover {
-		color: #2d343c;
+		color: var(--black);
 		background-color: transparent
 	}
     
@@ -772,7 +788,7 @@ html * {
 	.article__desctop-content {
 		display: none
 	}
-
+    
 	.is--touch-device .article__toc-box a:hover {
 		color: #009fe6
 	}
