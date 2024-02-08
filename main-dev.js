@@ -67,176 +67,11 @@ window.REMODAL_GLOBALS={NAMESPACE:"remodal",DEFAULTS:{hashTracking:!1}},function
 /* ------------------------*/
 /* ------------------------*/
 
-var DeviceDetectParser = new UAParser(window.navigator.userAgent);
-class DeviceDetect {
-  static ["isMobile"]() {
-    return DeviceDetectParser.getDevice().type === "mobile";
-  }
-  static ["isMobileHuawei"]() {
-    return DeviceDetect.isMobile() && DeviceDetectParser.getDevice().vendor === "Huawei";
-  }
-  static ["isMobileApple"]() {
-    return DeviceDetect.isMobile() && DeviceDetectParser.getDevice().vendor === "Apple";
-  }
-  static ["isMobileAndroid"]() {
-    return DeviceDetect.isMobile() && !DeviceDetect.isMobileHuawei() && DeviceDetectParser.getOS().name === "Android";
-  }
-  static ["isAndroid"]() {
-    return DeviceDetectParser.getOS().name === 'Android';
-  }
-  static ["get0S"]() {
-    return DeviceDetectParser.getOS()?.['name']["toLowerCase"]();
-  }
-  static ["isMacOs"]() {
-    return !DeviceDetect.isMobile() && DeviceDetect.get0S()?.["includes"]("mac os");
-  }
-  static ['isWindows']() {
-    return !DeviceDetect.isMobile() && DeviceDetect.get0S()?.["includes"]('window');
-  }
-  static ['isLinux']() {
-    return !DeviceDetect.isMobile() && !DeviceDetect.isWindows() && !DeviceDetect.isMacOs();
-  }
-  static ["isIPad"]() {
-    return DeviceDetectParser.getDevice()?.["model"]?.["includes"]("iPad");
-  }
-}
-var AttributionUtmTagSourceId = 'source_id';
-var AttributionPlatformAndroid = "android";
-var AttributionPlatformDesktop = 'desktop';
-var AttributionPlatformIOS = "ios";
-var AttributionPlatformIPad = "ipad";
-var AttributionPlatformOsAndroid = 'android';
-var AttributionPlatformOsIOS = "ios";
-var AttributionPlatformOsIPad = 'ipad';
-var AttributionPlatformOsWindows = "windows";
-var AttributionPlatformOsLinux = "linux";
-var AttributionPlatformOsMacos = "macos";
-class Attribution {
-  static ["upgradeStoreLink"](_0x49283e) {
-    const _0x1e4814 = new URL(window.location);
-    const _0x522550 = new URLSearchParams(_0x1e4814.search);
-    const _0x2f6613 = new URL(_0x49283e);
-    _0x522550.forEach((_0x1ba774, _0x29c52f) => {
-      _0x2f6613.searchParams.append(_0x29c52f, _0x1ba774);
-    });
-    return _0x2f6613.toString();
-  }
-  static ['openStoreLink'](_0x2955ef, _0x4e9c50) {
-    _0x2955ef = this.upgradeStoreLink(_0x2955ef);
-    window.open(_0x2955ef, _0x4e9c50 ? "_blank" : null);
-  }
-  static ["sendDoStartRequest"]() {
-    return new Promise((_0x498de8, _0x16472d) => {
-      const _0x161cc2 = window.location.protocol + '//' + window.location.host + '/';
-      const _0x39a008 = _0x161cc2 + 'www/global/doStart';
-      const _0x436793 = new URLSearchParams(Object.entries({
-        'link': window.location,
-        'utm_tag': this.getUtmTags(),
-        'source_id': this.getSourceId(),
-        'platform': this.getPlatform(),
-        'platform_os': this.getPlatformOS(),
-        'timezone_utc_offset': this.getTimezoneUTCOffset(),
-        'screen_avail_width': this.getScreenAvailWidth(),
-        'screen_avail_height': this.getScreenAvailHeight()
-      })).toString();
-      const _0x1f0274 = new XMLHttpRequest();
-      _0x1f0274.open("POST", _0x39a008, true);
-      _0x1f0274.onload = () => {
-        if (_0x1f0274.readyState === 0x4) {
-          if (_0x1f0274.status >= 0xc8 && _0x1f0274.status < 0x12c) {
-            _0x498de8(JSON.parse(_0x1f0274.response));
-          } else {
-            _0x16472d({
-              'status': _0x1f0274.status,
-              'statusText': _0x1f0274.statusText
-            });
-          }
-        }
-      };
-      _0x1f0274.onerror = () => {
-        _0x16472d({
-          'status': _0x1f0274.status,
-          'statusText': _0x1f0274.statusText
-        });
-      };
-      _0x1f0274.setRequestHeader("Accept", "application/json, text/javascript, */*; q=0.01");
-      _0x1f0274.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-      _0x1f0274.send(_0x436793);
-    });
-  }
-  static ['getUtmTags']() {
-    const _0x4efeee = new URL(window.location);
-    const _0x34e5b9 = new URLSearchParams(_0x4efeee.search);
-    return _0x34e5b9.toString();
-  }
-  static ["getSourceId"]() {
-    const _0x50019f = new URL(window.location);
-    const _0x4eb8b9 = new URLSearchParams(_0x50019f.search);
-    if (!_0x4eb8b9.has('source_id')) {
-      return '';
-    }
-    return _0x4eb8b9.get('source_id');
-  }
-  static ["getPlatform"]() {
-    if (DeviceDetect.isMobileAndroid() || DeviceDetect.isMobileHuawei() || DeviceDetect.isAndroid()) {
-      return "android";
-    }
-    if (DeviceDetect.isMobileApple()) {
-      return "ios";
-    }
-    if (DeviceDetect.isIPad()) {
-      return "ipad";
-    }
-    return 'desktop';
-  }
-  static ["getPlatformOS"]() {
-    if (DeviceDetect.isMobileAndroid() || DeviceDetect.isMobileHuawei() || DeviceDetect.isAndroid()) {
-      return 'android';
-    }
-    if (DeviceDetect.isMobileApple()) {
-      return "ios";
-    }
-    if (DeviceDetect.isIPad()) {
-      return 'ipad';
-    }
-    if (DeviceDetect.isLinux()) {
-      return "linux";
-    }
-    if (DeviceDetect.isMacOs()) {
-      return "macos";
-    }
-    if (DeviceDetect.isWindows()) {
-      return "windows";
-    }
-    return "windows";
-  }
-  static ["getTimezoneUTCOffset"]() {
-    const _0x1ebe9e = new Date();
-    return -_0x1ebe9e.getTimezoneOffset() * 0x3c;
-  }
-  static ["getScreenAvailWidth"]() {
-    return window.screen.availWidth;
-  }
-  static ['getScreenAvailHeight']() {
-    return window.screen.availHeight;
-  }
-}
-document.addEventListener('DOMContentLoaded', function () {
-  window.doStart = Attribution.sendDoStartRequest();
-  //console.log(Attribution.getPlatform());
-  //console.log(Attribution.getPlatformOS());
-    
-  Array.prototype.find.call(document.querySelectorAll('a'), a => {
-    const href = a.getAttribute('href');
-    if (href && href.includes('redirect.appmetrica.yandex.com')) {
-      a.setAttribute('href', Attribution.upgradeStoreLink(href));
-    }
-  });
-});
+var DeviceDetectParser=new UAParser(window.navigator.userAgent);class DeviceDetect{static isMobile(){return"mobile"===DeviceDetectParser.getDevice().type}static isMobileHuawei(){return DeviceDetect.isMobile()&&"Huawei"===DeviceDetectParser.getDevice().vendor}static isMobileApple(){return DeviceDetect.isMobile()&&"Apple"===DeviceDetectParser.getDevice().vendor}static isMobileAndroid(){return DeviceDetect.isMobile()&&!DeviceDetect.isMobileHuawei()&&"Android"===DeviceDetectParser.getOS().name}static isAndroid(){return"Android"===DeviceDetectParser.getOS().name}static get0S(){return DeviceDetectParser.getOS()?.name.toLowerCase()}static isMacOs(){return!DeviceDetect.isMobile()&&DeviceDetect.get0S()?.includes("mac os")}static isWindows(){return!DeviceDetect.isMobile()&&DeviceDetect.get0S()?.includes("window")}static isLinux(){return!DeviceDetect.isMobile()&&!DeviceDetect.isWindows()&&!DeviceDetect.isMacOs()}static isIPad(){return DeviceDetectParser.getDevice()?.model?.includes("iPad")}}var AttributionUtmTagSourceId="source_id",AttributionPlatformAndroid="android",AttributionPlatformDesktop="desktop",AttributionPlatformIOS="ios",AttributionPlatformIPad="ipad",AttributionPlatformOsAndroid="android",AttributionPlatformOsIOS="ios",AttributionPlatformOsIPad="ipad",AttributionPlatformOsWindows="windows",AttributionPlatformOsLinux="linux",AttributionPlatformOsMacos="macos";class Attribution{static upgradeStoreLink(e){let t=new URL(window.location),i=new URLSearchParams(t.search),r=new URL(e);return i.forEach((e,t)=>{r.searchParams.append(t,e)}),r.toString()}static openStoreLink(e,t){e=this.upgradeStoreLink(e),window.open(e,t?"_blank":null)}static sendDoStartRequest(){return new Promise((e,t)=>{let i=window.location.protocol+"//"+window.location.host+"/",r=new URLSearchParams(Object.entries({link:window.location,utm_tag:this.getUtmTags(),source_id:this.getSourceId(),platform:this.getPlatform(),platform_os:this.getPlatformOS(),timezone_utc_offset:this.getTimezoneUTCOffset(),screen_avail_width:this.getScreenAvailWidth(),screen_avail_height:this.getScreenAvailHeight()})).toString(),s=new XMLHttpRequest;s.open("POST",i+"www/global/doStart",!0),s.onload=()=>{4===s.readyState&&(s.status>=200&&s.status<300?e(JSON.parse(s.response)):t({status:s.status,statusText:s.statusText}))},s.onerror=()=>{t({status:s.status,statusText:s.statusText})},s.setRequestHeader("Accept","application/json, text/javascript, */*; q=0.01"),s.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8"),s.send(r)})}static getUtmTags(){let e=new URL(window.location),t=new URLSearchParams(e.search);return t.toString()}static getSourceId(){let e=new URL(window.location),t=new URLSearchParams(e.search);return t.has("source_id")?t.get("source_id"):""}static getPlatform(){return DeviceDetect.isMobileAndroid()||DeviceDetect.isMobileHuawei()||DeviceDetect.isAndroid()?"android":DeviceDetect.isMobileApple()?"ios":DeviceDetect.isIPad()?"ipad":"desktop"}static getPlatformOS(){return DeviceDetect.isMobileAndroid()||DeviceDetect.isMobileHuawei()||DeviceDetect.isAndroid()?"android":DeviceDetect.isMobileApple()?"ios":DeviceDetect.isIPad()?"ipad":DeviceDetect.isLinux()?"linux":DeviceDetect.isMacOs()?"macos":(DeviceDetect.isWindows(),"windows")}static getTimezoneUTCOffset(){let e=new Date;return-(60*e.getTimezoneOffset())}static getScreenAvailWidth(){return window.screen.availWidth}static getScreenAvailHeight(){return window.screen.availHeight}}document.addEventListener("DOMContentLoaded",function(){window.doStart=Attribution.sendDoStartRequest(),Array.prototype.find.call(document.querySelectorAll("a"),e=>{let t=e.getAttribute("href");t&&t.includes("redirect.appmetrica.yandex.com")&&e.setAttribute("href",Attribution.upgradeStoreLink(t))})});
 
 /* ------------------------*/
 /* ------------------------*/
-/*      ` main-v18.js      */
+/*      ` main-v19.js      */
 /* ------------------------*/
 /* ------------------------*/
 
@@ -1799,37 +1634,52 @@ $('form').on('submit', function (e) {
 		formData = new FormData($(this)[0]),
 		currentHost = `${window.location.protocol}//${window.location.host}/`,
 		url = currentHost + 'www/getcompass/requestConsultation',
-		button = form.find('[type="submit"]'),
-		successMessage = form.siblings('.w-form-done'),
-		errorMessage = form.siblings('.w-form-fail');
+        button = form.find('[type="submit"]');
+    
 	if (formValidation(form[0])) {
 		if (formData.get('team_size') == '')
 			formData.set('team_size', 0);
         formData.set('source_id', sourceID);
         formData.set('utm_tag', utmTag);
 		button.val(button.data('wait'));
-        var reToken = grecaptcha.enterprise.execute(window.googleCaptchaKey)
-        reToken.then(function(token) {
-            console.log(token)
-            formData.set('grecaptcha_response', token);
-            $.ajax({
-			url: url,
-			type: "POST",
-			dataType: 'text',
-			data: formData,
-			contentType: false,
-			processData: false,
-			statusCode: {
-				423: function (result) {
-					showErrorMessage(form, 'Произошла ошибка при отправке формы. Попробуйте позже или свяжитесь с&nbsp;нами другим способом.');
-				}
-			},
-			success: function (result) {
-                const isSuccessful = JSON.parse(result).status == "ok"
-				if (isSuccessful) {
-					button.val(button.data('btn-default'));
-					successMessage.show();
-					errorMessage.hide();
+        if (grecaptcha) {
+            sendRequest(url, form, formData)
+        } else {
+            var reToken = grecaptcha.enterprise.execute(window.googleCaptchaKey)
+            reToken.then(function(token) {
+                formData.set('grecaptcha_response', token);
+                sendRequest(url, form, formData)
+        }).catch(function() {
+            showErrorMessage(form, 'Произошла ошибка при отправке формы. Попробуйте позже или свяжитесь с&nbsp;нами другим способом.');
+        });
+		return false;
+        }
+	} else {
+        return false;
+    }
+});
+function sendRequest(url, form, formData) {
+    var successMessage = form.siblings('.w-form-done'),
+        errorMessage = form.siblings('.w-form-fail'),
+        button = form.find('[type="submit"]');
+    $.ajax({
+		url: url,
+		type: "POST",
+		dataType: 'text',
+		data: formData,
+		contentType: false,
+		processData: false,
+		statusCode: {
+			423: function (result) {
+				showErrorMessage(form, 'Произошла ошибка при отправке формы. Попробуйте позже или свяжитесь с&nbsp;нами другим способом.');
+			}
+		},
+		success: function (result) {
+            const isSuccessful = JSON.parse(result).status == "ok"
+			if (isSuccessful) {
+				button.val(button.data('btn-default'));
+				successMessage.show();
+				errorMessage.hide();
 					form.hide();
                     if (getPage() == 'on-premise') {
                         ym(ymetrikaID, 'reachGoal', '302');
@@ -1842,27 +1692,19 @@ $('form').on('submit', function (e) {
 					});
                     }
 					form.closest('.remodal').addClass('is--success').removeClass('is--no-radius');
-					//form.closest('.remodal').find('.form__button-close').addClass("is--hidden");
 					if ($('html').hasClass('remodal-is-locked')) {
 						$('html').removeClass('is--white-overlay');
                         $('html').removeClass('is--disable-bg-close');
 					}
 				}
 			},
-			error: function (xhr, resp, text) {
+        error: function (xhr, resp, text) {
                 showErrorMessage(form, 'Произошла ошибка при отправке формы. Попробуйте позже или свяжитесь с&nbsp;нами другим способом.')
 				console.log(xhr, resp, text);
-			}
-		});
-        }).catch(function() {
-            showErrorMessage(form, 'Произошла ошибка при отправке формы. Попробуйте позже или свяжитесь с&nbsp;нами другим способом.');
-        });
-		return false;
-	} else {
-        return false;
-    }
-});
-
+        }
+    });
+}
+    
 function showErrorMessage(form, msg) {
     var button =form.find('[type="submit"]'),
         errorMessage = form.siblings('.w-form-fail');
