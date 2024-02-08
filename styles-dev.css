@@ -24,7 +24,7 @@ html.remodal-is-locked{overflow:hidden;-ms-touch-action:none;touch-action:none}.
 
 /* --------------------------*/
 /* --------------------------*/
-/*       styles-v18.css      */
+/*       styles-v16.css      */
 /* --------------------------*/
 /* --------------------------*/
 
@@ -196,7 +196,9 @@ html.remodal-is-locked body {overflow: hidden;-ms-touch-action: none;touch-actio
 	position: relative;
 }
 
-
+.grecaptcha-badge { 
+    visibility: hidden;
+}
 
 .is--center-modal .remodal,
 .is--center-modal .remodal-wrapper:after {
@@ -403,10 +405,12 @@ html.remodal-is-locked body {overflow: hidden;-ms-touch-action: none;touch-actio
 	background-color: #fff
 }
 
+.is--touch-device .form__success-button:hover,
 .is--touch-device .cta__btn:hover {
 	background-color: var(--base-colors--violet)
 }
 
+.is--touch-device .form__success-button:active,
 .is--touch-device .cta__btn:active {
 	background-color: #4f46af
 }
