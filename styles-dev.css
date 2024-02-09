@@ -24,7 +24,7 @@ html.remodal-is-locked{overflow:hidden;-ms-touch-action:none;touch-action:none}.
 
 /* --------------------------*/
 /* --------------------------*/
-/*       styles-v16.css      */
+/*       styles-v19.css      */
 /* --------------------------*/
 /* --------------------------*/
 
@@ -142,6 +142,13 @@ html body .is--mac-list .cta__dd-list-other-wrap {display:none}
 .is--dark .is--light-icon{display: none;}
 .is--dark-icon{display: none;}
 .is--dark .is--dark-icon{display: block;}
+/* Change the white to any color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
 
 .navbar__wrapper{background-color:rgba(243,243,247,.9)}
 @supports((-webkit-backdrop-filter:blur(10px)) or (backdrop-filter:blur(10px))){
