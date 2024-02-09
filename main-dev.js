@@ -90,6 +90,9 @@ const getPage = () => {
         return 'download';
     }
 }
+var grecaptchaReady = false;
+var grecaptcha = {};
+
 body.classList.add('is--js-success');
 
 function showOldBrowserMsg() {
@@ -1630,30 +1633,32 @@ if (tgLink.length) {
 
 // Отправка формы в апи
 $('form').on('submit', function (e) {
+    e.preventDefault()
 	var form = $(this),
 		formData = new FormData($(this)[0]),
 		currentHost = `${window.location.protocol}//${window.location.host}/`,
 		url = currentHost + 'www/getcompass/requestConsultation',
-        button = form.find('[type="submit"]');
+        button = form.find('[type="submit"]'),
+        object = {};
     
 	if (formValidation(form[0])) {
 		if (formData.get('team_size') == '')
 			formData.set('team_size', 0);
         formData.set('source_id', sourceID);
+        formData.set('pagetitle', document.title);
+        formData.set('page_url', window.location.href);
         formData.set('utm_tag', utmTag);
 		button.val(button.data('wait'));
-        if (grecaptcha) {
-            sendRequest(url, form, formData)
-        } else {
-            var reToken = grecaptcha.enterprise.execute(window.googleCaptchaKey)
-            reToken.then(function(token) {
+        try {
+            grecaptcha.enterprise.execute(window.googleCaptchaKey).then(function(token) {
                 formData.set('grecaptcha_response', token);
-                sendRequest(url, form, formData)
-        }).catch(function() {
-            showErrorMessage(form, 'Произошла ошибка при отправке формы. Попробуйте позже или свяжитесь с&nbsp;нами другим способом.');
-        });
-		return false;
-        }
+                sendRequest(url, form, formData);
+                return false;
+            })
+        } catch (error) {
+            sendRequest(url, form, formData);
+            return false;
+        };
 	} else {
         return false;
     }
@@ -1680,29 +1685,32 @@ function sendRequest(url, form, formData) {
 				button.val(button.data('btn-default'));
 				successMessage.show();
 				errorMessage.hide();
-					form.hide();
-                    if (getPage() == 'on-premise') {
-                        ym(ymetrikaID, 'reachGoal', '302');
-                    } else {
-			            ym(ymetrikaID, 'reachGoal', '10');
-                        _tmr.push({
-						type: 'reachGoal',
-						id: 3381982,
-						goal: 'Demo'
+				form.hide();
+                if (getPage() == 'on-premise') {
+                    ym(ymetrikaID, 'reachGoal', '302');
+                } else {
+			         ym(ymetrikaID, 'reachGoal', '10');
+                    _tmr.push({
+					   type: 'reachGoal',
+					   id: 3381982,
+					   goal: 'Demo'
 					});
-                    }
-					form.closest('.remodal').addClass('is--success').removeClass('is--no-radius');
-					if ($('html').hasClass('remodal-is-locked')) {
-						$('html').removeClass('is--white-overlay');
-                        $('html').removeClass('is--disable-bg-close');
-					}
+                }
+				form.closest('.remodal').addClass('is--success').removeClass('is--no-radius');
+				if ($('html').hasClass('remodal-is-locked')) {
+					$('html').removeClass('is--white-overlay');
+                    $('html').removeClass('is--disable-bg-close');
 				}
-			},
+            }
+            return false;
+        },
         error: function (xhr, resp, text) {
                 showErrorMessage(form, 'Произошла ошибка при отправке формы. Попробуйте позже или свяжитесь с&nbsp;нами другим способом.')
 				console.log(xhr, resp, text);
+                return false;
         }
     });
+    return false;
 }
     
 function showErrorMessage(form, msg) {
@@ -1783,11 +1791,11 @@ document.addEventListener("DOMContentLoaded", function () {
         window.googleCaptchaKey = result.response.captcha_public_key;
         let script = document.createElement('script');
         script.src = "https://www.google.com/recaptcha/enterprise.js?render=" + result.response.captcha_public_key;
-        document.body.append(script); // (*)
+        document.body.append(script);
+        grecaptchaReady = true;
     }).catch(function (result) {
         console.log(result);
     });
-
     
     setCenterCTAListArrow();
     setTimeout(function () {
