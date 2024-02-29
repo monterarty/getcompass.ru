@@ -74,6 +74,21 @@ var DeviceDetectParser=new UAParser(window.navigator.userAgent);class DeviceDete
 /* ------------------------*/
 
 const body = document.body;
+var remSize = 0
+
+const getSize = () => {
+    var remSize = getComputedStyle(document.documentElement).getPropertyValue('--remSize');
+    var factor = 0;
+    
+    if (window.innerWidth > 1280) {
+        factor = 18;
+    } else {
+        factor = window.innerWidth / 100 * remSize;
+    }
+    
+    return factor;
+}
+
 const getPage = () => {
     if (body.classList.contains('is--home-page')) {
 	   return 'home';
@@ -1259,8 +1274,14 @@ $(document).on('opening', '.remodal', function (e) {
 		iframeInModal = currentModal.find('iframe'),
         formInModal = currentModal.find('form'),
 		ScrollElement = currentModal.find('.popup__scroll-content');
+    if (iframeInModal.attr('src') == '') {
+        iframeInModal.attr('src', iframeInModal.data('src'));
+    }
+    if (iframeInModal) {
+        document.querySelector('.remodal-wrapper.remodal-is-opening').scrollTop = 0
+    }
 	if (['#video-mac-intel', '#video-mac-apple', '#video-linux-deb-standart', '#video-linux-deb-terminal', '#video-linux-tar', '#video-windows', '#video-czech', '#video-partner', '#video-detailing-group', '#video-daily', '#video-good-people'].includes(modalId)) {
-		$('html').addClass('is--black-overlay is--center-modal is---video-overlay');
+		$('html').addClass('is--black-overlay is--center-modal is--small-p-modal is---video-overlay');
     } else if (['#calculator-info'].includes(modalId)) {
         $('html').addClass('is--white-overlay is--small-p-modal');
 	} else {
@@ -1809,8 +1830,37 @@ function getScrollPercentage() {
 
 }
 
+// Устанавливаем ширину видео в зависимости от высоты экрана
+const setVideoModalWidth = () => {
+        const videoModals = document.querySelectorAll('.popup-content.remodal.is--video-modal');
+        const videoModalPadding = window.innerWidth > 767 ? 6 : 7;
+        const sizeFactor = getSize();
+        
+        Array.prototype.forEach.call(videoModals, (videoModal) => {
+            const modalHeight = window.innerHeight - sizeFactor * videoModalPadding;
+            const modalWidth = videoModal.offsetWidth ? videoModal.offsetWidth : 1;
+            if (modalWidth / modalHeight > 1.7 && modalWidth / modalHeight < 1.7) {
+                videoModal.style.width = `${modalWidth}px`;
+            } else if (modalHeight < sizeFactor * 20.1 && window.innerWidth < 768 && window.innerWidth > 468)  {
+                videoModal.style.width = `100%`
+            } else if (modalHeight < sizeFactor * 17.33333 && window.innerWidth < 469)  {
+                videoModal.style.width = `100%`
+            } else if (modalHeight < sizeFactor * 22.5 && window.innerWidth > 767)  {
+                videoModal.style.width = `${(sizeFactor * 22.5 * 1.7777778).toFixed(0)}px`
+            } else {
+                videoModal.style.width = `${(modalHeight * 1.7777778).toFixed(0)}px`
+            }
+            
+            console.log(`${modalHeight}, ${sizeFactor * 20.1}`)
+        })
+}
+
+setVideoModalWidth();
+
 window.addEventListener("resize", (event) => {
+    remSize = getComputedStyle(document.documentElement).getPropertyValue('--remSize');
 	setCenterCTAListArrow();
+    setVideoModalWidth();
 	if ($(window).width() > 767) {
 		$('.w-tab-content').each(function () {
 			$(this).removeAttr('style');
@@ -1866,7 +1916,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if ( getPage() == 'home' ) ym(ymetrikaID, 'reachGoal', '4');
     }, 60000);
 
-    var scrollEvent10 = false,
+    var scrollEventStart = false,
+        scrollEvent10 = false,
         scrollEvent50 = false,
         scrollEvent75 = false,
         scrollEvent100 = false; // Сообщение ещё не выводилось
@@ -1875,12 +1926,15 @@ document.addEventListener("DOMContentLoaded", function () {
         if ($('.w-nav-button').hasClass('w--open'))
                 $('.w-nav-button').trigger('click');
         if ( getPage() == 'home' || getPage() == 'download' || getPage() == 'partner') {
-            if (!scrollEvent10 && getScrollPercentage() > 10) {
+            if (!scrollEventStart && getScrollPercentage() > 0) {
                 if ($('.popup__video-iframe').find('iframe').length) {
                     $('.popup__video-iframe').find('iframe').each(function () {
                         $(this).attr('src', $(this).data('src'));
                     });
                 }
+            }
+            if (!scrollEventStart && getScrollPercentage() > 0) {
+                scrollEventStart = true;
             }
             if (!scrollEvent50 && getScrollPercentage() > 50) {
                 if ( getPage() == 'home' ) ym(ymetrikaID, 'reachGoal', '1');
