@@ -24,7 +24,7 @@ html.remodal-is-locked{overflow:hidden;-ms-touch-action:none;touch-action:none}.
 
 /* --------------------------*/
 /* --------------------------*/
-/*       styles-v19.css      */
+/*       styles-v20.css      */
 /* --------------------------*/
 /* --------------------------*/
 .cta__dd-list-other-wrap{display:none}
@@ -121,7 +121,7 @@ html body .is--mac-list .cta__dd-list-other-wrap {display:none}
 .is--linux .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(5) {order: 1}
 .is--linux .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(6) {order: 2}
 
-
+picture {height:100%}
 .is--copy-done .is--copy-done-icon {transform: scale(1);opacity: 1}
 .is--copy-done .is--copy-initital-icon {transform: scale(.5);opacity: 0}
 .article__mobile-content,
@@ -826,6 +826,10 @@ html * {
 	}
 }
 
+@media(max-height: 28.5rem) {
+    .is--center-modal .remodal, .is--center-modal .remodal-wrapper:after{vertical-align: top}
+}
+
 @media (max-width:767px) {
     .android-form-modal .popup__form{height: 150vh}
     .ios-form-modal .popup__form{height: 100vh}
@@ -885,7 +889,7 @@ html * {
     .partner-work__inner-wrap,
     .blog-hero__filter-track,
     .partner-about__inner-wrap{scroll-snap-type:x mandatory;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none}
-    .partner-video__h1-span::after{display:none}
+    .partner-video__h1-span::after{left:.1rem;height:.56rem;bottom:-.4rem}
 	.is--op-link::after {padding:.17rem .5rem;border-radius:.5rem;font-size:var(--mobile--14px);position:relative;left:0;line-height:1.4;top:-.1rem;margin-left:.67rem}
 	.navbar__logo-text::before{height:var(--mobile--14px)}
 	.is--short-text .cta__list-item span{display:inline}
@@ -919,6 +923,7 @@ html * {
     .popup-text__content ol>li::after{content:counter(li)".";font-size:1em;position:absolute;display:block;left:0;top:0}
     .popup-text__content ul>li::before{content:"";width:.3rem;height:.3rem;position:absolute;top:.44rem;left:0;background:#333e49;border-radius:50%}
 	.remodal.is--video-modal iframe{border-radius:1.66rem}
+    .remodal.is--video-modal .popup__scroll-content{max-height:100%;border-radius:1.667rem}
     .menu-wrapper--is--mobile .bn__dropdown.is--hidden{pointer-events:none}
     .review__content-text::before{left:0;width:.167rem;height:94%;top:3%;background-color:#2d343C1A}
     .hero-h1-title-blue::after,
