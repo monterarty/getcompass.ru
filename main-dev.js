@@ -1187,6 +1187,19 @@ window.fsAttributes.push([
 
 		// The renderitems event runs whenever the list renders items after switching pages.
 		listInstance.on('renderitems', (renderedItems) => {
+            Array.prototype.forEach.call(renderedItems, (item) => {
+                const blogImage = item.element.querySelector(".blog-grid__card-img");
+
+                if (!blogImage.complete) {
+                    blogImage.addEventListener('error', function() {
+                        console.log('error')
+                        const src = blogImage.getAttribute('src');
+                        blogImage.setAttribute('src', '');
+                        blogImage.setAttribute('src', src);
+                        
+                    })
+                }
+            });
 			if ($('.blog-grid__card-title').length) {
 				$('.blog-grid__card-title').each(function () {
 					$(this).html(tp.execute($(this).html()));
@@ -1194,6 +1207,7 @@ window.fsAttributes.push([
 				$('.blog-grid__card-introtext').each(function () {
 					$(this).html(tp.execute($(this).html()));
 				})
+                const images = document.querySelectorAll(".blog-grid__card-img")
 				document.querySelectorAll(".article__preloader-wrapper").forEach(preloader => {
 					setTimeout(function () {
 						preloader.style.opacity = '0';
