@@ -167,7 +167,8 @@ input:-webkit-autofill:active{
 .feature__support-item{aspect-ratio:5.2}
 .feature__notify-item{aspect-ratio:.69;overflow:hidden}
 .feature__stat-phone{aspect-ratio:.695;overflow:hidden}
-
+.popup__form-bottom-link::before{content:"";display:block;width:.778rem;height:.778rem;position:absolute;top:50%;transform:translateY(-50%);left:0;background-image:url("https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d1161c25e61782a0e5a0_telegram-logo%403x.png");background-size:contain;background-repeat:no-repeat; background-position: 50% 50%}
+.popup__form-bottom-link.whatsapp::before{background-image:url("https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d116041b0365666cc878_whatsapp-logo%403x.png")}
 .navbar__progress-bar,
 .w-tabs:after,
 .w-tabs:before {display: none}
@@ -334,7 +335,7 @@ picture,picture img{width:100%}
 .is--small-p-modal .remodal-wrapper{padding: 3rem 0}
 .faq__content em {color: #8C8C8C}
 .is--tiny-font body {font-weight:300}
-
+.items-start{align-items:flex-start}
 .is--touch-device .fast-work__platform-link:hover {
     background: rgba(255, 255, 255, 0.6)
 }
@@ -351,12 +352,12 @@ picture,picture img{width:100%}
 
 .is--touch-device .popup__form-email-link:hover,
 .is--touch-device .mediakit__email-link:hover {
-    color: #009fe6
+    color: #2574a9
 }
 
 .is--touch-device .popup__form-email-link:active,
 .is--touch-device .mediakit__email-link:active {
-    color: #0082BD
+    color: #1d5c86
 }
 
 .is--touch-device .download-ins__text-platform-link:hover {
@@ -538,6 +539,14 @@ picture,picture img{width:100%}
 .is--touch-device .form__success-button:hover,
 .is--touch-device .cta__btn:hover {
 	background-color: var(--base-colors--violet)
+}
+
+.is--touch-device .cta__btn.is--purple:hover {
+    background-color: #9746FF;
+}
+
+.is--touch-device .cta__btn.is--purple:active {
+    background-color: #811FFF;
 }
 
 .is--touch-device .form__success-button:active,
@@ -831,8 +840,9 @@ html * {
 }
 
 @media (max-width:767px) {
-    .android-form-modal .popup__form{height: 150vh}
-    .ios-form-modal .popup__form{height: 100vh}
+    .popup__form-bottom-link::before{width:1.167rem;height:1.167rem}
+    .android-form-modal .popup__form{height: 170vh}
+    .ios-form-modal .popup__form{height: 130vh}
     html input.input-error {border-color: rgba(255, 106, 100, 0.50)!important}
 	.is--short-text .cta__list-item span:first-child{display:inline}
     .navbar__wrapper .cta__dd-list-inner-wrap{max-height:calc( 100dvh - 5.45rem);overflow:auto;-webkit-overflow-scrolling: touch;-ms-overflow-style: none;scrollbar-width: none}
