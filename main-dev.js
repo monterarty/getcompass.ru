@@ -771,6 +771,9 @@ function addInputPhoneMask() {
 		if (event.keyCode === DELETE_KEY_CODE && inputValue.length === 1) {
 			input.value = "";
 		}
+        //if ((event.keyCode < 48 || event.keyCode > 57) && event.keyCode !== DELETE_KEY_CODE) {
+        //    return event.preventDefault();
+        //}
 	};
 
 	const onPasteHandler = (event) => {
@@ -872,7 +875,6 @@ const comandInputs = document.querySelectorAll('input[data-input-comand]');
 //Запрет ввода цифр в поле имени 
 nameInputs.forEach((input) => {
 	input.addEventListener('keypress', function (e) {
-		console.log(e);
 		//console.log(e.keyCode);
 		if (e.keyCode != 8 && e.keyCode != 46 && (input.value.length > 49 || e.key && e.key.match(/[^а-яА-ЯЁёІіЇїҐґЄєa-zA-ZẞßÄäÜüÖöÀàÈèÉéÌìÍíÎîÒòÓóÙùÚúÂâÊêÔôÛûËëÏïŸÿÇçÑñœ’`'.-\s]/)))
 			return e.preventDefault();
@@ -899,7 +901,8 @@ comandInputs.forEach((input) => {
 // Валидация форм
 function removeErrorClassOnInput(input) {
 	input.addEventListener('input', () => {
-		input.classList.remove('input-error');
+        if (input.value.trim() !== '')
+		  input.classList.remove('input-error');
 	});
 	input.addEventListener('focus', () => {});
 	input.onblur = function () {
@@ -923,7 +926,6 @@ function removeErrorClassOnInput(input) {
 		if (requiredIcon) {
 			requiredIcon.classList.add('display-none');
 		}
-        console.log(document.documentElement.getBoundingClientRect());
         input.scrollIntoView({
                 behavior: 'smooth',
                 block: 'nearest'
@@ -971,7 +973,7 @@ function formValidation(form) {
 		if (input.hasAttribute('data-name-input')) {
 			const namePattern = /[^а-яА-ЯЁёІіЇїҐґЄєa-zA-ZẞßÄäÜüÖöÀàÈèÉéÌìÍíÎîÒòÓóÙùÚúÂâÊêÔôÛûËëÏïŸÿÇçÑñœ’`'.-\s]/g;
 
-			if (namePattern.test(value.trim())) {
+			if (namePattern.test(value.trim()) || value.trim() == '') {
 				input.classList.add('input-error');
 				isValid = false;
 			}
@@ -1000,8 +1002,7 @@ function formValidation(form) {
 	return isValid;
 }
 
-function checkValidationFormOnSubmit(formClassName) {
-	const form = document.querySelector(formClassName);
+function checkValidationFormOnSubmit(form) {
 	const inputs = form.querySelectorAll('.input');
 	const onSubmitHandler = (event) => {
 		if (formValidation(form)) {
@@ -1019,11 +1020,14 @@ function checkValidationFormOnSubmit(formClassName) {
 		}
 	});
 
-	$(formClassName).submit(onSubmitHandler);
+	$(form).submit(onSubmitHandler);
 }
 
-if ($('#wf-form-Consultation-Form').length) {
-	checkValidationFormOnSubmit('#wf-form-Consultation-Form');
+const forms = document.querySelectorAll('form[action="https://getcompass.ru"]');
+if (forms) {
+    Array.prototype.forEach.call(forms, (form) => {
+        checkValidationFormOnSubmit(form);
+    })
 }
 
 if (getPage() == 'partner') {
@@ -1189,16 +1193,13 @@ window.fsAttributes.push([
 		listInstance.on('renderitems', (renderedItems) => {
             Array.prototype.forEach.call(renderedItems, (item) => {
                 const blogImage = item.element.querySelector(".blog-grid__card-img");
-
-                if (!blogImage.complete) {
-                    blogImage.addEventListener('error', function() {
-                        console.log('error')
-                        const src = blogImage.getAttribute('src');
-                        blogImage.setAttribute('src', '');
-                        blogImage.setAttribute('src', src);
+                blogImage.addEventListener('error', function() {
+                    console.log('error')
+                    const src = blogImage.getAttribute('src');
+                    blogImage.setAttribute('src', '');
+                    blogImage.setAttribute('src', src);
                         
-                    })
-                }
+                })
             });
 			if ($('.blog-grid__card-title').length) {
 				$('.blog-grid__card-title').each(function () {
@@ -1274,11 +1275,15 @@ const bodyScrollControls = {
 
 $('[data-remodal-id="consultation-on-premise"]').remodal({
     closeOnOutsideClick: false
-})
+});
 
 $('[data-remodal-id="consultation"]').remodal({
     closeOnOutsideClick: false
-})
+});
+
+$('[data-remodal-id="pilot-modal"]').remodal({
+    closeOnOutsideClick: false
+});
 
 $(document).on('opening', '.remodal', function (e) {
 	bodyScrollControls.disable();
@@ -1373,7 +1378,32 @@ document.onkeydown = function (evt) {
 	if (evt.keyCode == 27) {
 		closeRemodal();
 	}
+    // Переключения между полями ввода в модальном окне если оно открыто
+    handleKey(evt);
 };
+
+function handleKey(e) {
+    if (e.keyCode === 9 && document.querySelector('.remodal.remodal-is-opened')) {
+        let focusable = document.querySelector('.remodal.remodal-is-opened').querySelectorAll('input,button,select,textarea');
+        if (focusable.length) {
+            let first = focusable[0];
+            let last = focusable[focusable.length - 1];
+            let shift = e.shiftKey;
+            if (shift) {
+                if (e.target === first) { // shift-tab pressed on first input in dialog
+                    last.focus();
+                    e.preventDefault();
+                }
+            } else {
+                if (e.target === last) { // tab pressed on last input in dialog
+                    first.focus();
+                    e.preventDefault();
+                }
+            }
+        }
+    }
+}
+
 
 $('input').on('focusout focus', function () {
 	setTimeout(function () {
@@ -1729,7 +1759,9 @@ $('form').on('submit', function (e) {
 		currentHost = `${window.location.protocol}//${window.location.host}/`,
 		url = currentHost + 'www/getcompass/requestConsultation',
         button = form.find('[type="submit"]'),
-        object = {};
+        object = {},
+        currentModal = $('.remodal.remodal-is-opened'),
+		modalId = '#' + currentModal.data('remodal-id');
     
 	if (formValidation(form[0])) {
 		if (formData.get('team_size') == '')
@@ -1738,6 +1770,11 @@ $('form').on('submit', function (e) {
         formData.set('pagetitle', document.title);
         formData.set('page_url', window.location.href);
         formData.set('utm_tag', utmTag);
+        if (modalId == '#pilot-modal') {
+            formData.set('form_type', "request_pilot_project");
+        } else {
+            formData.set('form_type', "request_consultation");
+        }
 		button.val(button.data('wait'));
         try {
             grecaptcha.enterprise.execute(window.googleCaptchaKey).then(function(token) {
@@ -1756,7 +1793,10 @@ $('form').on('submit', function (e) {
 function sendRequest(url, form, formData) {
     var successMessage = form.siblings('.w-form-done'),
         errorMessage = form.siblings('.w-form-fail'),
-        button = form.find('[type="submit"]');
+        button = form.find('[type="submit"]'),
+        currentModal = $('.remodal.remodal-is-opened'),
+		modalId = '#' + currentModal.data('remodal-id');
+    
     $.ajax({
 		url: url,
 		type: "POST",
@@ -1777,14 +1817,22 @@ function sendRequest(url, form, formData) {
 				errorMessage.hide();
 				form.hide();
                 if (getPage() == 'on-premise') {
-                    ym(ymetrikaID, 'reachGoal', '302');
+                    if (modalId == "#consultation") {
+                        ym(ymetrikaID, 'reachGoal', '302');
+                    } else if (modalId == "#pilot-modal") {
+                        ym(ymetrikaID, 'reachGoal', '309');
+                    }
                 } else {
-			         ym(ymetrikaID, 'reachGoal', '10');
-                    _tmr.push({
-					   type: 'reachGoal',
-					   id: 3381982,
-					   goal: 'Demo'
-					});
+                    if (modalId == "#consultation" || modalId == "#consultation-on-premise") {
+                        ym(ymetrikaID, 'reachGoal', '10');
+                        _tmr.push({
+					      type: 'reachGoal',
+					      id: 3381982,
+					      goal: 'Demo'
+					    });
+                    } else if (modalId == "#pilot-modal") {
+                        ym(ymetrikaID, 'reachGoal', '307');
+                    }
                 }
 				form.closest('.remodal').addClass('is--success').removeClass('is--no-radius');
 				if ($('html').hasClass('remodal-is-locked')) {
@@ -1864,8 +1912,6 @@ const setVideoModalWidth = () => {
             } else {
                 videoModal.style.width = `${(modalHeight * 1.7777778).toFixed(0)}px`
             }
-            
-            console.log(`${modalHeight}, ${sizeFactor * 20.1}`)
         })
 }
 
@@ -1980,7 +2026,7 @@ $('.article-cta').on('click', function () {
 	ym(ymetrikaID, 'reachGoal', '63');
 });
 
-$('.footer__item-contact-link.is--email-link, .blog-footer__link-email').on('click', function () {
+$('a[href*="mailto:support@getcompass.ru"]').on('click', function () {
 	//console.log('Идентификатор 6');
 	ym(ymetrikaID, 'reachGoal', '6');
 });
@@ -2041,7 +2087,7 @@ $('.ceo-link').on('click', function () {
 	ym(ymetrikaID, 'reachGoal', '401');
 });
 
-$('.partner-benefit__button').on('click', function () {
+$('a[href*="https://t.me/getcompass"],a[href*="https://wa.me/message/CJINDDW52XJYM1"]').on('click', function () {
 	ym(ymetrikaID, 'reachGoal', '402');
 });
 
@@ -2105,7 +2151,18 @@ function analyticsModal(hash) {
             }
 			break;
         case '#consultation-on-premise':
-            ym(ymetrikaID, 'reachGoal', '301');
+            if (getPage() == 'on-premise') {
+                ym(ymetrikaID, 'reachGoal', '301');
+            } else {
+			    ym(ymetrikaID, 'reachGoal', '301');
+            }
+			break;
+        case '#pilot-modal':
+            if (getPage() == 'on-premise') {
+                ym(ymetrikaID, 'reachGoal', '308');
+            } else {
+			    ym(ymetrikaID, 'reachGoal', '306');
+            }
             break;
 		case '#video-mac-intel':
 			ym(ymetrikaID, 'reachGoal', '71');
