@@ -24,7 +24,7 @@ html.remodal-is-locked{overflow:hidden;-ms-touch-action:none;touch-action:none}.
 
 /* --------------------------*/
 /* --------------------------*/
-/*       styles-v20.css      */
+/*       styles-v21.css      */
 /* --------------------------*/
 /* --------------------------*/
 .cta__dd-list-other-wrap{display:none}
@@ -185,7 +185,7 @@ body::-moz-selection{background:rgb(0,159,230,.2)}
 .price__block.is--more-150 .price__calc-price::selection,
 .price__calc-button::selection,.price__calc-wrapper img::selection{background:0 0}
 input:-webkit-autofill,input:-webkit-autofill:active,
-input:-webkit-autofill:focus,input:-webkit-autofill:hover{-webkit-box-shadow:0 0 0 60px #fff inset!important;background-color:#fff!important;background-clip:content-box!important}
+input:-webkit-autofill:focus,input:-webkit-autofill:hover{-webkit-box-shadow:0 0 0 60px #FBFBFD inset!important;background-color:rgba(255,255,255,.8)!important;background-clip:content-box!important}
 input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 input[type=number]{-moz-appearance:textfield}
 input.input-error {border-color: #ff6a64 !important}
@@ -840,6 +840,8 @@ html * {
 }
 
 @media (max-width:767px) {
+    input:-webkit-autofill,input:-webkit-autofill:active,
+input:-webkit-autofill:focus,input:-webkit-autofill:hover{-webkit-box-shadow:0 0 0 60px #F3F7FB inset!important;background-color:rgba(255,255,255,.6)!important;background-clip:content-box!important}
     .popup__form-bottom-link::before{width:1.167rem;height:1.167rem}
     .android-form-modal .popup__form{height: 170vh}
     .ios-form-modal .popup__form{height: 130vh}
@@ -955,7 +957,7 @@ html * {
 	    .scope__img-w.is--time{aspect-ratio:1.0258}
         .scope__img-w.is--comment{aspect-ratio:1.237}
         .feature__notify-item {aspect-ratio:.909}
-        .feature__stat-phone {aspect-ratio:.765}
+        .feature__stat-phone {aspect-ratio:.768}
     }
 
     @supports not (aspect-ratio: 1 / 1) {
@@ -1072,7 +1074,7 @@ html * {
 	    .scope__img-w.is--time{aspect-ratio:1.0258}
         .scope__img-w.is--comment{aspect-ratio:1.237}
         .feature__notify-item {aspect-ratio:.909}
-        .feature__stat-phone {aspect-ratio:.765}
+        .feature__stat-phone {aspect-ratio:.768}
     }
 
     @supports not (aspect-ratio: 1 / 1) {
