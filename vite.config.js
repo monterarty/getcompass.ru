@@ -12,7 +12,7 @@ export default defineConfig({
         },
         rollupOptions: {
             output: {
-                entryFileNames: `assets/main-v2.6.6.min.js`,
+                entryFileNames: `assets/[name]-v2.6.6.min.js`,
                 chunkFileNames: `assets/[name].[hash].min.js`,
                 assetFileNames: `assets/[name]-v2.6.6[extname]`,
             },
