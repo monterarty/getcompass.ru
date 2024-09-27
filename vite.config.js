@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+    base: '/getcompass.ru/',  // Указываем базовый путь для GitHub Pages
+
     build: {
         minify: 'terser', // Использование Terser для минификации
         terserOptions: {
