@@ -1,3 +1,5 @@
+window.REMODAL_GLOBALS={NAMESPACE:"remodal",DEFAULTS:{hashTracking:!1}}
+
 import Typograf from "typograf";
 import ClipboardJS from "clipboard";
 import platform from "platform";
@@ -177,8 +179,9 @@ document.addEventListener("DOMContentLoaded", function () {
 const body = document.body;
 const html = document.documentElement;
 const navbar = document.querySelector(".w-nav");
-const mainMenu = document.querySelector("[data-main-menu]");
-const rightMenu = document.querySelector("[data-right-menu]");
+const ymetrikaID = window.ymetrikaID;
+//const mainMenu = document.querySelector("[data-main-menu]");
+//const rightMenu = document.querySelector("[data-right-menu]");
 var isMobile = false;
 
 if (window.innerWidth < 768) {
@@ -295,7 +298,7 @@ var Detector = new oldBrowserDetector(
   },
   function () {
     const browserInfoObj = oldBrowserDetector.getBrowser();
-    if (browserInfoObj.n != "x" && browserInfoObj.v != 0) showOldBrowserMsg();
+    if (browserInfoObj.n !== "x" && browserInfoObj.v !== 0) showOldBrowserMsg();
   },
 );
 
@@ -392,9 +395,9 @@ function iOS() {
   );
 }
 
-if (os === null || os == "Android") {
+if (os === null || os === "Android") {
   os = getOS();
-  if (os == "OS X") {
+  if (os === "OS X") {
     if (iOS()) {
       os = "iOS";
     }
@@ -918,7 +921,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         )
       ) {
         e.preventDefault();
-        instructionLink =
+        let instructionLink =
           window.location.origin +
           instructionLinks[platform] +
           "/?start-download=true&platform=" +
@@ -2127,7 +2130,7 @@ Array.prototype.forEach.call(copyFields, (copyField) => {
   const copyBtnTooltip = copyField.querySelector("[clipboard-tooltip]");
   const copyText = copyField.querySelector("[clipboard-text]").textContent;
   const copyClipboard = new ClipboardJS(copyBtn, {
-    text: function (trigger) {
+    text: function () {
       return copyText;
     },
   });
@@ -2180,25 +2183,24 @@ copyPostLink.on("error", function (e) {
 
 function showCopyNote(text, error) {
   clearTimeout(closingMessageTimeout);
-  if (text != "") {
-    $(".event__message").html(text);
+  const eventMessageDOM = document.querySelector('.event__message');
+  if (text !== "") {
+    eventMessageDOM.innerHTML = text;
   }
   if (error) {
-    $(".event__message").addClass("is--error");
+    eventMessageDOM.classList.add("is--error");
   } else {
-    $(".event__message").removeClass("is--error");
-    $(".event__message").html(
-      "Ссылка на скачивание Compass для&nbsp;компьютера скопирована",
-    );
+    eventMessageDOM.classList.remove("is--error");
+    eventMessageDOM.innerHTML = "Ссылка на скачивание Compass для&nbsp;компьютера скопирована";
   }
-  $(".event__message").addClass("is--display-block");
+  eventMessageDOM.classList.add("is--display-block");
   setTimeout(function () {
-    $(".event__message").addClass("is--visible");
+    eventMessageDOM.classList.add("is--visible");
   }, 300);
   closingMessageTimeout = setTimeout(function () {
-    $(".event__message").removeClass("is--visible");
+    eventMessageDOM.classList.remove("is--visible");
     setTimeout(function () {
-      $(".event__message").removeClass("is--display-block");
+      eventMessageDOM.classList.remove("is--display-block");
     }, 300);
   }, 4000);
 }
@@ -2212,7 +2214,7 @@ $(".event__message").on("touchmove", function () {
 });
 
 $(".w-dropdown-toggle").on("click", function (e) {
-  if (e.which == 2) {
+  if (e.which === 2) {
     e.preventDefault();
   }
 });
