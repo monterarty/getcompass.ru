@@ -14,7 +14,7 @@ export default defineConfig({
             output: {
                 entryFileNames: `assets/main-v2.6.6.min.js`,
                 chunkFileNames: `assets/[name].[hash].min.js`,
-                assetFileNames: `assets/[name].[hash][extname]`,
+                assetFileNames: `assets/[name]-v2.6.6.[extname]`,
             },
         },
     },

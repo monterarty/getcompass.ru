@@ -6,6 +6,7 @@ import '@finsweet/cookie-consent'
 import {UAParser} from "ua-parser-js"
 import $ from 'jquery';
 import 'remodal'
+import './style.css'
 
 var DeviceDetectParser = new UAParser(window.navigator.userAgent);
 class DeviceDetect {
