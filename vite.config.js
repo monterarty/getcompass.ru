@@ -1,25 +1,36 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-    base: '/getcompass.ru/',  // Указываем базовый путь для GitHub Pages
+    base: '/getcompass.ru/',  // Указываем базовый путь для проекта
     build: {
-        minify: 'terser',
+        //cssMinify: 'lightningcss',
+        minify: 'terser',  // Минификация с использованием Terser
         terserOptions: {
             compress: {
-                drop_console: true,
-                drop_debugger: true,
+                drop_console: true,   // Удалить все console.log
+                drop_debugger: true,  // Удалить все debugger
             },
         },
+        cssCodeSplit: false,  // Разделяем CSS и JS на отдельные файлы
         rollupOptions: {
-            external: ['jquery'],  // Указываем jQuery как внешнюю зависимость
+            external: ['jquery'],
             output: {
+                format: 'iife',
+                name: 'MyBundle',
                 globals: {
-                    jquery: 'jQuery'   // Указываем, что jQuery глобально доступен через переменную `jQuery`
+                    jquery: '$'
                 },
-                entryFileNames: `assets/[name]-v2.6.6.min.js`,
-                chunkFileNames: `assets/[name].[hash].min.js`,
-                assetFileNames: `assets/[name]-v2.6.6[extname]`,
-            },
+                entryFileNames: `assets/js/[name]-v2.6.6.min.js`,  // Имя для JavaScript файлов
+                chunkFileNames: `assets/js/[name].[hash].min.js`,  // Имя для чанков JavaScript
+                assetFileNames: (assetInfo) => {
+                    if (assetInfo.name.endsWith('.css')) {
+                        return 'assets/css/[name]-v2.6.6[extname]';  // CSS файлы в отдельную папку
+                    } else if (assetInfo.name.endsWith('.png')) {
+                        return 'assets/images/[name]-v2.6.6[extname]';  // Картинки в папку images
+                    }
+                    return 'assets/[name]-v2.6.6[extname]';  // Другие ассеты
+                },
+            }
         },
     },
 });

@@ -4,7 +4,6 @@ import platform from "platform";
 import oldBrowserDetector from "old-browser-detector";
 import '@finsweet/cookie-consent'
 import { UAParser } from "ua-parser-js"
-//import $ from 'jquery';
 import 'remodal'
 
 window.REMODAL_GLOBALS = { NAMESPACE: "remodal", DEFAULTS: { hashTracking: !1 } }
