@@ -11,7 +11,11 @@ export default defineConfig({
             },
         },
         rollupOptions: {
+            external: ['jquery'],  // Указываем jQuery как внешнюю зависимость
             output: {
+                globals: {
+                    jquery: 'jQuery'   // Указываем, что jQuery глобально доступен через переменную `jQuery`
+                },
                 entryFileNames: `assets/[name]-v2.6.6.min.js`,
                 chunkFileNames: `assets/[name].[hash].min.js`,
                 assetFileNames: `assets/[name]-v2.6.6[extname]`,
