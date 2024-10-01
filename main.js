@@ -461,7 +461,7 @@ if (isTouchDevice()) {
 }
 
 // Функция для создания ссылки с SVG и названием
-function createDownloadLink(options, index) {
+function createDownloadLink(options) {
   const linkText = options[0],
     linkPlatform = options[1],
     linkClass = options[2],
@@ -507,7 +507,7 @@ function createDownloadLink(options, index) {
 
   // Создаем элементы для отображения текста ссылки
   const linkShortText = document.createElement('span');
-  linkShortText.textContent = `${index} ${linkText}`;
+  linkShortText.textContent = linkText;
 
   const linkPlatformName = document.createElement('span');
   linkPlatformName.textContent = linkPlatform;
@@ -574,7 +574,7 @@ const downloadLinksData = {
     'windows_old',
     'https://update.getcompass.com/apps/compass-win.exe',
     'https://update-onpremise.getcompass.ru/apps/compass-on-premise-win.exe',
-    '.msi',
+    '.exe',
     '<path d="M4.01636 6.08452V11.1519H10.1172V5.25108L4.01636 6.08452ZM4.01636 16.9193L10.1172 17.7528V11.9186H4.01636V16.9193ZM10.7839 17.8528L18.9517 18.9529V11.9186H10.7839V17.8528ZM10.7839 5.15106V11.1519H18.9517V4.01758L10.7839 5.15106Z" fill="currentColor"></path>',
   ],
   windowsmsi_old: ['Скачать для ',
@@ -710,7 +710,7 @@ const downloadLinksNodes = [];
 
 let indexLink = 0;
 for (let key in downloadLinksData) {
-  const downloadLink = createDownloadLink(downloadLinksData[key], ++indexLink);
+  const downloadLink = createDownloadLink(downloadLinksData[key]);
   downloadLinksNodes.push(downloadLink.querySelector('.cta__list-item'));
   downloadLinksList.appendChild(downloadLink);
 }
@@ -809,28 +809,26 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
 
 
 //Определеяем систему и добавляем класс в body
-// switch (os) {
-//   case 'iOS':
-//     body.classList.add('is--ios');
-//     break;
-//   case 'Android':
-//     body.classList.add('is--android');
-//     break;
-//   case 'Windows':
-//     body.classList.add('is--windows');
-//     break;
-//   case 'Linux':
-//     body.classList.add('is--linux');
-//     break;
-//   case 'OS X':
-//     body.classList.add('is--mac');
-//     break;
-//   case 'Huawei':
-//     body.classList.add('is--android');
-//     break;
-// }
-
-body.classList.add('is--android');
+switch (os) {
+  case 'iOS':
+    body.classList.add('is--ios');
+    break;
+  case 'Android':
+    body.classList.add('is--android');
+    break;
+  case 'Windows':
+    body.classList.add('is--windows');
+    break;
+  case 'Linux':
+    body.classList.add('is--linux');
+    break;
+  case 'OS X':
+    body.classList.add('is--mac');
+    break;
+  case 'Huawei':
+    body.classList.add('is--android');
+    break;
+}
 
 const instructionLinks = {
   appstore: '/download/appstore',
@@ -1242,7 +1240,7 @@ function addInputPhoneMask() {
       deletedSymbolIndex = j
     }
     // Если удалили символ после каретки устанавливаем альтернативный расчет позиции
-    if (deletedSymbolIndex == currentCaretPosition && prevMaskedValueArray.length > 0) {
+    if (deletedSymbolIndex === currentCaretPosition && prevMaskedValueArray.length > 0) {
       deletePressed = true;
     }
 
