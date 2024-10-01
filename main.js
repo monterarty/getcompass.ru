@@ -834,11 +834,17 @@ const instructionLinks = {
   appstore: '/download/appstore',
   playmarket: '/download/playmarket',
   huawei: '/download/huawei',
-  macintel: '/download/mac-os-intel',
-  macapple: '/download/mac-os-m1-m2',
-  windows: '/download/windows',
-  linuxdeb: '/download/ubuntu',
-  linuxtar: '/download/linux'
+  rustore: '/download/rustore',
+  macintel: '/download/macos-intel',
+  macapple: '/download/macos-silicon',
+  windows: '/download/windows-10-exe',
+  windows_old: '/download/windows-7-exe',
+  windowsmsi: '/download/windows-10-msi',
+  windowsmsi_old: '/download/windows-7-msi',
+  linuxdeb: '/download/linux-ubuntu',
+  linuxtar: '/download/linux-tar',
+  linuxrpm: '/download/linux-rpm',
+  linuxastra: '/download/linux-asrta'
 };
 
 const downloadLinks = [
