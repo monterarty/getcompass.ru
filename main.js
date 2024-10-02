@@ -855,30 +855,6 @@ if (partnerCode) {
   setCookie('partnerCode', partnerCode, 30);
 }
 
-/**
- * Начинать загрузку при загрузке страницы?
- * @type {boolean}
- */
-const startDownload = getCookie('startDownload') || true;
-
-/**
- * Начинаем загрузку если находимся
- * на странице загрцзки и ставим куки
- * на 1 минуту на запрет загрузки
- * билда при перезагрузке страницы
- *
- * Очищаем историю кнопки назад если не андроид и не firefox
- */
-window.addEventListener('load', () => {
-  if (startDownload && getPage() === 'download') {
-    if (os !== 'Android' && platform.name !== 'Firefox') {
-      window.history.pushState({}, '', url.toString());
-    }
-    setCookie('startDownload', false, 0.000694);
-    location.href = document.querySelector('.download-hero__link')?.href;
-  }
-});
-
 if (['iOS', 'Android', 'Huawei'].indexOf(os) + 1) {
   document.querySelector('.page-wrapper').classList.remove('is--overflow-clip');
 }
@@ -924,6 +900,31 @@ const instructionLinks = {
   linuxrpm: '/download/linux-rpm',
   linuxastra: '/download/linux-asrta'
 };
+
+/**
+ * Начинать загрузку при загрузке страницы?
+ * @type {boolean}
+ */
+const startDownload = getCookie('startDownload') || true;
+
+/**
+ * Начинаем загрузку если находимся
+ * на странице загрцзки и ставим куки
+ * на 1 минуту на запрет загрузки
+ * билда при перезагрузке страницы
+ *
+ * Очищаем историю кнопки назад если не андроид и не firefox
+ */
+window.addEventListener('load', () => {
+  if (startDownload && getPage() === 'download') {
+    if (os !== 'Android' && platform.name !== 'Firefox') {
+      window.history.pushState({}, '', url.toString());
+    }
+    setCookie('startDownload', false, 0.000694);
+    const downloadPlatform = body.dataset('download-platform');
+    location.href = document.getElementsByClassName(downloadPlatform)?.href;
+  }
+});
 
 const downloadLinks = [
   ...downloadLinksNodes,
