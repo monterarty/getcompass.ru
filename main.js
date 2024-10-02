@@ -915,14 +915,14 @@ window.addEventListener('load', () => {
    * Начинать загрузку при загрузке страницы?
    * @type {boolean}
    */
-  const startDownload = getCookie(`startDownload_${downloadPlatform}`) !== 0;
+  const startDownload = getCookie(`startDownload_${downloadPlatform}`) !== 'no';
 
 
   if (startDownload && getPage() === 'download') {
     if (os !== 'Android' && platform.name !== 'Firefox') {
       window.history.pushState({}, '', url.toString());
     }
-    setCookie(`startDownload_${downloadPlatform}`, 0, 0.000694);
+    setCookie(`startDownload_${downloadPlatform}`, 'no', 0.000694);
     location.href = document.getElementByClassName(downloadPlatform)[0]?.href;
   }
 });
