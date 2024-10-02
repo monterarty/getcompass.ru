@@ -266,7 +266,9 @@ const getPage = () => {
     'is--partner-page': 'partner',
     'is--blog-page': 'blog',
     'is--page-delete': 'delete-page',
-    'is--media-page': 'media'
+    'is--media-page': 'media',
+    'is--download-op': 'download_on-premise',
+    'is--download-cloud' : 'download_cloud'
   };
 
   // Проверка классов
@@ -775,7 +777,7 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
         downloadLinksList.querySelectorAll("[data-cloud]");
       if (
         getPage() === "on-premise" &&
-        !downloadList.classList.contains("is--cloud-platforms")
+        !downloadList.classList.contains("is--cloud-platforms") || getPage() === 'download_on-premise' && !downloadList.classList.contains("is--cloud-platforms")
       ) {
         Array.prototype.forEach.call(allDownloadLinks, (link) => {
           link.href = link.dataset.onpremise;
