@@ -914,20 +914,20 @@ const downloadLinks = [
 ];
 
 Array.prototype.forEach.call(downloadLinks, downloadLink => {
-  var platform = Array.from(downloadLink.classList).find(className => instructionLinks[className]);
-
-  platform = platform ? platform : downloadLink.dataset.platform;
+  const platformClass = Array.from(downloadLink.classList).find(className => instructionLinks[className]);
+  const isShowOnpremiseLinks = ['on-premise', 'download_on-premise'].indexOf(getPage() + 1) > 0;
+  const platform = platformClass ? platformClass : downloadLink.dataset.platform;
 
   if (!downloadLink.dataset.version && platform) {
     downloadLink.dataset.cloud = downloadLinksData[platform][3];
     downloadLink.dataset.onpremise = downloadLinksData[platform][4];
 
-    if (getPage() !== 'on-premise') {
-      downloadLink.dataset.version = 'cloud';
-      downloadLink.href = downloadLinksData[platform][3];
-    } else {
+    if (isShowOnpremiseLinks) {
       downloadLink.dataset.version = 'onpremise';
       downloadLink.href = downloadLinksData[platform][4];
+    } else {
+      downloadLink.dataset.version = 'cloud';
+      downloadLink.href = downloadLinksData[platform][3];
     }
   }
   //Цели яндекс на клик по стору
