@@ -902,12 +902,6 @@ const instructionLinks = {
 };
 
 /**
- * Начинать загрузку при загрузке страницы?
- * @type {boolean}
- */
-const startDownload = getCookie('startDownload') || true;
-
-/**
  * Начинаем загрузку если находимся
  * на странице загрцзки и ставим куки
  * на 1 минуту на запрет загрузки
@@ -916,12 +910,19 @@ const startDownload = getCookie('startDownload') || true;
  * Очищаем историю кнопки назад если не андроид и не firefox
  */
 window.addEventListener('load', () => {
+  const downloadPlatform = body.dataset.downloadPlatform;
+  /**
+   * Начинать загрузку при загрузке страницы?
+   * @type {boolean}
+   */
+  const startDownload = getCookie(`startDownload_${downloadPlatform}`) !== 0;
+
+
   if (startDownload && getPage() === 'download') {
     if (os !== 'Android' && platform.name !== 'Firefox') {
       window.history.pushState({}, '', url.toString());
     }
-    setCookie('startDownload', false, 0.000694);
-    const downloadPlatform = body.dataset.downloadPlatform;
+    setCookie(`startDownload_${downloadPlatform}`, 0, 0.000694);
     location.href = document.getElementsByClassName(downloadPlatform)?.href;
   }
 });
@@ -3401,6 +3402,14 @@ function analyticsModal(hash) {
     case '#video-linux-deb-standart':
     case '#video-linux-deb-terminal':
       ym(ymetrikaID, 'reachGoal', '73');
+      break;
+    case '#video-linux-rpm-standart':
+    case '#video-linux-rpm-terminal':
+      ym(ymetrikaID, 'reachGoal', '78');
+      break;
+    case '#video-linux-astra-standart':
+    case '#video-linux-astra-terminal':
+      ym(ymetrikaID, 'reachGoal', '77');
       break;
     case '#video-linux-tar':
       ym(ymetrikaID, 'reachGoal', '74');
