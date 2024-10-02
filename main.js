@@ -842,29 +842,6 @@ switch (os) {
     break;
 }
 
-const instructionLinks = {
-  appstore: '/download/appstore',
-  playmarket: '/download/playmarket',
-  huawei: '/download/huawei',
-  rustore: '/download/rustore',
-  macintel: '/download/macos-intel',
-  macapple: '/download/macos-silicon',
-  windows: '/download/windows-10-exe',
-  windows_old: '/download/windows-7-exe',
-  windowsmsi: '/download/windows-10-msi',
-  windowsmsi_old: '/download/windows-7-msi',
-  linuxdeb: '/download/linux-ubuntu',
-  linuxtar: '/download/linux-tar',
-  linuxrpm: '/download/linux-rpm',
-  linuxastra: '/download/linux-asrta'
-};
-
-const downloadLinks = [
-  ...downloadLinksNodes,
-  ...document.querySelectorAll('.appstore, .playmarket, .huawei, .macintel, .macapple, .windows, .linuxdeb, .linuxtar, [data-platform="windows"]')
-
-];
-
 const mobileClassNames = ['appstore', 'playmarket', 'huawei'];
 const mobileBodyClassNames = ['is--ios', 'is--android', 'is--huawei'];
 const url = new URL(location);
@@ -912,6 +889,29 @@ if (os === 'iOS') {
     }
   })
 }
+
+const instructionLinks = {
+  appstore: '/download/appstore',
+  playmarket: '/download/playmarket',
+  huawei: '/download/huawei',
+  rustore: '/download/rustore',
+  macintel: '/download/macos-intel',
+  macapple: '/download/macos-silicon',
+  windows: '/download/windows-10-exe',
+  windows_old: '/download/windows-7-exe',
+  windowsmsi: '/download/windows-10-msi',
+  windowsmsi_old: '/download/windows-7-msi',
+  linuxdeb: '/download/linux-ubuntu',
+  linuxtar: '/download/linux-tar',
+  linuxrpm: '/download/linux-rpm',
+  linuxastra: '/download/linux-asrta'
+};
+
+const downloadLinks = [
+  ...downloadLinksNodes,
+  ...document.querySelectorAll('.appstore, .playmarket, .huawei, .macintel, .macapple, .windows, .linuxdeb, .linuxtar, [data-platform]')
+
+];
 
 Array.prototype.forEach.call(downloadLinks, downloadLink => {
   var platform = Array.from(downloadLink.classList).find(className => instructionLinks[className]);
