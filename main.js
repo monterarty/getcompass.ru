@@ -933,7 +933,7 @@ Array.prototype.forEach.call(downloadLinks, downloadLink => {
   //Цели яндекс на клик по стору
   downloadLink.addEventListener('click', (e) => {
     // Цели для Cloud версии приложения
-    if (downloadLink.dataset.version == 'cloud') {
+    if (downloadLink.dataset.version === 'cloud') {
       if (getPage() != 'download') {
         switch (platform) {
           case 'appstore':
@@ -970,7 +970,7 @@ Array.prototype.forEach.call(downloadLinks, downloadLink => {
         ym(ymetrikaID, 'reachGoal', '240');
       }
 
-      if (getPage() == 'download') {
+      if (getPage() === 'download') {
         ym(ymetrikaID, 'reachGoal', '76');
       }
 
