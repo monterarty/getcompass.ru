@@ -268,7 +268,8 @@ const getPage = () => {
     'is--page-delete': 'delete-page',
     'is--media-page': 'media',
     'is--download-op': 'download_on-premise',
-    'is--download-cloud' : 'download_cloud'
+    'is--download-cloud' : 'download_cloud',
+    'is--download-page' : 'download'
   };
 
   // Проверка классов
@@ -280,7 +281,7 @@ const getPage = () => {
 
   // Проверка URL
   const urlToPageMap = {
-    'download': 'download',
+    //'/download/': 'download',
     'mediakit': 'mediakit',
   };
 
@@ -704,7 +705,7 @@ downloadLinksList.innerHTML = downloadLinksOtherLinkWrap + downloadLinksWindowsT
 const downloadLinksOtherLink = downloadLinksList.querySelector('a.cta__list-other-button');
 downloadLinksOtherLink.addEventListener('click', () => {
   const downloadListElement = downloadLinksList.closest('.cta__dd-list');
-  const isCloudPlatform = downloadListElement?.classList.contains('is--cloud-platforms');
+  const isCloudPlatform = downloadListElement?.classList.contains('is--cloud-platforms') || ['on-premise', 'download_on-premise'].indexOf(getPage()) === -1;
   const isHomePage = getPage() === 'home';
   const isInNavigation = downloadLinksOtherLink.closest('.nav')?.length > 0;
 
@@ -846,8 +847,6 @@ const mobileClassNames = ['appstore', 'playmarket', 'huawei'];
 const mobileBodyClassNames = ['is--ios', 'is--android', 'is--huawei'];
 const url = new URL(location);
 const urlParams = url.searchParams;
-const startDownload = urlParams.get('start-download') || '';
-const platformClass = urlParams.get('platform') || '';
 const sourceID = urlParams.get('source_id') || '';
 const utmTag = urlParams.get('utm_tag') || '';
 var partnerCode = urlParams.get('partner_code') || '';
@@ -856,11 +855,30 @@ if (partnerCode) {
   setCookie('partnerCode', partnerCode, 30);
 }
 
-//Удаляем параметры URL
-urlParams.delete("platform");
-urlParams.delete("start-download");
-if (startDownload && os !== 'Android' && platform.name !== 'Firefox')
-  window.history.pushState({}, '', url.toString());
+/**
+ * Начинать загрузку при загрузке страницы?
+ * @type {boolean}
+ */
+const startDownload = getCookie('startDownload') || true;
+
+/**
+ * Начинаем загрузку если находимся
+ * на странице загрцзки и ставим куки
+ * на 1 минуту на запрет загрузки
+ * билда при перезагрузке страницы
+ *
+ * Очищаем историю кнопки назад если не андроид и не firefox
+ */
+window.addEventListener('load', () => {
+  if (startDownload && getPage() === 'download') {
+    if (os !== 'Android' && platform.name !== 'Firefox') {
+      window.history.pushState({}, '', url.toString());
+    }
+    setCookie('startDownload', false, 0.000694);
+    location.href = document.querySelector('.download-hero__link')?.href;
+  }
+});
+
 if (['iOS', 'Android', 'Huawei'].indexOf(os) + 1) {
   document.querySelector('.page-wrapper').classList.remove('is--overflow-clip');
 }
@@ -977,7 +995,7 @@ Array.prototype.forEach.call(downloadLinks, downloadLink => {
       if ((!mobileBodyClassNames.some(className => document.body.classList.contains(className)) ||
         mobileClassNames.some(className => downloadLink.classList.contains(className)))) {
         e.preventDefault();
-        const instructionLink = window.location.origin + instructionLinks[platform] + '/?start-download=true&platform=' + platform;
+        const instructionLink = window.location.origin + instructionLinks[platform];
         if (window.location.href.indexOf(instructionLinks[platform]) + 1) {
           window.location.href = downloadLink.href;
         } else {
@@ -1019,16 +1037,6 @@ Array.prototype.forEach.call(downloadLinks, downloadLink => {
     downloadLink.removeAttribute('download');
     downloadLink.setAttribute('build-link', downloadLink.href);
     downloadLink.href = '#';
-  }
-});
-
-window.addEventListener('load', () => {
-  if (startDownload) {
-    downloadLinksNodes.forEach(link => {
-      if (link.classList.contains(platformClass)) {
-        location.href = link.getAttribute('href');
-      }
-    })
   }
 });
 
@@ -1078,9 +1086,25 @@ const setCenterCTAListArrow = (dropdown) => {
 const CTADropdowns = document.querySelectorAll('.w-dropdown');
 Array.prototype.forEach.call(CTADropdowns, dropdown => {
   const dropdownToggle = dropdown.querySelector('.w-dropdown-toggle');
+  const isWindowsList = dropdown.querySelector('.w-dropdown-list')?.classList.contains('is--win-list');
+  const isOpen = dropdownToggle.classList.contains('w--open');
+
   dropdownToggle.addEventListener('click', (e) => {
-    if (!dropdownToggle.classList.contains('w--open'))
-      setCenterCTAListArrow(dropdown);
+    /**
+     * Отцентровать стрелку если закрыт выпадающий список
+     */
+    !isOpen && setCenterCTAListArrow(dropdown);
+
+    /**
+     * Логика на время отсутствия сборки msi для windows
+     */
+    if (isWindowsList) {
+      const buildLink = ctaDropdown.querySelector('.windows');
+      dropdown.classList.add('is--hidden-list');
+
+      buildLink.click();
+      window.location.href = buildLink.href;
+    }
   })
 });
 
