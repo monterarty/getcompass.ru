@@ -1101,11 +1101,11 @@ Array.prototype.forEach.call(CTADropdowns, dropdown => {
      * Логика на время отсутствия сборки msi для windows
      */
     if (isWindowsList) {
-      const buildLink = ctaDropdown.querySelector('.windows');
+      const buildLink = dropdown.querySelector('.windows');
       dropdown.classList.add('is--hidden-list');
 
       buildLink.click();
-      window.location.href = buildLink.href;
+      window.location.href = window.location.origin + instructionLinks['windows'];
     }
   })
 });
