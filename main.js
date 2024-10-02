@@ -915,7 +915,7 @@ const downloadLinks = [
 
 Array.prototype.forEach.call(downloadLinks, downloadLink => {
   const platformClass = Array.from(downloadLink.classList).find(className => instructionLinks[className]);
-  const isShowOnpremiseLinks = ['on-premise', 'download_on-premise'].indexOf(getPage() + 1) > 0;
+  const isShowOnpremiseLinks = (['on-premise', 'download_on-premise'].indexOf(getPage()) + 1) > 0;
   const platform = platformClass ? platformClass : downloadLink.dataset.platform;
 
   if (!downloadLink.dataset.version && platform) {
