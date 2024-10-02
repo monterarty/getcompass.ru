@@ -921,7 +921,7 @@ window.addEventListener('load', () => {
       window.history.pushState({}, '', url.toString());
     }
     setCookie('startDownload', false, 0.000694);
-    const downloadPlatform = body.dataset('download-platform');
+    const downloadPlatform = body.dataset.downloadPlatform;
     location.href = document.getElementsByClassName(downloadPlatform)?.href;
   }
 });
