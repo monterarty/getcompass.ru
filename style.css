@@ -1869,7 +1869,7 @@ html * {
     top: 0;
     height: 100%;
     width: 2rem;
-    background-image: linear-gradient(to right, transparent, rgb(241 241 243))
+    background-image: linear-gradient(to right, transparent, var(--slate--100))
   }
 
   .is--mobile-platforms .download__hero {
