@@ -923,7 +923,7 @@ window.addEventListener('load', () => {
       window.history.pushState({}, '', url.toString());
     }
     setCookie(`startDownload_${downloadPlatform}`, 0, 0.000694);
-    location.href = document.getElementsByClassName(downloadPlatform)?.href;
+    location.href = document.getElementByClassName(downloadPlatform)[0]?.href;
   }
 });
 
