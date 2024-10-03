@@ -898,7 +898,7 @@ const instructionLinks = {
   linuxdeb: '/download/linux-ubuntu',
   linuxtar: '/download/linux-tar',
   linuxrpm: '/download/linux-rpm',
-  linuxastra: '/download/linux-asrta'
+  linuxastra: '/download/linux-astra'
 };
 
 /**
@@ -1068,7 +1068,7 @@ const setCenterCTAListArrow = (dropdown) => {
     CTAList.style.setProperty('--popupLeft', 0);
     CTAList.style.setProperty('--arrowLeft', 0);
     const CTAListRect = CTAList.getBoundingClientRect();
-    const isCTAListInContentArea = (CTAListRect.x + CTAListRect.width) < window.innerWidth;
+    const isCTAListInContentArea = (CTAListRect.x + CTAListRect.width) < body.clientWidth;
     const CTADropdown = CTAList.closest('.w-dropdown');
     const CTADropdownList = CTADropdown.querySelector('.w-dropdown-list');
     const CTAListInnerWrap = CTAList.querySelector('.cta__dd-list-wrap');
@@ -1083,7 +1083,7 @@ const setCenterCTAListArrow = (dropdown) => {
       CTADropdownList.style.removeProperty('left');
       CTADropdownList.style.setProperty('--arrowLeft', `${CTATextCenterArrowRect.x - CTAListRect.x + CTATextCenterArrowRect.width / 2}px`);
     } else {
-      const CTAListRightOffset = window.innerWidth - (CTAListRect.x + CTAListRect.width) - 16;
+      const CTAListRightOffset = body.clientWidth - (CTAListRect.x + CTAListRect.width) - 16;
       CTADropdownList.style.setProperty('--popupLeft', `${CTAListRightOffset / getSize()}rem`);
       CTADropdownList.style.setProperty('--arrowLeft', `${CTATextCenterArrowRect.x - CTAListRect.x + CTATextCenterArrowRect.width / 2}px`);
     }
@@ -1116,11 +1116,14 @@ Array.prototype.forEach.call(CTADropdowns, dropdown => {
      * Логика на время отсутствия сборки msi для windows
      */
     if (isWindowsList) {
+      const isMobileUser = mobileBodyClassNames.some(className => document.body.classList.contains(className))
       const buildLink = dropdown.querySelector('.windows');
       dropdown.classList.add('is--hidden-list');
 
       buildLink.click();
-      window.location.href = window.location.origin + instructionLinks['windows'];
+      if (!isMobileUser) {
+        window.location.href = window.location.origin + instructionLinks['windows'];
+      }
     }
   })
 });
@@ -1178,7 +1181,7 @@ function addInputPhoneMask() {
       }
 
       const firstSymbols =
-        (inputNumbersValue[0] == "8" || "7") && inputNumbersValue[0] !== "9" ?
+        (inputNumbersValue[0] === "8" || "7") && inputNumbersValue[0] !== "9" ?
           "+7" :
           "+";
       if (inputNumbersValue[0] === "9" && os !== "iOS") {
@@ -1361,11 +1364,11 @@ const comandInputs = document.querySelectorAll('input[data-input-comand]');
 nameInputs.forEach((input) => {
   input.addEventListener('keypress', function(e) {
     //console.log(e.keyCode);
-    if (e.keyCode != 8 && e.keyCode != 46 && (input.value.length > 49 || e.key && e.key.match(/[^А-яЁёІіЇїҐґЄєa-zA-ZẞßÄäÜüÖöÀàÈèÉéÌìÍíÎîÒòÓóÙùÚúÂâÊêÔôÛûËëÏïŸÿÇçÑñœ’`'.-\s]/)))
+    if (e.keyCode !== 8 && e.keyCode != 46 && (input.value.length > 49 || e.key && e.key.match(/[^А-яЁёІіЇїҐґЄєa-zA-ZẞßÄäÜüÖöÀàÈèÉéÌìÍíÎîÒòÓóÙùÚúÂâÊêÔôÛûËëÏïŸÿÇçÑñœ’`'.-\s]/)))
       return e.preventDefault();
   });
   input.addEventListener('input', function(e) {
-    if (e.inputType == "insertFromPaste") {
+    if (e.inputType === "insertFromPaste") {
       // На случай, если умудрились ввести через копипаст или авто-дополнение.
       input.value = input.value.replace(/[^А-яЁёІіЇїҐґЄєa-zA-ZẞßÄäÜüÖöÀàÈèÉéÌìÍíÎîÒòÓóÙùÚúÂâÊêÔôÛûËëÏïŸÿÇçÑñœ’`'.-\s]/g, "").slice(0, 50);
     }

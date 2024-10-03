@@ -285,12 +285,12 @@ picture {
 
 .is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div {display: none}
 .is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {order: 7; display: flex}
-.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(2) {order: 1; display: hidden} /* Скрыты сборки для Windows 7 */
-.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(3) {order: 4; display: hidden} /* Скрыты сборки для Windows 7 */
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(2) {order: 1; display: none} /* Скрыты сборки для Windows 7 */
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(3) {order: 4; display: none} /* Скрыты сборки для Windows 7 */
 .is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(6) {order: 2; display: flex}
-.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(7) {order: 3; display: hidden} /* Скрыты сборки для Windows msi */
-.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(8) {order: 5; display: hidden} /* Скрыты сборки для Windows 7 */
-.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(9) {order: 6; display: hidden} /* Скрыты сборки для Windows 7 */
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(7) {order: 3; display: none} /* Скрыты сборки для Windows msi */
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(8) {order: 5; display: none} /* Скрыты сборки для Windows 7 */
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(9) {order: 6; display: none} /* Скрыты сборки для Windows 7 */
 
 .is--linux .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div {display: none}
 .is--linux .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {order: 5; display: flex}
@@ -300,16 +300,16 @@ picture {
 .is--linux .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(13) {order: 4; display: flex}
 
 .is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div {display: none}
-.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {order: 4; display: hidden} /* Скрыты другие платформы */
+.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {order: 4; display: none} /* Скрыты другие платформы */
 .is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(15) {order: 1; display: flex}
 .is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(16) {order: 2; display: flex}
-.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(17) {order: 3; display: hidden} /* Скрыт Rustore */
+.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(17) {order: 3; display: none} /* Скрыт Rustore */
 
 .cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div {display: none}
-.cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(14) {order: 1; display: hidden} /* Скрыты другие платформы */
+.cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(14) {order: 1; display: flex} /* Скрыты другие платформы */
 .cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(15) {order: 2; display: flex}
 .cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(16) {order: 3; display: flex}
-.cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(17) {order: 4; display: hidden} /* Скрыт Rustore */
+.cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(17) {order: 4; display: none} /* Скрыт Rustore */
 
 .cta__dd-list.is--mac-list.is--sort-disable .cta__dd-list-inner-wrap>div {display: none}
 .cta__dd-list.is--mac-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(4) {order: 1; display: flex}
@@ -322,12 +322,12 @@ picture {
 .cta__dd-list.is--linux-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(13) {order: 4; display: flex}
 
 .cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div {display: none}
-.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(2) {order: 1; display: hidden} /* Скрыты сборки для Windows 7 */
-.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(3) {order: 4; display: hidden} /* Скрыты сборки для Windows 7 */
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(2) {order: 1; display: none} /* Скрыты сборки для Windows 7 */
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(3) {order: 4; display: none} /* Скрыты сборки для Windows 7 */
 .cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(6) {order: 2; display: flex}
-.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(7) {order: 3; display: hidden} /* Скрыты сборки для Windows msi */
-.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(8) {order: 5; display: hidden} /* Скрыты сборки для Windows 7 */
-.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(9) {order: 6; display: hidden} /* Скрыты сборки для Windows 7 */
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(7) {order: 3; display: none} /* Скрыты сборки для Windows msi */
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(8) {order: 5; display: none} /* Скрыты сборки для Windows 7 */
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(9) {order: 6; display: none} /* Скрыты сборки для Windows 7 */
 
 .cta__dd-list.is--platforms-list.is--sort-disable .cta__dd-list-inner-wrap>div {display: none}
 .cta__dd-list.is--platforms-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(18) {order: 1; display: flex}
