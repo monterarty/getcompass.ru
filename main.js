@@ -954,7 +954,7 @@ Array.prototype.forEach.call(downloadLinks, downloadLink => {
   downloadLink.addEventListener('click', (e) => {
     // Цели для Cloud версии приложения
     if (downloadLink.dataset.version === 'cloud') {
-      if (getPage() != 'download') {
+      if (getPage() !== 'download') {
         switch (platform) {
           case 'appstore':
             ym(ymetrikaID, 'reachGoal', '12');
@@ -1001,7 +1001,7 @@ Array.prototype.forEach.call(downloadLinks, downloadLink => {
         if (window.location.href.indexOf(instructionLinks[platform]) + 1) {
           window.location.href = downloadLink.href;
         } else {
-          window.location.href = instructionLink
+          window.location.href = instructionLinks[platform] ? instructionLink : downloadLink.href;
         }
       }
     } else if (downloadLink.dataset.version === 'onpremise') {
@@ -1068,6 +1068,7 @@ const setCenterCTAListArrow = (dropdown) => {
     CTAList.style.setProperty('--popupLeft', 0);
     CTAList.style.setProperty('--arrowLeft', 0);
     const CTAListRect = CTAList.getBoundingClientRect();
+    const isCTAListInContentArea = (CTAListRect.x + CTAListRect.width) < window.innerWidth;
     const CTADropdown = CTAList.closest('.w-dropdown');
     const CTADropdownList = CTADropdown.querySelector('.w-dropdown-list');
     const CTAListInnerWrap = CTAList.querySelector('.cta__dd-list-wrap');
@@ -1078,12 +1079,26 @@ const setCenterCTAListArrow = (dropdown) => {
       if (CTAListRect.x != 0)
         CTADropdownList.style.setProperty('--popupLeft', `-${CTAListRect.x}px`);
       CTADropdownList.style.setProperty('--arrowLeft', `${CTATextCenterArrowRect.x - CTAListInnerWrap.getBoundingClientRect().x + CTATextCenterArrowRect.width / 2}px`);
-    } else {
+    } else if (window.innerWidth > 1570) {
       CTADropdownList.style.removeProperty('left');
+      CTADropdownList.style.setProperty('--arrowLeft', `${CTATextCenterArrowRect.x - CTAListRect.x + CTATextCenterArrowRect.width / 2}px`);
+    } else {
+      const CTAListRightOffset = window.innerWidth - (CTAListRect.x + CTAListRect.width) - 16;
+      CTADropdownList.style.setProperty('--popupLeft', `${CTAListRightOffset / getSize()}rem`);
       CTADropdownList.style.setProperty('--arrowLeft', `${CTATextCenterArrowRect.x - CTAListRect.x + CTATextCenterArrowRect.width / 2}px`);
     }
   });
 }
+/**
+ * Центрируем выпадающий список при изменении ширины экрана
+ */
+let prevWidth = window.innerWidth;
+window.addEventListener('resize', (e) => {
+  if (prevWidth !== window.innerWidth) {
+    prevWidth = window.innerWidth;
+    setCenterCTAListArrow();
+  }
+});
 
 const CTADropdowns = document.querySelectorAll('.w-dropdown');
 Array.prototype.forEach.call(CTADropdowns, dropdown => {

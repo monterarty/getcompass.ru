@@ -1739,6 +1739,13 @@ html * {
   }
 }
 
+@media (max-width:1570px) AND (min-width:767px) {
+  .is--navbar ~ .cta__dd-list {
+    transform: none;
+    left: var(--popupLeft);
+  }
+}
+
 @media(max-height:28.5rem) {
 
   .is--center-modal .remodal,
