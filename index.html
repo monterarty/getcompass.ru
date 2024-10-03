@@ -66,7 +66,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
   <script type="module" crossorigin src="/getcompass.ru/assets/js/index-v2.6.6.min.js"></script>
   <link rel="stylesheet" crossorigin href="/getcompass.ru/assets/css/style-v2.6.6.css">
 </head>
-<body data-download-platform="linuxastra" class="is--download-page dark--text-white-70pr dark--bg-black">
+<body class="is--home-page dark--text-white-70pr dark--bg-black">
   <div class="fixed top-0">
     <div class="w-embed">
       <style>
@@ -3899,6 +3899,13 @@ html * {
   }
 }
 
+@media (max-width:1570px) AND (min-width:767px) {
+  .is--navbar ~ .cta__dd-list {
+    transform: none;
+    left: var(--popupLeft);
+  }
+}
+
 @media(max-height:28.5rem) {
 
   .is--center-modal .remodal,
@@ -4778,7 +4785,7 @@ html * {
             <div class="cta__btn is--navbar cta__dd-center-arrow w-dropdown-toggle">
               <div>Попробовать бесплатно</div>
             </div>
-            <nav class="cta__dd-list is--mobile-fullwidth is--mobile-has-arrow w-dropdown-list cta__dd-list sw-236 mt-14 sm--mt-0 sm--sw-100vw sm--pt-12 is--small-list">
+            <nav class="cta__dd-list is--mobile-fullwidth is--mobile-has-arrow w-dropdown-list cta__dd-list sw-236 mt-14 sm--mt-0 sm--sw-100vw sm--pt-12">
               <div class="cta__dd-list-wrap"></div>
             </nav>
           </div>
