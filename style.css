@@ -1911,6 +1911,12 @@ html * {
     filter: drop-shadow(0 2px 0 #f0f0f0)
   }
 
+  .dark .is--has-arrow.is--mobile-open-top .cta__dd-list-wrap::before,
+  .dark .is--has-arrow.is--open-top .cta__dd-list-wrap::before {
+    border-top-color: var(--neutral--950);
+    filter: drop-shadow(0 2px 0 #FFFFFF0D)
+  }
+
   .cta__dd-list {
     --popupLeft: 0px;
     min-width: var(--m366);

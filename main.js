@@ -1104,7 +1104,11 @@ Array.prototype.forEach.call(CTADropdowns, dropdown => {
 
       buildLink.click();
       if (!isMobileUser) {
-        window.location.href = window.location.origin + instructionLinks['windows'];
+        if (['on-premise', 'download_on-premise'].indexOf(getPage()) + 1) {
+          window.location.href = buildLink.href;
+        } else {
+          window.location.href = window.location.origin + instructionLinks['windows'];
+        }
       }
     }
   })
