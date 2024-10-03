@@ -333,6 +333,17 @@ picture {
 .cta__dd-list.is--platforms-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(18) {order: 1; display: flex}
 .cta__dd-list.is--platforms-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(19) {order: 2; display: flex}
 
+.is--android .mobile--block,
+.is--ios .mobile--block {
+  display: block;
+}
+
+.is--android .mobile--hidden,
+.is--ios .mobile--hidden {
+  display: none;
+}
+
+
 picture {
   height: 100%;
   align-items: center;
