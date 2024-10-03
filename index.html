@@ -3578,9 +3578,9 @@ picture img {
   color: #333e49
 }
 
-.is--touch .download-hero__mobile-link:hover,
-.is--touch .logo-vendor__item.is--bottom-item:hover,
-.is--touch .logo-vendor__item:hover {
+.is--touch:not(.dark) .download-hero__mobile-link:hover,
+.is--touch:not(.dark) .logo-vendor__item.is--bottom-item:hover,
+.is--touch:not(.dark) .logo-vendor__item:hover {
   background-color: rgba(255, 255, 255, .4)
 }
 
@@ -4036,7 +4036,7 @@ html * {
     top: 0;
     height: 100%;
     width: 2rem;
-    background-image: linear-gradient(to right, transparent, var(--slate--100))
+    background-image: linear-gradient(to right, transparent, #e7e8f2)
   }
 
   .is--mobile-platforms .download__hero {
