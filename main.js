@@ -193,6 +193,9 @@ const body = document.body;
 const html = document.documentElement;
 const navbar = document.querySelector('.w-nav');
 const ymetrikaID = window.ymetrikaID;
+const sendEvent = (id) => {
+  ym(window.ymetrikaID, 'reachGoal', id);
+};
 
 var isMobile = false;
 
@@ -983,40 +986,72 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   }
   //Цели яндекс на клик по стору
   downloadLink.addEventListener('click', (e) => {
+    const isSaasPlatfomsBlock =
+      downloadLink.closest('.download_cloud-block').length > 0;
+    const isOnPremisePlatformsBlock =
+      downloadLink.closest('.download_op-block').length > 0;
     // Цели для Cloud версии приложения
     if (downloadLink.dataset.version === 'cloud') {
       if (getPage() !== 'download') {
         switch (platform) {
           case 'appstore':
-            ym(ymetrikaID, 'reachGoal', '12');
+            sendEvent('12');
+            // Цели для блока SaaS
+            isSaasPlatfomsBlock && sendEvent('707');
+            // Цели для блока платформ On-premise
+            isOnPremisePlatformsBlock && sendEvent('358');
             break;
           case 'huawei':
-            ym(ymetrikaID, 'reachGoal', '13');
+            sendEvent('13');
+            // Цели для блока SaaS
+            isSaasPlatfomsBlock && sendEvent('707');
+            // Цели для блока платформ On-premise
+            isOnPremisePlatformsBlock && sendEvent('358');
             break;
           case 'playmarket':
-            ym(ymetrikaID, 'reachGoal', '14');
+            sendEvent('14');
+            // Цели для блока SaaS
+            isSaasPlatfomsBlock && sendEvent('707');
+            // Цели для блока платформ On-premise
+            isOnPremisePlatformsBlock && sendEvent('358');
             break;
           case 'rustore':
-            ym(ymetrikaID, 'reachGoal', '24');
+            sendEvent('24');
+            // Цели для блока SaaS
+            isSaasPlatfomsBlock && sendEvent('707');
+            // Цели для блока платформ On-premise
+            isOnPremisePlatformsBlock && sendEvent('358');
             break;
           case 'windows':
           case 'windowsmsi':
           case 'windowsmsi_old':
           case 'windows_old':
-            ym(ymetrikaID, 'reachGoal', '15');
+            sendEvent('15');
+            // Цели для блока SaaS
+            isSaasPlatfomsBlock && sendEvent('705');
+            // Цели для блока платформ On-premise
+            isOnPremisePlatformsBlock && sendEvent('356');
             break;
           case 'macintel':
           case 'macapple':
-            ym(ymetrikaID, 'reachGoal', '16');
+            sendEvent('16');
+            // Цели для блока SaaS
+            isSaasPlatfomsBlock && sendEvent('704');
+            // Цели для блока платформ On-premise
+            isOnPremisePlatformsBlock && sendEvent('355');
             break;
           case 'linuxdeb':
           case 'linuxtar':
           case 'linuxrpm':
           case 'linuxastra':
-            ym(ymetrikaID, 'reachGoal', '17');
+            sendEvent('17');
+            // Цели для блока SaaS
+            isSaasPlatfomsBlock && sendEvent('706');
+            // Цели для блока платформ On-premise
+            isOnPremisePlatformsBlock && sendEvent('357');
             break;
         }
-        ym(ymetrikaID, 'reachGoal', '51'); //Переход в стор
+        sendEvent('51');
         _tmr.push({
           type: 'reachGoal',
           id: 3381982,
@@ -3335,21 +3370,6 @@ function attachYandexMetricaClickEvents(nodeList, targetID, options = {}) {
     });
   });
 }
-
-// Цель переход на страницу SaaS
-const saasPageLinks = document.querySelectorAll(
-  '[href*="/download"]:not([href*="on-premise/download"])'
-);
-// Переход из любого места кроме стр загрузок и блога
-attachYandexMetricaClickEvents(saasPageLinks, '700', {
-  excludePages: ['download', 'blog', 'post'],
-});
-
-// Переход из меню Продукт
-attachYandexMetricaClickEvents(saasPageLinks, '701', {
-  includeParents: ['[data-product]'],
-  excludePages: ['download', 'blog', 'post'],
-});
 
 // Цели раздел СМИ
 const socialMediaPageLinks = document.querySelectorAll(
