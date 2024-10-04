@@ -690,6 +690,79 @@ html.remodal-is-locked body {
   background-color: var(--b-c--violet)
 }
 
+.partner-calc__slider.noUi-horizontal .noUi-tooltip {
+  -webkit-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  left: 50%;
+  bottom: 136%;
+}
+
+.partner-calc__slider .noUi-tooltip {
+  display: block;
+  position: absolute;
+  font-weight: 600;
+  font-size: 1.667rem;
+  line-height: 1.2;
+  border: 1px solid #F0F0F0;
+  border-radius: .444rem;
+  background: #fff;
+  color: var(--black);
+  padding: .333rem .889rem;
+  text-align: center;
+  white-space: nowrap
+}
+
+.partner-calc__slider .noUi-tooltip::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -.44rem;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 2px 0 #f0f0f0);
+  border-top: 0.55rem solid #fff;
+  border-right: 0.44rem solid transparent;
+  border-left: 0.44rem solid transparent;
+}
+
+.partner-calc__slider .noUi-handle {
+  border: 1px solid #F0F0F0;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 1.555rem;
+  background-image: url(https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5b25eb6a25da1d96057ee_slider-icon.svg);
+  cursor: default;
+  box-shadow: 0px 2px 5px 0px #0000000D;
+}
+
+.partner-calc__slider.noUi-horizontal {
+  height: .889rem;
+}
+
+.partner-calc__slider.noUi-horizontal .noUi-handle {
+  will-change: transform;
+  width: 2.667rem;
+  height: 2.667rem;
+  right: -1.333rem;
+  top: -.889rem;
+}
+
+.partner-calc__slider.noUi-target {
+  background: #00000008;
+  border-radius: 1rem;
+  border: none;
+  box-shadow: inset 0 1px 1px #F0F0F0,0 3px 6px -5px #BBB
+}
+
+.partner-calc__slider .noUi-connects {
+  border-radius: 1rem;
+}
+
+.partner-calc__slider .noUi-connect {
+  background: var(--b-c--violet);
+}
+
 .partner-video__h1-span::after {
   content: "";
   width: 100%;
@@ -1993,11 +2066,11 @@ html * {
     transform: translate(-50%)
   }
 
-  .noUi-horizontal {
+  .partner-calc__slider.noUi-horizontal {
     height: 1rem
   }
 
-  .noUi-horizontal .noUi-handle {
+  .partner-calc__slider.noUi-horizontal .noUi-handle {
     width: 3.416rem;
     height: 3.416rem;
     right: -1.708rem;
@@ -2005,14 +2078,14 @@ html * {
     background-size: 1.945rem
   }
 
-  .noUi-horizontal .noUi-tooltip {
+  .partner-calc__slider.noUi-horizontal .noUi-tooltip {
     bottom: 139%;
     font-size: 2rem;
     padding: .444rem 1.1rem;
     border-radius: .667rem
   }
 
-  .noUi-tooltip::before {
+  .partner-calc__slider .noUi-tooltip::before {
     content: '';
     bottom: -.8rem;
     filter: drop-shadow(0 2px 0 #f0f0f0);
