@@ -987,9 +987,9 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   //Цели яндекс на клик по стору
   downloadLink.addEventListener('click', (e) => {
     const isSaasPlatfomsBlock =
-      downloadLink.closest('.download_cloud-block').length > 0;
+      downloadLink.closest('.download_cloud-block')?.length > 0;
     const isOnPremisePlatformsBlock =
-      downloadLink.closest('.download_op-block').length > 0;
+      downloadLink.closest('.download_op-block')?.length > 0;
     // Цели для Cloud версии приложения
     if (downloadLink.dataset.version === 'cloud') {
       if (getPage() !== 'download') {
