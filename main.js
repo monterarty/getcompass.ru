@@ -737,7 +737,10 @@ downloadLinksOtherLink.addEventListener('click', () => {
       'post',
       'download',
     ].indexOf(getPage()) === -1;
-  isCloudPlatform && isAcceptYM ? sendEvent('700') : sendEvent('350');
+
+  if (isAcceptYM) {
+    isCloudPlatform ? sendEvent('700') : sendEvent('350');
+  }
 });
 
 const downloadLinksNodes = [];
@@ -1164,6 +1167,11 @@ if (
   clipboard.on('success', function (e) {
     showCopyNote();
     ym(ymetrikaID, 'reachGoal', '25');
+    const isSaasPlatformsPage = getPage() === 'download_cloud';
+    const isOnPremisePlatformsPage = getPage() === 'download_on-premise';
+
+    isSaasPlatformsPage && sendEvent('715');
+    isOnPremisePlatformsPage && sendEvent('361');
     e.clearSelection();
   });
 
@@ -3384,9 +3392,40 @@ const platformsOnPremisePageLinks = document.querySelectorAll(
   '[href*="/on-premise/download"]'
 );
 
+const platformsSaasPageLinks = document.querySelectorAll(
+  '[href*="/download"]:not([href*="/on-premise/download"])'
+);
+
 attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '353', {
-  includePages: ['download_cloud'],
   includeParents: ['.download_cloud-block'],
+});
+
+attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '350', {
+  excludePages: ['download', 'blog', 'post'],
+});
+
+attachYandexMetricaClickEvents(platformsSaasPageLinks, '700', {
+  excludePages: ['download', 'blog', 'post'],
+});
+
+attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '351', {
+  includePages: ['onpremise'],
+  includeParents: ['[data-right-menu]'],
+});
+
+attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '352', {
+  includePages: ['onpremise'],
+  includeParents: ['footer'],
+});
+
+attachYandexMetricaClickEvents(platformsSaasPageLinks, '701', {
+  excludePages: ['download', 'blog', 'post'],
+  includeParents: ['[data-product]'],
+});
+
+attachYandexMetricaClickEvents(platformsSaasPageLinks, '702', {
+  excludePages: ['download', 'blog', 'post'],
+  includeParents: ['[data-right-menu]'],
 });
 
 // Цели раздел СМИ
@@ -3447,9 +3486,9 @@ $('a[href^="mailto"]').on('click', function () {
     ym(ymetrikaID, 'reachGoal', '103');
   } else {
     if (['download_cloud'].indexOf(getPage()) + 1) {
-      ym(ymetrikaID, 'reachGoal', '709');
+      ym(ymetrikaID, 'reachGoal', '714');
     } else if (['download_on-premise'].indexOf(getPage()) + 1) {
-      ym(ymetrikaID, 'reachGoal', '357');
+      ym(ymetrikaID, 'reachGoal', '360');
     } else {
       ym(ymetrikaID, 'reachGoal', '104');
     }
@@ -3542,9 +3581,9 @@ $(
   } else if (['on-premise'].indexOf(getPage()) + 1) {
     ym(ymetrikaID, 'reachGoal', '315');
   } else if (['download_cloud'].indexOf(getPage()) + 1) {
-    ym(ymetrikaID, 'reachGoal', '709');
+    ym(ymetrikaID, 'reachGoal', '714');
   } else if (['download_on-premise'].indexOf(getPage()) + 1) {
-    ym(ymetrikaID, 'reachGoal', '357');
+    ym(ymetrikaID, 'reachGoal', '360');
   }
   if ($(this).closest('footer').length) {
     // Общая цель на контакт с футера
