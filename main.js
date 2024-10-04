@@ -2,6 +2,7 @@ import Typograf from 'typograf';
 import ClipboardJS from "clipboard";
 import platform from "platform";
 import oldBrowserDetector from "old-browser-detector";
+import noUiSlider from 'nouislider';
 import '@finsweet/cookie-consent'
 import { UAParser } from "ua-parser-js"
 import 'remodal'
@@ -202,7 +203,6 @@ const body = document.body;
 const html = document.documentElement;
 const navbar = document.querySelector('.w-nav');
 const ymetrikaID = window.ymetrikaID
-const mainMenu = document.querySelector('[data-main-menu]');
 
 var isMobile = false
 
@@ -223,8 +223,8 @@ html.classList.add('is--font-smoothing');
 var remSize = 0
 
 const getSize = () => {
-  var remSize = getComputedStyle(document.documentElement).getPropertyValue('--remSize');
-  var factor = 0;
+  remSize = getComputedStyle(document.documentElement).getPropertyValue('--remSize');
+  let factor;
 
   if (window.innerWidth > 1440) {
     factor = 18;
@@ -247,6 +247,8 @@ const getSize = () => {
  * - 'download' для страницы загрузки,
  * - 'mediakit' для страницы медиакита,
  * - 'media' для страницы СМИ,
+ * - 'download_on-premise' для страницы платформ On-premise
+ * - 'download_cloud' - для страницы платформ cloud
  * - 'unknown' если страница не распознана.
  *
  * @example
@@ -314,14 +316,10 @@ function getCookie(name) {
   var ca = document.cookie.split(';');
   for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
   }
   return null;
-}
-
-function eraseCookie(name) {
-  document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
 // Функция показа сообщения о старом браузере
@@ -741,7 +739,7 @@ const downloadDropdownsObserver = new MutationObserver((mutations) => {
 allDownloadDropdowns.forEach((downloadDropdown) => {
   const toggle = downloadDropdown.querySelector(".w-dropdown-toggle");
   const downloadList = downloadDropdown.querySelector(".w-dropdown-list");
-  var version = null;
+  let version = null;
 
   downloadDropdownsObserver.observe(toggle, {
     attributes: true,
@@ -831,7 +829,7 @@ const url = new URL(location);
 const urlParams = url.searchParams;
 const sourceID = urlParams.get('source_id') || '';
 const utmTag = urlParams.get('utm_tag') || '';
-var partnerCode = urlParams.get('partner_code') || '';
+let partnerCode = urlParams.get('partner_code') || '';
 
 if (partnerCode) {
   setCookie('partnerCode', partnerCode, 30);
@@ -846,8 +844,8 @@ if (os === 'iOS') {
     if (!ctaDropdownList.classList.contains('is--desktop-platforms') && !ctaDropdownList.classList.contains('is--mobile-platforms')) {
       ctaDropdown.classList.add('is--hidden-list');
       const ctaDropdownToggle = ctaDropdown.querySelector('.w-dropdown-toggle');
-      var buildLink = null,
-        buildUrl = '#';
+      let buildLink = null,
+          buildUrl = '#';
 
       ctaDropdownToggle.addEventListener('click', () => {
         switch (os) {
@@ -947,7 +945,13 @@ Array.prototype.forEach.call(downloadLinks, downloadLink => {
           case 'playmarket':
             ym(ymetrikaID, 'reachGoal', '14');
             break;
+          case 'rustore':
+            ym(ymetrikaID, 'reachGoal', '24');
+            break;
           case 'windows':
+          case 'windowsmsi':
+          case 'windowsmsi_old':
+          case 'windows_old':
             ym(ymetrikaID, 'reachGoal', '15');
             break;
           case 'macintel':
@@ -956,6 +960,8 @@ Array.prototype.forEach.call(downloadLinks, downloadLink => {
             break;
           case 'linuxdeb':
           case 'linuxtar':
+          case 'linuxrpm':
+          case 'linuxastra':
             ym(ymetrikaID, 'reachGoal', '17');
             break;
         }
@@ -989,9 +995,6 @@ Array.prototype.forEach.call(downloadLinks, downloadLink => {
     } else if (downloadLink.dataset.version === 'onpremise') {
       ym(ymetrikaID, 'reachGoal', '305'); //Переход в стор для onpremise
     }
-    if (downloadLink.closest('footer')) {
-      ym(ymetrikaID, 'reachGoal', '23');
-    }
 
     if (downloadLink.closest('[data-product]')) {
       ym(ymetrikaID, 'reachGoal', '97');
@@ -1002,10 +1005,15 @@ Array.prototype.forEach.call(downloadLinks, downloadLink => {
       getPage() !== 'download') {
       switch (platform) {
         case 'windows':
+        case 'windowsmsi':
+        case 'windows_old':
+        case 'windowsmsi_old':
         case 'macintel':
         case 'macapple':
         case 'linuxdeb':
         case 'linuxtar':
+        case 'linuxrpm':
+        case 'linuxastra':
           ym(ymetrikaID, 'reachGoal', '52');
           break;
       }
@@ -1038,7 +1046,7 @@ if (mobileBodyClassNames.some(className => document.body.classList.contains(clas
     e.clearSelection();
   });
 
-  clipboard.on('error', function(e) {
+  clipboard.on('error', function() {
     showCopyNote('Не получилось скопировать ссылку. Возможно, ваш&nbsp;браузер устарел.', true);
   });
 }
@@ -1050,7 +1058,6 @@ const setCenterCTAListArrow = (dropdown) => {
     CTAList.style.setProperty('--popupLeft', 0);
     CTAList.style.setProperty('--arrowLeft', 0);
     const CTAListRect = CTAList.getBoundingClientRect();
-    const isCTAListInContentArea = (CTAListRect.x + CTAListRect.width) < body.clientWidth;
     const CTADropdown = CTAList.closest('.w-dropdown');
     const CTADropdownList = CTADropdown.querySelector('.w-dropdown-list');
     const CTAListInnerWrap = CTAList.querySelector('.cta__dd-list-wrap');
@@ -1075,7 +1082,7 @@ const setCenterCTAListArrow = (dropdown) => {
  * Центрируем выпадающий список при изменении ширины экрана
  */
 let prevWidth = window.innerWidth;
-window.addEventListener('resize', (e) => {
+window.addEventListener('resize', () => {
   if (prevWidth !== window.innerWidth) {
     prevWidth = window.innerWidth;
     setCenterCTAListArrow();
@@ -1088,7 +1095,7 @@ Array.prototype.forEach.call(CTADropdowns, dropdown => {
   const isWindowsList = dropdown.querySelector('.w-dropdown-list')?.classList.contains('is--win-list');
   const isOpen = dropdownToggle.classList.contains('w--open');
 
-  dropdownToggle.addEventListener('click', (e) => {
+  dropdownToggle.addEventListener('click', () => {
     /**
      * Отцентровать стрелку если закрыт выпадающий список
      */
@@ -1366,7 +1373,7 @@ comandInputs.forEach((input) => {
   input.addEventListener('keypress', function(e) {
     if (e.key && e.key.match(/[^0-9]/)) return e.preventDefault();
   });
-  input.addEventListener('input', function(e) {
+  input.addEventListener('input', function() {
     // На случай, если умудрились ввести через копипаст или авто-дополнение.
     input.value = input.value.replace(/[^0-9]/g, "").slice(0, 12);
   });
@@ -1388,7 +1395,7 @@ function removeErrorClassOnInput(input) {
     if (!value && requiredIcon) {
       requiredIcon.classList.remove('display-none');
     }
-    if (os == 'iOS' && parseFloat(platform.version.replace(/\D/g, "")) > 1731) {
+    if (os === 'iOS' && parseFloat(platform.version.replace(/\D/g, "")) > 1731) {
       document.documentElement.scrollTo({
         top: 0,
         behavior: "smooth",
@@ -1438,7 +1445,7 @@ function formValidation(form) {
       }
 
       if (
-        value.replace(regExp, '')[0] == 7 && value.replace(regExp, '').length > 11
+        value.replace(regExp, '')[0] === 7 && value.replace(regExp, '').length > 11
       ) {
         input.classList.add('input-error');
         isValid = false;
@@ -1593,7 +1600,7 @@ function num_word(value, words) {
   var num = value % 10;
   if (value > 10 && value < 20) return words[2];
   if (num > 1 && num < 5) return words[1];
-  if (num == 1) return words[0];
+  if (num === 1) return words[0];
   return words[2];
 }
 
@@ -1646,62 +1653,62 @@ if (['post', 'blog'].indexOf(getPage()) + 1) {
     const linkHref = link.getAttribute('href');
     var utm_content = '';
     if (link.closest('.w-nav')) {
-      if (linkHref.indexOf('/#') == 0) {
-        // [Блог] Меню “Продукт“(хедер)
+      if (linkHref.indexOf('/#') === 0) {
+        // [Блог] Меню "Продукт"(хедер)
         utm_content = 'blog-header-product-homepage';
-      } else if (linkHref.indexOf('/on-premise') == 0) {
-        // [Блог] Меню “Коробочное решение“(хедер)
+      } else if (linkHref.indexOf('/on-premise') === 0) {
+        // [Блог] Меню "Коробочное решение"(хедер)
         utm_content = 'blog-header-on-premise';
-      } else if (linkHref.indexOf('/partner') == 0) {
-        // [Блог] Меню “Партнерская программа“(хедер)
+      } else if (linkHref.indexOf('/partner') === 0) {
+        // [Блог] Меню "Партнерская программа"(хедер)
         utm_content = 'blog-header-partnerpage';
-      } else if (linkHref == 'https://vc.ru/getcompass') {
+      } else if (linkHref === 'https://vc.ru/getcompass') {
         // [Блог] Блог → Блог на VC(хедер)
         utm_content = 'blog-header-vc';
-      } else if (linkHref == '/' && link.classList.contains('cta__btn')) {
-        // [Блог] “Попробовать Compass“ -> Главная сайта
+      } else if (linkHref === '/' && link.classList.contains('cta__btn')) {
+        // [Блог] "Попробовать Compass" -> Главная сайта
         utm_content = 'blog-header-try-compass-homepage';
-      } else if (linkHref == '/' && link.classList.contains('logo__container')) {
+      } else if (linkHref === '/' && link.classList.contains('logo__container')) {
         utm_content = 'blog-header-logo-homepage'
       }
     } else if (link.closest('[data-cta-btns]')) {
-      if (linkHref == '/') {
-        // [Блог] “Попробовать Compass“ -> Главная сайта
+      if (linkHref === '/') {
+        // [Блог] "Попробовать Compass" -> Главная сайта
         utm_content = 'blog-header-try-compass-homepage';
-      } else if (linkHref.indexOf('/partner') == 0) {
+      } else if (linkHref.indexOf('/partner') === 0) {
         // [Блог] Переход блог -> стр ПП
         utm_content = 'blog-button-partnerpage';
-      } else if (linkHref.indexOf('/on-premise') == 0) {
+      } else if (linkHref.indexOf('/on-premise') === 0) {
         // [Блог] Переход блог -> стр On-prem
         utm_content = 'blog-button-on-premise';
       }
     } else if (link.closest('[data-banner="cta"]')) {
-      // [Блог] Банер “Вы читаете журнал Compass“
+      // [Блог] Банер "Вы читаете журнал Compass"
       utm_content = 'blog-article-banner-homepage';
     } else if (link.closest('[data-banner="cta-partner"]')) {
       // [Блог] Банер с рекламой ПП
       utm_content = 'blog-article-banner-parner';
     } else if (link.closest('[data-banner="cta-home"]')) {
-      // [Блог] Банер “повысим эффективность работы“
+      // [Блог] Банер "повысим эффективность работы"
       utm_content = 'blog-upper-footer';
     } else if (link.closest('footer')) {
-      if (linkHref.indexOf('/#') == 0) {
-        // [Блог] Раздел “Продукт“ (футер)
+      if (linkHref.indexOf('/#') === 0) {
+        // [Блог] Раздел "Продукт" (футер)
         utm_content = 'blog-footer-product-homepage';
-      } else if (linkHref.indexOf('/on-premise') == 0) {
+      } else if (linkHref.indexOf('/on-premise') === 0) {
         // [Блог] Блог → страница On-prem(футер)
         utm_content = 'blog-footer-on-premise';
-      } else if (linkHref.indexOf('/partner') == 0) {
+      } else if (linkHref.indexOf('/partner') === 0) {
         // [Блог] Блог → страница ПП(футер)
         utm_content = 'blog-footer-partnerpage';
-      } else if (linkHref == 'https://vc.ru/getcompass') {
+      } else if (linkHref === 'https://vc.ru/getcompass') {
         // [Блог] Блог → Блог на VC(футер)
         utm_content = 'blog-footer-vc';
       } else if (linkHref.indexOf('/mediakit') === 0) {
         // [Блог] Блог → Медиакит(футер)
         utm_content = 'blog-footer-mediakit';
       } else if (linkHref === '/') {
-        // [Блог] “Попробовать Compass“ -> Главная сайта
+        // [Блог] "Попробовать Compass" -> Главная сайта
         utm_content = 'blog-header-try-compass-homepage';
       }
     }
@@ -1758,7 +1765,6 @@ window.fsAttributes.push([
         $('.blog-grid__card-introtext').each(function() {
           $(this).html(tp.execute($(this).html()));
         })
-        const images = document.querySelectorAll(".blog-grid__card-img")
         document.querySelectorAll(".article__preloader-wrapper").forEach(preloader => {
           setTimeout(function() {
             preloader.style.opacity = '0';
@@ -1795,10 +1801,10 @@ const themeSwitcherBg = document.querySelector('.hero-slider__toggle-bg');
 
 if (themeSwitchers) {
   Array.prototype.forEach.call(themeSwitchers, (toggle) => {
-    toggle.addEventListener('click', (e) => {
+    toggle.addEventListener('click', () => {
       const theme = toggle.getAttribute('data-theme-toggle');
       toggle.classList.toggle('text-black');
-      if (theme == 'dark') {
+      if (theme === 'dark') {
         const themeSwitcherLight = document.querySelector('[data-theme-toggle="light"]');
         themeSwitcherBg.classList.add('is--dark');
         themeSwitcherLight.classList.add('text-platinum');
@@ -1847,7 +1853,6 @@ const bodyScrollControls = {
       }
     }
     Object.assign(options, params)
-    const scrollDisabled = body.classList.contains('scroll-disabled');
 
     body.removeAttribute('style');
     if (['iOS', 'Android', 'Huawei'].indexOf(os) + 1) {
@@ -1875,22 +1880,21 @@ $('[data-remodal-id="pilot-modal"]').remodal({
 // Таблица содержимого статьи
 const articleTOCWrapper = document.querySelector('.article__toc-wrapper');
 
-$(document).on('opening', '.remodal', function(e) {
+$(document).on('opening', '.remodal', function() {
   // Фиксация списка при открытии модального окна
   if (articleTOCWrapper && !isMobile) {
-    $('html').removeClass('remodal-is-locked');
+    html.classList.remove('remodal-is-locked');
     const articleTOCWrapperOffsetTop = articleTOCWrapper.offsetTop;
     articleTOCWrapper.classList.add('absolute');
     articleTOCWrapper.style.top = `${articleTOCWrapperOffsetTop}px`;
   }
   bodyScrollControls.disable();
-  $('html').addClass('remodal-is-locked');
+  html.classList.add('remodal-is-locked');
   let currentModal = $('.remodal.remodal-is-opening'),
     modalId = '#' + currentModal.data('remodal-id'),
     iframeInModal = currentModal.find('iframe'),
-    formInModal = currentModal.find('form'),
     ScrollElement = currentModal.find('.popup__scroll-content');
-  if (iframeInModal.attr('src') == '') {
+  if (iframeInModal.attr('src') === '') {
     iframeInModal.attr('src', iframeInModal.data('src'));
   }
   if (iframeInModal) {
@@ -1917,7 +1921,7 @@ $(document).on('opening', '.remodal', function(e) {
   }
 });
 
-$(document).on('closing', '.remodal', function(e) {
+$(document).on('closing', '.remodal', function() {
   let currentModal = $('.remodal.remodal-is-closing'),
     iframeInModal = currentModal.find('iframe'),
     formInModal = currentModal.find('form'),
@@ -1948,9 +1952,9 @@ $(document).on('closing', '.remodal', function(e) {
   }
 });
 
-$(document).on('closed', '.remodal', function(e) {
+$(document).on('closed', '.remodal', function() {
   bodyScrollControls.enable();
-  if (getPage() == 'partner') {
+  if (getPage() === 'partner') {
     var tarif = Array.from(document.getElementsByName("tarif")).find(r => r.checked).value
     $(`[data-w-tab="${tarif}"]`).trigger('click');
   }
@@ -1970,18 +1974,18 @@ function closeRemodal() {
 }
 
 // Фикс скролла в форме на мобильных
-if (os == 'Android') {
+if (os === 'Android') {
   body.classList.add('android-form-modal')
-} else if (os == 'iOS') {
+} else if (os === 'iOS') {
   body.classList.add('ios-form-modal')
 }
 
-window.addEventListener("popstate", (event) => {
+window.addEventListener("popstate", () => {
   closeRemodal();
 });
 
 document.onkeydown = function(evt) {
-  if (evt.keyCode == 27) {
+  if (evt.keyCode === 27) {
     closeRemodal();
   }
   // Переключения между полями ввода в модальном окне если оно открыто
@@ -2091,7 +2095,7 @@ Array.prototype.forEach.call(copyFields, (copyField) => {
   const copyBtnTooltip = copyField.querySelector('[clipboard-tooltip]');
   const copyText = copyField.querySelector('[clipboard-text]').textContent;
   const copyClipboard = new ClipboardJS(copyBtn, {
-    text: function(trigger) {
+    text: function() {
       return copyText;
     }
   });
@@ -2117,7 +2121,7 @@ $('.article__social-share-link--copy').css('display', 'inline-block');
 var copyPostLinkTimeout = setTimeout(function() {
 }, 0);
 var copyPostLink = new ClipboardJS('.article__social-share-link--copy', {
-  text: function(trigger) {
+  text: function() {
     return window.location.href;
   }
 })
@@ -2175,7 +2179,7 @@ $('.event__message').on('touchmove', function() {
 });
 
 $(".w-dropdown-toggle").on('click', function(e) {
-  if (e.which == 2) {
+  if (e.which === 2) {
     e.preventDefault();
   }
 });
@@ -2224,7 +2228,7 @@ function removeAnchorFormURL() {
   setTimeout(() => {
     window.history.replaceState({}, "", window.location.href.split("#")[0]);
   }, 100);
-};
+}
 
 $('a[href^="#"]').on('click', function() {
   removeAnchorFormURL();
@@ -2256,7 +2260,7 @@ function readingTime(articleContent) {
     result = `Время прочтения: ${time} мин.`;
 
   $('.article__header-meta-time').text(result);
-};
+}
 
 var validContent;
 
@@ -2265,9 +2269,9 @@ if ($('.article__content').length) {
   $(".article__content.w-richtext").each(function() {
     var content = $(this).html();
     if (
-      (content.match(/{{mobile/g) || []).length ==
+      (content.match(/{{mobile/g) || []).length ===
       (content.match(/{{\/mobile/g) || []).length &&
-      (content.match(/{{pc/g) || []).length ==
+      (content.match(/{{pc/g) || []).length ===
       (content.match(/{{\/pc/g) || []).length
     ) {
       validContent = 1;
@@ -2325,7 +2329,7 @@ if ($('.blog-grid__wrapper--related-news').length) {
   let relatedItemsCount = $('.blog-grid__wrapper--related-news .blog-grid__card').length;
   if (relatedItemsCount > 0 && $('.blog-grid__wrapper--related-news').data('items-count') != relatedItemsCount) {
     $('.blog-grid__wrapper--related-news').attr('data-items-count', relatedItemsCount);
-  } else if (relatedItemsCount == 0) {
+  } else if (relatedItemsCount === 0) {
     $('.related-articles').hide();
   }
 
@@ -2359,19 +2363,18 @@ $('form').on('submit', function(e) {
     currentHost = `${window.location.protocol}//${window.location.host}/`,
     url = currentHost + 'www/getcompass/requestConsultation',
     button = form.find('[type="submit"]'),
-    object = {},
     currentModal = $('.remodal.remodal-is-opened'),
     modalId = '#' + currentModal.data('remodal-id');
 
 
   if (formValidation(form[0])) {
-    if (formData.get('team_size') == '')
+    if (formData.get('team_size') === '')
       formData.set('team_size', 0);
     formData.set('source_id', sourceID);
     formData.set('pagetitle', document.title);
     formData.set('page_url', window.location.href);
     formData.set('utm_tag', utmTag);
-    if (modalId == '#pilot-modal') {
+    if (modalId === '#pilot-modal') {
       formData.set('form_type', "request_pilot_project");
     } else {
       formData.set('form_type', "request_consultation");
@@ -2388,7 +2391,6 @@ $('form').on('submit', function(e) {
       sendRequest(url, form, formData);
       return false;
     }
-    ;
   } else {
     return false;
   }
@@ -2409,18 +2411,18 @@ function sendRequest(url, form, formData) {
     contentType: false,
     processData: false,
     statusCode: {
-      423: function(result) {
+      423: function() {
         showErrorMessage(form, 'Произошла ошибка при отправке формы. Попробуйте позже или свяжитесь с&nbsp;нами другим способом.');
       }
     },
     success: function(result) {
-      const isSuccessful = JSON.parse(result).status == "ok"
+      const isSuccessful = JSON.parse(result).status === "ok"
       button.removeClass('pointer-events-none');
       if (isSuccessful) {
-        if (getPage() == 'blog') {
+        if (getPage() === 'blog') {
           // [Блог] Отправлена заявка с гл блога
           ym(ymetrikaID, 'reachGoal', '220');
-        } else if (getPage() == 'post' && modalId == "#consultation-on-premise") {
+        } else if (getPage() === 'post' && modalId === "#consultation-on-premise") {
           // [Блог] Отправлена заявка из баннера On-premise
           ym(ymetrikaID, 'reachGoal', '223');
         } else {
@@ -2430,15 +2432,15 @@ function sendRequest(url, form, formData) {
         successMessage.show();
         errorMessage.hide();
         form.hide();
-        if (getPage() == 'on-premise') {
-          if (modalId == "#consultation") {
+        if (getPage() === 'on-premise') {
+          if (modalId === "#consultation") {
             ym(ymetrikaID, 'reachGoal', '302');
-          } else if (modalId == "#pilot-modal") {
+          } else if (modalId === "#pilot-modal") {
             ym(ymetrikaID, 'reachGoal', '309');
           }
-        } else if (getPage() != 'post' && getPage() != 'blog') {
-          if (modalId == "#consultation" || modalId == "#consultation-on-premise") {
-            if (modalId == "#consultation-on-premise") {
+        } else if (getPage() !== 'post' && getPage() !== 'blog') {
+          if (modalId === "#consultation" || modalId === "#consultation-on-premise") {
+            if (modalId === "#consultation-on-premise") {
               ym(ymetrikaID, 'reachGoal', '302');
             }
             ym(ymetrikaID, 'reachGoal', '10');
@@ -2447,14 +2449,13 @@ function sendRequest(url, form, formData) {
               id: 3381982,
               goal: 'Demo'
             });
-          } else if (modalId == "#pilot-modal") {
+          } else if (modalId === "#pilot-modal") {
             ym(ymetrikaID, 'reachGoal', '307');
           }
         }
         form.closest('.remodal').addClass('is--success').removeClass('is--no-radius');
-        if ($('html').hasClass('remodal-is-locked')) {
-          $('html').removeClass('is--white-overlay');
-          $('html').removeClass('is--disable-bg-close');
+        if (html.classList.contains('remodal-is-locked')) {
+          html.classList.remove('is--white-overlay', 'is--disable-bg-close');
         }
       }
       return false;
@@ -2480,21 +2481,6 @@ function showErrorMessage(form, msg) {
     errorMessage.hide();
   }, 3000)
   form.show();
-}
-
-function formToJson(form) {
-  var array = form.serializeArray();
-  var json = {};
-
-  $.each(array, function() {
-    json[this.name] = this.value || 0;
-  });
-
-  return JSON.stringify(json);
-}
-
-function getSanitizedFormName(name) {
-  return name.replace(/\+/g, " ")
 }
 
 //Получить скролл страницы в процентах
@@ -2535,7 +2521,7 @@ const setVideoModalWidth = () => {
 
 setVideoModalWidth();
 
-window.addEventListener("resize", (event) => {
+window.addEventListener("resize", () => {
   remSize = getComputedStyle(document.documentElement).getPropertyValue('--remSize');
   setCenterCTAListArrow();
   setVideoModalWidth();
@@ -2563,7 +2549,7 @@ window.addEventListener("resize", (event) => {
 const cookieBlock = document.querySelector('[data-cookie-base]');
 const cookieLink = document.querySelector('[data-cookie-link]');
 
-function getMinimalCookieScrollOffset(e) {
+function getMinimalCookieScrollOffset() {
   const MOBILE_MAX_WIDTH = 768;
   const MOBILE_MIN_HEIGHT = 700;
   const DESKTOP_MIN_HEIGHT = 900;
@@ -2591,7 +2577,7 @@ function getMinimalCookieScrollOffset(e) {
 let cookieScrollOffset = window.scrollY;
 let isCookieHidden = false;
 
-function cookieToggleScrollHandler(e) {
+function cookieToggleScrollHandler() {
   const offset = getMinimalCookieScrollOffset();
   const scrollY = window.scrollY;
 
@@ -2653,12 +2639,12 @@ if (promoBanner) {
 }
 
 //Показываем кнопку "Попробовать бесплатно"
-window.addEventListener("scroll", (event) => {
+window.addEventListener("scroll", () => {
   if (((['partner', 'on-premise'].indexOf(getPage()) + 1) && window.scrollY > (getSize() * 47.13)) ||
-    (getPage() == 'home' && window.scrollY > (getSize() * 51.66)) ||
-    (getPage() == 'download' && window.scrollY > getSize() * 25)) {
+    (getPage() === 'home' && window.scrollY > (getSize() * 51.66)) ||
+    (getPage() === 'download' && window.scrollY > getSize() * 25)) {
     if ($(window).width() < 768) {
-      if (getPage() == 'partner') {
+      if (getPage() === 'partner') {
         setTimeout(() => {
           $('.menu-wrapper--is--mobile .cta__btn').removeClass('is--hidden');
         }, 200)
@@ -2708,7 +2694,7 @@ class MenuDropdownsGroup {
     if (this.options.singleOpen) {
       var currentDropdownObj = null
       this.dropdowns.forEach((otherDropdown) => {
-        if (otherDropdown.dropdown != dropdown) {
+        if (otherDropdown.dropdown !== dropdown) {
           otherDropdown.close();
         } else {
           currentDropdownObj = otherDropdown;
@@ -2761,13 +2747,13 @@ class MenuDropdown {
   }
 
   attachEventsHandlers() {
-    this.dropdown.addEventListener('mouseleave', (e) => {
+    this.dropdown.addEventListener('mouseleave', () => {
       if (body.classList.contains('is--no-touch') || window.innerWidth > 767) {
         this.closePlatformsDropdown();
       }
     });
 
-    this.toggle.addEventListener('mouseenter', (e) => {
+    this.toggle.addEventListener('mouseenter', () => {
       this.dropdown.classList.remove('is--closed-menu-dd');
     })
 
@@ -2822,10 +2808,6 @@ class MenuDropdown {
 
   close() {
     this.dropdown.classList.remove('is--open');
-    //this.dropdown.classList.add('is--closed-menu-dd');
-    //setTimeout(() => {
-    //    this.dropdown.classList.remove('is--closed-menu-dd');
-    //}, 700)
     this.content.classList.add('sm--overflow-hidden');
     this.content.removeAttribute('style');
     this.closePlatformsDropdown();
@@ -2848,7 +2830,7 @@ const navMenuBtn = document.querySelector('.w-nav-button');
 if (navMenuBtn) {
   const navMenuObserver = new MutationObserver((mutations) => {
     mutations.forEach(mu => {
-      if (mu.type == "attributes" && mu.attributeName == "class") {
+      if (mu.type === "attributes" && mu.attributeName === "class") {
         if (navMenuBtn.classList.contains('w--open') || document.documentElement.classList.contains('remodal-is-locked')) {
           bodyScrollControls.disable();
           document.querySelector('.w-nav').classList.add('is--open');
@@ -2904,11 +2886,11 @@ document.addEventListener("DOMContentLoaded", function() {
   setCenterCTAListArrow();
   setTimeout(function() {
     //Пользователь на сайте больше минуты
-    if (getPage() == 'home')
+    if (getPage() === 'home')
       ym(ymetrikaID, 'reachGoal', '4');
     else if (['blog', 'post'].indexOf(getPage()) + 1)
       ym(ymetrikaID, 'reachGoal', '209');
-    else if (getPage() == 'on-premise')
+    else if (getPage() === 'on-premise')
       ym(ymetrikaID, 'reachGoal', '314');
   }, 60000);
   // Переменные прокрутки
@@ -2917,7 +2899,7 @@ document.addEventListener("DOMContentLoaded", function() {
     scrollEvent50 = false,
     scrollEvent75 = false,
     scrollEvent100 = false;
-  window.onscroll = function(e) {
+  window.onscroll = function() {
     if (['blog', 'post', 'home', 'download', 'partner', 'on-premise'].indexOf(getPage()) + 1) {
       if (!scrollEventStart && getScrollPercentage() > 0) {
         if ($('.popup__video-iframe').find('iframe').length) {
@@ -2930,37 +2912,37 @@ document.addEventListener("DOMContentLoaded", function() {
         scrollEventStart = true;
       }
       if (!scrollEvent50 && getScrollPercentage() > 50) {
-        if (getPage() == 'home')
+        if (getPage() === 'home')
           ym(ymetrikaID, 'reachGoal', '1');
-        else if (getPage() == 'blog')
+        else if (getPage() === 'blog')
           ym(ymetrikaID, 'reachGoal', '250');
-        else if (getPage() == 'post')
+        else if (getPage() === 'post')
           ym(ymetrikaID, 'reachGoal', '253');
-        else if (getPage() == 'on-premise')
+        else if (getPage() === 'on-premise')
           ym(ymetrikaID, 'reachGoal', '311');
         scrollEvent50 = true;
       }
       if (!scrollEvent75 && getScrollPercentage() > 75) {
         //console.log('Страница прокручена на 75%');
-        if (getPage() == 'home')
+        if (getPage() === 'home')
           ym(ymetrikaID, 'reachGoal', '2');
-        else if (getPage() == 'blog')
+        else if (getPage() === 'blog')
           ym(ymetrikaID, 'reachGoal', '251');
-        else if (getPage() == 'post')
+        else if (getPage() === 'post')
           ym(ymetrikaID, 'reachGoal', '254');
-        else if (getPage() == 'on-premise')
+        else if (getPage() === 'on-premise')
           ym(ymetrikaID, 'reachGoal', '312');
         scrollEvent75 = true;
       }
       if (!scrollEvent100 && getScrollPercentage() > 95) {
         //Страница прокручена на 100%
-        if (getPage() == 'home')
+        if (getPage() === 'home')
           ym(ymetrikaID, 'reachGoal', '3');
-        else if (getPage() == 'blog')
+        else if (getPage() === 'blog')
           ym(ymetrikaID, 'reachGoal', '252');
-        else if (getPage() == 'post')
+        else if (getPage() === 'post')
           ym(ymetrikaID, 'reachGoal', '255');
-        else if (getPage() == 'on-premise')
+        else if (getPage() === 'on-premise')
           ym(ymetrikaID, 'reachGoal', '313');
         scrollEvent100 = true;
       }
@@ -3002,12 +2984,12 @@ async function getVksLink() {
 }
 
 /**
- * Назначает обработчики кликов для элементов списка и отправляет события в Яндекс.Метрику.
+ * Назначает обработчики кликов для элементов списка и отправляет события в Яндекс Метрику.
  * Опционально, функция может ограничить назначение событий только определенными страницами
  * или исключить элементы внутри определенных родительских элементов.
  *
  * @param {NodeList} nodeList - Список DOM-элементов, к которым нужно привязать события.
- * @param {string} targetID - Идентификатор цели для Яндекс.Метрики.
+ * @param {string} targetID - Идентификатор цели для Яндекс Метрики.
  * @param {Object} [options={}] - Дополнительные опции для настройки поведения функции.
  * @param {string[]} [options.includePages=[]] - Массив страниц, на которых должно срабатывать назначение событий.
  * @param {string[]} [options.excludePages=[]] - Массив страниц, на которых нужно исключить назначение событий.
@@ -3093,24 +3075,24 @@ $('a[href="/blog"], a[href*="/blog?"], a[href*="/blog/?"]').on('click', function
   if (!(['blog', 'post'].indexOf(getPage()) + 1)) {
     ym(ymetrikaID, 'reachGoal', '200');
   }
-  if (getPage() == 'post' && $(this).hasClass('logo__container')) {
+  if (getPage() === 'post' && $(this).hasClass('logo__container')) {
     ym(ymetrikaID, 'reachGoal', '214');
   }
 });
 
-// [Блог] Кнопка “Загрузить ещё“
+// [Блог] Кнопка "Загрузить ещё"
 $('.fs-cmsload_button').on('click', () => {
   ym(ymetrikaID, 'reachGoal', '256');
 });
 
 // [Блог] Главная блога → статья
 $('.blog-grid__card-link').on('click', () => {
-  if (getPage() == 'blog')
+  if (getPage() === 'blog')
     ym(ymetrikaID, 'reachGoal', '208');
 });
 
 $('[data-banner="cta"] a').on('click', function() {
-  // [Блог] Банер “Вы читаете журнал Compass“
+  // [Блог] Банер "Вы читаете журнал Compass"
   ym(ymetrikaID, 'reachGoal', '221');
 });
 
@@ -3123,8 +3105,15 @@ $('a[href^="mailto"]').on('click', function() {
     // Общая цель на контакт с футера
     ym(ymetrikaID, 'reachGoal', '103');
   } else {
-    ym(ymetrikaID, 'reachGoal', '104');
+    if (['download_cloud'].indexOf(getPage()) + 1) {
+      ym(ymetrikaID, 'reachGoal', '714');
+    } else if (['download_on-premise'].indexOf(getPage()) + 1) {
+      ym(ymetrikaID, 'reachGoal', '357');
+    } else {
+      ym(ymetrikaID, 'reachGoal', '104');
+    }
   }
+
   //console.log('Идентификатор 6');
   ym(ymetrikaID, 'reachGoal', '6');
 });
@@ -3134,7 +3123,7 @@ $('a[href^="tel"]').on('click', function() {
     // [Блог] Блог → Телефоны
     ym(ymetrikaID, 'reachGoal', '232');
   } else if ($(this).closest('footer').length) {
-    // Нажата кнопка телефонов c футера
+    // Нажата кнопка телефонов с футера
     ym(ymetrikaID, 'reachGoal', '95');
   }
   // Общая цель на контакт с футера
@@ -3142,7 +3131,7 @@ $('a[href^="tel"]').on('click', function() {
 });
 
 $('.cta__dropdown .w-dropdown-toggle').on('click', function() {
-  //Ленд – Нажата любая кнопка Попробовать в контенте лендинга
+  // Лендинг – Нажата любая кнопка "Попробовать бесплатно" в контенте лендинга
   if (!$(this).closest('.price__block').length
     && !$(this).closest('.navbar__wrapper').length
     && !$(this).closest('.footer').length) {
@@ -3209,6 +3198,10 @@ $('a[href*="https://t.me/getcompass"],a[href*="https://wa.me/message/CJINDDW52XJ
     ym(ymetrikaID, 'reachGoal', '402');
   } else if (['on-premise'].indexOf(getPage()) + 1) {
     ym(ymetrikaID, 'reachGoal', '315');
+  } else if (['download_cloud'].indexOf(getPage()) + 1) {
+    ym(ymetrikaID, 'reachGoal', '714');
+  } else if (['download_on-premise'].indexOf(getPage()) + 1) {
+    ym(ymetrikaID, 'reachGoal', '357');
   }
   if ($(this).closest('footer').length) {
     // Общая цель на контакт с футера
@@ -3236,13 +3229,13 @@ $('[href^="/mediakit"]').on('click', function() {
   if ((['blog', 'post'].indexOf(getPage()) + 1) && $(this).closest('footer')) {
     // [Блог] Блог → Медиакит(футер)
     ym(ymetrikaID, 'reachGoal', '229');
-  } else if (getPage() != 'mediakit') {
+  } else if (getPage() !== 'mediakit') {
     ym(ymetrikaID, 'reachGoal', '81');
   }
 });
 
 $('a[href*="github"]').on('click', function() {
-  if (getPage() == 'on-premise') {
+  if (getPage() === 'on-premise') {
     ym(ymetrikaID, 'reachGoal', '304');
   }
 })
@@ -3262,7 +3255,7 @@ $('a[href*="vc.ru/getcompass"]').on('click', function() {
 })
 
 $('a[href*="partner.getcompass.ru"]').on('click', function() {
-  if (getPage() == 'partner') {
+  if (getPage() === 'partner') {
     ym(ymetrikaID, 'reachGoal', '403');
   }
 })
@@ -3274,16 +3267,16 @@ $('a[href*="https://doc-onpremise.getcompass.ru/"]').on('click', () => {
 $('a[href^="/on-premise"]').on('click', function() {
   if (['blog', 'post'].indexOf(getPage()) + 1) {
     if ($(this).closest('.w-nav').length) {
-      // [Блог] Меню “Коробочное решение“ (хедер)
+      // [Блог] Меню "Коробочное решение" (хедер)
       ym(ymetrikaID, 'reachGoal', '211');
     } else if ($(this).closest('[data-cta-btns]').length) {
       // [Блог] Переход блог -> стр On-premise
       ym(ymetrikaID, 'reachGoal', '217');
     } else if ($(this).closest('footer').length) {
-      // [Блог] Меню “Коробочное решение“ (хедер)
+      // [Блог] Меню "Коробочное решение" (хедер)
       ym(ymetrikaID, 'reachGoal', '233');
     }
-  } else if (getPage() != 'on-premise') {
+  } else if (getPage() !== 'on-premise') {
     ym(ymetrikaID, 'reachGoal', '300');
   }
 });
@@ -3295,12 +3288,12 @@ $('[data-cta-btns] a').on('click', () => {
   }
 })
 
-$('.partner-page, a[href^="/partner"]').on('click', function(e) {
+$('.partner-page, a[href^="/partner"]').on('click', function() {
   if (['blog', 'post'].indexOf(getPage()) + 1) {
     if ($(this).closest('.w-nav').length) {
-      // [Блог] Меню “Партнерская программа“ (хедер)
+      // [Блог] Меню "Партнерская программа" (хедер)
       ym(ymetrikaID, 'reachGoal', '212');
-    } else if ((getPage() == 'post') && $(this).closest('[data-banner="cta-partner"]').length) {
+    } else if ((getPage() === 'post') && $(this).closest('[data-banner="cta-partner"]').length) {
       // [Блог] Банер с рекламой ПП
       ym(ymetrikaID, 'reachGoal', '224');
     } else if ($(this).closest('[data-cta-btns]').length) {
@@ -3310,43 +3303,43 @@ $('.partner-page, a[href^="/partner"]').on('click', function(e) {
       // [Блог] Блог → страница ПП(футер)
       ym(ymetrikaID, 'reachGoal', '227');
     }
-  } else if (getPage() != 'partner') {
+  } else if (getPage() !== 'partner') {
     ym(ymetrikaID, 'reachGoal', '400');
   }
 });
 
 $('[data-banner="cta-home"] a').on('click', () => {
-  // [Блог] Банер “повысим эффективность работы“
+  // [Блог] Банер "повысим эффективность работы"
   ym(ymetrikaID, 'reachGoal', '225');
 })
 
 
-$('a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?"]').on('click', function(e) {
+$('a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?"]').on('click', function() {
   if (['blog', 'post'].indexOf(getPage()) + 1) {
     if ($(this).closest('.w-nav').length) {
       if ($(this).hasClass('cta__btn')) {
-        // [Блог] “Попробовать Compass“ -> Главная сайта
+        // [Блог] "Попробовать Compass" -> Главная сайта
         ym(ymetrikaID, 'reachGoal', '216');
       } else if ($(this).hasClass('logo__container')) {
         // [Блог] Блог → Главная сайта лого
         ym(ymetrikaID, 'reachGoal', '250');
       } else {
-        // [Блог] Меню “Продукт“ (хедер)
+        // [Блог] Меню "Продукт" (хедер)
         ym(ymetrikaID, 'reachGoal', '210');
       }
     } else if ($(this).closest('[data-cta-btns]').length) {
-      // [Блог] “Попробовать Compass“ -> Главная сайта
+      // [Блог] "Попробовать Compass" -> Главная сайта
       ym(ymetrikaID, 'reachGoal', '216');
     } else if ($(this).closest('footer').length) {
-      // [Блог] Раздел “Продукт“ (футер)
+      // [Блог] Раздел "Продукт" (футер)
       ym(ymetrikaID, 'reachGoal', '226');
     }
   } else {
     if ($(this).closest('footer').length) {
-      // [All] Раздел “Продукт“ (футер)
+      // [All] Раздел "Продукт" (футер)
       ym(ymetrikaID, 'reachGoal', '96');
     } else if ($(this).closest('nav').length) {
-      // [All] Раздел “Продукт“ (хедэр)
+      // [All] Раздел "Продукт" (хедэр)
       ym(ymetrikaID, 'reachGoal', '98');
     } else if ($(this).closest('.navbar__logo-flex').length) {
       // [All] Нажато лого (хедэр)
@@ -3361,28 +3354,28 @@ function analyticsModal(hash) {
       ym(ymetrikaID, 'reachGoal', '83');
       break;
     case '#consultation':
-      if (getPage() == 'on-premise') {
+      if (getPage() === 'on-premise') {
         ym(ymetrikaID, 'reachGoal', '301');
-      } else if (getPage() == 'blog') {
+      } else if (getPage() === 'blog') {
         // [Блог] Открыта заявка с гл блога
         ym(ymetrikaID, 'reachGoal', '219');
       } else {
         ym(ymetrikaID, 'reachGoal', '9');
       }
 
-      if (getPage() != 'post' && getPage() != 'blog') {
+      if (getPage() !== 'post' && getPage() !== 'blog') {
         ym(ymetrikaID, 'reachGoal', '100');
       }
       break;
     case '#consultation-on-premise':
-      if (getPage() == 'post') {
+      if (getPage() === 'post') {
         // [Блог] Открыта заявка из баннера On-premise
         ym(ymetrikaID, 'reachGoal', '222');
       } else {
         ym(ymetrikaID, 'reachGoal', '100');
       }
 
-      if (getPage() == 'on-premise') {
+      if (getPage() === 'on-premise') {
         ym(ymetrikaID, 'reachGoal', '301');
       } else if (getPage() !== 'post') {
         ym(ymetrikaID, 'reachGoal', '301');
@@ -3391,7 +3384,7 @@ function analyticsModal(hash) {
       break;
     case '#pilot-modal':
       ym(ymetrikaID, 'reachGoal', '100');
-      if (getPage() == 'on-premise') {
+      if (getPage() === 'on-premise') {
         ym(ymetrikaID, 'reachGoal', '308');
       } else {
         ym(ymetrikaID, 'reachGoal', '306');
@@ -3420,18 +3413,6 @@ function analyticsModal(hash) {
       break;
     case '#video-windows':
       ym(ymetrikaID, 'reachGoal', '75');
-      break;
-    case '#video-czech':
-      ym(ymetrikaID, 'reachGoal', '18');
-      break;
-    case '#video-detailing-group':
-      ym(ymetrikaID, 'reachGoal', '19');
-      break;
-    case '#video-daily':
-      ym(ymetrikaID, 'reachGoal', '20');
-      break;
-    case '#video-good-people':
-      ym(ymetrikaID, 'reachGoal', '21');
       break;
   }
 }

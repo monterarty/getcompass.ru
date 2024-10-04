@@ -66,7 +66,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
   <script type="module" crossorigin src="/getcompass.ru/assets/js/index-v2.6.6.min.js"></script>
   <link rel="stylesheet" crossorigin href="/getcompass.ru/assets/css/style-v2.6.6.css">
 </head>
-<body class="is--home-page dark--text-white-70pr dark--bg-black">
+<body data-download-platform="linuxastra" class="is--download-op dark--text-white-70pr dark--bg-black">
   <div class="fixed top-0">
     <div class="w-embed">
       <style>
@@ -2386,23 +2386,25 @@ picture {
 
 .is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {order: 7; display: flex}
 
-.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(2) {order: 1; display: hidden}
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(2) {order: 1; display: none}
 
 /* Скрыты сборки для Windows 7 */
 
-.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(3) {order: 4; display: hidden}
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(3) {order: 4; display: none}
 
 /* Скрыты сборки для Windows 7 */
 
 .is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(6) {order: 2; display: flex}
 
-.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(7) {order: 3; display: flex}
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(7) {order: 3; display: none}
 
-.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(8) {order: 5; display: hidden}
+/* Скрыты сборки для Windows msi */
+
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(8) {order: 5; display: none}
 
 /* Скрыты сборки для Windows 7 */
 
-.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(9) {order: 6; display: hidden}
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(9) {order: 6; display: none}
 
 /* Скрыты сборки для Windows 7 */
 
@@ -2420,23 +2422,29 @@ picture {
 
 .is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div {display: none}
 
-.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {order: 4; display: flex}
+.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {order: 4; display: none}
+
+/* Скрыты другие платформы */
 
 .is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(15) {order: 1; display: flex}
 
 .is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(16) {order: 2; display: flex}
 
-.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(17) {order: 3; display: flex}
+.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(17) {order: 3; display: none}
+
+/* Скрыт Rustore */
 
 .cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div {display: none}
 
 .cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(14) {order: 1; display: flex}
 
+/* Скрыты другие платформы */
+
 .cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(15) {order: 2; display: flex}
 
 .cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(16) {order: 3; display: flex}
 
-.cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(17) {order: 4; display: hidden}
+.cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(17) {order: 4; display: none}
 
 /* Скрыт Rustore */
 
@@ -2458,23 +2466,25 @@ picture {
 
 .cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div {display: none}
 
-.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(2) {order: 1; display: hidden}
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(2) {order: 1; display: none}
 
 /* Скрыты сборки для Windows 7 */
 
-.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(3) {order: 4; display: hidden}
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(3) {order: 4; display: none}
 
 /* Скрыты сборки для Windows 7 */
 
 .cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(6) {order: 2; display: flex}
 
-.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(7) {order: 3; display: flex}
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(7) {order: 3; display: none}
 
-.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(8) {order: 5; display: hidden}
+/* Скрыты сборки для Windows msi */
+
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(8) {order: 5; display: none}
 
 /* Скрыты сборки для Windows 7 */
 
-.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(9) {order: 6; display: hidden}
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(9) {order: 6; display: none}
 
 /* Скрыты сборки для Windows 7 */
 
@@ -2483,6 +2493,16 @@ picture {
 .cta__dd-list.is--platforms-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(18) {order: 1; display: flex}
 
 .cta__dd-list.is--platforms-list.is--sort-disable .cta__dd-list-inner-wrap>div:nth-child(19) {order: 2; display: flex}
+
+.is--android .mobile--block,
+.is--ios .mobile--block {
+  display: block;
+}
+
+.is--android .mobile--hidden,
+.is--ios .mobile--hidden {
+  display: none;
+}
 
 picture {
   height: 100%;
@@ -3568,9 +3588,9 @@ picture img {
   color: #333e49
 }
 
-.is--touch .download-hero__mobile-link:hover,
-.is--touch .logo-vendor__item.is--bottom-item:hover,
-.is--touch .logo-vendor__item:hover {
+.is--touch:not(.dark) .download-hero__mobile-link:hover,
+.is--touch:not(.dark) .logo-vendor__item.is--bottom-item:hover,
+.is--touch:not(.dark) .logo-vendor__item:hover {
   background-color: rgba(255, 255, 255, .4)
 }
 
@@ -3889,6 +3909,13 @@ html * {
   }
 }
 
+@media (max-width:1570px) AND (min-width:767px) {
+  .is--navbar ~ .cta__dd-list {
+    transform: none;
+    left: var(--popupLeft);
+  }
+}
+
 @media(max-height:28.5rem) {
 
   .is--center-modal .remodal,
@@ -4019,7 +4046,7 @@ html * {
     top: 0;
     height: 100%;
     width: 2rem;
-    background-image: linear-gradient(to right, transparent, var(--slate--100))
+    background-image: linear-gradient(to right, transparent, #e7e8f2)
   }
 
   .is--mobile-platforms .download__hero {
@@ -4052,6 +4079,12 @@ html * {
     border-bottom: 0;
     border-top: .7rem solid #fff;
     filter: drop-shadow(0 2px 0 #f0f0f0)
+  }
+
+  .dark .is--has-arrow.is--mobile-open-top .cta__dd-list-wrap::before,
+  .dark .is--has-arrow.is--open-top .cta__dd-list-wrap::before {
+    border-top-color: var(--neutral--950);
+    filter: drop-shadow(0 2px 0 #FFFFFF0D)
   }
 
   .cta__dd-list {
