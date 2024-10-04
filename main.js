@@ -726,9 +726,18 @@ downloadLinksOtherLink.addEventListener('click', () => {
   const isCloudPlatform =
     downloadListElement?.classList.contains('is--cloud-platforms') ||
     ['on-premise', 'download_on-premise'].indexOf(getPage()) === -1;
-
   // Переход на соответствующую страницу в зависимости от платформы
   window.location = isCloudPlatform ? '/download' : '/on-premise/download';
+
+  const isAcceptYM =
+    [
+      'download_cloud',
+      'download_on-premise',
+      'blog',
+      'post',
+      'download',
+    ].indexOf(getPage()) === -1;
+  isCloudPlatform && isAcceptYM ? sendEvent('700') : sendEvent('350');
 });
 
 const downloadLinksNodes = [];
@@ -3374,6 +3383,7 @@ function attachYandexMetricaClickEvents(nodeList, targetID, options = {}) {
 const platformsOnPremisePageLinks = document.querySelectorAll(
   '[href*="/on-premise/download"]'
 );
+
 attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '353', {
   includePages: ['download_cloud'],
   includeParents: ['.download_cloud-block'],
