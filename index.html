@@ -65,7 +65,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
     }
  </script>
 </head>
-<body class="is--partner-page">
+<body class="is--download-page is--mobile-show-nav-cta">
 <div class="fixed top-0">
   <div class="w-embed">
     <style>
@@ -1377,11 +1377,43 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
     </style>
   </div>
 </div>
+<div class="styles w-embed">
+  <style>
+      body ol{counter-reset:li}
+      .is--download-page .cta__dd_bn{color:#665EBE;background-color:transparent}
+      .is--download-page .cta__dd_bn:hover{color:#fff;background-color:#665EBE}
+      .is--download-page .logo-vendors__col{padding-bottom:1rem}
+      .download-ins__content p{margin-bottom:.45rem}
+      .download-ins__content p+.download-ins__h3{margin-top:1.75rem}
+      .download-ins__content ol>li{counter-increment:li;padding-left:1rem;position:relative;margin-bottom:.45rem}
+      .download-ins__content ul>li{position:relative;padding-left:.8rem;margin-bottom:.45rem}
+      .download-ins__content ul>li>ol,
+      .download-ins__content ol>li>ul{margin-bottom:0}
+      .download-ins__content ol>li::after{content:counter(li)".";font-size:1em;position:absolute;display:block;left:0;top:0}
+      .download-ins__content ul>li::before{content:"";width:.3rem;height:.3rem;position:absolute;top:.44rem;left:0;background:#333e49;border-radius:50%}
+      .download-ins__content ul>li.is--hide-dot::before{display:none}
+      .download-ins__content .video__lightbox-link+h3{margin-top:2.75rem}
+      .download-ins__copy-tooltip::after{content:'';border-top:.277rem solid #05C46B;border-right:.22rem solid transparent;border-left:.22rem solid transparent;position:absolute;left:50%;top:100%;transform:translateX(-50%)}
+      .download-ins__copy-tooltip{transition:all 300ms ease;opacity:0;pointer-events:none}
+      .is--fail .download-ins__copy-tooltip{opacity:1;background-color:#ff9d14}
+      .is--fail .download-ins__copy-tooltip::after{border-top-color:#ff9d14}
+      .is--done .download-ins__copy-tooltip{opacity:1}
+      .is--mobile-platforms .download-hero__inner-wrapper{padding-bottom:11.1rem}
+      @media(max-width:767px) {
+          .download-ins__copy-tooltip::after{border-top-width:.41rem;border-left-width:.41rem;border-right-width:.41rem}
+          .is--mobile-platforms .download-hero__inner-wrapper{padding-bottom:9.9rem}
+          .download-ins__content p+.download-ins__h3{margin-top:2rem}
+          .download-ins__content ul>li{padding-left:1.33rem;margin-bottom:var(--mobile--8px)}
+          .download-ins__content ol>li{padding-left:1.66rem;margin-bottom:var(--mobile--8px)}
+          .download-ins__content ul>li::before{width:.5rem;height:.5rem;top:.8rem}
+      }
+  </style>
+</div>
 <div data-w-id="c9ff2a82-9f71-ad56-6966-542676dea861" data-animation="default" data-collapse="small" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="navbar__wrapper py-0 dark--bg-black-ru-50pr dark--text-white w-nav">
   <div class="navbar__overlay"></div>
   <div data-nav-menu-outer="" class="flex px-32 max-w-1440 mx-auto text-s-15 relative sm--px-16 sm--py-12 sm--justify-between sm--z-10 sm--backdrop-blur-10 transition-all-400 z-10">
     <div class="navbar__logo-flex">
-      <a href="index.html" class="logo__container cursor-pointer w-inline-block">
+      <a href="../index.html" class="logo__container cursor-pointer w-inline-block">
         <div class="w-embed navbar__logo-image image-w-full text-black dark--text-white-80pr flex items-center sm--hidden"><svg width="110" height="30" viewbox="0 0 110 30" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" clip-rule="evenodd" d="M13.986 5.958 7.563 24.093c-.348.984.811 1.816 1.66 1.19l5.133-3.78a1.09 1.09 0 0 1 1.288 0l5.134 3.78c.848.626 2.007-.206 1.659-1.19L16.014 5.958c-.334-.944-1.694-.944-2.028 0Z" fill="url(#a)"></path>
           <path d="M108.132 12.128a.716.716 0 0 1-.195.232.427.427 0 0 1-.248.068.681.681 0 0 1-.345-.113 6.59 6.59 0 0 0-.435-.262c-.17-.095-.37-.18-.6-.255a2.397 2.397 0 0 0-.802-.12c-.28 0-.525.035-.735.105a1.54 1.54 0 0 0-.533.277c-.14.12-.245.265-.315.435-.07.165-.105.348-.105.548 0 .255.07.467.21.637.145.17.335.315.57.435.235.12.503.228.803.323.3.095.607.197.922.307.315.105.623.23.923.375.3.14.567.32.802.54.235.215.423.48.563.795.145.315.217.698.217 1.148 0 .49-.085.95-.255 1.38-.165.425-.41.797-.735 1.117-.32.315-.712.565-1.177.75-.465.18-.998.27-1.598.27-.345 0-.685-.035-1.02-.105a5.254 5.254 0 0 1-.967-.285 5.229 5.229 0 0 1-.863-.45c-.27-.175-.51-.37-.72-.585l.593-.967a.592.592 0 0 1 .195-.173.473.473 0 0 1 .255-.075c.125 0 .26.053.405.158.145.1.317.212.517.337.2.125.433.24.698.345.27.1.592.15.967.15.575 0 1.02-.135 1.335-.405.315-.275.473-.667.473-1.177 0-.285-.073-.518-.218-.698-.14-.18-.327-.33-.562-.45a4.072 4.072 0 0 0-.803-.315 26.61 26.61 0 0 1-.915-.277 7.89 7.89 0 0 1-.915-.36c-.3-.14-.567-.323-.802-.548a2.545 2.545 0 0 1-.57-.84c-.14-.34-.21-.757-.21-1.252 0-.395.077-.78.232-1.155.16-.375.39-.708.69-.998.3-.29.67-.522 1.11-.697.44-.175.945-.263 1.515-.263.64 0 1.23.1 1.77.3.54.2 1 .48 1.38.84l-.502.953ZM99.9 12.128a.716.716 0 0 1-.196.232.425.425 0 0 1-.247.068.681.681 0 0 1-.345-.113 6.59 6.59 0 0 0-.435-.262c-.17-.095-.37-.18-.6-.255a2.4 2.4 0 0 0-.802-.12c-.28 0-.526.035-.736.105-.21.065-.387.157-.532.277-.14.12-.245.265-.315.435-.07.165-.105.348-.105.548 0 .255.07.467.21.637.145.17.335.315.57.435.235.12.502.228.802.323.3.095.608.197.923.307.315.105.623.23.922.375.3.14.568.32.803.54.235.215.422.48.562.795.145.315.218.698.218 1.148 0 .49-.085.95-.255 1.38-.165.425-.41.797-.735 1.117-.32.315-.713.565-1.177.75-.466.18-.998.27-1.598.27-.345 0-.685-.035-1.02-.105a5.26 5.26 0 0 1-.968-.285 5.224 5.224 0 0 1-.862-.45c-.27-.175-.51-.37-.72-.585l.593-.967a.592.592 0 0 1 .194-.173.473.473 0 0 1 .255-.075c.126 0 .26.053.406.158.145.1.317.212.517.337.2.125.432.24.697.345.27.1.593.15.968.15.575 0 1.02-.135 1.335-.405.315-.275.472-.667.472-1.177 0-.285-.072-.518-.217-.698-.14-.18-.328-.33-.563-.45a4.067 4.067 0 0 0-.802-.315 26.61 26.61 0 0 1-.915-.277 7.89 7.89 0 0 1-.915-.36c-.3-.14-.568-.323-.803-.548a2.545 2.545 0 0 1-.57-.84c-.14-.34-.21-.757-.21-1.252 0-.395.078-.78.233-1.155.16-.375.39-.708.69-.998.3-.29.67-.522 1.11-.697.44-.175.945-.263 1.515-.263.64 0 1.23.1 1.77.3.54.2 1 .48 1.38.84l-.502.953ZM89.44 16.905l-1.32-3.607a7.895 7.895 0 0 1-.203-.57c-.07-.22-.14-.458-.21-.713-.065.255-.133.495-.203.72-.07.22-.137.413-.202.578l-1.313 3.592h3.45ZM93.001 21h-1.56a.68.68 0 0 1-.428-.127.847.847 0 0 1-.247-.33l-.81-2.213h-4.493l-.81 2.213a.719.719 0 0 1-.232.315.649.649 0 0 1-.428.142H82.42l4.268-10.845h2.055L93.002 21ZM78.71 15.608c.37 0 .692-.045.967-.135.275-.095.502-.228.682-.398.185-.175.323-.385.413-.63.09-.25.135-.527.135-.832 0-.29-.045-.553-.135-.788a1.557 1.557 0 0 0-.405-.6 1.763 1.763 0 0 0-.683-.375c-.275-.09-.6-.135-.975-.135h-1.507v3.893h1.507Zm0-5.453c.724 0 1.352.085 1.882.255.53.17.967.408 1.312.713.345.305.6.67.765 1.095.17.425.255.89.255 1.395 0 .525-.087 1.007-.262 1.447-.175.435-.438.81-.788 1.125-.35.315-.79.56-1.32.735-.525.175-1.14.263-1.845.263h-1.507V21h-2.018V10.155h3.525ZM72.764 10.155V21h-1.777v-7.005c0-.28.015-.582.045-.907l-3.278 6.157c-.155.295-.392.443-.712.443h-.285c-.32 0-.558-.148-.713-.443l-3.315-6.18c.015.165.028.328.038.488.01.16.015.307.015.442V21h-1.778V10.155h1.523c.09 0 .167.003.232.008a.584.584 0 0 1 .173.037c.055.02.102.053.142.098a.757.757 0 0 1 .128.18l3.247 6.022c.085.16.163.325.233.495.075.17.147.345.217.525.07-.185.143-.362.218-.532.075-.175.155-.343.24-.503l3.202-6.007a.757.757 0 0 1 .128-.18.427.427 0 0 1 .142-.098.676.676 0 0 1 .18-.037 3.09 3.09 0 0 1 .233-.008h1.522ZM59.233 15.578a6.04 6.04 0 0 1-.398 2.212c-.26.675-.63 1.26-1.11 1.755a5.105 5.105 0 0 1-1.732 1.163c-.675.275-1.425.412-2.25.412-.82 0-1.568-.137-2.243-.412a5.186 5.186 0 0 1-1.74-1.163 5.241 5.241 0 0 1-1.117-1.755 6.04 6.04 0 0 1-.398-2.212c0-.795.133-1.53.398-2.205a5.224 5.224 0 0 1 1.117-1.763 5.095 5.095 0 0 1 1.74-1.155c.675-.28 1.423-.42 2.243-.42.55 0 1.067.065 1.552.195.485.125.93.305 1.335.54.405.23.768.513 1.088.848.325.33.6.7.825 1.11.225.41.395.855.51 1.335.12.48.18.985.18 1.515Zm-2.063 0c0-.595-.08-1.128-.24-1.598a3.427 3.427 0 0 0-.682-1.207 2.916 2.916 0 0 0-1.08-.758 3.675 3.675 0 0 0-1.425-.262c-.53 0-1.008.087-1.433.262a3 3 0 0 0-1.08.758c-.295.33-.522.732-.682 1.207-.16.47-.24 1.003-.24 1.598 0 .595.08 1.13.24 1.605.16.47.387.87.682 1.2.3.325.66.575 1.08.75.425.175.903.262 1.433.262s1.005-.087 1.425-.262a2.957 2.957 0 0 0 1.08-.75c.295-.33.522-.73.682-1.2.16-.475.24-1.01.24-1.605ZM46.655 18.443c.11 0 .207.042.292.127l.795.863c-.44.545-.982.962-1.627 1.252-.64.29-1.41.435-2.31.435-.805 0-1.53-.137-2.175-.412a4.794 4.794 0 0 1-1.643-1.148 5.07 5.07 0 0 1-1.05-1.755 6.65 6.65 0 0 1-.36-2.227c0-.815.13-1.56.39-2.235.26-.68.626-1.265 1.096-1.755.474-.49 1.04-.87 1.694-1.14.656-.275 1.38-.413 2.175-.413.79 0 1.49.13 2.1.39.616.26 1.138.6 1.568 1.02l-.675.938a.59.59 0 0 1-.157.157.418.418 0 0 1-.255.068.519.519 0 0 1-.233-.06 6.057 6.057 0 0 1-.263-.158 6.628 6.628 0 0 0-.33-.21 2.518 2.518 0 0 0-.434-.202 3.092 3.092 0 0 0-.578-.158 3.693 3.693 0 0 0-.75-.067c-.485 0-.93.087-1.335.262-.4.17-.745.42-1.035.75-.29.325-.515.725-.675 1.2-.16.47-.24 1.008-.24 1.613 0 .61.085 1.152.255 1.627.175.475.41.875.705 1.2.295.325.642.575 1.042.75.4.17.83.255 1.29.255.276 0 .523-.015.743-.045.225-.03.43-.077.615-.142.19-.065.367-.148.532-.248.17-.105.338-.232.503-.382a.618.618 0 0 1 .157-.105.355.355 0 0 1 .173-.045Z" fill="currentColor"></path>
@@ -1391,7 +1423,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
               <stop offset="1" stop-color="#F33202"></stop>
             </lineargradient>
           </defs>
-        </svg></div><img src="images/mobile-logo.svg" height="Auto" alt="" class="navbar__logo-image sm--flex hidden dark--hidden"><img src="images/dark-logo-sm.svg" height="Auto" alt="" class="navbar__logo-image hidden dark--sm--flex">
+        </svg></div><img src="../images/mobile-logo.svg" height="Auto" alt="" class="navbar__logo-image sm--flex hidden dark--hidden"><img src="../images/dark-logo-sm.svg" height="Auto" alt="" class="navbar__logo-image hidden dark--sm--flex">
       </a>
     </div>
     <nav role="navigation" class="flex px-40 grow static sm--px-24 sm--absolute sm--bg-white sm--pt-56 sm--overflow-auto sm--scrollbar-hidden dark--sm--bg-black w-nav-menu">
@@ -1452,7 +1484,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
                   <div class="text-platinum text-s-13 tracking-0 sm--text-s-14 sm--leading-140 dark--text-white-30pr">Подробнее о ценах, условиях <span class="block">и преимуществах</span></div>
                 </div>
               </a>
-              <a href="download.html" class="px-16 py-12 flex gap-12 rounded-12 transition-all-300 hover--bg-blue-7pr sm--p-0 sm--order-4 sm--hover--bg-white dark--hover--bg-white-2pr dark--sm--hover--bg-black w-inline-block">
+              <a href="../download.html" class="px-16 py-12 flex gap-12 rounded-12 transition-all-300 hover--bg-blue-7pr sm--p-0 sm--order-4 sm--hover--bg-white dark--hover--bg-white-2pr dark--sm--hover--bg-black w-inline-block">
                 <div class="icon-38 shrink-0 sm--icon-32 w-embed"><svg width="38" height="38" viewbox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M38 19C38 29.4934 29.4934 38 19 38C8.50659 38 0 29.4934 0 19C0 8.50659 8.50659 0 19 0C29.4934 0 38 8.50659 38 19Z" fill="#677380" fill-opacity="0.06"></path>
                   <path d="M19.6876 11.2085C19.6876 10.8288 19.3798 10.521 19.0001 10.521C18.6204 10.521 18.3126 10.8288 18.3126 11.2085L18.3126 21.6946L15.3612 18.7432C15.0927 18.4747 14.6574 18.4747 14.3889 18.7432C14.1205 19.0117 14.1205 19.447 14.3889 19.7155L18.5139 23.8405C18.7824 24.109 19.2177 24.109 19.4862 23.8405L23.6112 19.7155C23.8797 19.447 23.8797 19.0117 23.6112 18.7432C23.3427 18.4747 22.9074 18.4747 22.6389 18.7432L19.6876 21.6946L19.6876 11.2085Z" fill="#677380"></path>
@@ -1486,7 +1518,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
     https://uploads-ssl.webflow.com/64328ad759d957f990749456/6606799ca86bbbea95a9ca15_cloud-apps%404x.webp 2x" type="image/webp">
                     <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/660679aff2d884346dfde453_cloud-apps%402x.png 1x,
     https://uploads-ssl.webflow.com/64328ad759d957f990749456/660679afd17db3d2a626fa0e_cloud-apps%404x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/cloud-apps2x.png" alt="Попробуйте облачную версию мессенджера Compass">
+                    <img loading="lazy" src="../images/cloud-apps2x.png" alt="Попробуйте облачную версию мессенджера Compass">
                   </picture>
                 </div>
                 <div class="image-h-full sm--sh-48 sm--mb-16 hidden dark--flex w-embed">
@@ -1495,7 +1527,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
     https://uploads-ssl.webflow.com/64328ad759d957f990749456/662bb6439443cad459e79261_cloud-apps-dark%403x.webp 2x" type="image/webp">
                     <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/662bb64321ff2b0b510b2a16_cloud-apps-dark%402x.png 1x,
     https://uploads-ssl.webflow.com/64328ad759d957f990749456/662bb6436762eac22ecb98ab_cloud-apps-dark%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/cloud-apps-dark2x.png" alt="Попробуйте облачную версию мессенджера Compass">
+                    <img loading="lazy" src="../images/cloud-apps-dark2x.png" alt="Попробуйте облачную версию мессенджера Compass">
                   </picture>
                 </div>
                 <div class="sm--text-s-16 font-bold sm--mb-8 sm--leading-140">Попробуйте облачную версию мессенджера Compass</div>
@@ -1512,11 +1544,11 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
             </div>
           </div>
         </div>
-        <a href="on-premise.html" class="flex items-center relative hover--inside-border-black dark--text-white-80pr dark--sm--text-white-70pr dark--hover--inside-border-white-80pr dark--sm--hover--inside-border-white-70pr w-inline-block">
+        <a href="../on-premise.html" class="flex items-center relative hover--inside-border-black dark--text-white-80pr dark--sm--text-white-70pr dark--hover--inside-border-white-80pr dark--sm--hover--inside-border-white-70pr w-inline-block">
           <div class="sm--font-bold sm--leading-140 sm--text-s-20 border-b sm--border-none border-transparent transition-all-300">Коробочное решение</div>
           <div class="navbar__link-label dark--text-black">On-premise</div>
         </a>
-        <a href="partner.html" aria-current="page" class="flex items-center relative hover--inside-border-black partner-page dark--text-white-80pr dark--sm--text-white-70pr dark--hover--inside-border-white-80pr dark--sm--hover--inside-border-white-70pr w-inline-block w--current">
+        <a href="../partner.html" class="flex items-center relative hover--inside-border-black partner-page dark--text-white-80pr dark--sm--text-white-70pr dark--hover--inside-border-white-80pr dark--sm--hover--inside-border-white-70pr w-inline-block">
           <div class="sm--font-bold sm--leading-140 sm--text-s-20 border-b sm--border-none border-transparent transition-all-300">Партнёрская программа</div>
         </a>
         <div data-menu-dd-wrap="" class="flex items-center py-15 relative sm--flex-wrap sm--p-0 text-left sm--z-10">
@@ -1531,7 +1563,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
           </div>
           <div data-menu-dd-content="" class="absolute top-100pr pt-4 left-50pr translate-x-m50pr sm--static sm--sw-full sm--translate-x-0 sm--pt-0 sm--overflow-hidden sm--sh-0">
             <div data-menu-dd-inner="" class="flex flex-col gap-8 p-24 rounded-8 sw-350 bg-nav-white sm--sw-full sm--px-0 sm--gap-24 sm--bg-transparent dark--bg-black-nav dark--border-1 dark--border-white-5pr dark--sm--border-none dark--sm--bg-transparent">
-              <a href="blog.html" class="px-16 py-12 flex gap-12 rounded-12 transition-all-300 hover--bg-blue-7pr sm--p-0 sm--hover--bg-white dark--hover--bg-white-2pr dark--sm--hover--bg-black w-inline-block">
+              <a href="../blog.html" class="px-16 py-12 flex gap-12 rounded-12 transition-all-300 hover--bg-blue-7pr sm--p-0 sm--hover--bg-white dark--hover--bg-white-2pr dark--sm--hover--bg-black w-inline-block">
                 <div class="icon-38 shrink-0 sm--icon-32 w-embed"><svg width="38" height="38" viewbox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M38 19C38 29.4934 29.4934 38 19 38C8.50659 38 0 29.4934 0 19C0 8.50659 8.50659 0 19 0C29.4934 0 38 8.50659 38 19Z" fill="#05C46B" fill-opacity="0.07"></path>
                   <path d="M11.0547 25.7034V12.6164C11.0547 11.0256 11.9951 10.217 13.4189 10.1291C16.5742 9.94457 19.1934 9.50512 21.6543 8.95141C23.3418 8.5559 24.2734 9.40844 24.2734 11.1575V24.0246C24.2734 25.5627 23.79 26.2219 22.542 26.5735C19.1934 27.4963 16.5742 27.7688 13.6299 27.927C11.9951 28.0237 11.0547 27.2327 11.0547 25.7034ZM12.4697 25.4485C12.4697 26.1604 12.9268 26.5471 13.6914 26.512C16.6094 26.3625 19.167 26.0813 21.918 25.3166C22.5947 25.1409 22.8584 24.7805 22.8584 23.9719V11.4036C22.8584 10.6125 22.3838 10.1907 21.5752 10.3752C19.167 10.9202 16.6094 11.3596 13.5771 11.5178C12.9268 11.553 12.4697 11.843 12.4697 12.5813V25.4485ZM18.0771 28.7268C19.5537 28.4983 21.1445 28.1907 22.876 27.7248C24.6514 27.2151 25.4775 26.0725 25.4775 24.0246V11.1575C25.4775 10.8938 25.46 10.6389 25.4336 10.4104C26.4355 10.7004 26.9453 11.5442 26.9453 12.9065V25.9758C26.9453 27.8127 26.04 28.7268 24.2295 28.7268H18.0771ZM14.3945 14.6291C14.1045 14.6467 13.8848 14.4358 13.8848 14.1545C13.8848 13.8821 14.0518 13.6711 14.3945 13.6448C16.8906 13.4866 18.8945 13.135 20.8457 12.7043C21.2236 12.6252 21.4434 12.8625 21.4434 13.135C21.4434 13.3811 21.3379 13.5832 20.9424 13.6711C18.8945 14.1282 16.8906 14.4709 14.3945 14.6291ZM14.3945 17.4592C14.1045 17.4768 13.8848 17.2571 13.8848 16.9758C13.8848 16.7121 14.0518 16.5012 14.3945 16.4748C16.8906 16.3166 18.8945 15.9651 20.8457 15.5344C21.2236 15.4553 21.4434 15.6926 21.4434 15.9651C21.4434 16.2112 21.3379 16.4133 20.9424 16.5012C18.8945 16.9495 16.8906 17.301 14.3945 17.4592ZM14.3945 20.2893C14.1045 20.3069 13.8848 20.0871 13.8848 19.8059C13.8848 19.5422 14.0518 19.3313 14.3945 19.3049C16.8906 19.1467 18.8945 18.7952 20.8457 18.3645C21.2236 18.2854 21.4434 18.5227 21.4434 18.7952C21.4434 19.0413 21.3379 19.2434 20.9424 19.3313C18.8945 19.7795 16.8906 20.1311 14.3945 20.2893ZM14.3945 23.1106C14.1045 23.1282 13.8848 22.9084 13.8848 22.6272C13.8848 22.3635 14.0518 22.1526 14.3945 22.1262C15.8096 22.0471 16.75 21.9153 17.5938 21.7834C17.9893 21.7131 18.2002 21.968 18.2002 22.2317C18.2002 22.4602 18.042 22.6887 17.752 22.7414C16.8027 22.8909 15.8359 23.0315 14.3945 23.1106Z" fill="#05C46B"></path>
@@ -1556,7 +1588,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
                   <div class="text-platinum text-s-13 tracking-0 sm--text-s-14 sm--leading-140 hidden sm--block dark--text-white-30pr">Пишем о бизнесе и для бизнеса: <span class="block">обзоры, гайды, подборки и новости</span></div>
                 </div>
               </a>
-              <a href="media.html" class="px-16 py-12 flex gap-12 rounded-12 transition-all-300 hover--bg-blue-7pr sm--p-0 sm--hover--bg-white dark--hover--bg-white-2pr dark--sm--hover--bg-black w-inline-block">
+              <a href="../media.html" class="px-16 py-12 flex gap-12 rounded-12 transition-all-300 hover--bg-blue-7pr sm--p-0 sm--hover--bg-white dark--hover--bg-white-2pr dark--sm--hover--bg-black w-inline-block">
                 <div class="icon-38 shrink-0 sm--icon-32 hidden dark--flex w-embed"><svg width="38" height="38" viewbox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M38 19C38 29.4934 29.4934 38 19 38C8.50659 38 0 29.4934 0 19C0 8.50659 8.50659 0 19 0C29.4934 0 38 8.50659 38 19Z" fill="#009FE6" fill-opacity="0.07"></path>
                   <path d="M9.20898 18.6104V17.3184C9.20898 15.0068 10.4834 13.7676 12.8916 13.7676H15.9941C18.6045 13.4863 21.9004 12.5195 24.4844 10.9902C24.7041 9.99707 25.5039 9.36426 26.6025 9.36426C27.9121 9.36426 28.7822 10.2344 28.7822 11.5352V24.332C28.7822 25.6328 27.9121 26.5029 26.6025 26.5029C25.5303 26.5029 24.7393 25.9053 24.502 24.9561C22.3047 23.6816 19.8613 22.8291 17.4531 22.3809L18.0684 25.5801C18.2969 26.749 17.7695 27.5488 16.9082 27.8213C16.0557 28.085 14.8076 27.9883 14.0869 26.3799L12.1621 22.1172C10.2285 21.8799 9.20898 20.667 9.20898 18.6104ZM25.8555 24.332C25.8555 24.7891 26.1455 25.0879 26.6025 25.0879C27.0596 25.0879 27.3672 24.7891 27.3672 24.332V11.5352C27.3672 11.0781 27.0596 10.7793 26.6025 10.7793C26.1455 10.7793 25.8555 11.0781 25.8555 11.5352V24.332ZM16.1787 20.7725C19.1318 21.1152 21.9355 21.9326 24.4316 23.3564V12.5723C21.9971 13.9609 19.1582 14.8047 16.1787 15.1475V20.7725ZM12.8916 20.7461H14.7549V15.1826H12.8916C11.2832 15.1826 10.624 15.7979 10.624 17.3184V18.6104C10.624 20.1221 11.2832 20.7461 12.8916 20.7461ZM15.4844 26.125C15.6865 26.5469 16.0732 26.6436 16.3721 26.5381C16.6533 26.4414 16.8555 26.1865 16.7852 25.791L16.0732 22.1699C16.0293 22.1699 15.9854 22.1611 15.9414 22.1611H13.6299L15.4844 26.125Z" fill="#009FE6"></path>
@@ -1573,34 +1605,37 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
             </div>
           </div>
         </div>
-        <div class="hidden sm--flex sm--flex-col sm--absolute sm--bottom-24 sm--sw-full sm--z-1">
-          <div class="flex flex-col gap-12 sm--mb-12">
-            <a href="https://partner.getcompass.ru/" class="cta__btn sm--sw-full sm--max-w-none sm--py-12 w-button">Начать зарабатывать</a>
-            <a href="https://partner.getcompass.ru/" class="cta__btn is--light sm--max-w-none w-button">Войти в кабинет</a>
+        <div class="sm--bg-black-grad-1 sm--rounded-16 sm--p-24 sm--flex sm--flex-col sm--items-center sm--text-white sm--absolute sm--bottom-24 hidden sm--z-1 dark--sm--bg-nav-banner-grad">
+          <div class="image-h-full sm--sh-48 sm--mb-16 w-embed">
+            <picture>
+              <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/66068172ad4740853b2a4179_menu-consultation%402x.webp 1x,
+    https://uploads-ssl.webflow.com/64328ad759d957f990749456/660681722fab2be5079163d4_menu-consultation%403x.webp 2x" type="image/webp">
+              <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/660681891bf8300cbb8e76d2_menu-consultation%402x.png 1x,
+    https://uploads-ssl.webflow.com/64328ad759d957f990749456/66068189789f950f3a75bf4a_menu-consultation%403x.png 2x" type="image/png">
+              <img loading="lazy" src="../images/menu-consultation2x.png" alt="Закажите персональную консультацию">
+            </picture>
           </div>
-          <div class="sm--bg-partner-grad-1 sm--rounded-16 sm--p-24">
-            <div class="sm--text-s-14 sm--text-platinum sm--mb-16 sm--leading-140">Если у вас есть вопросы по партнёрской программе, напишите на почту <a href="mailto:partner@getcompass.ru" class="text-dark-blue transition-color-300 hover--text-dark-blue-2">partner@getcompass.ru</a> или позвоните <a href="tel:+78125079852" class="text-dark-blue transition-color-300 hover--text-dark-blue-2 inline-block">+7 (812) 507-98-52</a>
-            </div>
-            <div class="grid grid-cols-2 sm--gap-12">
-              <a href="https://wa.me/message/CJINDDW52XJYM1" target="_blank" class="flex sm--gap-8 text-platinum border-1 border-black-7pr sm--py-8 justify-center sm--rounded-8 sm--grow hover--border-platinum-50pr hover--text-black transition-all-300 w-inline-block"><img src="images/whatsapp-logo3x.png" loading="lazy" alt="" class="sm--sw-20 sm--sh-20">
-                <div class="font-medium sm--text-s-16 sm--leading-121">WhatsApp</div>
-              </a>
-              <a href="https://t.me/getcompass" target="_blank" class="flex sm--gap-8 text-platinum border-1 border-black-7pr sm--py-8 justify-center sm--rounded-8 sm--grow hover--border-platinum-50pr hover--text-black transition-all-300 w-inline-block"><img src="images/telegram-logo3x.png" loading="lazy" alt="" class="sm--sw-20 sm--sh-20">
-                <div class="font-medium sm--text-s-16 sm--leading-121">Telegram</div>
-              </a>
-            </div>
-          </div>
+          <div class="sm--text-s-16 font-semibold sm--mb-8 sm--leading-121">Закажите персональную консультацию</div>
+          <div class="sm--text-s-14 sm--leading-140 sm--mb-24"><span class="xs--block">Предоставим бесплатный период. </span>Поможем настроить Compass на ваших серверах или в облаке. Упростим переезд и адаптацию команды.</div>
+          <a data-remodal-target="consultation" href="#" class="cta__btn is--purple sm--text-s-16 sm--py-8 sm--rounded-8 sm--max-w-none sm--leading-140 hover--bg-dark-purple w-button">Заказать консультацию</a>
         </div>
       </div>
     </nav>
     <div data-right-menu="" class="flex items-center gap-32 sm--gap-12">
-      <a href="https://partner.getcompass.ru/" class="flex items-center relative sm--hidden hover--inside-border-black w-inline-block">
-        <div class="sm--font-bold sm--leading-140 sm--text-s-20 border-b border-transparent transition-all-300">Войти в кабинет</div>
+      <a data-remodal-target="consultation" href="#" class="text-s-15 hover--inside-border-black sm--hidden dark--text-white-80pr dark--hover--inside-border-white-80pr sh-full items-center flex dark--sm--hover--inside-border-white-70pr w-inline-block">
+        <div class="border-b border-transparent transition-all-300">Заказать консультацию</div>
       </a>
       <div class="menu-wrapper--is--mobile sm--gap-12">
-        <a href="https://partner.getcompass.ru/" class="cta__btn is--navbar is--hidden w-button">Начать зарабатывать</a>
+        <div data-hover="false" data-delay="0" class="cta__dropdown sh-full flex items-center is--hidden w-dropdown">
+          <div class="cta__btn is--navbar cta__dd-center-arrow w-dropdown-toggle">
+            <div>Попробовать бесплатно</div>
+          </div>
+          <nav class="cta__dd-list is--mobile-fullwidth is--mobile-has-arrow w-dropdown-list cta__dd-list sw-236 mt-14 sm--mt-0 sm--sw-100vw sm--pt-12">
+            <div class="cta__dd-list-wrap"></div>
+          </nav>
+        </div>
         <div class="burger-menu-box dark--bg-white-3pr w-nav-button">
-          <div data-is-ix2-target="1" class="navbar__menu-icon" data-w-id="c9ff2a82-9f71-ad56-6966-542676dea911" data-animation-type="lottie" data-src="documents/hamburger.json" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="1.6166666666666667" data-duration="0" data-ix2-initial-state="0"></div>
+          <div data-is-ix2-target="1" class="navbar__menu-icon" data-w-id="c9ff2a82-9f71-ad56-6966-542676dea911" data-animation-type="lottie" data-src="../documents/hamburger.json" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="1.6166666666666667" data-duration="0" data-ix2-initial-state="0"></div>
         </div>
       </div>
     </div>
@@ -1632,673 +1667,193 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
 </div>
 <div class="page-wrapper">
   <div class="main-wrapper">
-    <div id="hero" data-w-id="71c9ee26-b06b-0971-1ca8-dfdfcd584f6d" class="section-wrapper rel hero hero-partner">
-      <div class="background_overlay is--hero"><img src="images/403-min.png" alt="" class="bg__layer _02"><img src="images/403-min.png" alt="" class="bg__layer _03"><img src="images/417-1-min.png" alt="" class="bg__layer"></div>
-      <div class="hero__emoji-wrap is--partner-page">
-        <div class="hero__emoji-left partner-hero__emoji-left w-embed">
-          <picture>
-            <source media="(min-width: 767px)" srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5eb2796f12b814a95a167_partner-hero__emoji-left%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5eb278305117641295e39_partner-hero__emoji-left%403x.webp 2x" type="image/webp">
-            <source media="(min-width: 767px)" srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5eb4043380867a90e4839_partner-hero__emoji-left%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5eb4000f6e26a3f2d4ee6_partner-hero__emoji-left%403x.png 2x" type="image/png">
-            <img src="images/partner-hero__emoji-left64px.png" alt="">
-          </picture>
-        </div>
-        <div class="hero__right-emoji w-embed">
-          <picture>
-            <source media="(min-width: 767px)" srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5eb27e40ef9820161724a_partner-hero__emoji-right%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5eb2702c1d088af218696_partner-hero__emoji-right%403x.webp 2x" type="image/webp">
-            <source media="(min-width: 767px)" srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5eb403383c46240ef4c4b_partner-hero__emoji-right%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5eb401d7bd464eb03c607_partner-hero__emoji-right%403x.png 2x" type="image/png">
-            <img src="images/partner-hero__emoji-right64px.png" alt="">
-          </picture>
-        </div>
-        <div class="hero__emoji-left is--mob-visible is--partner-page w-embed">
-          <picture>
-            <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8a4d6b5ec766c13278274_partner-hero__emoji-left-sm%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8a4d6fe4103e9f7376e7e_partner-hero__emoji-left-sm%404x.webp 2x" type="image/webp">
-            <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8a503531b32c7fb260519_partner-hero__emoji-left-sm%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8a50374c22995710ba0d0_partner-hero__emoji-left-sm%404x.png 2x" type="image/png">
-            <img src="images/partner-hero__emoji-left-sm2x.png" alt="">
-          </picture>
-        </div>
-        <div class="hero__right-emoji is--mob-visible is--partner-page w-embed">
-          <picture>
-            <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8a4d566e475c4d0de33b3_partner-hero__emoji-right-sm%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8a4d6ac2ee755ccf7af1f_partner-hero__emoji-right-sm%404x.webp 2x" type="image/webp">
-            <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8a503c525face06afbd65_partner-hero__emoji-right-sm%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8a503280c6cdebe642003_partner-hero__emoji-right-sm%404x.png 2x" type="image/png">
-            <img src="images/partner-hero__emoji-right-sm2x.png" alt="">
-          </picture>
-        </div>
-      </div>
-      <div class="hero__content container is--partner-page">
-        <div class="hero__title is--partner-page">
-          <div class="hero__title-item">Зарабатывайте, рекомендуя</div>
-          <h1 class="hero__title-item"> <span class="sm--hidden">мессенджер </span>Compass</h1>
-        </div>
-        <div class="hero__subline is--partner-page">Порекомендуйте нам друга, кому будет интересен Compass, и получайте стабильный ежемесячный доход.</div>
-        <div class="hero__dropdown-mobile">
-          <div class="price__ddoun-component is--partner-page">
-            <a href="https://partner.getcompass.ru/" class="cta__btn is--long-btn sm--max-w-none w-button">Начать зарабатывать</a>
-            <a href="#calculator" class="hero__partner-calc-link w-inline-block">
-              <div class="hero__partner-calc-icon is--vector-full w-embed"><svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19.2526 8.4321L19.2496 8.46598V8.5V19C19.2496 19.6904 18.6899 20.25 17.9996 20.25H5.99956C5.30921 20.25 4.74957 19.6904 4.74957 19V8.5V8.46601L4.74649 8.43216L4.44502 5.11307C4.37853 4.38108 4.95489 3.75 5.68989 3.75H18.3095C19.0445 3.75 19.6209 4.38115 19.5544 5.11317L19.2526 8.4321Z" stroke="currentColor" stroke-width="1.5"></path>
-                <line x1="5" y1="8.25" x2="19" y2="8.25" stroke="currentColor" stroke-width="1.5"></line>
-                <rect x="7" y="10.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-                <rect x="11" y="10.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-                <rect x="15" y="10.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-                <rect x="7" y="13.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-                <rect x="11" y="13.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-                <rect x="15" y="13.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-                <rect x="7" y="16.5" width="6" height="2" rx="1" fill="currentColor"></rect>
-                <rect x="15" y="16.5" width="2" height="2" rx="1" fill="currentColor"></rect>
-              </svg></div>
-              <div>Рассчитать доход</div>
-            </a>
+    <section class="download__hero">
+      <div class="w-layout-blockcontainer container w-container">
+        <div class="background_overlay is--hero"><img src="../images/403-min.png" loading="lazy" alt="" class="bg__layer _02"><img src="../images/403-min.png" loading="lazy" alt="" class="bg__layer _03"><img src="../images/417-1-min.png" loading="lazy" alt="" class="bg__layer"></div>
+        <div class="download-hero__inner-wrapper">
+          <div class="download-hero__logo-wrap"><img src="../images/ubuntu-logo.svg" alt="" width="150" class="download-hero__logo"></div>
+          <div class="download-hero__h1-wrap">
+            <h1 class="download-hero__h1">Спасибо за скачивание Compass для Linux</h1>
+            <div class="download-hero__platform-tag">.deb</div>
+          </div>
+          <div class="download-hero__subtitle-wrap">
+            <div class="download-hero__subtitle">Если скачивание не началось в течение 5 секунд</div><img src="../images/download-arrow.png" loading="lazy" alt="" class="download-hero__subtitle-arrow">
+          </div>
+          <div data-hover="false" data-delay="0" class="cta__dropdown is--download-ddown w-dropdown">
+            <div class="download-hero__link w-dropdown-toggle">
+              <div>Скачать Compass для Linux</div>
+            </div>
+            <nav data-list-type="linux" class="cta__dd-list is--sort-disable w-dropdown-list">
+              <div class="cta__dd-list-wrap"></div>
+            </nav>
           </div>
         </div>
       </div>
-      <div class="container hero"></div>
-      <div class="hero__screens-ddown">
-        <div class="price__ddoun-component hero">
-          <a href="https://partner.getcompass.ru/" class="cta__btn is--long-btn w-button">Начать зарабатывать</a>
-          <a href="#calculator" class="hero__partner-calc-link w-inline-block">
-            <div class="hero__partner-calc-icon is--vector-full w-embed"><svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M19.2526 8.4321L19.2496 8.46598V8.5V19C19.2496 19.6904 18.6899 20.25 17.9996 20.25H5.99956C5.30921 20.25 4.74957 19.6904 4.74957 19V8.5V8.46601L4.74649 8.43216L4.44502 5.11307C4.37853 4.38108 4.95489 3.75 5.68989 3.75H18.3095C19.0445 3.75 19.6209 4.38115 19.5544 5.11317L19.2526 8.4321Z" stroke="currentColor" stroke-width="1.5"></path>
-              <line x1="5" y1="8.25" x2="19" y2="8.25" stroke="currentColor" stroke-width="1.5"></line>
-              <rect x="7" y="10.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-              <rect x="11" y="10.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-              <rect x="15" y="10.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-              <rect x="7" y="13.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-              <rect x="11" y="13.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-              <rect x="15" y="13.25" width="2" height="2" rx="1" fill="currentColor"></rect>
-              <rect x="7" y="16.5" width="6" height="2" rx="1" fill="currentColor"></rect>
-              <rect x="15" y="16.5" width="2" height="2" rx="1" fill="currentColor"></rect>
-            </svg></div>
-            <div>Рассчитать доход</div>
+    </section>
+    <section class="download__instructions download__instructions--linux">
+      <div class="w-layout-blockcontainer container w-container">
+        <div class="download-ins__content">
+          <h2 class="download-ins__h2">Инструкция по установке Compass на Ubuntu (Debian)</h2>
+          <p>Скачайте установочный файл .deb с сайта и выберите вариант установки.</p>
+          <h3 class="download-ins__h3">Стандартная установка</h3>
+          <ol role="list" class="download-ins__ul">
+            <li>
+              <p>Откройте скачанный файл удобным для вас способом:</p>
+              <ul role="list" class="download-ins__ul w-list-unstyled">
+                <li>Нажмите на скачанный файл в загрузках браузера и выберите «Установка приложений».</li>
+                <li class="is--hide-dot">или</li>
+                <li>Перейдите в папку, в которую был скачан файл, и с помощью правой кнопки мыши откройте меню действий, выберите пункт «Открыть в другом приложении», затем — «Установка приложений».</li>
+              </ul>
+            </li>
+            <li>Введите пароль от учётной записи для подтверждения установки.</li>
+            <li>После завершения установки приложение Compass появится в списке приложений.</li>
+          </ol>
+          <a data-remodal-target="video-linux-deb-standart" href="#" class="video__lightbox-link is--download-ins__video w-inline-block">
+            <div class="video__preview-thumb is--download-ins__video is--cover-image w-embed">
+              <picture>
+                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65184ca5fb1dc81e958b3c47_download-video-bg%402x.webp 1x,
+    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65184ca7e392f9569a40a0e8_download-video-bg%403x.webp 2x" type="image/webp">
+                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65184ca57239798ec523cc43_download-video-bg%402x.jpg 1x,
+    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65184ca7155bcd98baa09a6d_download-video-bg%403x.jpg" type="image/jpeg">
+                <img src="../images/download-video-bg2x.jpg" alt="Установка Compass на MacOS">
+              </picture>
+            </div>
+            <div class="video__review-inner-wrap is--download-ins__video is--small-icon">
+              <div class="video__duration-text is--download-page">00:28</div><img src="../images/play-d.svg" loading="eager" alt="" class="video__icon-play is--relative is--download-ins__video is--small">
+              <div class="download-ins__video-title is--small">Установка Compass на Linux (.deb)</div>
+              <div class="download-ins__video-subtitle">Стандартная установка</div>
+            </div>
+          </a>
+          <h3 class="download-ins__h3">Установка с помощью терминала</h3>
+          <ol role="list" class="download-ins__ul">
+            <li>Откройте папку, в которую был скачан файл, нажмите правой кнопкой мыши в пустой области и выберите в контекстном меню «Открыть в терминале».</li>
+            <li>
+              <p>Скопируйте команду для установки, вставьте её в терминал и нажмите Enter.</p>
+              <div clipboard-field="" class="download-ins__copy-field">
+                <div clipboard-text="" class="download-ins__copy-text">sudo apt-get install ./compass-linux.deb</div>
+                <a clipboard-btn="" href="#" class="download-ins__copy-link w-inline-block">
+                  <div class="download-ins__copy-icon is--vector-full w-embed"><svg width="22" height="22" viewbox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5832 17.4167L15.5832 18.3333C15.5832 19.3459 14.7624 20.1667 13.7498 20.1667H5.49984C4.48731 20.1667 3.6665 19.3459 3.6665 18.3333V6.41668C3.6665 5.40415 4.48732 4.58334 5.49984 4.58334H6.4165V3.66668C6.4165 2.65415 7.23731 1.83334 8.24984 1.83334H16.4998C17.5124 1.83334 18.3332 2.65415 18.3332 3.66668V15.5833C18.3332 16.5959 17.5124 17.4167 16.4998 17.4167H15.5832ZM16.4998 3.20834H8.24984C7.99671 3.20834 7.7915 3.41355 7.7915 3.66668V4.58334H13.7498C14.7624 4.58334 15.5832 5.40416 15.5832 6.41668L15.5832 16.0417H16.4998C16.753 16.0417 16.9582 15.8365 16.9582 15.5833V3.66668C16.9582 3.41355 16.753 3.20834 16.4998 3.20834ZM5.49984 5.95834H13.7498C14.003 5.95834 14.2082 6.16355 14.2082 6.41668V18.3333C14.2082 18.5865 14.003 18.7917 13.7498 18.7917H5.49984C5.24671 18.7917 5.0415 18.5865 5.0415 18.3333V6.41668C5.0415 6.16355 5.24671 5.95834 5.49984 5.95834Z" fill="currentColor"></path>
+                  </svg></div>
+                  <div clipboard-tooltip="" class="download-ins__copy-tooltip">Скопировано</div>
+                </a>
+              </div>
+            </li>
+            <li>Введите пароль от учётной записи и нажмите Enter для запуска процесса установки.</li>
+            <li>В случае отсутствия дополнительных пакетов, необходимых для работы приложения, система предложит их установить. Для подтверждения установки введите букву «д»(да)/«y»(yes) и нажмите Enter. Если пакеты уже установлены, этот пункт можно пропустить.</li>
+            <li>После завершения установки приложение Compass появится в списке приложений.</li>
+          </ol>
+          <a data-remodal-target="video-linux-deb-terminal" href="#" class="video__lightbox-link is--download-ins__video w-inline-block">
+            <div class="video__preview-thumb is--download-ins__video is--cover-image w-embed">
+              <picture>
+                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65184ca5fb1dc81e958b3c47_download-video-bg%402x.webp 1x,
+    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65184ca7e392f9569a40a0e8_download-video-bg%403x.webp 2x" type="image/webp">
+                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65184ca57239798ec523cc43_download-video-bg%402x.jpg 1x,
+    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65184ca7155bcd98baa09a6d_download-video-bg%403x.jpg" type="image/jpeg">
+                <img src="../images/download-video-bg2x.jpg" alt="Установка Compass на MacOS">
+              </picture>
+            </div>
+            <div class="video__review-inner-wrap is--download-ins__video is--small-icon">
+              <div class="video__duration-text is--download-page">00:30</div><img src="../images/play-d.svg" loading="eager" alt="" class="video__icon-play is--relative is--download-ins__video is--small">
+              <div class="download-ins__video-title is--small">Установка Compass на Linux (.deb)</div>
+              <div class="download-ins__video-subtitle">Установка с помощью терминала</div>
+            </div>
           </a>
         </div>
-      </div>
-    </div>
-    <section class="section-wrapper partner-video">
-      <div class="w-layout-blockcontainer container w-container">
-        <div class="heading__h1_regular partner-video__h1">Как<span class="partner-video__h1-span"> заработать</span> с помощью Compass?</div>
-        <div class="video__container parner-video__video-container">
-          <div class="video__review-single-wrap">
-            <a data-remodal-target="video-partner" href="#" class="video__lightbox-link is--large-video partner-video w-inline-block">
-              <div class="video__duration-text is--large">02:54</div>
-              <div class="video__preview-thumb is--large-video w-embed">
-                <picture>
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d9b1273fcebbe77170c797_partner-video%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d9b12733c8ab4fe086194e_partner-video%403x.webp 2x" type="image/webp">
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d9b14eade464cfbbbdd126_partner-video%402x.jpg 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d9b14e912b10774db71abc_partner-video%403x.jpg 2x" type="image/jpg">
-                  <img loading="lazy" src="images/partner-video2x.jpg" alt="Подробнее о партнерской программе Compass">
-                </picture>
+        <div class="background_overlay is--hero"><img src="../images/403-min.png" loading="lazy" alt="" class="bg__layer _10"><img src="../images/403-min.png" loading="lazy" alt="" class="bg__layer _12"><img src="../images/417-1-min.png" loading="lazy" alt="" class="bg__layer _17"></div>
+        <div class="download-ins__other-platforms">
+          <div class="download-ins__other-platforms-item">Ищете Compass для других платформ? Версии для </div>
+          <div class="download__cta-dd-inline-wrapper">
+            <div data-hover="false" data-delay="0" class="download__cta-dd w-dropdown">
+              <div class="download-ins__text-platform-dd-toggle download-ins__text-platform-link w-dropdown-toggle">
+                <div class="cta__dd-center-arrow">MacOS</div>
               </div>
-              <div class="video__review-inner-wrap video__black-overlay"><img src="images/play-icon.svg" loading="eager" alt="" class="video__icon-play is--relative">
-                <div class="video__review-author-company single-review__company sm--hidden">Рассказываем о Compass и о том,<br>как мы можем заработать вместе</div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="background_overlay is--hero"><img src="images/371-min.png" loading="lazy" alt="" class="bg__layer p1"><img src="images/421-min.png" loading="lazy" alt="" class="bg__layer p2"></div>
-    </section>
-    <section class="section-wrapper parner-about">
-      <div class="w-layout-blockcontainer container w-container">
-        <div class="heading__h1_regular partner-about__h1">Как работает рекомендательная программа</div>
-        <div class="partner-about__wrap">
-          <div class="partner-about__inner-wrap sm--scrollbar-hidden">
-            <div class="partner-about__item">
-              <div class="partner-about__arrow first-arrow w-embed">
-                <picture>
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa08529db1d70e22581_partner-about-arrow-1%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa038f7161e1f10412a_partner-about-arrow-1%403x.png 2x" type="image/png">
-                  <img loading="lazy" src="images/partner-about-arrow-12x.png" alt="">
-                </picture>
-              </div>
-              <div class="parner-about__item-card">
-                <div class="partner-about__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875ba90cdbbab6810367d_partner-about-1%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bab4d615b24e679082_partner-about-1%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d876151d594aff79cad07b_partner-about-1%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d876159509d2ae89b82b76_partner-about-1%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/partner-about-12x.png" alt="Регистрация в рекомендательной программе">
-                  </picture>
-                </div>
-                <div class="partner-about__text">Зарегистрируетесь в рекомендательной программе и получите доступ к личному кабинету.</div>
-              </div>
-            </div>
-            <div class="partner-about__item">
-              <div class="parner-about__item-card">
-                <div class="partner-about__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bae0a5b614b4215702_partner-about-2%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bca166c2b0fe080560_partner-about-2%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d87613e7e2f451a5a549d1_partner-about-2%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d87613577fb3c371159fca_partner-about-2%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/partner-about-22x.png" alt="Поделитесь контактом предпринимателя или руководителя">
-                  </picture>
-                </div>
-                <div class="partner-about__text">Поделитесь контактом предпринимателя или руководителя, которому нужен мессенджер для работы.</div>
-              </div>
-              <div class="partner-about__arrow second-arrow w-embed">
-                <picture>
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa08bed6748a6c9bf9c_partner-about-arrow-2%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa0eff2dcf4f097d7d7_partner-about-arrow-2%403x.png 2x" type="image/png">
-                  <img loading="lazy" src="images/partner-about-arrow-22x.png" alt="">
-                </picture>
-              </div>
-            </div>
-            <div class="partner-about__item">
-              <div class="parner-about__item-card">
-                <div class="partner-about__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875ba42e65f6f8bf0f41e_partner-about-3%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bbf3d32c3b7629aa0c_partner-about-3%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d876135e8e2e732c5d1a1f_partner-about-3%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8761536b9efe86bfc5d72_partner-about-3%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/partner-about-32x.png" alt="Проведём демонстрацию, ответим на вопросы и организуем продажу">
-                  </picture>
-                </div>
-                <div class="partner-about__text">Дальше мы берем всё на себя: проведём демонстрацию, ответим на вопросы и организуем продажу.</div>
-              </div>
-              <div class="partner-about__arrow third-arrow hidden sm--block w-embed">
-                <picture>
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa0e485100bd25eace4_partner-about-arrow-3%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa04b1fd339cb7712ee_partner-about-arrow-3%403x.png 2x" type="image/png">
-                  <img loading="lazy" src="images/partner-about-arrow-32x.png" alt="">
-                </picture>
-              </div>
-            </div>
-            <div class="partner-about__item">
-              <div class="parner-about__item-card">
-                <div class="partner-about__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bc0c32bcf4be58d3dc_partner-about-4%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bcecaef8e521977779_partner-about-4%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d87615ac5482fd192af3ed_partner-about-4%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d87614da2b42470300731f_partner-about-4%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/partner-about-42x.png" alt="Информируем вас о том, как идут переговоры">
-                  </picture>
-                </div>
-                <div class="partner-about__text">Контакт закрепляется за вами в личном кабинете. Мы информируем вас о том, как идут переговоры.</div>
-              </div>
-              <div class="partner-about__arrow third-arrow sm--hidden w-embed">
-                <picture>
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa04b1fd339cb7712ee_partner-about-arrow-3%403x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa0e485100bd25eace4_partner-about-arrow-3%402x.png 2x" type="image/png">
-                  <img loading="lazy" src="images/partner-about-arrow-32x.png" alt="">
-                </picture>
-              </div>
-              <div class="partner-about__arrow five-arrow hidden sm--block w-embed">
-                <picture>
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65db44bce3c935bf20d53a23_partner-about-arrow-mob-3%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65db44bc6cc080fb2303801b_partner-about-arrow-mob-3%403x.png 2x" type="image/png">
-                  <img loading="lazy" src="images/partner-about-arrow-mob-32x.png" alt="">
-                </picture>
-              </div>
-            </div>
-            <div class="partner-about__item">
-              <div class="partner-about__arrow six-arrow hidden sm--block w-embed">
-                <picture>
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d880ead2274e42d2b0f763_partner-about-arrow-5%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d880ea3c77c28f9f27a34d_partner-about-arrow-5%403x.png 2x" type="image/png">
-                  <img loading="lazy" src="images/partner-about-arrow-52x.png" alt="">
-                </picture>
-              </div>
-              <div class="parner-about__item-card">
-                <div class="partner-about__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bc4221b22057a07db6_partner-about-5%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bca4b97692108a6a6e_partner-about-5%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d87623bb01192be29d57f9_partner-about-5%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8762338ae889726d90de0_partner-about-5%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/partner-about-52x.png" alt="Выплатим 20% с каждой оплаты">
-                  </picture>
-                </div>
-                <div class="partner-about__text">Компания клиента ежемесячно оплачивает Compass. 20% с каждой оплаты поступает вам.</div>
-              </div>
-              <div class="partner-about__arrow four-arrow sm--hidden w-embed">
-                <picture>
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa04b1fd339cb7712f3_partner-about-arrow-4%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa0babfebaa7ef15d43_partner-about-arrow-4%403x.png 2x" type="image/png">
-                  <img loading="lazy" src="images/partner-about-arrow-42x.png" alt="">
-                </picture>
-              </div>
-            </div>
-            <div class="partner-about__item hidden sm--block">
-              <div class="parner-about__item-card is--six">
-                <div class="partner-about__item-card-img is--six w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65dc5fa89208595413df9f51_partner-about-6%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65dc5fa821a5a1d4fd33cb12_partner-about-6%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65dc5fc1fd4b48b9332eeb13_partner-about-6%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65dc5fd0e76225af05745474_partner-about-6%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/partner-about-62x.png" alt="Вы получаете деньги на свой банковский счёт">
-                  </picture>
-                </div>
-                <div class="partner-about__item-h3">Вы получаете деньги на свой банковский счёт</div>
-                <div class="text-block">Без задержек, скрытых комиссий и дополнительных условий.</div>
-              </div>
-              <div class="partner-about__arrow four-arrow sm--hidden w-embed">
-                <picture>
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa04b1fd339cb7712f3_partner-about-arrow-4%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d4efa0babfebaa7ef15d43_partner-about-arrow-4%403x.png 2x" type="image/png">
-                  <img loading="lazy" src="images/partner-about-arrow-42x.png" alt="">
-                </picture>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="partner-together__cta-wrap hidden sm--flex">
-          <a href="https://partner.getcompass.ru/" class="cta__btn is--long-btn sm--max-w-none w-button">Начать зарабатывать</a>
-        </div>
-      </div>
-      <div class="background_overlay is--hero"><img src="images/373-min.png" loading="lazy" alt="" class="bg__layer p4"><img src="images/397-min.png" loading="lazy" alt="" class="bg__layer p3"></div>
-    </section>
-    <div class="section-wrapper rel partner-comission">
-      <div class="hero__emoji-wrap partner-comission__emoji-wrap">
-        <div class="hero__emoji-left partner-comission__emoji-left w-embed">
-          <picture>
-            <source media="(min-width: 767px)" srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d58314945e8c7d86fffb94_cash-emoji-left%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d583146f968b9a121d7a87_cash-emoji-left%403x.webp 2x" type="image/webp">
-            <source media="(min-width: 767px)" srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d58346fe007fc089536e7d_cash-emoji-left%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d583468be1543faa8546e1_cash-emoji-left%403x.png 2x" type="image/png">
-            <img loading="lazy" src="images/cash-emoji-left64px.png" alt="">
-          </picture>
-        </div>
-        <div class="hero__right-emoji partner-comission__hero-emoji-right w-embed">
-          <picture>
-            <source media="(min-width: 767px)" srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5831473a6b975fdf14e10_cash-emoji-right%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d583144a03d39230f069fb_cash-emoji-right%403x.webp 2x" type="image/webp">
-            <source media="(min-width: 767px)" srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d583461b75864708bbc960_cash-emoji-right%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d58346731a65e4a2a488d9_cash-emoji-right%403x.png 2x" type="image/png">
-            <img loading="lazy" src="images/cash-emoji-right64px.png" alt="">
-          </picture>
-        </div>
-        <div class="hero__emoji-left is--mob-visible w-embed">
-          <picture>
-            <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/64b8ca089bd4e117c6d819fb_hero-mob-emoji-left%403x.webp 1x,
-  				  https://uploads-ssl.webflow.com/64328ad759d957f990749456/64b8ca084bca56bb68aca97d_hero-mob-emoji-left%404x.webp 2x" type="image/webp">
-            <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/64b8ca079bd4e117c6d818bf_hero-mob-emoji-left%403x.png 1x,
-  				  https://uploads-ssl.webflow.com/64328ad759d957f990749456/64b8ca0821d8a8af5b76bae4_hero-mob-emoji-left%404x.png 2x" type="image/png">
-            <img src="images/hero-mob-emoji-left3x.png" alt="">
-          </picture>
-        </div>
-        <div class="hero__right-emoji is--mob-visible w-embed">
-          <picture>
-            <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/64b8ca0f21d8a8af5b76c21f_hero-mob-emoji-right%403x.webp 1x,
-  				  https://uploads-ssl.webflow.com/64328ad759d957f990749456/64b8ca0f96243d6341d3c34e_hero-mob-emoji-right%404x.webp 2x" type="image/webp">
-            <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/64b8ca0f8f0f911317d94eed_hero-mob-emoji-right%403x.png 1x,
-  				  https://uploads-ssl.webflow.com/64328ad759d957f990749456/64b8ca0a21d8a8af5b76bccf_hero-mob-emoji-right%404x.png 2x" type="image/png">
-            <img src="images/hero-mob-emoji-right3x.png" alt="">
-          </picture>
-        </div>
-      </div>
-      <div class="hero__content container">
-        <div class="hero__title partner-comission__title">
-          <div class="heading__h1_regular partner-comission">Вы получаете деньги на свой банковский счёт</div>
-        </div>
-        <div class="partner-comission__subtitle">Без задержек, скрытых комиссий и дополнительных условий.</div>
-        <div class="hero__dropdown-mobile">
-          <div class="price__ddoun-component">
-            <div data-hover="false" data-delay="0" class="cta__dropdown w-dropdown">
-              <div class="cta__btn w-dropdown-toggle">
-                <div class="cta__dd-text">Попробовать бесплатно</div>
-                <div class="cta__dd_bn-icon is--vector-full w-embed"><svg width="15" height="15" viewbox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M8.19971 14L6.88776 12.7599L11.4431 8.40568H0V6.59432H11.4431L6.88776 2.24705L8.19971 1L15 7.5L8.19971 14Z" fill="currentColor"></path>
-                </svg></div>
-              </div>
-              <nav class="cta__dd-list w-dropdown-list">
+              <nav class="cta__dd-list is--has-arrow is--sort-disable is--mobile-fullwidth is--mac-list w-dropdown-list">
                 <div class="cta__dd-list-wrap"></div>
               </nav>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="container hero"></div>
-      <div class="hero__screens-ddown">
-        <div class="price__ddoun-component hero">
-          <div class="price__ddoun-component hero">
-            <a href="https://partner.getcompass.ru/" class="cta__btn is--long-btn w-button">Начать зарабатывать</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <section class="section-wrapper parner-who-w">
-      <div class="w-layout-blockcontainer container w-container">
-        <div class="heading__h1_regular partner-about__h1">Кому подойдет рекомендательная программа</div>
-        <div class="partner-work__wrap">
-          <div class="partner-work__inner-wrap sm--scrollbar-hidden">
-            <div class="partner-work__item">
-              <div class="parner-who-w__item-card">
-                <div class="partner-who-w__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875b95caf53b086021272_parner-who-w-1%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875b99221921f72e291db_parner-who-w-1%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d87613980b987f13188faa_parner-who-w-1%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d876135caf53b0860245ce_parner-who-w-1%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/parner-who-w-12x.png" alt="IT-специалистам и Системным администраторам">
-                  </picture>
-                </div>
-                <div class="heading__h3 parner-wh-w__heading_h3">IT-специалистам <br>и Системным администраторам</div>
-                <div>Помогаете компаниям с администрированием ПО и серверов? <span class="sm--hidden">Рекомендуйте Compass своим клиентам и зарабатывайте. </span><span class="hidden sm--inline">Регистрируйте клиентов и зарабатывайте.</span></div>
+          <div class="download-ins__other-platforms-item">, <a href="https://update.getcompass.com/apps/compass-win.exe" class="download-ins__text-platform-link windows">Windows</a> и </div>
+          <div class="download__cta-dd-inline-wrapper">
+            <div data-hover="false" data-delay="0" class="download__cta-dd w-dropdown">
+              <div class="download-ins__text-platform-dd-toggle download-ins__text-platform-link w-dropdown-toggle">
+                <div class="cta__dd-center-arrow">Linux</div>
               </div>
-            </div>
-            <div class="partner-work__item">
-              <div class="parner-who-w__item-card">
-                <div class="partner-who-w__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875b959e970fc9ae269f9_parner-who-w-2%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bb0c32bcf4be58d21a_parner-who-w-2%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8761334d86715029e23c4_parner-who-w-2%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d876139509d2ae89b82a56_parner-who-w-2%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/parner-who-w-22x.png" alt="Техническими IT-директорам">
-                  </picture>
-                </div>
-                <div class="heading__h3 parner-wh-w__heading_h3">Техническим<br>и IT-директорам</div>
-                <div>Если вы ищете быстрый мессенджер или замену Mattermost и Rocket.Chat — переводите компанию в Compass и получайте вознаграждение.</div>
-              </div>
-            </div>
-            <div class="partner-work__item">
-              <div class="parner-who-w__item-card">
-                <div class="partner-who-w__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875b96a2ff6bfe05daed2_parner-who-w-3%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bb0c32bcf4be58d1f4_parner-who-w-3%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8761382cb3897f60a8a7f_parner-who-w-3%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d876131253c87109a0cc1a_parner-who-w-3%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/parner-who-w-32x.png" alt="Интеграторам CRM-систем и Студиям разработки">
-                  </picture>
-                </div>
-                <div class="heading__h3 parner-wh-w__heading_h3">Интеграторам CRM-систем и Студиям разработки</div>
-                <div>Занимаетесь внедрением и настройкой Битрикс 24 или 1С? Предлагайте клиентам мессенджер Compass для работы в команде и зарабатывайте вместе с нами.</div>
-              </div>
-            </div>
-            <div class="partner-work__item">
-              <div class="parner-who-w__item-card">
-                <div class="partner-who-w__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875b90a9803a98aa6dbce_parner-who-w-4%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875b9dc6eaff2e370a4b8_parner-who-w-4%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d87613cdb3f7a438e02538_parner-who-w-4%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d87613d2274e42d2aba53b_parner-who-w-4%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/parner-who-w-42x.png" alt="Сотрудниками Руководителям">
-                  </picture>
-                </div>
-                <div class="heading__h3 parner-wh-w__heading_h3">Сотрудникам<br>и Руководителям</div>
-                <div>Если вы работаете в компании, которой нужно безопасное пространство для общения. Порекомендуйте Compass руководителю и получайте доход.</div>
-              </div>
-            </div>
-            <div class="partner-work__item">
-              <div class="parner-who-w__item-card">
-                <div class="partner-who-w__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bb0c32bcf4be58d33e_parner-who-w-5%403x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bb0c32bcf4be58d33e_parner-who-w-5%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8761381ddb3339e7ff629_parner-who-w-5%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d87613580c760df0268385_parner-who-w-5%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/parner-who-w-52x.png" alt="Лидерам и участникам Бизнес-клубов">
-                  </picture>
-                </div>
-                <div class="heading__h3 parner-wh-w__heading_h3">Лидерам и участникам<br>Бизнес-клубов</div>
-                <div>Если проводите или посещаете встречи предпринимателей. Рекомендуйте мессенджер участникам сообщества и увеличивайте свой доход.</div>
-              </div>
-            </div>
-            <div class="partner-work__item">
-              <div class="parner-who-w__item-card">
-                <div class="partner-who-w__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875ba611e468aa0f8802a_parner-who-w-6%403x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875ba611e468aa0f8802a_parner-who-w-6%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d876130be268e9a38f29f1_parner-who-w-6%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d876130be268e9a38f29f4_parner-who-w-6%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/parner-who-w-62x.png" alt="Друзьям директоров и предпринимателей">
-                  </picture>
-                </div>
-                <div class="heading__h3 parner-wh-w__heading_h3">Друзьям директоров и предпринимателей</div>
-                <div>Если ваши друзья руководители и предприниматели ищут способ настроить общение в команде. Порекомендуйте им Compass и получайте доход.</div>
-              </div>
+              <nav class="cta__dd-list is--has-arrow is--sort-disable is--mobile-fullwidth is--linux-list w-dropdown-list">
+                <div class="cta__dd-list-wrap"></div>
+              </nav>
             </div>
           </div>
+          <div class="download-ins__other-platforms-item">.</div>
         </div>
       </div>
-      <div class="background_overlay is--hero"><img src="images/420-min.png" loading="lazy" alt="" class="bg__layer p10"><img src="images/420-min.png" loading="lazy" alt="" class="bg__layer p9"><img src="images/411-min.png" loading="lazy" alt="" class="bg__layer p8"><img src="images/411-min.png" loading="lazy" alt="" class="bg__layer p7"><img src="images/397-min.png" loading="lazy" alt="" class="bg__layer p6"><img src="images/373-min.png" loading="lazy" alt="" class="bg__layer p5"></div>
     </section>
-    <section id="calculator" class="section-wrapper partner-calc">
-      <div class="w-layout-blockcontainer container w-container">
-        <div class="heading__h1_regular partner-calc__h1 hidden sm--block">Сколько вы можете заработать с Compass</div>
-        <div class="partner-calc__wrap">
-          <div class="partner-calc__inner-wrap">
-            <div class="partner-calc__col calc-col">
-              <div class="partner-calc__left-box">
-                <div class="heading__h2 partner-calc__heading-h2 sm--hidden">Сколько вы можете заработать с Compass</div>
-                <div class="partner-calc__form w-form">
-                  <form id="email-form" name="email-form" data-name="Email Form" method="get" data-wf-page-id="65d4cf885fc5935a0bdeccce" data-wf-element-id="90db9af1-1d20-5607-0684-f794da3073a6">
-                    <div class="partner-calc__label">1. Тариф</div>
-                    <div class="partner-calc__radio-wrap"><label class="partner-calc__radio-field w-radio"><input type="radio" name="tarif" id="business" data-name="tarif" class="w-form-formradioinput partner-calc__radio w-radio-input" checked="" value="business"><span class="partner-calc__radio-label w-form-label" for="business">Бизнес</span></label><label class="partner-calc__radio-field w-radio"><input type="radio" name="tarif" id="on-premise" data-name="tarif" class="w-form-formradioinput partner-calc__radio w-radio-input" value="on-premise"><span class="partner-calc__radio-label w-form-label" for="on-premise">On-premise</span></label></div>
-                    <div class="partner-calc__label slider-label">2. Сколько людей работает в компании?</div>
-                    <div class="partner-calc__slider"></div>
-                    <div class="partner-calc__slider-labels">
-                      <div class="partner-calc__slider-start">20 человек</div>
-                      <div class="partner-calc__slider-end">5 000 человек</div>
-                    </div>
-                  </form>
-                  <div class="w-form-done">
-                    <div>Thank you! Your submission has been received!</div>
+    <section class="section-wrapper platforms is--download-page-vendors">
+      <div class="container platforms">
+        <div class="row">
+          <div class="platforms__container">
+            <h2 class="heading__h2-regular platforms">Работает на всех устройствах</h2>
+            <div class="p-text__desc platforms is--small">Compass разработан индивидуально под каждую платформу, поэтому работает стабильно на любом компьютере или телефоне.</div>
+            <div class="logo-vendors__content">
+              <div class="logo-vendors__col">
+                <a href="https://redirect.appmetrica.yandex.com/serve/244294711257416556" class="logo-vendor__item appstore w-inline-block">
+                  <div class="logo-vendor"><img src="../images/appstore.svg" loading="lazy" alt=""></div>
+                  <div class="logo-vendor__brand">App Store</div>
+                </a>
+              </div>
+              <div class="logo-vendors__col">
+                <a href="https://redirect.appmetrica.yandex.com/serve/532525089422325047" class="logo-vendor__item playmarket w-inline-block">
+                  <div class="logo-vendor"><img src="../images/playmarket.svg" loading="lazy" alt=""></div>
+                  <div class="logo-vendor__brand">Google Play</div>
+                </a>
+              </div>
+              <div class="logo-vendors__col">
+                <a href="https://redirect.appmetrica.yandex.com/serve/244294713874627369" class="logo-vendor__item huawei w-inline-block">
+                  <div class="logo-vendor"><img src="../images/huawei_1.png" loading="lazy" alt=""></div>
+                  <div class="logo-vendor__brand">AppGallery</div>
+                </a>
+              </div>
+              <div class="logo-vendors__col">
+                <div data-hover="false" data-delay="0" class="cta__vendor-dd w-dropdown">
+                  <div class="logo-vendor__item cta__dd-center-arrow w-dropdown-toggle">
+                    <div class="logo-vendor"><img src="../images/linux-logo.svg" loading="lazy" alt=""></div>
+                    <div class="logo-vendor__brand">Linux</div>
                   </div>
-                  <div class="w-form-fail">
-                    <div>Oops! Something went wrong while submitting the form.</div>
+                  <nav class="cta__dd-list is--small-list is--short-text is--sort-disable is--mobile-fullwidth is--mobile-has-arrow is--linux-list w-dropdown-list">
+                    <div class="cta__dd-list-wrap"></div>
+                  </nav>
+                </div>
+              </div>
+              <div class="logo-vendors__col">
+                <div data-hover="false" data-delay="0" class="cta__vendor-dd w-dropdown">
+                  <div class="logo-vendor__item cta__dd-center-arrow w-dropdown-toggle">
+                    <div class="logo-vendor is--mac-logo"><img src="../images/apple-logo.svg" loading="lazy" width="90" alt=""></div>
+                    <div class="logo-vendor__brand">MacOS</div>
                   </div>
+                  <nav class="cta__dd-list is--small-list is--short-text is--sort-disable is--mobile-fullwidth is--mobile-has-arrow is--mac-list w-dropdown-list">
+                    <div class="cta__dd-list-wrap"></div>
+                  </nav>
                 </div>
               </div>
-            </div>
-            <div class="partner-calc__col calc-note-col">
-              <div class="partner-calc__right-box">
-                <div class="partner-calc__img sm--hidden w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5831464bea140c0678556_calculator-img%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5831442328ce6dd96df86_calculator-img%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d58346eb13830a82c130fc_calculator-img%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d583462a765e3c3f635820_calculator-img%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/calculator-img2x.png" alt="">
-                  </picture>
-                </div>
-                <div class="partner-calc__label calc-result">Ваш доход составит</div>
-                <div class="partner-calc__result"><span class="partner-calc__result-field">84 584</span> <span class="partner-calc__result-currency">₽</span></div>
-                <a data-remodal-target="calculator-info" href="#" class="partner-calc__result-more">Узнать подробнее</a>
-                <a href="https://partner.getcompass.ru/" class="cta__btn is--fullwidth sm--max-w-none w-button">Начать зарабатывать</a>
-                <div class="partner-calc__notion">Расчёт калькулятора предварительный. Не является публичной офертой.</div>
+              <div class="logo-vendors__col">
+                <a href="https://update.getcompass.com/apps/compass-win.exe" class="logo-vendor__item windows w-inline-block">
+                  <div class="logo-vendor is--win-logo"><img src="../images/win-logo.svg" loading="lazy" alt=""></div>
+                  <div class="logo-vendor__brand">Windows</div>
+                </a>
               </div>
             </div>
           </div>
         </div>
+        <div class="background_overlay"><img src="../images/417-1-min.png" loading="lazy" alt="" class="bg__layer _52 _54"><img src="../images/416-1-min.png" loading="lazy" alt="" class="bg__layer _48 _56"><img src="../images/416-1-min.png" loading="lazy" alt="" class="bg__layer _48 _55"></div>
       </div>
-      <div class="background_overlay is--hero"><img src="images/397-min.png" loading="lazy" alt="" class="bg__layer p12"><img src="images/373-min.png" loading="lazy" alt="" class="bg__layer p11"></div>
-    </section>
-    <section class="section-wrapper partner-together">
-      <div class="w-layout-blockcontainer container w-container">
-        <div class="heading__h1_regular partner-about__h1">Давайте работать вместе</div>
-        <div class="partner-work__wrap">
-          <div class="partner-work__inner-wrap sm--scrollbar-hidden">
-            <div class="partner-together__item">
-              <div class="partner-together__item-card">
-                <div class="partner-together__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bd49fdfa6ecb0c671c_partner-together-1%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bdc59fa96acb9ed7f0_partner-together-1%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8762304d1c97c6547979f_partner-together-1%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d876237ccb7efbc516675e_partner-together-1%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/partner-together-12x.png" alt="Поделитесь с нами потенциальным клиентом">
-                  </picture>
-                </div>
-                <div class="heading__h3 partner-together__heading-h3">Легко</div>
-                <div class="text-block">Всё, что нужно сделать — поделиться с нами потенциальным клиентом. Остальное мы берём на себя.</div>
-              </div>
-            </div>
-            <div class="partner-together__item">
-              <div class="partner-together__item-card">
-                <div class="partner-together__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875becd40e10910ff91d0_partner-together-2%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875be8e860507751f1567_partner-together-2%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d87623cf6ee67b3b3d0d90_partner-together-2%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d876239a5b3a89e096065b_partner-together-2%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/partner-together-22x.png" alt="Зарегистрируйтесь и поделитесь контактом">
-                  </picture>
-                </div>
-                <div class="heading__h3 partner-together__heading-h3">Быстро</div>
-                <div class="text-block">Чтобы начать зарабатывать, нужно всего 5 минут. Зарегистрируйтесь и поделитесь контактом.</div>
-              </div>
-            </div>
-            <div class="partner-together__item">
-              <div class="partner-together__item-card">
-                <div class="partner-together__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875be9434278f602ee20b_partner-together-3%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875bee6fec53cd15349b3_partner-together-3%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d876235e8e2e732c5d22ac_partner-together-3%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8762b611e468aa0f8b7a0_partner-together-3%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/partner-together-32x.png" alt="Отслеживайте процесс в личном кабинете">
-                  </picture>
-                </div>
-                <div class="heading__h3 partner-together__heading-h3">Прозрачно</div>
-                <div class="text-block">Отслеживайте процесс в личном кабинете. Мы поделимся результатами каждого этапа работы.</div>
-              </div>
-            </div>
-            <div class="partner-together__item">
-              <div class="partner-together__item-card">
-                <div class="partner-together__item-card-img w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875be3c77c28f9f22c486_partner-together-4%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d875be7e5d7f24886a68b3_partner-together-4%403x.webp 2x" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8762c9509d2ae89b85691_partner-together-4%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d8762b90cdbbab68106e26_partner-together-4%403x.png 2x" type="image/png">
-                    <img loading="lazy" src="images/partner-together-42x.png" alt="Получайте 20% от каждой оплаты вашего клиента">
-                  </picture>
-                </div>
-                <div class="heading__h3 partner-together__heading-h3">Выгодно</div>
-                <div class="text-block">Вы получаете 20% от каждой оплаты вашего клиента. Чем больше компания, тем выше вознаграждение.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="partner-together__cta-wrap">
-          <a href="https://partner.getcompass.ru/" class="cta__btn is--long-btn sm--max-w-none w-button">Начать зарабатывать</a>
-        </div>
-      </div>
-      <div class="background_overlay is--hero"><img src="images/423-min.png" loading="lazy" alt="" class="bg__layer p13"><img src="images/399-min.png" loading="lazy" alt="" class="bg__layer p15"><img src="images/373-min.png" loading="lazy" alt="" class="bg__layer p14"></div>
-    </section>
-    <section class="section-wrapper partner-benefit">
-      <div class="w-layout-blockcontainer container w-container">
-        <div class="partner-benefit__wrap">
-          <div class="partner-benefit__img w-embed">
-            <picture>
-              <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d0da8ba8b48e85260b8c_partner-benefits%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d0da4aca861aa6411cb2_partner-benefits%403x.webp 2x" type="image/webp">
-              <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d1150a29c207adaef039_partner-benefits%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d11554ec4bcfd1128a88_partner-benefits%403x.png 2x" type="image/png">
-              <img loading="lazy" src="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d1150a29c207adaef039_partner-benefits%402x.png" alt="Заплатим 50 000 ₽ за контакты лидеров сообществ">
-            </picture>
-          </div>
-          <div class="heading__h1_regular partner-benefit__h1">А ещё заплатим 50 000 <span class="partner-benefit__h1-span">₽</span> <span class="partner-benefit__h1-span">за контакты лидеров сообществ</span></div>
-          <div class="partner-benefit__description">Выплатим бонус, если вы поможете с привлечением лидеров сообществ или бизнес-клубов, кто будет рекомендовать Compass для своих участников.</div>
-          <div class="partner-benefit__notice">Сумма максимального бонуса. Не является публичной офертой.</div>
-          <div class="partner-benefit__buttons-wrap sm--sw-full">
-            <a href="https://t.me/getcompass" target="_blank" class="partner-benefit__button sm--sw-full w-inline-block">
-              <div class="partner-benefit__button-icon w-embed">
-                <picture>
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d0dbfb909cd1a8d4446e_telegram-logo%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d0da884255df2b6ab5cd_telegram-logo%403x.webp 2x" type="image/webp">
-                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d1166bb70e8bd0b9d216_telegram-logo%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d1161c25e61782a0e5a0_telegram-logo%403x.png 2x" type="image/png">
-                  <img loading="lazy" src="images/telegram-logo2x.png" alt="">
-                </picture>
-              </div>
-              <div>Telegram</div>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="background_overlay is--hero"><img src="images/397-min.png" loading="lazy" alt="" class="bg__layer p16"><img src="images/422-min.png" loading="lazy" alt="" class="bg__layer p17"></div>
-    </section>
-    <section class="section-wrapper partner-faq">
-      <div class="container">
-        <div class="heading__h2 faq-h2">
-          <h2 class="heading__h1_regular partner-faq__h1">Часто задаваемые вопросы</h2>
-        </div>
-        <div class="faq__wrapper gap-16 is--open">
-          <div class="faq__list w-dyn-list">
-            <div role="list" class="flex flex-col gap-16 w-dyn-items">
-              <div role="listitem" class="faq__item w-dyn-item">
-                <div class="faq__trigger">
-                  <div class="faq__quess-text w-dyn-bind-empty"></div>
-                  <div class="faq__icon-block"><img src="images/circlePlus.svg" loading="lazy" alt="" class="faq__icon"><img src="images/Union.svg" loading="lazy" alt="" class="faq__icon is--mob-visible"></div>
-                </div>
-                <div class="faq__resp-wrapper">
-                  <div class="faq__resp">
-                    <div class="faq__content w-dyn-bind-empty w-richtext"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="w-dyn-empty">
-              <div>No items found.</div>
-            </div>
-          </div>
-          <div class="faq__list is--load-more w-dyn-list">
-            <div role="list" class="flex flex-col gap-16 w-dyn-items">
-              <div role="listitem" class="faq__item w-dyn-item">
-                <div class="faq__trigger">
-                  <div class="faq__quess-text w-dyn-bind-empty"></div>
-                  <div class="faq__icon-block"><img src="images/circlePlus.svg" loading="lazy" alt="" class="faq__icon"><img src="images/Union.svg" loading="lazy" alt="" class="faq__icon is--mob-visible"></div>
-                </div>
-                <div class="faq__resp-wrapper">
-                  <div class="faq__resp">
-                    <div class="faq__content w-dyn-bind-empty w-richtext"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="w-dyn-empty">
-              <div>No items found.</div>
-            </div>
-          </div>
-          <div class="faq__show-button hover--bg-white">Показать ещё</div>
-        </div>
-        <div class="background_overlay"><img src="images/403-min.png" loading="lazy" alt="" class="bg__layer _53"><img src="images/417-1-min.png" loading="lazy" alt="" class="bg__layer _52"><img src="images/416-1-min.png" loading="lazy" alt="" class="bg__layer _48 _51"></div>
-      </div>
-    </section>
-    <section class="section-wrapper partner-connect">
-      <div class="w-layout-blockcontainer container w-container">
-        <div class="consultation__avatars w-embed">
-          <picture>
-            <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5e4400d6d3b34217cef58_consultation-avatars%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5e44096f12b814a924e8c_consultation-avatars%403x.webp 2x" type="image/webp">
-            <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5e45399c20f2e58c3a1c8_consultation-avatars%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5e453ad3047554dab8abe_consultation-avatars%403x.png 2x" type="image/png">
-            <img loading="lazy" src="images/consultation-avatars2x_1.png" alt="">
-          </picture>
-        </div>
-        <div class="heading__h1_regular partner-connect__h1">Присоединяйтесь к Compass уже сегодня</div>
-        <div class="partner-connect__subtitle">Подробно расскажем про условия рекомендательной программы, предоставим учебные материалы и поможем начать зарабатывать.</div>
-        <div class="partner-connect__cta-wrap">
-          <a href="https://partner.getcompass.ru/" class="cta__btn is--long-btn sm--max-w-none w-button">Начать зарабатывать</a>
-        </div>
-      </div>
-      <div class="background_overlay is--hero"><img src="images/386-min.png" loading="lazy" alt="" class="bg__layer p18"><img src="images/397-min.png" loading="lazy" alt="" class="bg__layer p19"></div>
     </section>
   </div>
   <footer class="footer sm--pt-36 leading-121 dark--bg-black-nav">
     <div class="container">
       <div class="flex flex-wrap justify-between">
         <div class="flex justify-between py-26 sw-full sm--order-first sm--py-0">
-          <div class="flex gap-20 items-center sm--sw-full sm--gap-17 xs--gap-0 xs--justify-between dark--hidden"><img src="images/mastercard.png" loading="lazy" width="Auto" alt="" class="sh-28 shrink-0 sm--sh-24"><img src="images/visa.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="images/mir-dark.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="images/tinkoff.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="images/allsoft.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"></div>
-          <div class="hidden gap-20 items-center sm--sw-full sm--gap-17 xs--gap-0 xs--justify-between dark--flex"><img src="images/mastercard-dark.png" loading="lazy" width="Auto" alt="" class="sh-28 shrink-0 sm--sh-24"><img src="images/visa-dark.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="images/mir-dark.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="images/tinkoff-dark.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="images/allsoft-dark.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"></div>
+          <div class="flex gap-20 items-center sm--sw-full sm--gap-17 xs--gap-0 xs--justify-between dark--hidden"><img src="../images/mastercard.png" loading="lazy" width="Auto" alt="" class="sh-28 shrink-0 sm--sh-24"><img src="../images/visa.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="../images/mir-dark.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="../images/tinkoff.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="../images/allsoft.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"></div>
+          <div class="hidden gap-20 items-center sm--sw-full sm--gap-17 xs--gap-0 xs--justify-between dark--flex"><img src="../images/mastercard-dark.png" loading="lazy" width="Auto" alt="" class="sh-28 shrink-0 sm--sh-24"><img src="../images/visa-dark.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="../images/mir-dark.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="../images/tinkoff-dark.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"><img src="../images/allsoft-dark.png" loading="lazy" alt="" width="Auto" class="sh-28 shrink-0 sm--sh-24"></div>
           <div class="flex gap-20 sm--hidden">
             <div data-hover="false" data-delay="0" class="cta__dropdown w-dropdown">
               <div class="flex items-center py-16 pl-18 pr-38 relative text-light-red-30pr bg-white-2pr transition-all-300 rounded-12 hover--bg-white-5pr active--bg-dark-blue dark--hover--bg-neutral-800 dark--active--bg-neutral-800 w-dropdown-toggle">
@@ -2324,7 +1879,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
               <path fill-rule="evenodd" clip-rule="evenodd" d="M9.16667 0C4.10406 0 0 4.10406 0 9.16667V34.8333C0 39.8959 4.10406 44 9.16667 44H34.8333C39.8959 44 44 39.8959 44 34.8333V9.16667C44 4.10406 39.8959 0 34.8333 0H9.16667ZM11.0931 35.3361L20.5122 8.73816C21.0027 7.3529 22.9973 7.35291 23.4878 8.73816L32.9069 35.3361C33.4177 36.7785 31.7178 37.9985 30.4739 37.0822L22.9452 31.5361C22.3851 31.1235 21.6149 31.1235 21.0548 31.5361L13.5261 37.0822C12.2822 37.9985 10.5823 36.7785 11.0931 35.3361Z" fill="currentColor"></path>
             </svg></div>
           </a>
-          <div class="text-light-red-30pr mr-40"><img src="images/footer-logo-compass.png" loading="lazy" alt="" class="sw-80 sh-13 mb-8">
+          <div class="text-light-red-30pr mr-40"><img src="../images/footer-logo-compass.png" loading="lazy" alt="" class="sw-80 sh-13 mb-8">
             <div>ООО «БИЗНЕС РЕШЕНИЯ»</div>
           </div>
         </div>
@@ -2333,26 +1888,27 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
           <a href="/#versions" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Версии Compass</span></a>
           <a href="/#features" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Возможности</span></a>
           <a href="/#price" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Тарифы</span></a>
-          <a href="on-premise.html" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Коробочное решение</span></a>
+          <a href="../on-premise.html" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Коробочное решение</span></a>
         </div>
         <div class="flex flex-col gap-16 sm--sw-1-2 sm--mb-40 sm--order-7">
           <div class="text-light-red-30pr font-bold">Медиа</div>
-          <a href="blog.html" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Журнал Compass</span></a>
+          <a href="../blog.html" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Журнал Compass</span></a>
           <a href="https://vc.ru/getcompass" target="_blank" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Блог на VC</span></a>
-          <a href="media.html" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Compass в СМИ</span></a>
-          <a href="mediakit.html" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Медиакит</span></a>
+          <a href="../media.html" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Compass в СМИ</span></a>
+          <a href="../mediakit.html" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Медиакит</span></a>
         </div>
         <div class="flex flex-col gap-16 sm--sw-1-2 sm--order-5 sm--mb-40">
           <div class="text-light-red-30pr font-bold">Полезное</div>
           <a href="https://getcompass.ru/docs/features.pdf" target="_blank" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>О приложении</span></a>
-          <a href="partner.html" aria-current="page" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr partner-page flex w--current"><span>Партнёрская программа</span></a>
+          <a href="../partner.html" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr partner-page flex"><span>Партнёрская программа</span></a>
           <a href="https://reestr.digital.gov.ru/reestr/2196107/?sphrase_id=4150068" target="_blank" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Реестр Российского ПО</span></a>
-          <a href="licenses.html" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Лицензии и технологии</span></a>
+          <a href="../licenses.html" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr flex"><span>Лицензии и технологии</span></a>
         </div>
         <div class="flex flex-col gap-16 sm--sw-1-2 sm--order-6 sm--mb-40">
           <div class="text-light-red-30pr font-bold">Документы</div>
           <a href="https://getcompass.ru/docs/offer.pdf" target="_blank" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr offer-target flex"><span>Публичная оферта</span></a>
           <a href="https://getcompass.ru/docs/privacy.pdf" target="_blank" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr privacy-target flex"><span class="sm--hidden">Политика конфиденциальности </span><span class="hidden sm--inline">Конфиденциальность</span></a>
+          <a href="https://getcompass.ru/docs/recurring_subscription.pdf" target="_blank" class="text-light-red-30pr transition-all-300 hover--text-light-red-80pr reccurent-target flex"><span>Автопродление </span><span class="sm--hidden">подписки</span></a>
           <div data-hover="false" data-delay="0" data-close="link-click" class="mx-0 z-10 sm--z-900 w-dropdown">
             <div class="text-light-red-30pr p-0 transition-all-300 hover--text-light-red-80pr w-dropdown-toggle">
               <div class="cta__dd-center-arrow">reCAPTCHA Google</div>
@@ -2387,17 +1943,23 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
         </div>
         <div class="flex flex-col gap-16 sm--order-3 sm--sw-full sm--gap-12 sm--items-start">
           <div class="text-light-red-30pr font-bold sm--hidden">Контакты</div>
-          <a href="mailto:partner@getcompass.ru" class="flex items-center gap-6 text-blue-80pr transition-color-300 hover--text-blue sm--text-blue sm--gap-10 dark--text-sky-500 dark--hover--text-sky-700 w-inline-block">
+          <a href="mailto:support@getcompass.ru" class="flex items-center gap-6 text-blue-80pr transition-color-300 hover--text-blue sm--text-blue sm--gap-10 dark--text-sky-500 dark--hover--text-sky-700 w-inline-block">
             <div class="icon-footer-contact w-embed"><svg width="23" height="18" viewbox="0 0 23 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M11.5234 10.6221C11.2109 10.6221 10.8906 10.4658 10.5859 10.1533L3.76562 3.43457C4.01562 3.16113 4.48438 3.02832 5.15625 3.02832H17.6875C18.4453 3.02832 18.9688 3.17676 19.2422 3.47363L12.4688 10.1533C12.1562 10.4736 11.8438 10.6221 11.5234 10.6221ZM3.22656 15.1064C3.08594 14.8877 3.00781 14.4971 3.00781 13.9424V5.30957C3.00781 4.77832 3.07031 4.40332 3.19531 4.19238L8.78125 9.67676L3.22656 15.1064ZM19.7891 15.0674L14.2734 9.67676L19.8125 4.23926C19.9297 4.44238 19.9844 4.80176 19.9844 5.30957V13.9424C19.9844 14.4814 19.9219 14.8564 19.7891 15.0674ZM5.3125 16.2314C4.59375 16.2314 4.09375 16.0986 3.82031 15.8408L9.44531 10.3252L10.0078 10.8799C10.5 11.3564 10.9922 11.583 11.5234 11.583C12.0547 11.583 12.5547 11.3564 13.0469 10.8799L13.6016 10.3252L19.2188 15.833C18.9688 16.0908 18.5078 16.2314 17.8359 16.2314H5.3125Z" fill="currentColor" fill-opacity="0.8"></path>
             </svg></div>
-            <div>partner@getcompass.ru</div>
+            <div>support@getcompass.ru</div>
           </a>
-          <a href="tel:+78125079852" class="flex items-center gap-6 text-light-red-30pr transition-color-300 hover--text-light-red-80pr sm--gap-10 w-inline-block">
+          <a href="tel:88125079852" class="flex items-center gap-6 text-light-red-30pr transition-color-300 hover--text-light-red-80pr sm--gap-10 w-inline-block">
             <div class="icon-footer-contact w-embed"><svg width="23" height="18" viewbox="0 0 23 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M8.21094 12.0674C6.03125 9.8877 4.34375 7.2002 4.34375 4.96582C4.34375 3.97363 4.67188 3.0752 5.42188 2.34863C5.88281 1.90332 6.40625 1.66113 6.90625 1.66113C7.32031 1.66113 7.70312 1.83301 7.98438 2.21582L9.61719 4.53613C9.85156 4.86426 9.96875 5.15332 9.96875 5.43457C9.96875 5.77832 9.78125 6.10645 9.4375 6.48145L8.88281 7.06738C8.79688 7.15332 8.76562 7.24707 8.76562 7.34863C8.76562 7.44238 8.80469 7.54395 8.84375 7.62988C9.07031 8.10645 9.75781 8.93457 10.5469 9.73145C11.3438 10.5283 12.1797 11.1924 12.6406 11.4346C12.7266 11.4736 12.8359 11.5127 12.9453 11.5127C13.0469 11.5127 13.1562 11.4814 13.2344 11.3955L13.8047 10.8408C14.1719 10.4893 14.5 10.3018 14.8438 10.3018C15.125 10.3018 15.4141 10.4268 15.7344 10.6533L18.125 12.333C18.5 12.5986 18.6484 12.958 18.6484 13.333C18.6484 13.8564 18.3438 14.4033 17.9453 14.8252C17.2344 15.5986 16.3516 15.9502 15.3359 15.9502C13.0938 15.9502 10.3828 14.2393 8.21094 12.0674Z" fill="currentColor" fill-opacity="0.8"></path>
             </svg></div>
-            <div>+7 (812) 507-98-52</div>
+            <div>8 812 507 9852</div>
+          </a>
+          <a href="tel:88001018540" class="flex items-center gap-6 text-light-red-30pr transition-color-300 hover--text-light-red-80pr sm--gap-10 w-inline-block">
+            <div class="icon-footer-contact w-embed"><svg width="23" height="18" viewbox="0 0 23 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8.21094 12.0674C6.03125 9.8877 4.34375 7.2002 4.34375 4.96582C4.34375 3.97363 4.67188 3.0752 5.42188 2.34863C5.88281 1.90332 6.40625 1.66113 6.90625 1.66113C7.32031 1.66113 7.70312 1.83301 7.98438 2.21582L9.61719 4.53613C9.85156 4.86426 9.96875 5.15332 9.96875 5.43457C9.96875 5.77832 9.78125 6.10645 9.4375 6.48145L8.88281 7.06738C8.79688 7.15332 8.76562 7.24707 8.76562 7.34863C8.76562 7.44238 8.80469 7.54395 8.84375 7.62988C9.07031 8.10645 9.75781 8.93457 10.5469 9.73145C11.3438 10.5283 12.1797 11.1924 12.6406 11.4346C12.7266 11.4736 12.8359 11.5127 12.9453 11.5127C13.0469 11.5127 13.1562 11.4814 13.2344 11.3955L13.8047 10.8408C14.1719 10.4893 14.5 10.3018 14.8438 10.3018C15.125 10.3018 15.4141 10.4268 15.7344 10.6533L18.125 12.333C18.5 12.5986 18.6484 12.958 18.6484 13.333C18.6484 13.8564 18.3438 14.4033 17.9453 14.8252C17.2344 15.5986 16.3516 15.9502 15.3359 15.9502C13.0938 15.9502 10.3828 14.2393 8.21094 12.0674Z" fill="currentColor" fill-opacity="0.8"></path>
+            </svg></div>
+            <div>8 800 101 8540</div>
           </a>
         </div>
         <div class="footer__decor-line mt-32 mb-28 sm--order-3 sm--mb-32"></div>
@@ -2430,7 +1992,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
               <div class="cta__dd-list-wrap"></div>
             </nav>
           </div>
-          <a href="http://t.me/compass_ceo" target="_blank" class="flex items-center gap-6 pl-18 py-16 pr-16 text-light-red-30pr bg-white-2pr rounded-12 transition-all-300 hover--bg-white-5pr sm--gap-9 sm--order-3 ceo-link relative dark--bg-blue-6pr dark--text-blue-2 dark--hover--bg-blue-15pr w-inline-block"><img src="images/telegram-logo3x.png" loading="lazy" alt="" class="sw-18 sh-18 sm--sw-16 sm--sh-16 dark--hidden">
+          <a href="http://t.me/compass_ceo" target="_blank" class="flex items-center gap-6 pl-18 py-16 pr-16 text-light-red-30pr bg-white-2pr rounded-12 transition-all-300 hover--bg-white-5pr sm--gap-9 sm--order-3 ceo-link relative dark--bg-blue-6pr dark--text-blue-2 dark--hover--bg-blue-15pr w-inline-block"><img src="../images/telegram-logo3x.png" loading="lazy" alt="" class="sw-18 sh-18 sm--sw-16 sm--sh-16 dark--hidden">
             <div class="icon-18 hidden dark--flex w-embed"><svg width="18" height="18" viewbox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1.98092 8.66154L11.5116 4.80292C12.4524 4.40098 15.6429 3.11477 15.6429 3.11477C15.6429 3.11477 17.1154 2.55205 16.9927 3.91865C16.9518 4.48136 16.6246 6.45087 16.2974 8.58115L15.2748 14.8916C15.2748 14.8916 15.193 15.8161 14.4976 15.9768C13.8022 16.1376 12.6569 15.4141 12.4524 15.2534C12.2888 15.1328 9.38457 13.324 8.32106 12.4398C8.03473 12.1986 7.7075 11.7163 8.36197 11.1536C9.83451 9.82716 11.5934 8.17921 12.6569 7.13417C13.1477 6.65184 13.6386 5.52641 11.5934 6.893L5.82591 10.7114C5.82591 10.7114 5.17144 11.1134 3.94432 10.7516C2.71719 10.3899 1.28555 9.90755 1.28555 9.90755C1.28555 9.90755 0.30385 9.30464 1.98092 8.66154Z" fill="#006BE0"></path>
             </svg></div>
@@ -2458,7 +2020,7 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
               </div>
             </div>
           </div>
-          <a href="http://t.me/compass_ceo" target="_blank" class="flex items-center gap-6 pl-18 py-16 pr-16 text-light-red-30pr bg-white-2pr rounded-12 transition-all-300 hover--bg-white-5pr sm--hidden ceo-link dark--bg-blue-6pr dark--text-blue-2 dark--hover--bg-blue-15pr w-inline-block"><img src="images/telegram-logo3x.png" loading="lazy" alt="" class="sw-18 sh-18 dark--hidden">
+          <a href="http://t.me/compass_ceo" target="_blank" class="flex items-center gap-6 pl-18 py-16 pr-16 text-light-red-30pr bg-white-2pr rounded-12 transition-all-300 hover--bg-white-5pr sm--hidden ceo-link dark--bg-blue-6pr dark--text-blue-2 dark--hover--bg-blue-15pr w-inline-block"><img src="../images/telegram-logo3x.png" loading="lazy" alt="" class="sw-18 sh-18 dark--hidden">
             <div class="icon-18 hidden dark--flex w-embed"><svg width="18" height="18" viewbox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1.98092 8.66154L11.5116 4.80292C12.4524 4.40098 15.6429 3.11477 15.6429 3.11477C15.6429 3.11477 17.1154 2.55205 16.9927 3.91865C16.9518 4.48136 16.6246 6.45087 16.2974 8.58115L15.2748 14.8916C15.2748 14.8916 15.193 15.8161 14.4976 15.9768C13.8022 16.1376 12.6569 15.4141 12.4524 15.2534C12.2888 15.1328 9.38457 13.324 8.32106 12.4398C8.03473 12.1986 7.7075 11.7163 8.36197 11.1536C9.83451 9.82716 11.5934 8.17921 12.6569 7.13417C13.1477 6.65184 13.6386 5.52641 11.5934 6.893L5.82591 10.7114C5.82591 10.7114 5.17144 11.1134 3.94432 10.7516C2.71719 10.3899 1.28555 9.90755 1.28555 9.90755C1.28555 9.90755 0.30385 9.30464 1.98092 8.66154Z" fill="#006BE0"></path>
             </svg></div>
@@ -2503,51 +2065,154 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
       </div>
     </div>
   </footer>
-  <div data-remodal-id="calculator-info" class="popup-content remodal is--popup-text rounded-12 sm--rounded-none">
-    <div data-remodal-action="close" class="form__button-close is--light popup-text__close"><img alt="" loading="lazy" src="images/close.svg"></div>
-    <div class="partner-popup__wrap">
-      <h3 class="partner-popup__title">Как рассчитывается партнёрское вознаграждение</h3>
-      <div data-current="business" data-easing="ease" data-duration-in="300" data-duration-out="100" class="partner-popup__tabs w-tabs">
-        <div class="partner-popup__tabs-menu w-tab-menu">
-          <a data-w-tab="business" class="partner-popup__tab-link w-inline-block w-tab-link w--current">
-            <div>Бизнес</div>
-          </a>
-          <a data-w-tab="on-premise" class="partner-popup__tab-link w-inline-block w-tab-link">
-            <div>On-premise</div>
-          </a>
-        </div>
-        <div class="popup-text__tabs-contentt w-tab-content">
-          <div data-w-tab="business" class="popup-text__content w-tab-pane w--tab-active">
-            <div class="popup__scroll-content">
-              <p>У вас есть друг или знакомый предприниматель. В его компании работает около <strong data-calc-members="">100 человек</strong>, и наш мессенджер для бизнеса может упростить ему жизнь, улучшив коммуникацию на работе.</p>
-              <p>Вы делитесь контактами вашего друга. Наш персональный менеджер знакомит его с мессенджером, помогает настроить процессы, подбирает тариф, помогает с оплатой.</p>
-              <p class="mt-24"><strong>Ваше вознаграждение будет состоять из двух частей:</strong></p>
-              <ol role="list" class="w-list-unstyled">
-                <li>200 ₽ за каждого активного участника внутри его компании.<br><span data-calc-business-fline="" class="popup__text-calc">100 человек х 200 ₽ = <strong>20 000 ₽</strong></span></li>
-                <li>10% от каждого ежемесячного платежа в размере <span data-calc-business-pfmembers="">29 900 ₽</span> на протяжении следующих 24 месяцев. Если клиент оплатит сразу на 3, 6 или 12 месяцев, то вы сразу получите 10% этой суммы.<br><span data-calc-business-sline="" class="popup__text-calc">100 человек х 299 ₽ х 10% х 24 месяца = <strong>71 760 ₽</strong></span></li>
-              </ol>
-              <p><strong>Итого ваш доход за рекомендацию составит:<br></strong><span data-calc-business-tline="" class="popup__text-calc">20 000 ₽ + 71 760 ₽ = <strong>91 760 ₽</strong></span></p>
-              <div class="popup__text-calc text-center mt-16"><strong>Чтобы зарабатывать с Compass, не нужно уметь продавать. </strong><span class="inline"><strong>Достаточно просто поделиться с нами правильным контактом.</strong></span></div>
-              <div class="popup-text__notify">Не является публичной офертой. Расчёты носят ознакомительный характер. Финальная сумма зависит от налоговой составляющей и комиссий банка. Подробнее в <a href="https://getcompass.ru/docs/partner_offer.pdf" target="_blank" class="popup-text__notify-link">публичной оферте</a>.</div>
+  <div data-remodal-id="consultation" class="popup-content remodal is--popup-form rounded-12 sm--rounded-none dark--bg-black">
+    <div class="popup__scroll-content popup__form-scroll-content dark--bg-black rounded-12 sm--rounded-none">
+      <div class="popup-wrapper popup__form-wrapper dark--bg-black rounded-12 sm--rounded-none">
+        <div class="popup__form dark--bg-black dark--sm--bg-form-gradient rounded-12 sm--rounded-none w-form">
+          <form name="wf-form-Consultation-Form" data-name="Consultation Form" action="https://getcompass.ru" method="post" id="wf-form-Consultation-Form" class="form__block dark--bg-black dark--sm--bg-transparent rounded-12 sm--rounded-none" data-wf-page-id="65d4cf885fc5935a0bdecd0e" data-wf-element-id="1837c6df-a80a-d5f0-b6ac-0489cb13d210">
+            <div class="sw-49pr px-32 pt-32 bg-white dark--bg-black sm--hidden rounded-l-12 sm--rounded-none">
+              <div class="image-h-full sh-79 mb-32 dark--hidden w-embed">
+                <picture>
+                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f55a6dcd751a03e11bf9_consultation-avatars%402x.webp 1x,
+  		          https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f55a4bfa9ed35660f5ba_consultation-avatars%404x.webp 2x" type="image/webp">
+                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f56fed2757a14a10a0c5_consultation-avatars%402x.png 1x,
+  		          https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f56fdcd6478cb6717881_consultation-avatars%404x.png 2x" type="image/png">
+                  <img loading="lazy" src="../images/consultation-avatars2x.png" alt="">
+                </picture>
+              </div>
+              <div class="image-h-full sh-79 mb-32 hidden dark--flex w-embed">
+                <picture>
+                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4402be4c53cec05412_form-avatars-dark%402x.webp 1x,
+    https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef45671bb0ca57b1cb92_form-avatars-dark%403x.webp 2x" type="image/webp">
+                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4420c7bee049d6c688_form-avatars-dark%402x.png 1x,
+    https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4466e4bf5a26814a79_form-avatars-dark%403x.png 2x" type="image/png">
+                  <img loading="lazy" src="../images/form-avatars-dark2x.png" alt="">
+                </picture>
+              </div>
+              <ul role="list" class="flex flex-col gap-16 pl-0 w-list-unstyled">
+                <li class="flex items-start text-platinum gap-12 dark--text-white-70pr"><img loading="lazy" src="../images/form-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="../images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
+                  <div>Познакомим с функционалом Compass и покажем его в деле</div>
+                </li>
+                <li class="flex items-start text-platinum gap-12 dark--text-white-70pr"><img loading="lazy" src="../images/form-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="../images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
+                  <div>Расскажем как организовать эффективные процессы в мессенджере Compass</div>
+                </li>
+                <li class="flex items-start text-platinum gap-12 dark--text-white-70pr"><img loading="lazy" src="../images/form-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="../images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
+                  <div>Поможем настроить Compass на ваших серверах или в облаке</div>
+                </li>
+                <li class="flex items-start text-platinum gap-12 dark--text-white-70pr"><img loading="lazy" src="../images/form-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="../images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
+                  <div>Обсудим индивидуальные условия сотрудничества и подберём тариф</div>
+                </li>
+              </ul>
+            </div>
+            <div class="form__wrapper dark--bg-form-gradient pt-32 px-24 rounded-r-12 sm--pt-48 sm--border-none">
+              <div class="popup__form-wrapper-bg is--cover-image dark--hidden w-embed">
+                <picture>
+                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f07bd837778cf96bb8e_popup-form-bg%402x.webp 1x,
+  								https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f08d1c284413ca39ce3_popup-form-bg%403x.webp 2x" type="image/webp">
+                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f06f60f7a6434f22a1c_popup-form-bg%402x.jpg 1x,
+  								https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f07522a7a46ab6b3ce5_popup-form-bg%403x.jpg 2x" type="image/png">
+                  <img loading="lazy" src="../images/popup-form-bg2x.jpg" alt="">
+                </picture>
+              </div>
+              <div class="sm--sh-70 image-h-full image-x-center sm--mb-12 hidden sm--flex dark--sm--hidden w-embed">
+                <picture>
+                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f55a6dcd751a03e11bf9_consultation-avatars%402x.webp 1x,
+  		          https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f55a4bfa9ed35660f5ba_consultation-avatars%404x.webp 2x" type="image/webp">
+                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f56fed2757a14a10a0c5_consultation-avatars%402x.png 1x,
+  		          https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f56fdcd6478cb6717881_consultation-avatars%404x.png 2x" type="image/png">
+                  <img loading="lazy" src="../images/consultation-avatars2x.png" alt="">
+                </picture>
+              </div>
+              <div class="image-h-full image-x-center sm--sh-70 sm--mb-12 hidden dark--sm--flex w-embed">
+                <picture>
+                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4402be4c53cec05412_form-avatars-dark%402x.webp 1x,
+    https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef45671bb0ca57b1cb92_form-avatars-dark%403x.webp 2x" type="image/webp">
+                  <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4420c7bee049d6c688_form-avatars-dark%402x.png 1x,
+    https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4466e4bf5a26814a79_form-avatars-dark%403x.png 2x" type="image/png">
+                  <img loading="lazy" src="../images/form-avatars-dark2x.png" alt="">
+                </picture>
+              </div>
+              <h3 class="text-s-30 leading-120 font-bold dark--text-white-85pr pr-32 mb-32 sm--text-center sm--mb-14 relative z-30 sm--p-0 sm--leading-140">Заявка на консультацию <span class="sm--inline-block">с экспертом Compass</span></h3>
+              <ul role="list" class="hidden sm--flex sm--flex-col gap-12 sm--mb-24 w-list-unstyled">
+                <li class="flex items-start gap-12"><img loading="lazy" src="../images/form-mobile-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="../images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
+                  <div class="text-platinum dark--text-white-70pr">Познакомим с функционалом мессенджера и покажем его в деле</div>
+                </li>
+                <li class="flex items-start gap-12"><img loading="lazy" src="../images/form-mobile-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="../images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
+                  <div class="text-platinum dark--text-white-70pr">Обсудим индивидуальные условия сотрудничества и подберём тариф</div>
+                </li>
+              </ul>
+              <div class="form-row"><input data-required="true" class="input w-input" data-min-length="2" maxlength="256" data-name-input="true" name="name" data-name="name" data-max-length="50" placeholder="Имя" type="text" id="name-1334"></div>
+              <div class="form-row last"><input data-required="true" class="input w-input" data-min-length="11" maxlength="256" name="phone_number" data-name="phone_number" data-max-length="18" placeholder="Телефон" data-tel-input="true" type="tel" id="phone_number-1234"></div><input type="submit" data-wait="Подождите..." data-btn-default="Оставить заявку" class="button-submit w-button" value="Оставить заявку">
+              <div class="relative z-30 py-24 text-s-14 text-center text-platinum leading-150 sm--rounded-16 sm--py-16 sm--mt-24 sm--leading-140 sm--bg-white/20 dark--text-white/50 dark--sm--bg-white/2">
+                <div class="inline">Если вы не любите заполнять формы,<br>напишите нам в </div>
+                <a href="https://t.me/getcompass" target="_blank" class="popup__form-bottom-link popup__form-email-link telegram w-inline-block">
+                  <div class="popup__form-bottom-link-text">Telegram</div>
+                </a>
+                <div class="inline"> или на почту </div>
+                <a href="mailto:support@getcompass.ru?subject=%D0%97%D0%B0%D1%8F%D0%B2%D0%BA%D0%B0%20%D0%BD%D0%B0%C2%A0%D0%B1%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B8%D0%BB%D0%BE%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82" class="popup__form-email-link">support@getcompass.ru</a>
+              </div>
+            </div>
+            <div class="popup__form-agreement">
+              <div class="form-agreement-text dark--text-white-20pr">Нажимая «Оставить заявку», вы даёте <a href="https://getcompass.ru/docs/agreement.pdf" target="_blank" class="popup__form-agreement-link dark--text-white-20pr dark--hover--text-white-50pr dark--border-white-20pr dark--hover--border-white-50pr">согласие</a> на обработку персональных данных и принимаете условия <a href="https://getcompass.ru/docs/privacy.pdf" target="_blank" class="popup__form-agreement-link dark--text-white-20pr dark--hover--text-white-50pr dark--border-white-20pr dark--hover--border-white-50pr">Политики конфиденциальности</a>.</div>
+            </div>
+          </form>
+          <div class="form__success-block dark--bg-form-gradient rounded-12 sm--rounded-none w-form-done">
+            <div class="popup__form-wrapper-bg is--cover-image dark--hidden w-embed">
+              <picture>
+                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f07bd837778cf96bb8e_popup-form-bg%402x.webp 1x,
+  								https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f08d1c284413ca39ce3_popup-form-bg%403x.webp 2x" type="image/webp">
+                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f06f60f7a6434f22a1c_popup-form-bg%402x.jpg 1x,
+  								https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f07522a7a46ab6b3ce5_popup-form-bg%403x.jpg 2x" type="image/png">
+                <img src="../images/popup-form-bg2x.jpg" alt="">
+              </picture>
+            </div>
+            <div class="form-success-wrapper">
+              <div class="popup__form-succes-row">
+                <div class="popup__form-succes-img">
+                  <div class="raster-full w-embed">
+                    <picture>
+                      <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6439958a8950932f62b3d94d_success-img.webp" type="image/webp">
+                      <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6439967d98febb3d1a809be2_success-img.png" type="image/png">
+                      <img loading="lazy" alt="" src="../images/success-img.png">
+                    </picture>
+                  </div>
+                </div>
+              </div>
+              <div class="text-s-30 font-bold leading-120 mb-16 sm--text-s-38 dark--text-white-85pr">Заявка <br>отправлена</div>
+              <p class="form-success-text dark--text-white-70pr mb-32 sm--mb-24">Свяжемся с вами в будние дни с 10:00 до 19:00 (мск) и проведём консультацию.</p>
+              <a data-remodal-action="close" href="#" class="form__success-button w-button">Хорошо</a>
             </div>
           </div>
-          <div data-w-tab="on-premise" class="popup-text__content w-tab-pane">
-            <div class="popup__scroll-content">
-              <p>У вас есть друг или знакомый предприниматель. В его компании работает около <strong data-calc-members="">100 человек</strong>, и наш мессенджер для бизнеса может упростить ему жизнь, улучшив коммуникацию на работе.</p>
-              <p>Вы делитесь контактами вашего друга. Наш персональный менеджер знакомит его с мессенджером, помогает настроить процессы, подбирает тариф, помогает с оплатой.</p>
-              <p>Мы заплатим 20% от каждого ежемесячного платежа в размере <span data-calc-onpremise-pfmembers="">39 900 ₽</span> на протяжении следующих 24 месяцев. Если клиент оплатит сразу на 3, 6 или 12 месяцев, то вы сразу получите 20% этой суммы.</p>
-              <p class="mt-24"><strong>Итого ваш доход за рекомендацию составит:<br></strong><span data-calc-onpremise-fline="" class="popup__text-calc">100 человек х 399 ₽ х 20% х 24 месяца = <strong>172 368 ₽</strong></span></p>
-              <div class="popup__text-calc text-center mt-16"><strong>Чтобы зарабатывать с Compass, не нужно уметь продавать. </strong><span class="inline"><strong>Достаточно просто поделиться с нами правильным контактом.</strong></span></div>
-              <div class="popup-text__notify">Не является публичной офертой. Расчёты носят ознакомительный характер. Финальная сумма зависит от налоговой составляющей и комиссий банка. Подробнее в <a href="https://getcompass.ru/docs/partner_offer.pdf" target="_blank" class="popup-text__notify-link">публичной оферте</a>.</div>
-            </div>
+          <div class="form__error-block w-form-fail">
+            <div>Возникла ошибка при отправке формы, проверьте интернет соединение или попробуйте позже.</div>
           </div>
         </div>
       </div>
+      <div data-action="form__button-close" data-remodal-action="close" class="absolute sw-32 sh-32 top-24 right-24 flex z-30 opacity-40 hover--opacity-100 transition-all-300 sm--sh-28 sm--sw-28 cursor-pointer sm--top-20 sm--right-20">
+        <div class="sw-32 sh-32 flex items-center justify-center relative rounded-16 bg-light-red dark--bg-white-15 sm--sw-28 sm--sh-28 close-btn"> </div>
+      </div>
     </div>
   </div>
-  <div data-remodal-id="video-partner" class="popup-content remodal is--video-modal rounded-12">
+  <div data-remodal-id="video-linux-deb-standart" class="popup-content remodal is--video-modal rounded-12">
     <div class="popup__scroll-content">
-      <div class="popup__video-iframe w-embed w-iframe"><iframe playsinline="" src="" data-src="https://player.vimeo.com/video/913634020?h=f9fae21c1c&color=ff9933&title=0&byline=0&portrait=0" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
+      <div class="popup__video-iframe w-embed w-iframe"><iframe playsinline="" src="" data-src="https://player.vimeo.com/video/873509830?h=4c49e811bc&color=ff9933&title=0&byline=0&portrait=0" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
+    </div>
+    <div data-remodal-action="close" class="form__button-close is--video-close">
+      <div class="modal-close is--vector-full w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewbox="0 0 28 28" fill="none">
+        <g clip-path="url(#clip0_976_20133)">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M22.4083 5.59189C22.8639 6.0475 22.8639 6.78619 22.4083 7.2418L15.6499 14.0002L22.4083 20.7586C22.8639 21.2142 22.8639 21.9529 22.4083 22.4085C21.9527 22.8641 21.214 22.8641 20.7584 22.4085L14 15.6501L7.24162 22.4085C6.78601 22.8641 6.04732 22.8641 5.59171 22.4085C5.13609 21.9529 5.13609 21.2142 5.59171 20.7586L12.3501 14.0002L5.59171 7.2418C5.1361 6.78619 5.1361 6.0475 5.59171 5.59189C6.04732 5.13627 6.78601 5.13627 7.24162 5.59188L14 12.3503L20.7584 5.59188C21.214 5.13627 21.9527 5.13627 22.4083 5.59189Z" fill="currentColor"></path>
+        </g>
+        <defs>
+          <clippath id="clip0_976_20133">
+            <rect width="28" height="28" fill="currentColor"></rect>
+          </clippath>
+        </defs>
+      </svg></div>
+    </div>
+  </div>
+  <div data-remodal-id="video-linux-deb-terminal" class="popup-content remodal is--video-modal rounded-12">
+    <div class="popup__scroll-content">
+      <div class="popup__video-iframe w-embed w-iframe"><iframe playsinline="" src="" data-src="https://player.vimeo.com/video/874069917?h=4c49e811bc&color=ff9933&title=0&byline=0&portrait=0" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen=""></iframe></div>
     </div>
     <div data-remodal-action="close" class="form__button-close is--video-close">
       <div class="modal-close is--vector-full w-embed"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewbox="0 0 28 28" fill="none">
@@ -2565,11 +2230,11 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
 </div>
 <div class="event__message">Ссылка на скачивание Compass для компьютера скопирована</div>
 <div fs-cc="banner" class="fixed bottom-0 z-[902] hidden">
-  <div data-cookie-link="" class="fixed left-[24px] bottom-[24px] p-[8px] rounded-50% bg-white/70 sw-[60px] sh-[60px]  z-[902]  backdrop-blur-md hover--bg-white disable-blur:bg-white/92 dark--bg-neutral-900/70 dark--hover--bg-neutral-600 disable-blur:dark--bg-neutral-900/92"><img src="images/cookie-img.png" alt="" width="66" height="66" class="sw-full sh-full"></div>
+  <div data-cookie-link="" class="fixed left-[24px] bottom-[24px] p-[8px] rounded-50% bg-white/70 sw-[60px] sh-[60px]  z-[902]  backdrop-blur-md hover--bg-white disable-blur:bg-white/92 dark--bg-neutral-900/70 dark--hover--bg-neutral-600 disable-blur:dark--bg-neutral-900/92"><img src="../images/cookie-img.png" alt="" width="66" height="66" class="sw-full sh-full"></div>
   <div data-cookie-base="" class="cookie dark--bg-cookie dark--text-white-70pr bg-white/70 backdrop-blur-md bottom-[24px] sm--bottom-0 disable-blur:bg-white/92 dark--bg-neutral-900/70 disable-blur:dark--bg-neutral-900/92">
     <div class="cookie-wrapper">
       <div class="cookie-content items-center sm--items-start sm--flex-wrap">
-        <div class="cookie-info-wrapper sm--mb-14"><img src="images/cookie-img.png" alt="" width="66" class="cookie-img">
+        <div class="cookie-info-wrapper sm--mb-14"><img src="../images/cookie-img.png" alt="" width="66" class="cookie-img">
           <div class="cookie-info-text"><span class="xs--block">Мы используем cookies. </span>Используя сайт, вы соглашаетесь на обработку персональных<span class="text-span-2"> </span>
             <a href="https://getcompass.ru/docs/agreement.pdf" target="_blank" class="underline underline-offset-3 hover--text-blue dark--text-white-70pr dark--hover--text-white">данных</a><span>.</span>
           </div>
@@ -2583,136 +2248,8 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
     </div>
   </div>
 </div>
-<div data-remodal-id="consultation" class="popup-content remodal is--popup-form rounded-12 sm--rounded-none dark--bg-black">
-  <div class="popup__scroll-content popup__form-scroll-content dark--bg-black rounded-12 sm--rounded-none">
-    <div class="popup-wrapper popup__form-wrapper dark--bg-black rounded-12 sm--rounded-none">
-      <div class="popup__form dark--bg-black dark--sm--bg-form-gradient rounded-12 sm--rounded-none w-form">
-        <form name="wf-form-Consultation-Form" data-name="Consultation Form" action="https://getcompass.ru" method="post" id="wf-form-Consultation" class="form__block dark--bg-black dark--sm--bg-transparent rounded-12 sm--rounded-none" data-wf-page-id="65d4cf885fc5935a0bdeccce" data-wf-element-id="1837c6df-a80a-d5f0-b6ac-0489cb13d210">
-          <div class="sw-49pr px-32 pt-32 bg-white dark--bg-black sm--hidden rounded-l-12 sm--rounded-none">
-            <div class="image-h-full sh-79 mb-32 dark--hidden w-embed">
-              <picture>
-                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f55a6dcd751a03e11bf9_consultation-avatars%402x.webp 1x,
-  		          https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f55a4bfa9ed35660f5ba_consultation-avatars%404x.webp 2x" type="image/webp">
-                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f56fed2757a14a10a0c5_consultation-avatars%402x.png 1x,
-  		          https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f56fdcd6478cb6717881_consultation-avatars%404x.png 2x" type="image/png">
-                <img loading="lazy" src="images/consultation-avatars2x.png" alt="">
-              </picture>
-            </div>
-            <div class="image-h-full sh-79 mb-32 hidden dark--flex w-embed">
-              <picture>
-                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4402be4c53cec05412_form-avatars-dark%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef45671bb0ca57b1cb92_form-avatars-dark%403x.webp 2x" type="image/webp">
-                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4420c7bee049d6c688_form-avatars-dark%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4466e4bf5a26814a79_form-avatars-dark%403x.png 2x" type="image/png">
-                <img loading="lazy" src="images/form-avatars-dark2x.png" alt="">
-              </picture>
-            </div>
-            <ul role="list" class="flex flex-col gap-16 pl-0 w-list-unstyled">
-              <li class="flex items-start text-platinum gap-12 dark--text-white-70pr"><img loading="lazy" src="images/form-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
-                <div>Познакомим с функционалом Compass и покажем его в деле</div>
-              </li>
-              <li class="flex items-start text-platinum gap-12 dark--text-white-70pr"><img loading="lazy" src="images/form-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
-                <div>Расскажем как организовать эффективные процессы в мессенджере Compass</div>
-              </li>
-              <li class="flex items-start text-platinum gap-12 dark--text-white-70pr"><img loading="lazy" src="images/form-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
-                <div>Поможем настроить Compass на ваших серверах или в облаке</div>
-              </li>
-              <li class="flex items-start text-platinum gap-12 dark--text-white-70pr"><img loading="lazy" src="images/form-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
-                <div>Обсудим индивидуальные условия сотрудничества и подберём тариф</div>
-              </li>
-            </ul>
-          </div>
-          <div class="form__wrapper dark--bg-form-gradient pt-32 px-24 rounded-r-12 sm--pt-48 sm--border-none">
-            <div class="popup__form-wrapper-bg is--cover-image dark--hidden w-embed">
-              <picture>
-                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f07bd837778cf96bb8e_popup-form-bg%402x.webp 1x,
-  								https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f08d1c284413ca39ce3_popup-form-bg%403x.webp 2x" type="image/webp">
-                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f06f60f7a6434f22a1c_popup-form-bg%402x.jpg 1x,
-  								https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f07522a7a46ab6b3ce5_popup-form-bg%403x.jpg 2x" type="image/png">
-                <img loading="lazy" src="images/popup-form-bg2x.jpg" alt="">
-              </picture>
-            </div>
-            <div class="sm--sh-70 image-h-full image-x-center sm--mb-12 hidden sm--flex dark--sm--hidden w-embed">
-              <picture>
-                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f55a6dcd751a03e11bf9_consultation-avatars%402x.webp 1x,
-  		          https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f55a4bfa9ed35660f5ba_consultation-avatars%404x.webp 2x" type="image/webp">
-                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f56fed2757a14a10a0c5_consultation-avatars%402x.png 1x,
-  		          https://uploads-ssl.webflow.com/64328ad759d957f990749456/65a4f56fdcd6478cb6717881_consultation-avatars%404x.png 2x" type="image/png">
-                <img loading="lazy" src="images/consultation-avatars2x.png" alt="">
-              </picture>
-            </div>
-            <div class="image-h-full image-x-center sm--sh-70 sm--mb-12 hidden dark--sm--flex w-embed">
-              <picture>
-                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4402be4c53cec05412_form-avatars-dark%402x.webp 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef45671bb0ca57b1cb92_form-avatars-dark%403x.webp 2x" type="image/webp">
-                <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4420c7bee049d6c688_form-avatars-dark%402x.png 1x,
-    https://uploads-ssl.webflow.com/64328ad759d957f990749456/6629ef4466e4bf5a26814a79_form-avatars-dark%403x.png 2x" type="image/png">
-                <img loading="lazy" src="images/form-avatars-dark2x.png" alt="">
-              </picture>
-            </div>
-            <h3 class="text-s-30 leading-120 font-bold dark--text-white-85pr pr-32 mb-32 sm--text-center sm--mb-14 relative z-30 sm--p-0 sm--leading-140">Заявка на консультацию <span class="sm--inline-block">с экспертом Compass</span></h3>
-            <ul role="list" class="hidden sm--flex sm--flex-col gap-12 sm--mb-24 w-list-unstyled">
-              <li class="flex items-start gap-12"><img loading="lazy" src="images/form-mobile-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
-                <div class="text-platinum dark--text-white-70pr">Познакомим с функционалом мессенджера и покажем его в деле</div>
-              </li>
-              <li class="flex items-start gap-12"><img loading="lazy" src="images/form-mobile-arrow.svg" alt="" class="popup__form-li-icon dark--hidden"><img loading="lazy" src="images/form-arrow-dark.svg" alt="" class="popup__form-li-icon hidden dark--flex">
-                <div class="text-platinum dark--text-white-70pr">Обсудим индивидуальные условия сотрудничества и подберём тариф</div>
-              </li>
-            </ul>
-            <div class="form-row"><input data-required="true" class="input w-input" data-min-length="2" maxlength="256" data-name-input="true" name="name" data-name="name" data-max-length="50" placeholder="Имя" type="text" id="name-1039"></div>
-            <div class="form-row last"><input data-required="true" class="input w-input" data-min-length="11" maxlength="256" name="phone_number" data-name="phone_number" data-max-length="18" placeholder="Телефон" data-tel-input="true" type="tel" id="phone_number-1039"></div><input type="submit" data-wait="Подождите..." data-btn-default="Оставить заявку" class="button-submit w-button" value="Оставить заявку">
-            <div class="relative z-30 py-24 text-s-14 text-center text-platinum leading-150 sm--rounded-16 sm--py-16 sm--mt-24 sm--leading-140 sm--bg-white/20 dark--text-white/50 dark--sm--bg-white/2">
-              <div class="inline">Если вы не любите заполнять формы,<br>напишите нам в </div>
-              <a href="https://t.me/getcompass" target="_blank" class="popup__form-bottom-link popup__form-email-link telegram w-inline-block">
-                <div class="popup__form-bottom-link-text">Telegram</div>
-              </a>
-              <div class="inline"> или на почту </div>
-              <a href="mailto:support@getcompass.ru?subject=%D0%97%D0%B0%D1%8F%D0%B2%D0%BA%D0%B0%20%D0%BD%D0%B0%C2%A0%D0%B1%D0%B5%D1%81%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B8%D0%BB%D0%BE%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82" class="popup__form-email-link">support@getcompass.ru</a>
-            </div>
-          </div>
-          <div class="popup__form-agreement">
-            <div class="form-agreement-text dark--text-white-20pr">Нажимая «Оставить заявку», вы даёте <a href="https://getcompass.ru/docs/agreement.pdf" target="_blank" class="popup__form-agreement-link dark--text-white-20pr dark--hover--text-white-50pr dark--border-white-20pr dark--hover--border-white-50pr">согласие</a> на обработку персональных данных и принимаете условия <a href="https://getcompass.ru/docs/privacy.pdf" target="_blank" class="popup__form-agreement-link dark--text-white-20pr dark--hover--text-white-50pr dark--border-white-20pr dark--hover--border-white-50pr">Политики конфиденциальности</a>.</div>
-          </div>
-        </form>
-        <div class="form__success-block dark--bg-form-gradient rounded-12 sm--rounded-none w-form-done">
-          <div class="popup__form-wrapper-bg is--cover-image dark--hidden w-embed">
-            <picture>
-              <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f07bd837778cf96bb8e_popup-form-bg%402x.webp 1x,
-  								https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f08d1c284413ca39ce3_popup-form-bg%403x.webp 2x" type="image/webp">
-              <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f06f60f7a6434f22a1c_popup-form-bg%402x.jpg 1x,
-  								https://uploads-ssl.webflow.com/64328ad759d957f990749456/651a8f07522a7a46ab6b3ce5_popup-form-bg%403x.jpg 2x" type="image/png">
-              <img src="images/popup-form-bg2x.jpg" alt="">
-            </picture>
-          </div>
-          <div class="form-success-wrapper">
-            <div class="popup__form-succes-row">
-              <div class="popup__form-succes-img">
-                <div class="raster-full w-embed">
-                  <picture>
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6439958a8950932f62b3d94d_success-img.webp" type="image/webp">
-                    <source srcset="https://uploads-ssl.webflow.com/64328ad759d957f990749456/6439967d98febb3d1a809be2_success-img.png" type="image/png">
-                    <img loading="lazy" alt="" src="images/success-img.png">
-                  </picture>
-                </div>
-              </div>
-            </div>
-            <div class="text-s-30 font-bold leading-120 mb-16 sm--text-s-38 dark--text-white-85pr">Заявка <br>отправлена</div>
-            <p class="form-success-text dark--text-white-70pr mb-32 sm--mb-24">Свяжемся с вами в будние дни с 10:00 до 19:00 (мск) и проведём консультацию.</p>
-            <a data-remodal-action="close" href="#" class="form__success-button w-button">Хорошо</a>
-          </div>
-        </div>
-        <div class="form__error-block w-form-fail">
-          <div>Возникла ошибка при отправке формы, проверьте интернет соединение или попробуйте позже.</div>
-        </div>
-      </div>
-    </div>
-    <div data-action="form__button-close" data-remodal-action="close" class="absolute sw-32 sh-32 top-24 right-24 flex z-30 opacity-40 hover--opacity-100 transition-all-300 sm--sh-28 sm--sw-28 cursor-pointer sm--top-20 sm--right-20">
-      <div class="sw-32 sh-32 flex items-center justify-center relative rounded-16 bg-light-red dark--bg-white-15 sm--sw-28 sm--sh-28 close-btn"> </div>
-    </div>
-  </div>
-</div>
 <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=64328ad759d957f990749456" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-<script src="js/webflow.js" type="text/javascript"></script><!--  Yandex.Metrika counter  -->
+<script src="./src/js/webflow.js" type="text/javascript"></script><!--  Yandex.Metrika counter  -->
 <script>
   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
     m[i].l=1*new Date();
@@ -2750,9 +2287,6 @@ window.ymetrikaID=92739259;"getcompass.ru"!=window.location.hostname&&(window.ym
 <script defer="" type="module" src="./main.js" charset="UTF-8" fs-cc-mode="informational"></script>
 <script>
   document.addEventListener("DOMContentLoaded",(function(){const e=document.querySelectorAll(".article__preloader-wrapper");e.length&&e.forEach((e=>{setTimeout((function(){e.style.opacity="0",e.addEventListener("transitionend",(()=>e.remove()))}),500)}))}));
-</script><!--  Carrot quest BEGIN  -->
-<script type="text/javascript">
-  !function(){function t(t,e){return function(){window.carrotquestasync.push(t,arguments)}}if("undefined"==typeof carrotquest){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="https://cdn.carrotquest.app/api.min.js",document.getElementsByTagName("head")[0].appendChild(e),window.carrotquest={},window.carrotquestasync=[],carrotquest.settings={};for(var n=["connect","track","identify","auth","onReady","addCallback","removeCallback","trackMessageInteraction"],a=0;a<n.length;a++)carrotquest[n[a]]=t(n[a])}}(),carrotquest.connect("53519-73e169dbe93131f783d5820b87");
 </script>
 </body>
 </html>

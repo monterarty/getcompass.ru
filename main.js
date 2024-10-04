@@ -840,8 +840,8 @@ if (['iOS', 'Android', 'Huawei'].indexOf(os) + 1) {
 }
 if (os === 'iOS') {
   Array.prototype.forEach.call(ctaDropdowns, ctaDropdown => {
-    const ctaDropdownList = ctaDropdown.querySelector('.cta__dd-list');
-    if (!ctaDropdownList.classList.contains('is--desktop-platforms') && !ctaDropdownList.classList.contains('is--mobile-platforms')) {
+    const isDownloadPageHeroDropdown = ctaDropdown.classList.contains('is--download-ddown');
+    if (!isDownloadPageHeroDropdown) {
       ctaDropdown.classList.add('is--hidden-list');
       const ctaDropdownToggle = ctaDropdown.querySelector('.w-dropdown-toggle');
       let buildLink = null,

@@ -697,6 +697,12 @@ html.remodal-is-locked body {
   bottom: 136%;
 }
 
+.partner-calc__slider .noUi-handle:after,
+.partner-calc__slider .noUi-handle:before {
+  content: "";
+  display: none;
+}
+
 .partner-calc__slider .noUi-tooltip {
   display: block;
   position: absolute;
