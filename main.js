@@ -3371,6 +3371,14 @@ function attachYandexMetricaClickEvents(nodeList, targetID, options = {}) {
   });
 }
 
+const platformsOnPremisePageLinks = document.querySelectorAll(
+  '[href*="/on-premise/download"]'
+);
+attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '353', {
+  includePages: ['download_cloud'],
+  includeParents: ['.download_cloud-block'],
+});
+
 // Цели раздел СМИ
 const socialMediaPageLinks = document.querySelectorAll(
   '[href*="/media"]:not([href*="/mediakit"])'
@@ -3429,7 +3437,7 @@ $('a[href^="mailto"]').on('click', function () {
     ym(ymetrikaID, 'reachGoal', '103');
   } else {
     if (['download_cloud'].indexOf(getPage()) + 1) {
-      ym(ymetrikaID, 'reachGoal', '714');
+      ym(ymetrikaID, 'reachGoal', '709');
     } else if (['download_on-premise'].indexOf(getPage()) + 1) {
       ym(ymetrikaID, 'reachGoal', '357');
     } else {
@@ -3524,7 +3532,7 @@ $(
   } else if (['on-premise'].indexOf(getPage()) + 1) {
     ym(ymetrikaID, 'reachGoal', '315');
   } else if (['download_cloud'].indexOf(getPage()) + 1) {
-    ym(ymetrikaID, 'reachGoal', '714');
+    ym(ymetrikaID, 'reachGoal', '709');
   } else if (['download_on-premise'].indexOf(getPage()) + 1) {
     ym(ymetrikaID, 'reachGoal', '357');
   }
