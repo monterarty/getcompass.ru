@@ -1042,16 +1042,12 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
             sendEvent('15');
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent('705');
-            // Цели для блока платформ On-premise
-            isOnPremisePlatformsBlock && sendEvent('356');
             break;
           case 'macintel':
           case 'macapple':
             sendEvent('16');
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent('704');
-            // Цели для блока платформ On-premise
-            isOnPremisePlatformsBlock && sendEvent('355');
             break;
           case 'linuxdeb':
           case 'linuxtar':
@@ -1104,7 +1100,30 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         }
       }
     } else if (downloadLink.dataset.version === 'onpremise') {
-      ym(ymetrikaID, 'reachGoal', '305'); //Переход в стор для onpremise
+      sendEvent('305'); //Переход в стор для onpremise
+      switch (platform) {
+        case 'appstore':
+        case 'huawei':
+        case 'playmarket':
+        case 'rustore':
+          isOnPremisePlatformsBlock && sendEvent('358');
+          break;
+        case 'windows':
+          // Цели для блока платформ On-premise
+          isOnPremisePlatformsBlock && sendEvent('356');
+          break;
+        case 'macintel':
+        case 'macapple':
+          isOnPremisePlatformsBlock && sendEvent('355');
+          break;
+        case 'linuxdeb':
+        case 'linuxtar':
+        case 'linuxrpm':
+        case 'linuxastra':
+          // Цели для блока платформ On-premise
+          isOnPremisePlatformsBlock && sendEvent('357');
+          break;
+      }
     }
 
     if (downloadLink.closest('[data-product]')) {
