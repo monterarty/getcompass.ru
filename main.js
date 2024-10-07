@@ -2147,6 +2147,10 @@ $(document).on('opening', '.remodal', function () {
       '#video-mac-apple',
       '#video-linux-deb-standart',
       '#video-linux-deb-terminal',
+      '#video-linux-astra-standart',
+      '#video-linux-astra-terminal',
+      '#video-linux-rpm-standart',
+      '#video-linux-rpm-terminal',
       '#video-linux-tar',
       '#video-windows',
       '#video-czech',
@@ -2155,15 +2159,18 @@ $(document).on('opening', '.remodal', function () {
       '#video-detailing-group',
       '#video-daily',
       '#video-good-people',
-    ].includes(modalId)
+    ].indexOf(modalId)
   ) {
-    $('html').addClass(
-      'is--black-overlay is--center-modal is--small-p-modal is---video-overlay'
+    html.classList.add(
+      'is--black-overlay',
+      'is--center-modal',
+      'is--small-p-modal',
+      'is---video-overlay'
     );
-  } else if (['#calculator-info'].includes(modalId)) {
-    $('html').addClass('is--white-overlay is--small-p-modal');
+  } else if (['#calculator-info'].indexOf(modalId)) {
+    html.classList.add('is--white-overlay', 'is--small-p-modal');
   } else {
-    $('html').addClass('is--white-overlay is--center-modal');
+    html.classList.add('is--white-overlay', 'is--center-modal');
   }
   analyticsModal(modalId);
   ScrollElement.animate(
