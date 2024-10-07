@@ -1179,7 +1179,13 @@ if (
 
   clipboard.on('success', function (e) {
     showCopyNote();
-    sendEvent('25');
+    if (
+      ['download', 'blog', 'post'].indexOf(getPage()) === -1 &&
+      trigger.dataset.version === 'cloud'
+    ) {
+      sendEvent('25');
+    }
+
     const isSaasPlatformsPage = getPage() === 'download_cloud';
     const isOnPremisePlatformsPage = getPage() === 'download_on-premise';
 
