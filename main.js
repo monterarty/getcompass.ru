@@ -1181,7 +1181,7 @@ if (
     showCopyNote();
     if (
       ['download', 'blog', 'post'].indexOf(getPage()) === -1 &&
-      trigger.dataset.version === 'cloud'
+      e.trigger.dataset.version === 'cloud'
     ) {
       sendEvent('25');
     }
