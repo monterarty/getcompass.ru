@@ -1087,6 +1087,9 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         ) ||
         mobileClassNames.some((className) =>
           downloadLink.classList.contains(className)
+        ) ||
+        mobileClassNames.some(
+          (className) => downloadLink.dataset.platform === className
         )
       ) {
         e.preventDefault();
@@ -1167,7 +1170,7 @@ if (
 
   clipboard.on('success', function (e) {
     showCopyNote();
-    ym(ymetrikaID, 'reachGoal', '25');
+    sendEvent('25');
     const isSaasPlatformsPage = getPage() === 'download_cloud';
     const isOnPremisePlatformsPage = getPage() === 'download_on-premise';
 
@@ -3406,6 +3409,11 @@ attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '350', {
 });
 
 attachYandexMetricaClickEvents(platformsSaasPageLinks, '700', {
+  excludePages: ['download', 'blog', 'post'],
+});
+
+attachYandexMetricaClickEvents(platformsSaasPageLinks, '703', {
+  includeParents: ['footer'],
   excludePages: ['download', 'blog', 'post'],
 });
 
