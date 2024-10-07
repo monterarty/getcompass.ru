@@ -3402,19 +3402,20 @@ const platformsSaasPageLinks = document.querySelectorAll(
 
 attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '353', {
   includeParents: ['.download_cloud-block'],
+  excludePages: ['download', 'download_on-premise', 'blog', 'post'],
 });
 
 attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '350', {
-  excludePages: ['download', 'blog', 'post'],
+  excludePages: ['download', 'download_on-premise', 'blog', 'post'],
 });
 
 attachYandexMetricaClickEvents(platformsSaasPageLinks, '700', {
-  excludePages: ['download', 'blog', 'post'],
+  excludePages: ['download', 'download_cloud', 'blog', 'post'],
 });
 
 attachYandexMetricaClickEvents(platformsSaasPageLinks, '703', {
   includeParents: ['footer'],
-  excludePages: ['download', 'blog', 'post'],
+  excludePages: ['download', 'download_cloud', 'blog', 'post'],
 });
 
 attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '351', {
@@ -3428,12 +3429,12 @@ attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '352', {
 });
 
 attachYandexMetricaClickEvents(platformsSaasPageLinks, '701', {
-  excludePages: ['download', 'blog', 'post'],
+  excludePages: ['download', 'download_cloud', 'blog', 'post'],
   includeParents: ['[data-product]'],
 });
 
 attachYandexMetricaClickEvents(platformsSaasPageLinks, '702', {
-  excludePages: ['download', 'blog', 'post'],
+  excludePages: ['download', 'download_cloud', 'blog', 'post'],
   includeParents: ['[data-right-menu]'],
 });
 
