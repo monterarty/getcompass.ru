@@ -1011,29 +1011,21 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
             sendEvent('12');
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent('707');
-            // Цели для блока платформ On-premise
-            isOnPremisePlatformsBlock && sendEvent('358');
             break;
           case 'huawei':
             sendEvent('13');
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent('707');
-            // Цели для блока платформ On-premise
-            isOnPremisePlatformsBlock && sendEvent('358');
             break;
           case 'playmarket':
             sendEvent('14');
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent('707');
-            // Цели для блока платформ On-premise
-            isOnPremisePlatformsBlock && sendEvent('358');
             break;
           case 'rustore':
             sendEvent('24');
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent('707');
-            // Цели для блока платформ On-premise
-            isOnPremisePlatformsBlock && sendEvent('358');
             break;
           case 'windows':
           case 'windowsmsi':
@@ -1056,8 +1048,6 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
             sendEvent('17');
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent('706');
-            // Цели для блока платформ On-premise
-            isOnPremisePlatformsBlock && sendEvent('357');
             break;
         }
         sendEvent('51');
