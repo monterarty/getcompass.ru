@@ -849,7 +849,7 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
       // Цели Метрики
       // Нажата кнопка попробовать бесплатно для облачной версии приложения в шапке сайта
       if (version === 'cloud' && downloadDropdown.closest('.w-nav')) {
-        ym(ymetrikaID, 'reachGoal', '11');
+        sendEvent('11');
         _tmr.push({
           type: 'reachGoal',
           id: 3381982,
@@ -3434,12 +3434,12 @@ attachYandexMetricaClickEvents(platformsSaasPageLinks, '703', {
 });
 
 attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '351', {
-  includePages: ['onpremise'],
+  includePages: ['on-premise'],
   includeParents: ['[data-right-menu]'],
 });
 
 attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '352', {
-  includePages: ['onpremise'],
+  includePages: ['on-premise'],
   includeParents: ['footer'],
 });
 
@@ -3671,22 +3671,25 @@ $('a[href*="https://doc-onpremise.getcompass.ru/"]').on('click', () => {
   ym(ymetrikaID, 'reachGoal', '310');
 });
 
-$('a[href^="/on-premise"]').on('click', function () {
-  if (['blog', 'post'].indexOf(getPage()) + 1) {
-    if ($(this).closest('.w-nav').length) {
-      // [Блог] Меню "Коробочное решение" (хедер)
-      ym(ymetrikaID, 'reachGoal', '211');
-    } else if ($(this).closest('[data-cta-btns]').length) {
-      // [Блог] Переход блог -> стр On-premise
-      ym(ymetrikaID, 'reachGoal', '217');
-    } else if ($(this).closest('footer').length) {
-      // [Блог] Меню "Коробочное решение" (хедер)
-      ym(ymetrikaID, 'reachGoal', '233');
+$('a[href^="/on-premise"]:not([href*="/on-premise/download"])').on(
+  'click',
+  function () {
+    if (['blog', 'post'].indexOf(getPage()) + 1) {
+      if ($(this).closest('.w-nav').length) {
+        // [Блог] Меню "Коробочное решение" (хедер)
+        ym(ymetrikaID, 'reachGoal', '211');
+      } else if ($(this).closest('[data-cta-btns]').length) {
+        // [Блог] Переход блог -> стр On-premise
+        ym(ymetrikaID, 'reachGoal', '217');
+      } else if ($(this).closest('footer').length) {
+        // [Блог] Меню "Коробочное решение" (хедер)
+        ym(ymetrikaID, 'reachGoal', '233');
+      }
+    } else if (getPage() !== 'on-premise') {
+      ym(ymetrikaID, 'reachGoal', '300');
     }
-  } else if (getPage() !== 'on-premise') {
-    ym(ymetrikaID, 'reachGoal', '300');
   }
-});
+);
 
 $('[data-cta-btns] a').on('click', () => {
   if (['blog', 'post'].indexOf(getPage()) + 1) {
