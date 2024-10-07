@@ -721,11 +721,14 @@ downloadLinksList.innerHTML =
 const downloadLinksOtherLink = downloadLinksList.querySelector(
   'a.cta__list-other-button'
 );
-downloadLinksOtherLink.addEventListener('click', () => {
+downloadLinksOtherLink.addEventListener('click', (e) => {
   const downloadListElement = downloadLinksList.closest('.cta__dd-list');
   const isCloudPlatform =
     downloadListElement?.classList.contains('is--cloud-platforms') ||
     ['on-premise', 'download_on-premise'].indexOf(getPage()) === -1;
+  const isInRightNav = e.currentTarget.closest('[data-right-menu]') !== null;
+  // Если облачная версия и в шапке сайта - 702
+  isCloudPlatform && isInRightNav && sendEvent('702');
   // Переход на соответствующую страницу в зависимости от платформы
   window.location = isCloudPlatform ? '/download' : '/on-premise/download';
 
@@ -3446,11 +3449,6 @@ attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '352', {
 attachYandexMetricaClickEvents(platformsSaasPageLinks, '701', {
   excludePages: ['download', 'download_cloud', 'blog', 'post'],
   includeParents: ['[data-product]'],
-});
-
-attachYandexMetricaClickEvents(platformsSaasPageLinks, '702', {
-  excludePages: ['download', 'download_cloud', 'blog', 'post'],
-  includeParents: ['[data-right-menu]'],
 });
 
 // Цели раздел СМИ
