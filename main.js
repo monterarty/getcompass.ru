@@ -1093,7 +1093,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         }
       }
     } else if (downloadLink.dataset.version === 'onpremise') {
-      getPage() === 'on-premise' && sendEvent('305'); //Переход в стор для onpremise
+      getPage() === 'on-premise' && sendEvent('305'); //Переход в стор для on-premise
       switch (platform) {
         case 'appstore':
         case 'huawei':

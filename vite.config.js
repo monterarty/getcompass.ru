@@ -4,13 +4,13 @@ export default defineConfig({
   base: '/getcompass.ru/', // Указываем базовый путь для проекта
   build: {
     //cssMinify: 'lightningcss',
-    minify: 'none', // Минификация с использованием Terser
-    // terserOptions: {
-    //   compress: {
-    //     drop_console: true, // Удалить все console.log
-    //     drop_debugger: true, // Удалить все debugger
-    //   },
-    // },
+    minify: 'terser', // Минификация с использованием Terser
+    terserOptions: {
+      compress: {
+        drop_console: true, // Удалить все console.log
+        drop_debugger: true, // Удалить все debugger
+      },
+    },
     cssCodeSplit: false, // Разделяем CSS и JS на отдельные файлы
     rollupOptions: {
       external: ['jquery'],
