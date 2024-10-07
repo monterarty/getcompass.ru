@@ -755,6 +755,7 @@ const ctaDropdowns = document.querySelectorAll('.cta__dropdown');
 const allDownloadDropdowns = [
   ...ctaDropdowns,
   ...document.querySelectorAll('.cta__vendor-dd'),
+  ...document.querySelectorAll('.cta__download-dd'),
   ...document.querySelectorAll('.footer__item-download-dd'),
   ...document.querySelectorAll('.blog-footer__mac-dropdown'),
   ...document.querySelectorAll('.download__cta-dd'),
