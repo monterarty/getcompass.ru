@@ -2030,6 +2030,7 @@ html * {
     border-left: .55rem solid transparent
   }
 
+  .is--mobile-has-arrow .cta__btn.is--hidden,
   .is--mobile-show-nav-cta .cta__dropdown.is--hidden {
     opacity: 1;
     pointer-events: auto
