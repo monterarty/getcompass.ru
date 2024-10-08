@@ -3455,7 +3455,13 @@ attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '351', {
 });
 
 attachYandexMetricaClickEvents(platformsOnPremisePageLinks, '352', {
-  includePages: ['on-premise'],
+  excludePages: [
+    'download',
+    'download_cloud',
+    'download_on-premise',
+    'blog',
+    'post',
+  ],
   includeParents: ['footer'],
 });
 
