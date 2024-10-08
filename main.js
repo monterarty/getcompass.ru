@@ -353,6 +353,7 @@ var Detector = new oldBrowserDetector(
 );
 
 Detector.detect();
+console.log(platform);
 switch (platform.name) {
   case 'Safari':
     switch (platform.os.family) {
