@@ -447,7 +447,7 @@ picture img {
 }
 
 .dark .is--has-arrow .cta__dd-list-wrap::before {
-  filter: drop-shadow(0 -2px 0 #2b2b2b);
+  filter: drop-shadow(0 -.1rem 0 #2b2b2b);
   border-bottom: .5rem solid var(--neutral--950)
 }
 
@@ -2023,7 +2023,7 @@ html * {
     position: absolute;
     left: calc(var(--arrowLeft) - .44rem);
     top: -.44rem;
-    filter: drop-shadow(0 -2px 0 #f0f0f0);
+    filter: drop-shadow(0 .1rem 0 #f0f0f0);
     border-bottom: .7rem solid #fff;
     border-right: .55rem solid transparent;
     border-left: .55rem solid transparent
