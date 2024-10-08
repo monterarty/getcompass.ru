@@ -402,6 +402,7 @@ picture {
   transition: .3s
 }
 
+.w-dropdown-toggle.w--open .dd-arrow,
 .w-dropdown.is--open .dd-arrow {
   transform: rotateX(180deg)
 }
