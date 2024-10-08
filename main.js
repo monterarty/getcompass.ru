@@ -2159,15 +2159,15 @@ $(document).on('opening', '.remodal', function () {
       '#video-detailing-group',
       '#video-daily',
       '#video-good-people',
-    ].indexOf(modalId)
+    ].includes(modalId)
   ) {
     html.classList.add(
       'is--black-overlay',
       'is--center-modal',
       'is--small-p-modal',
-      'is---video-overlay'
+      'is--video-overlay'
     );
-  } else if (['#calculator-info'].indexOf(modalId)) {
+  } else if (['#calculator-info'].includes(modalId)) {
     html.classList.add('is--white-overlay', 'is--small-p-modal');
   } else {
     html.classList.add('is--white-overlay', 'is--center-modal');
@@ -2225,8 +2225,13 @@ $(document).on('closed', '.remodal', function () {
     ).value;
     $(`[data-w-tab="${tarif}"]`).trigger('click');
   }
-  $('html').removeClass(
-    'is--black-overlay is--white-overlay remodal-is-locked is--center-modal is---video-overlay is--small-p-modal'
+  html.classList.remove(
+    'is--black-overlay',
+    'is--white-overlay',
+    'remodal-is-locked',
+    'is--center-modal',
+    'is--video-overlay',
+    'is--small-p-modal'
   );
   // Отключение фиксации списка при открытии модального окна
   if (articleTOCWrapper && !isMobile) {
@@ -2255,12 +2260,12 @@ window.addEventListener('popstate', () => {
   closeRemodal();
 });
 
-document.onkeydown = function (evt) {
-  if (evt.keyCode === 27) {
+document.onkeydown = function (e) {
+  if (e.keyCode === 27) {
     closeRemodal();
   }
   // Переключения между полями ввода в модальном окне если оно открыто
-  handleKey(evt);
+  handleKey(e);
 };
 
 function handleKey(e) {

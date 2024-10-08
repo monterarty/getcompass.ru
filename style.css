@@ -621,7 +621,7 @@ html.remodal-is-locked body {
   touch-action: none
 }
 
-.is---video-overlay .popup__scroll-content::before {
+.is--video-overlay .popup__scroll-content::before {
   content: '';
   position: absolute;
   left: 0;
