@@ -2023,8 +2023,8 @@ html * {
     content: '';
     position: absolute;
     left: calc(var(--arrowLeft) - .44rem);
-    top: -.44rem;
-    filter: drop-shadow(0 .1rem 0 #f0f0f0);
+    top: -.5rem;
+    filter: drop-shadow(0 .15rem 0 #f0f0f0);
     border-bottom: .7rem solid #fff;
     border-right: .55rem solid transparent;
     border-left: .55rem solid transparent

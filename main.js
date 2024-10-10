@@ -581,7 +581,7 @@ const downloadLinksData = {
     'Скачать для ',
     'Windows',
     'windows',
-    'https://getcompass.ru/app/windows-10-exe',
+    'https://update.getcompass.com/apps/compass-win.exe',
     'https://getcompass.ru/on-premise/app/windows-10-exe',
     '.exe',
     '<path d="M4.01636 6.08452V11.1519H10.1172V5.25108L4.01636 6.08452ZM4.01636 16.9193L10.1172 17.7528V11.9186H4.01636V16.9193ZM10.7839 17.8528L18.9517 18.9529V11.9186H10.7839V17.8528ZM10.7839 5.15106V11.1519H18.9517V4.01758L10.7839 5.15106Z" fill="currentColor"></path>',
@@ -1224,7 +1224,7 @@ const setCenterCTAListArrow = (dropdown) => {
     const CTATextCenterArrowRect = CTATextCenterArrow.getBoundingClientRect();
 
     if (window.innerWidth < 768) {
-      if (CTAListRect.x != 0)
+      if (CTAListRect.x !== 0)
         CTADropdownList.style.setProperty('--popupLeft', `-${CTAListRect.x}px`);
       CTADropdownList.style.setProperty(
         '--arrowLeft',
