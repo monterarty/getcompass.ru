@@ -886,6 +886,10 @@ switch (os) {
 
 const mobileClassNames = ['appstore', 'playmarket', 'huawei', 'rustore'];
 const mobileBodyClassNames = ['is--ios', 'is--android', 'is--huawei'];
+/**
+ * Мобильное устройтво?
+ * @type {boolean}
+ */
 const isMobileDevice = mobileBodyClassNames.some((className) =>
   document.body.classList.contains(className)
 );
@@ -1004,11 +1008,24 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   //Цели яндекс на клик по стору
   downloadLink.addEventListener('click', (e) => {
     const instructionLink = window.location.origin + instructionLinks[platform];
+    /**
+     * Пользователь находится на странице
+     * инструкции билда на который он нажал?
+     * @type {boolean}
+     */
     const isInstructionLinkPresent = window.location.href.includes(
       instructionLinks[platform]
     );
+    /**
+     * Нажатая ссылка находится внутри блока Saas?
+     * @type {boolean}
+     */
     const isSaasPlatfomsBlock =
       downloadLink.closest('.download_cloud-block') !== null;
+    /**
+     * Нажатая ссылка находится внутри блока Saas для on-premise?
+     * @type {boolean}
+     */
     const isOnPremisePlatformsBlock =
       downloadLink.closest('.download_op-block') !== null;
 
@@ -1073,18 +1090,17 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
       }
 
       // Если зашли с десктопного устройства и нажали на ссылку для мобильной платформы - открываем сразу стор
-      if (!isMobileDevice && isLinkForMobilePlatform) {
-        window.location.href = downloadLink.href;
-      } else if (
-        (instructionLinks[platform] === undefined ||
-          isInstructionLinkPresent) &&
-        isMobileDevice
+      if (
+        !isInstructionLinkPresent &&
+        ((!isMobileDevice && !isLinkForMobilePlatform) ||
+          (isMobileDevice && isLinkForMobilePlatform))
       ) {
-        // Если платформа не имеет инструкции или уже на странице инструкции, переходим на ссылку загрузки
-        window.location.href = downloadLink.href;
-      } else if (!isMobileDevice) {
-        // В остальных случаях переходим по инструкции
         window.location.href = instructionLink;
+      } else if (
+        isInstructionLinkPresent &&
+        ((isMobileDevice && isLinkForMobilePlatform) || !isMobileDevice)
+      ) {
+        window.location.href = downloadLink.href;
       }
     } else if (downloadLink.dataset.version === 'onpremise') {
       switch (platform) {
@@ -1115,7 +1131,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
     }
 
     if (downloadLink.closest('[data-product]')) {
-      ym(ymetrikaID, 'reachGoal', '97');
+      sendEvent('97');
     }
 
     if (!isLinkForMobilePlatform && !['blog', 'download'].includes(getPage())) {
@@ -1248,13 +1264,6 @@ Array.prototype.forEach.call(CTADropdowns, (dropdown) => {
       dropdown.classList.add('is--hidden-list');
 
       buildLink.click();
-      // if (!isMobileDevice) {
-      //   if (['on-premise', 'download_on-premise'].indexOf(getPage()) + 1) {
-      //     window.location.href = buildLink.href;
-      //   } else {
-      //     window.location.href = window.location.origin + instructionLinks['windows'];
-      //   }
-      // }
     }
   });
 });
