@@ -1142,7 +1142,13 @@ if (isMobileDevice) {
   clipboard.on('success', function (e) {
     showCopyNote();
     if (
-      ['download', 'blog', 'post'].indexOf(getPage()) === -1 &&
+      [
+        'download',
+        'blog',
+        'post',
+        'download_cloud',
+        'download_on-premise',
+      ].indexOf(getPage()) === -1 &&
       e.trigger.dataset.version === 'cloud'
     ) {
       sendEvent('25');
