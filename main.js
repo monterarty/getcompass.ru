@@ -952,7 +952,7 @@ const instructionLinks = {
 
 /**
  * Начинаем загрузку если находимся
- * на странице загрцзки и ставим куки
+ * на странице загрузки и ставим куки
  * на 1 минуту на запрет загрузки
  * билда при перезагрузке страницы
  *
@@ -964,7 +964,9 @@ window.addEventListener('load', () => {
    * Начинать загрузку при загрузке страницы?
    * @type {boolean}
    */
-  const startDownload = getCookie(`startDownload_${downloadPlatform}`) !== 'no';
+  const startDownload =
+    getCookie(`startDownload_${downloadPlatform}`) !== 'no' ||
+    mobileClassNames.includes(downloadPlatform);
 
   if (startDownload && getPage() === 'download') {
     if (os !== 'Android' && platform.name !== 'Firefox') {
