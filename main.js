@@ -1078,12 +1078,13 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         if (window.location.href.indexOf(instructionLinks[platform]) + 1) {
           window.location.href = downloadLink.href;
         } else {
-          window.location.href =
-            instructionLinks[platform] &&
-            !isMobileDevice &&
-            !isLinkForMobilePlatform
+          if (!isMobileDevice && !isLinkForMobilePlatform) {
+            window.location.href = downloadLink.href;
+          } else {
+            window.location.href = instructionLinks[platform]
               ? instructionLink
               : downloadLink.href;
+          }
         }
       }
     } else if (downloadLink.dataset.version === 'onpremise') {
