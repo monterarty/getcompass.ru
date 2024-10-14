@@ -1041,26 +1041,26 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
           case 'windowsmsi':
           case 'windowsmsi_old':
           case 'windows_old':
-            sendEvent('15');
+            !isMobileDevice && sendEvent('15');
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && sendEvent('705');
+            isSaasPlatfomsBlock && !isMobileDevice && sendEvent('705');
             break;
           case 'macintel':
           case 'macapple':
-            sendEvent('16');
+            !isMobileDevice && sendEvent('16');
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && sendEvent('704');
+            isSaasPlatfomsBlock && !isMobileDevice && sendEvent('704');
             break;
           case 'linuxdeb':
           case 'linuxtar':
           case 'linuxrpm':
           case 'linuxastra':
-            sendEvent('17');
+            !isMobileDevice && sendEvent('17');
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && sendEvent('706');
+            isSaasPlatfomsBlock && !isMobileDevice && sendEvent('706');
             break;
         }
-        sendEvent('51');
+        !isMobileDevice && sendEvent('51');
         _tmr.push({
           type: 'reachGoal',
           id: 3381982,
@@ -1068,13 +1068,8 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         });
       }
 
-      if (['blog', 'post'].includes(getPage())) {
-        // [Блог] Нажата любая кнопка скачивания в футере
-        sendEvent('240');
-      }
-
       if (getPage() === 'download') {
-        sendEvent('76');
+        !isMobileDevice && sendEvent('76');
       }
 
       // Если зашли с десктопного устройства и нажали на ссылку для мобильной платформы - открываем сразу стор
@@ -1091,7 +1086,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         window.location.href = instructionLink;
       }
     } else if (downloadLink.dataset.version === 'onpremise') {
-      sendEvent('305'); //Переход в стор для on-premise
+      !isMobileDevice && sendEvent('305'); //Переход в стор для on-premise
       switch (platform) {
         case 'appstore':
         case 'huawei':
@@ -1101,18 +1096,18 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
           break;
         case 'windows':
           // Цели для блока платформ On-premise
-          isOnPremisePlatformsBlock && sendEvent('356');
+          !isMobileDevice && isOnPremisePlatformsBlock && sendEvent('356');
           break;
         case 'macintel':
         case 'macapple':
-          isOnPremisePlatformsBlock && sendEvent('355');
+          !isMobileDevice && isOnPremisePlatformsBlock && sendEvent('355');
           break;
         case 'linuxdeb':
         case 'linuxtar':
         case 'linuxrpm':
         case 'linuxastra':
           // Цели для блока платформ On-premise
-          isOnPremisePlatformsBlock && sendEvent('357');
+          !isMobileDevice && isOnPremisePlatformsBlock && sendEvent('357');
           break;
       }
     }
@@ -1122,7 +1117,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
     }
 
     if (!isLinkForMobilePlatform && !['blog', 'download'].includes(getPage())) {
-      sendEvent('52');
+      !isMobileDevice && sendEvent('52');
     }
   });
 
