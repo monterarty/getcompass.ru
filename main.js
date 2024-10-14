@@ -1076,12 +1076,13 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
       if (!isMobileDevice && isLinkForMobilePlatform) {
         window.location.href = downloadLink.href;
       } else if (
-        instructionLinks[platform] === undefined ||
-        isInstructionLinkPresent
+        (instructionLinks[platform] === undefined ||
+          isInstructionLinkPresent) &&
+        isMobileDevice
       ) {
         // Если платформа не имеет инструкции или уже на странице инструкции, переходим на ссылку загрузки
         window.location.href = downloadLink.href;
-      } else {
+      } else if (!isMobileDevice) {
         // В остальных случаях переходим по инструкции
         window.location.href = instructionLink;
       }
