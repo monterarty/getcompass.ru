@@ -1076,11 +1076,14 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         const instructionLink =
           window.location.origin + instructionLinks[platform];
         if (window.location.href.indexOf(instructionLinks[platform]) + 1) {
-          window.open(downloadLink.href, '_blank');
+          window.location.href = downloadLink.href;
         } else {
-          window.location.href = instructionLinks[platform]
-            ? instructionLink
-            : downloadLink.href;
+          window.location.href =
+            instructionLinks[platform] &&
+            !isMobileDevice &&
+            !isLinkForMobilePlatform
+              ? instructionLink
+              : downloadLink.href;
         }
       }
     } else if (downloadLink.dataset.version === 'onpremise') {
