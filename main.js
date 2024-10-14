@@ -988,7 +988,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   const platform = platformClass
     ? platformClass
     : downloadLink.dataset.platform;
-  const isLinkForMobilePlatform = mobileClassNames.contains(platform);
+  const isLinkForMobilePlatform = mobileClassNames.includes(platform);
   const isMobileDevice = mobileBodyClassNames.some((className) =>
     document.body.classList.contains(className)
   );
