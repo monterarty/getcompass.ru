@@ -829,18 +829,14 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
           !mobileClassNames.some((className) =>
             link.classList.contains(className)
           ) &&
-          !mobileBodyClassNames.some((className) =>
-            document.body.classList.contains(className)
-          )
+          !isMobileDevice
         ) {
           link.setAttribute('download', 'download');
         } else if (
           !mobileClassNames.some((className) =>
             link.classList.contains(className)
           ) &&
-          mobileBodyClassNames.some((className) =>
-            document.body.classList.contains(className)
-          )
+          isMobileDevice
         ) {
           link.removeAttribute('download');
           link.setAttribute('build-link', link.href);
@@ -890,6 +886,9 @@ switch (os) {
 
 const mobileClassNames = ['appstore', 'playmarket', 'huawei', 'rustore'];
 const mobileBodyClassNames = ['is--ios', 'is--android', 'is--huawei'];
+const isMobileDevice = mobileBodyClassNames.some((className) =>
+  document.body.classList.contains(className)
+);
 const url = new URL(location);
 const urlParams = url.searchParams;
 const sourceID = urlParams.get('source_id') || '';
@@ -989,9 +988,6 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
     ? platformClass
     : downloadLink.dataset.platform;
   const isLinkForMobilePlatform = mobileClassNames.includes(platform);
-  const isMobileDevice = mobileBodyClassNames.some((className) =>
-    document.body.classList.contains(className)
-  );
 
   if (!downloadLink.dataset.version && platform) {
     downloadLink.dataset.cloud = downloadLinksData[platform][3];
@@ -1238,14 +1234,11 @@ Array.prototype.forEach.call(CTADropdowns, (dropdown) => {
      * Логика на время отсутствия сборки msi для windows
      */
     if (isWindowsList) {
-      const isMobileUser = mobileBodyClassNames.some((className) =>
-        document.body.classList.contains(className)
-      );
       const buildLink = dropdown.querySelector('.windows');
       dropdown.classList.add('is--hidden-list');
 
       buildLink.click();
-      // if (!isMobileUser) {
+      // if (!isMobileDevice) {
       //   if (['on-premise', 'download_on-premise'].indexOf(getPage()) + 1) {
       //     window.location.href = buildLink.href;
       //   } else {
