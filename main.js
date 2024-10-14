@@ -1003,7 +1003,6 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   }
   //Цели яндекс на клик по стору
   downloadLink.addEventListener('click', (e) => {
-    e.preventDefault();
     const instructionLink = window.location.origin + instructionLinks[platform];
     const isInstructionLinkPresent = window.location.href.includes(
       instructionLinks[platform]
@@ -1015,6 +1014,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
 
     // Цели для Cloud версии приложения
     if (downloadLink.dataset.version === 'cloud') {
+      e.preventDefault();
       if (getPage() !== 'download') {
         switch (platform) {
           case 'appstore':
