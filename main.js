@@ -888,7 +888,7 @@ switch (os) {
     break;
 }
 
-const mobileClassNames = ['appstore', 'playmarket', 'huawei'];
+const mobileClassNames = ['appstore', 'playmarket', 'huawei', 'rustore'];
 const mobileBodyClassNames = ['is--ios', 'is--android', 'is--huawei'];
 const url = new URL(location);
 const urlParams = url.searchParams;
@@ -988,6 +988,10 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   const platform = platformClass
     ? platformClass
     : downloadLink.dataset.platform;
+  const isLinkForMobilePlatform = mobileClassNames.contains(platform);
+  const isMobileDevice = mobileBodyClassNames.some((className) =>
+    document.body.classList.contains(className)
+  );
 
   if (!downloadLink.dataset.version && platform) {
     downloadLink.dataset.cloud = downloadLinksData[platform][3];
@@ -1064,24 +1068,14 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
 
       if (['blog', 'post'].indexOf(getPage()) + 1) {
         // [Блог] Нажата любая кнопка скачивания в футере
-        ym(ymetrikaID, 'reachGoal', '240');
+        sendEvent('240');
       }
 
       if (getPage() === 'download') {
-        ym(ymetrikaID, 'reachGoal', '76');
+        sendEvent('76');
       }
 
-      if (
-        !mobileBodyClassNames.some((className) =>
-          document.body.classList.contains(className)
-        ) ||
-        mobileClassNames.some((className) =>
-          downloadLink.classList.contains(className)
-        ) ||
-        mobileClassNames.some(
-          (className) => downloadLink.dataset.platform === className
-        )
-      ) {
+      if (!isMobileDevice || isLinkForMobilePlatform) {
         e.preventDefault();
         const instructionLink =
           window.location.origin + instructionLinks[platform];
@@ -1124,56 +1118,21 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
       ym(ymetrikaID, 'reachGoal', '97');
     }
 
-    if (
-      downloadLink.classList.contains(platform) &&
-      getPage() !== 'blog' &&
-      getPage() !== 'download'
-    ) {
-      switch (platform) {
-        case 'windows':
-        case 'windowsmsi':
-        case 'windows_old':
-        case 'windowsmsi_old':
-        case 'macintel':
-        case 'macapple':
-        case 'linuxdeb':
-        case 'linuxtar':
-        case 'linuxrpm':
-        case 'linuxastra':
-          ym(ymetrikaID, 'reachGoal', '52');
-          break;
-      }
+    if (!isLinkForMobilePlatform && !['blog', 'download'].contains(getPage())) {
+      sendEvent('52');
     }
   });
 
-  if (
-    !mobileClassNames.some((className) =>
-      downloadLink.classList.contains(className)
-    ) &&
-    !mobileBodyClassNames.some((className) =>
-      document.body.classList.contains(className)
-    )
-  ) {
+  if (!isLinkForMobilePlatform && !isMobileDevice) {
     downloadLink.setAttribute('download', 'download');
-  } else if (
-    !mobileClassNames.some((className) =>
-      downloadLink.classList.contains(className)
-    ) &&
-    mobileBodyClassNames.some((className) =>
-      document.body.classList.contains(className)
-    )
-  ) {
+  } else if (!isLinkForMobilePlatform && isMobileDevice) {
     downloadLink.removeAttribute('download');
     downloadLink.setAttribute('build-link', downloadLink.href);
     downloadLink.href = '#';
   }
 });
 
-if (
-  mobileBodyClassNames.some((className) =>
-    document.body.classList.contains(className)
-  )
-) {
+if (isMobileDevice) {
   var closingMessageTimeout = setTimeout(function () {}, 0);
   const clipboard = new ClipboardJS('[build-link]', {
     text: function (trigger) {
