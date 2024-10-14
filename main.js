@@ -1076,7 +1076,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         const instructionLink =
           window.location.origin + instructionLinks[platform];
         if (window.location.href.indexOf(instructionLinks[platform]) + 1) {
-          window.location.href = downloadLink.href;
+          window.open(downloadLink.href, '_blank');
         } else {
           window.location.href = instructionLinks[platform]
             ? instructionLink
