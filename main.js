@@ -1286,14 +1286,13 @@ Array.prototype.forEach.call(CTADropdowns, (dropdown) => {
       dropdown.classList.add('is--hidden-list');
 
       buildLink.click();
-      if (!isMobileUser) {
-        if (['on-premise', 'download_on-premise'].indexOf(getPage()) + 1) {
-          window.location.href = buildLink.href;
-        } else {
-          window.location.href =
-            window.location.origin + instructionLinks['windows'];
-        }
-      }
+      // if (!isMobileUser) {
+      //   if (['on-premise', 'download_on-premise'].indexOf(getPage()) + 1) {
+      //     window.location.href = buildLink.href;
+      //   } else {
+      //     window.location.href = window.location.origin + instructionLinks['windows'];
+      //   }
+      // }
     }
   });
 });
@@ -3522,10 +3521,12 @@ $('a[href^="mailto"]').on('click', function () {
   if ($(this).closest('footer').length) {
     if (['blog', 'post'].indexOf(getPage()) + 1) {
       // [Блог] Блог → Почта
-      ym(ymetrikaID, 'reachGoal', '231');
+      sendEvent('231');
     }
     // Общая цель на контакт с футера
-    ym(ymetrikaID, 'reachGoal', '103');
+    sendEvent('6');
+    // Общая цель на контакт с футера
+    sendEvent('103');
   } else {
     if (['download_cloud'].indexOf(getPage()) + 1) {
       ym(ymetrikaID, 'reachGoal', '714');
@@ -3535,9 +3536,6 @@ $('a[href^="mailto"]').on('click', function () {
       ym(ymetrikaID, 'reachGoal', '104');
     }
   }
-
-  //console.log('Идентификатор 6');
-  ym(ymetrikaID, 'reachGoal', '6');
 });
 
 $('a[href^="tel"]').on('click', function () {
