@@ -1087,27 +1087,28 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         window.location.href = instructionLink;
       }
     } else if (downloadLink.dataset.version === 'onpremise') {
-      !isMobileDevice && sendEvent('305'); //Переход в стор для on-premise
       switch (platform) {
         case 'appstore':
         case 'huawei':
         case 'playmarket':
         case 'rustore':
           isOnPremisePlatformsBlock && sendEvent('358');
+          sendEvent('305');
           break;
         case 'windows':
-          // Цели для блока платформ On-premise
+          !isMobileDevice && sendEvent('305'); //Переход в стор для on-premise
           !isMobileDevice && isOnPremisePlatformsBlock && sendEvent('356');
           break;
         case 'macintel':
         case 'macapple':
+          !isMobileDevice && sendEvent('305'); //Переход в стор для on-premise
           !isMobileDevice && isOnPremisePlatformsBlock && sendEvent('355');
           break;
         case 'linuxdeb':
         case 'linuxtar':
         case 'linuxrpm':
         case 'linuxastra':
-          // Цели для блока платформ On-premise
+          !isMobileDevice && sendEvent('305'); //Переход в стор для on-premise
           !isMobileDevice && isOnPremisePlatformsBlock && sendEvent('357');
           break;
       }
