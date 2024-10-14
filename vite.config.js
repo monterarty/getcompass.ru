@@ -4,8 +4,8 @@ export default defineConfig({
   base: '/getcompass.ru/', // Указываем базовый путь для проекта
   build: {
     //cssMinify: 'lightningcss',
-    minify: 'none',
-    //minify: 'terser', // Минификация с использованием Terser
+    //minify: 'none',
+    minify: 'terser', // Минификация с использованием Terser
     terserOptions: {
       compress: {
         drop_console: true, // Удалить все console.log
@@ -21,11 +21,11 @@ export default defineConfig({
         globals: {
           jquery: '$',
         },
-        entryFileNames: `assets/js/[name]-v2.6.6.min.js`, // Имя для JavaScript файлов
+        entryFileNames: `assets/js/main-v2.6.6.min.js`, // Имя для JavaScript файлов
         chunkFileNames: `assets/js/[name].[hash].min.js`, // Имя для чанков JavaScript
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith('.css')) {
-            return 'assets/css/[name]-v2.6.6[extname]'; // CSS файлы в отдельную папку
+            return 'assets/css/main-v2.6.6.min[extname]'; // CSS файлы в отдельную папку
           } else if (assetInfo.name.endsWith('.png')) {
             return 'assets/images/[name]-v2.6.6[extname]'; // Картинки в папку images
           }
