@@ -1089,7 +1089,6 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         !isMobileDevice && sendEvent('76');
       }
 
-      // Если зашли с десктопного устройства и нажали на ссылку для мобильной платформы - открываем сразу стор
       if (
         !isInstructionLinkPresent &&
         ((!isMobileDevice && !isLinkForMobilePlatform) ||
@@ -1097,8 +1096,9 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
       ) {
         window.location.href = instructionLink;
       } else if (
-        isInstructionLinkPresent &&
-        ((isMobileDevice && isLinkForMobilePlatform) || !isMobileDevice)
+        (isInstructionLinkPresent &&
+          ((isMobileDevice && isLinkForMobilePlatform) || !isMobileDevice)) ||
+        (!isMobileDevice && isLinkForMobilePlatform)
       ) {
         window.location.href = downloadLink.href;
       }
