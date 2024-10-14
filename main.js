@@ -1003,10 +1003,16 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   }
   //Цели яндекс на клик по стору
   downloadLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    const instructionLink = window.location.origin + instructionLinks[platform];
+    const isInstructionLinkPresent = window.location.href.includes(
+      instructionLinks[platform]
+    );
     const isSaasPlatfomsBlock =
       downloadLink.closest('.download_cloud-block') !== null;
     const isOnPremisePlatformsBlock =
       downloadLink.closest('.download_op-block') !== null;
+
     // Цели для Cloud версии приложения
     if (downloadLink.dataset.version === 'cloud') {
       if (getPage() !== 'download') {
@@ -1062,7 +1068,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         });
       }
 
-      if (['blog', 'post'].indexOf(getPage()) + 1) {
+      if (['blog', 'post'].includes(getPage())) {
         // [Блог] Нажата любая кнопка скачивания в футере
         sendEvent('240');
       }
@@ -1071,21 +1077,18 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         sendEvent('76');
       }
 
-      if (!isMobileDevice || isLinkForMobilePlatform) {
-        e.preventDefault();
-        const instructionLink =
-          window.location.origin + instructionLinks[platform];
-        if (window.location.href.indexOf(instructionLinks[platform]) + 1) {
-          window.location.href = downloadLink.href;
-        } else {
-          if (!isMobileDevice && !isLinkForMobilePlatform) {
-            window.location.href = downloadLink.href;
-          } else {
-            window.location.href = instructionLinks[platform]
-              ? instructionLink
-              : downloadLink.href;
-          }
-        }
+      // Если зашли с десктопного устройства и нажали на ссылку для мобильной платформы - открываем сразу стор
+      if (!isMobileDevice && isLinkForMobilePlatform) {
+        window.location.href = downloadLink.href;
+      } else if (
+        instructionLinks[platform] === undefined ||
+        isInstructionLinkPresent
+      ) {
+        // Если платформа не имеет инструкции или уже на странице инструкции, переходим на ссылку загрузки
+        window.location.href = downloadLink.href;
+      } else {
+        // В остальных случаях переходим по инструкции
+        window.location.href = instructionLink;
       }
     } else if (downloadLink.dataset.version === 'onpremise') {
       sendEvent('305'); //Переход в стор для on-premise
