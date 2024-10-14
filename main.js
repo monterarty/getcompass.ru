@@ -1114,7 +1114,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
       ym(ymetrikaID, 'reachGoal', '97');
     }
 
-    if (!isLinkForMobilePlatform && !['blog', 'download'].contains(getPage())) {
+    if (!isLinkForMobilePlatform && !['blog', 'download'].includes(getPage())) {
       sendEvent('52');
     }
   });
