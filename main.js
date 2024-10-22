@@ -12,7 +12,7 @@ window.REMODAL_GLOBALS = {
   DEFAULTS: { hashTracking: !1 },
 };
 
-var DeviceDetectParser = new UAParser(window.navigator.userAgent);
+const DeviceDetectParser = new UAParser(window.navigator.userAgent);
 
 class DeviceDetect {
   static isMobile() {
@@ -1517,7 +1517,7 @@ nameInputs.forEach((input) => {
     //console.log(e.keyCode);
     if (
       e.keyCode !== 8 &&
-      e.keyCode != 46 &&
+      e.keyCode !== 46 &&
       (input.value.length > 49 ||
         (e.key &&
           e.key.match(
@@ -1917,7 +1917,7 @@ if (['post', 'blog'].indexOf(getPage()) + 1) {
   });
 }
 
-// Убираем оффсет навбара везде кроме стетьи блога
+// Убираем оффсет навбара везде кроме стaтьи блога
 if (getPage() !== 'post') {
   navbar.setAttribute('data-no-scroll', '1');
 }
@@ -2605,7 +2605,7 @@ if ($('.blog-grid__wrapper--related-news').length) {
   ).length;
   if (
     relatedItemsCount > 0 &&
-    $('.blog-grid__wrapper--related-news').data('items-count') !=
+    $('.blog-grid__wrapper--related-news').data('items-count') !==
       relatedItemsCount
   ) {
     $('.blog-grid__wrapper--related-news').attr(
@@ -3035,7 +3035,7 @@ class MenuDropdownsGroup {
     if (window.innerWidth < 768 && this.options.scrollIntoViewOpened) {
       const groupWrapper = document.querySelector('.w-nav-menu');
       groupWrapper.scrollTo({
-        top: currentDropdownObj.topOffset - getSize() * 1,
+        top: currentDropdownObj.topOffset - getSize(),
         behavior: 'smooth',
       });
     }
