@@ -966,7 +966,10 @@ window.addEventListener('load', () => {
    */
   const startDownload =
     getCookie(`startDownload_${downloadPlatform}`) !== 'no' ||
-    mobileClassNames.includes(downloadPlatform);
+    (mobileClassNames.includes(downloadPlatform) &&
+      (os === downloadPlatform ||
+        (os === 'Android' &&
+          ['playmarket', 'huawei'].includes(downloadPlatform))));
 
   if (startDownload && getPage() === 'download') {
     if (os !== 'Android' && platform.name !== 'Firefox') {
