@@ -2266,6 +2266,11 @@ picture img {
       opacity: 1
     }
 
+    .updates-wrap::before,
+    .updates-wrap .w-dyn-item::after {
+      display: none
+    }
+
     .faq__content ol:last-child,
     .faq__content ul:last-child {
       margin-bottom: .8rem
