@@ -1110,8 +1110,7 @@ picture img {
   background-color: #0000001A
 }
 
-.hero-h1-title-blue::after,
-.hero-h1-title-violet::after {
+.hero-h1-title-blue::after, .hero-h1-title-violet::after {
   content: "";
   height: 1.4rem;
   position: absolute;
@@ -1121,9 +1120,13 @@ picture img {
 }
 
 .hero-h1-title-violet::after {
+  width: 102%
+}
+
+.hero-h1-title-violet::after {
   background: url(https://uploads-ssl.webflow.com/64328ad759d957f990749456/64b79b32d75bbfcf4309f72d_hero-title-line.png) 100% 50%/contain no-repeat;
-  bottom: -.7rem;
-  left: .3rem
+  bottom: -.6rem;
+  left: -.3rem
 }
 
 .hero-h1-title-blue::after {

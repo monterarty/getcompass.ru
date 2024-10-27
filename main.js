@@ -1795,7 +1795,7 @@ function num_word(value, words) {
   return words[2];
 }
 
-// Типограф Стетей, заголовков и шорттекстов
+// Типограф Статей, заголовков и шорттекстов
 var tp = new Typograf({
     locale: ['ru', 'en-US'],
   }),
@@ -1807,18 +1807,25 @@ if (article) {
   relatedArticles.innerHTML = tp.execute(relatedArticles.innerHTML);
 }
 
-// Типограф вопросов и ответов
-const faqContentBlocks = document.querySelectorAll('.faq__content');
-const faqTitles = document.querySelectorAll('.faq__quess-text');
+/**
+ * Типограф разделов на страницах
+ */
+const typoTextElements = document.querySelectorAll('.text__typo');
 
-Array.prototype.forEach.call(faqContentBlocks, (contentWrap) => {
-  contentWrap.innerHTML = tp.execute(contentWrap.innerHTML);
-});
-Array.prototype.forEach.call(faqTitles, (contentWrap) => {
+Array.prototype.forEach.call(typoTextElements, (contentWrap) => {
   contentWrap.innerHTML = tp.execute(contentWrap.innerHTML);
 });
 
-// UTM метки на странице парнтерской программы
+/**
+ * Исправление ошибки в вопросах и ответах когда добавили ссылку
+ */
+const faqContentListItems = document.querySelectorAll('.faq__content ol li');
+
+faqContentListItems?.forEach((item) => {
+  item.innerHTML = `<div>${item.innerHTML}</div>`;
+});
+
+// UTM метки на странице партнёрской программы
 const partnerLKLinks = document.querySelectorAll('[href^="https://partner"]');
 
 Array.prototype.forEach.call(partnerLKLinks, (link) => {
