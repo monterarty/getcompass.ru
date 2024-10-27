@@ -1249,9 +1249,9 @@ window.addEventListener('resize', () => {
 const CTADropdowns = document.querySelectorAll('.w-dropdown');
 Array.prototype.forEach.call(CTADropdowns, (dropdown) => {
   const dropdownToggle = dropdown.querySelector('.w-dropdown-toggle');
-  const isWindowsList = dropdown
-    .querySelector('.w-dropdown-list')
-    ?.classList.contains('is--win-list');
+  // const isWindowsList = dropdown
+  //   .querySelector('.w-dropdown-list')
+  //   ?.classList.contains('is--win-list');
   const isOpen = dropdownToggle.classList.contains('w--open');
 
   dropdownToggle.addEventListener('click', () => {
@@ -1263,12 +1263,12 @@ Array.prototype.forEach.call(CTADropdowns, (dropdown) => {
     /**
      * Логика на время отсутствия сборки msi для windows
      */
-    if (isWindowsList) {
-      const buildLink = dropdown.querySelector('.windows');
-      dropdown.classList.add('is--hidden-list');
-
-      buildLink.click();
-    }
+    // if (isWindowsList) {
+    //   const buildLink = dropdown.querySelector('.windows');
+    //   dropdown.classList.add('is--hidden-list');
+    //
+    //   buildLink.click();
+    // }
   });
 });
 
