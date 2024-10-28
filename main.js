@@ -192,10 +192,54 @@ document.addEventListener('DOMContentLoaded', function () {
 const body = document.body;
 const html = document.documentElement;
 const navbar = document.querySelector('.w-nav');
+
+/**
+ * Яндекс метрика
+ */
 const ymetrikaID = window.ymetrikaID;
+const eventTpl = `${body.dataset.pageId}_event`;
 const sendEvent = (id) => {
-  ym(window.ymetrikaID, 'reachGoal', id);
+  const pageUrl = window.location.href.split('?')[0];
+  const utmParams = getUtmParams();
+  if (typeof ym !== 'undefined') {
+    ym(window.ymetrikaID, 'reachGoal', id, {
+      url: pageUrl,
+      utm_source: utmParams.utm_source,
+      utm_medium: utmParams.utm_medium,
+      utm_campaign: utmParams.utm_campaign,
+      utm_term: utmParams.utm_term,
+      utm_content: utmParams.utm_content,
+    });
+  }
 };
+
+/**
+ * Функция получает UTM метки из URL и возвращает JS объект с ними
+ * @returns {{utm_term: (string|string), utm_campaign: (string|string), utm_medium: (string|string), utm_source: (string|string), utm_content: (string|string)}}
+ */
+function getUtmParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return {
+    utm_source: urlParams.get('utm_source') || '',
+    utm_medium: urlParams.get('utm_medium') || '',
+    utm_campaign: urlParams.get('utm_campaign') || '',
+    utm_term: urlParams.get('utm_term') || '',
+    utm_content: urlParams.get('utm_content') || '',
+  };
+}
+
+/**
+ * Отправка событий в аналитику по клику на ссылку
+ */
+const clickEventsItems = document.querySelectorAll('[data-click-event]');
+
+clickEventsItems?.forEach((item) => {
+  item.addEventListener('click', () => {
+    window.sendEvent(
+      eventTpl.replace('event', item.getAttribute('data-click-event'))
+    );
+  });
+});
 
 var isMobile = false;
 
