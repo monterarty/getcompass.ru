@@ -826,14 +826,14 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
       }
       Array.prototype.forEach.call(allDownloadLinks, (link) => {
         if (
-          !mobileClassNames.some((className) =>
+          !mobileDownloadPlatformsNames.some((className) =>
             link.classList.contains(className)
           ) &&
           !isMobileDevice
         ) {
           link.setAttribute('download', 'download');
         } else if (
-          !mobileClassNames.some((className) =>
+          !mobileDownloadPlatformsNames.some((className) =>
             link.classList.contains(className)
           ) &&
           isMobileDevice
@@ -884,7 +884,12 @@ switch (os) {
     break;
 }
 
-const mobileClassNames = ['appstore', 'playmarket', 'huawei', 'rustore'];
+const mobileDownloadPlatformsNames = [
+  'appstore',
+  'playmarket',
+  'huawei',
+  'rustore',
+];
 const mobileBodyClassNames = ['is--ios', 'is--android', 'is--huawei'];
 /**
  * Мобильное устройтво?
@@ -960,17 +965,24 @@ const instructionLinks = {
  */
 window.addEventListener('load', () => {
   const downloadPlatform = body.dataset.downloadPlatform;
+  const isIosDownload = os === 'iOS' && downloadPlatform === 'appstore';
+  const isAndroidDownload =
+    os === 'Android' &&
+    ['playmarket', 'huawei', 'rustore'].includes(downloadPlatform);
+  const isStartDownloadFromCookie =
+    getCookie(`startDownload_${downloadPlatform}`) !== 'no';
+  const isDesktopDownloadPlatform =
+    !mobileDownloadPlatformsNames.includes(downloadPlatform);
+
   /**
    * Начинать загрузку при загрузке страницы?
    * @type {boolean}
    */
-  const startDownload =
-    getCookie(`startDownload_${downloadPlatform}`) !== 'no' ||
-    (os === 'iOS' && downloadPlatform === 'appstore') ||
-    (os === 'Android' &&
-      ['playmarket', 'huawei', 'rustore'].includes(downloadPlatform));
+  const isStartDownload =
+    (isStartDownloadFromCookie || isAndroidDownload || isIosDownload) &&
+    !(isMobileDevice && isDesktopDownloadPlatform);
 
-  if (startDownload && getPage() === 'download') {
+  if (isStartDownload && getPage() === 'download') {
     if (os !== 'Android' && platform.name !== 'Firefox') {
       window.history.pushState({}, '', url.toString());
     }
@@ -995,7 +1007,8 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   const platform = platformClass
     ? platformClass
     : downloadLink.dataset.platform;
-  const isLinkForMobilePlatform = mobileClassNames.includes(platform);
+  const isLinkForMobilePlatform =
+    mobileDownloadPlatformsNames.includes(platform);
 
   if (!downloadLink.dataset.version && platform) {
     downloadLink.dataset.cloud = downloadLinksData[platform][3];
