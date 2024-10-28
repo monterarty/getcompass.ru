@@ -1094,7 +1094,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent('706');
             break;
         }
-        !isMobileDevice && sendEvent('51');
+        sendEvent('51');
         _tmr.push({
           type: 'reachGoal',
           id: 3381982,
