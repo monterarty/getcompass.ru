@@ -235,9 +235,7 @@ const clickEventsItems = document.querySelectorAll('[data-click-event]');
 
 clickEventsItems?.forEach((item) => {
   item.addEventListener('click', () => {
-    window.sendEvent(
-      eventTpl.replace('event', item.getAttribute('data-click-event'))
-    );
+    sendEvent(eventTpl.replace('event', item.getAttribute('data-click-event')));
   });
 });
 
