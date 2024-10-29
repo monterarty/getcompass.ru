@@ -1851,11 +1851,21 @@ function num_word(value, words) {
 }
 
 // Типограф Статей, заголовков и шорттекстов
-var tp = new Typograf({
+const tp = new Typograf({
     locale: ['ru', 'en-US'],
   }),
   article = document.querySelector('.article'),
   relatedArticles = document.querySelector('.related-articles');
+
+tp.addRule({
+  name: 'custom/onPremiseInlineBlock', // Уникальное имя правила
+  handler: (text) => {
+    return text.replace(/\b(on-premise)\b/gi, (match) => {
+      return `<span class="inline-block">${match}</span>`;
+    });
+  },
+  disabled: false,
+});
 
 if (article) {
   article.innerHTML = tp.execute(article.innerHTML);
