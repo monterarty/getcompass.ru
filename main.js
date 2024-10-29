@@ -1852,16 +1852,16 @@ function num_word(value, words) {
 
 // Типограф Статей, заголовков и шорттекстов
 Typograf.addRule({
-  name: 'custom/onPremiseInlineBlock', // Уникальное имя правила
-  handler: (text) => {
-    return text.replace(/\b(on-premise)\b/gi, (match) => {
+  name: 'common/other/onPremiseInlineBlock', // Уникальное имя правила
+  handler: function (text) {
+    return text.replace(/\b(on-premise)\b/gi, function (match) {
       return `<span class="inline-block">${match}</span>`;
     });
   },
-  disabled: false,
 });
 
 const tp = new Typograf({
+    enableRule: ['common/other/onPremiseInlineBlock'],
     locale: ['ru', 'en-US'],
   }),
   article = document.querySelector('.article'),
