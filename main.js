@@ -1851,13 +1851,7 @@ function num_word(value, words) {
 }
 
 // Типограф Статей, заголовков и шорттекстов
-const tp = new Typograf({
-    locale: ['ru', 'en-US'],
-  }),
-  article = document.querySelector('.article'),
-  relatedArticles = document.querySelector('.related-articles');
-
-tp.addRule({
+Typograf.addRule({
   name: 'custom/onPremiseInlineBlock', // Уникальное имя правила
   handler: (text) => {
     return text.replace(/\b(on-premise)\b/gi, (match) => {
@@ -1866,6 +1860,12 @@ tp.addRule({
   },
   disabled: false,
 });
+
+const tp = new Typograf({
+    locale: ['ru', 'en-US'],
+  }),
+  article = document.querySelector('.article'),
+  relatedArticles = document.querySelector('.related-articles');
 
 if (article) {
   article.innerHTML = tp.execute(article.innerHTML);
