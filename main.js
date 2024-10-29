@@ -1855,7 +1855,7 @@ Typograf.addRule({
   name: 'common/other/onPremiseInlineBlock', // Уникальное имя правила
   handler: function (text) {
     return text.replace(/\b(on-premise)\b/gi, function (match) {
-      return `<span class="inline-block">${match}</span>`;
+      return `<span class="whitespace-nowrap">${match}</span>`;
     });
   },
 });
