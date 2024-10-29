@@ -1095,21 +1095,25 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         switch (platform) {
           case 'appstore':
             sendEvent('12');
+            isMobileDevice && sendEvent('51');
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent('707');
             break;
           case 'huawei':
             sendEvent('13');
+            isMobileDevice && sendEvent('51');
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent('707');
             break;
           case 'playmarket':
             sendEvent('14');
+            isMobileDevice && sendEvent('51');
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent('707');
             break;
           case 'rustore':
             sendEvent('24');
+            isMobileDevice && sendEvent('51');
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent('707');
             break;
@@ -1136,7 +1140,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent('706');
             break;
         }
-        sendEvent('51');
+        !isMobileDevice && sendEvent('51');
         _tmr.push({
           type: 'reachGoal',
           id: 3381982,
