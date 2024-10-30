@@ -3,7 +3,6 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   base: '/getcompass.ru/', // Указываем базовый путь для проекта
   build: {
-    //cssMinify: 'lightningcss',
     //minify: 'none',
     minify: 'terser', // Минификация с использованием Terser
     terserOptions: {
