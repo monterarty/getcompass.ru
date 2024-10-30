@@ -2175,9 +2175,8 @@ picture img {
     .blog-hero__filter-track>.blog-hero__filter-button:first-child {
       margin-left: var(--m20)
     }
-
-    .blog-hero__filter-track>.blog-hero__filter-button:last-child {
-      margin-right: var(--m20)
+    .blog-hero__collection-list-wrapper {
+      padding-right: var(--m20)
     }
 
     .blog-hero__filter-button,
