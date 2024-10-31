@@ -2204,6 +2204,7 @@ $(document).on('opening', '.remodal', function () {
       '#video-linux-rpm-terminal',
       '#video-linux-tar',
       '#video-windows',
+      '#video-windows-msi',
       '#video-czech',
       '#video-partner',
       '#about-compass',
@@ -3818,7 +3819,7 @@ $('a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?"]').on(
       if ($(this).closest('footer').length) {
         // [All] Раздел "Продукт" (футер)
         ym(ymetrikaID, 'reachGoal', '96');
-      } else if ($(this).closest('nav').length) {
+      } else if ($(this).closest('[data-product]').length) {
         // [All] Раздел "Продукт" (хедэр)
         ym(ymetrikaID, 'reachGoal', '98');
       } else if ($(this).closest('.navbar__logo-flex').length) {
@@ -3893,6 +3894,7 @@ function analyticsModal(hash) {
       ym(ymetrikaID, 'reachGoal', '74');
       break;
     case '#video-windows':
+    case '#video-windows-msi':
       ym(ymetrikaID, 'reachGoal', '75');
       break;
   }
