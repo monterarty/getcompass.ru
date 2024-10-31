@@ -2022,10 +2022,6 @@ picture img {
       background-image: linear-gradient(to right, transparent, #e7e8f2)
     }
 
-    .is--mobile-platforms .download__hero {
-      background-image: linear-gradient(180deg, rgba(145, 155, 234, .25) .05%, rgba(145, 155, 234, .28) 26.2%, rgba(151, 166, 236, .1) 54.89%, rgba(151, 166, 236, .4) 71.91%, rgba(145, 155, 234, .3) 100.02%)
-    }
-
     .is--mobile-platforms .download-hero__logo-wrap {
       margin-bottom: .5rem
     }
