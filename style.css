@@ -522,14 +522,10 @@ picture img {
   top: 50%;
   transform: translateY(-50%);
   left: 0;
-  background-image: url("https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d1161c25e61782a0e5a0_telegram-logo%403x.png");
+  background-image: url("https://getcompass.ru/static/img/telegram.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: 50% 50%
-}
-
-.popup__form-bottom-link.whatsapp::before {
-  background-image: url("https://uploads-ssl.webflow.com/64328ad759d957f990749456/65d5d116041b0365666cc878_whatsapp-logo%403x.png")
 }
 
 html body #carrotquest-messenger-collapsed-container {

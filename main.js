@@ -1005,7 +1005,7 @@ const instructionLinks = {
  *
  * Очищаем историю кнопки назад если не андроид и не firefox
  */
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
   const downloadPlatform = body.dataset.downloadPlatform;
   const isIosDownload = os === 'iOS' && downloadPlatform === 'appstore';
   const isAndroidDownload =
