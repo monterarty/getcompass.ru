@@ -24,4 +24,6 @@
     .is--security-page .hero-emoji.right-4{width:var(--m40);height:var(--m40);margin:0;right:-0.3rem;top:8.85rem}
     .is--security-page .hero-emoji.right-5{width:var(--m46);height:var(--m46);margin-top:1.3rem;margin-left:3.6rem}
     .is--security-page .hero-emoji{background: url('https://cdn.prod.website-files.com/64328ad759d957f990749456/67336ba71fc0b641d607affd_scr_emoji_bg.svg');background-size:cover;border-radius:0}
+    .is--security-page .sm--background{display:none}
+    .is--security-page .page-wrapper{background: linear-gradient(180deg, rgba(145, 155, 234, 0.1) 0%, rgba(145, 155, 234, 0.25) 7.44%, rgba(145, 155, 234, 0.140994) 14.31%, rgba(166, 195, 243, 0.2) 20.41%, rgba(145, 155, 234, 0.25) 29.16%, rgba(172, 206, 245, 0.2) 36.18%, rgba(145, 155, 234, 0.25) 47.16%, rgba(172, 206, 245, 0.2) 62.15%, rgba(145, 155, 234, 0.15) 73.23%, rgba(172, 206, 245, 0.2) 80.53%, rgba(148, 160, 235, 0.15) 88.47%, rgba(145, 155, 234, 0.2) 100%)}
 }
