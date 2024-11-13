@@ -1,7 +1,6 @@
 @import url('remodal/dist/remodal.css');
 @import url('remodal/dist/remodal-default-theme.css');
 @import url('nouislider/dist/nouislider.min.css');
-@import url('./src/css/compass-layout.css');
 @import url('./src/css/security-page.css');
 @import url('./src/css/navbar-styles.css');
 
