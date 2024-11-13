@@ -453,7 +453,7 @@ body{font-family: 'Inter', sans-serif}
     100% {-webkit-transform: translateX(-100%)}
 }
 
- .p-0{padding:0}
+.p-0{padding:0}
 .pb-0{padding-bottom:0}
 .pt-0{padding-top:0}
 .pl-0{padding-left:0}
@@ -659,6 +659,7 @@ body{font-family: 'Inter', sans-serif}
 .sh-120{height:var(--d120)}
 .sh-121{height:var(--d121)}
 .sh-128{height:var(--d128)}
+.sh-132{height:var(--d132)}
 .sh-138{height:var(--d138)}
 .sh-150{height:var(--d150)}/*1*/
 .sh-162{height:var(--d162)}
@@ -686,6 +687,7 @@ body{font-family: 'Inter', sans-serif}
 .sh-328{height:var(--d328)}
 .sh-332{height:var(--d332)}
 .sh-376{height:var(--d376)}
+.sh-\[390\]{height:var(--d390)}
 .sh-\[404\]{height:var(--d404)}
 .sh-472{height:var(--d472)}
 .sh-492{height:var(--d492)}
@@ -743,6 +745,8 @@ body{font-family: 'Inter', sans-serif}
 .sw-378{width:var(--d378)}
 .sw-390{width:var(--d390)}
 .sw-420{width:var(--d420)}
+.sw-\[528\]{width:var(--d528)}
+.sw-\[537\]{width:var(--d537)}
 .sw-578{width:var(--d578)}
 .sw-790{width:var(--d790)}
 .sw-49pr{width:49%}
@@ -1141,6 +1145,7 @@ body{font-family: 'Inter', sans-serif}
     .sm--sh-94{height:var(--m94)}
     .sm--sh-97{height:var(--m97)}
     .sm--sh-98{height:var(--m98)}
+    .sm--sh-100{height:var(--m100)}
     .sm--sh-116{height:var(--m116)}
     .sm--sh-117{height:var(--m117)}
     .sm--sh-122{height:var(--m122)}
@@ -1186,6 +1191,7 @@ body{font-family: 'Inter', sans-serif}
     .sm--sw-55{width:var(--m55)}
     .sm--sw-64{width:var(--m64)}
     .sm--sw-76{width:var(--m76)}
+    .sm--sw-100{width:var(--m100)}
     .sm--sw-80{width:var(--m80)}
     .sm--sw-250{width:var(--m250)}
     .sm--sw-285{width:var(--m285)}
@@ -1267,7 +1273,8 @@ body{font-family: 'Inter', sans-serif}
     .sm--text-s-24{font-size:var(--m24)}
     .sm--text-s-30{font-size:var(--m30)}
     .sm--text-s-38{font-size:var(--m38)}
-    .sm--h1-regular{font-size:var(--m32);line-height:1.2;letter-spacing:-.015em;font-weight:bold}
+    .heading__h1_regular,
+    .sm--h1-regular{font-size:var(--m38);line-height:1.2;letter-spacing:-.015em;font-weight:bold}
     .sm--heading-30{font-size:var(--m30);line-height:1.2;letter-spacing:-.005em;font-weight:bold}
 
     .sm--text-center{text-align:center}

@@ -1,0 +1,27 @@
+.is--security-page .hero-emoji.left-1{width:var(--d50);height:var(--d50);margin-left: 2.833333rem;margin-top:.1rem;margin-bottom:3.99rem;}
+.is--security-page .hero-emoji.left-2{width:var(--d65);height:var(--d65);left:7.44444rem;top:2.9rem}
+.is--security-page .hero-emoji.left-3{width:var(--d49);height:var(--d49);margin-left:0.96rem}
+.is--security-page .hero-emoji.left-4{width:var(--d90);height:var(--d90);margin-left:5.5rem;margin-top:-.6rem}
+.is--security-page .hero-emoji.left-5{width:var(--d51);height:var(--d51);margin-left:.4rem;margin-top:.1rem}
+.is--security-page .hero-emoji.left-6{width:var(--d75);height:var(--d75);margin-left:8rem;margin-top:-.4rem}
+.is--security-page .hero-emoji.left-7{width:var(--d60);height:var(--d60);margin-left:2.2rem;margin-top:-.1rem}
+.is--security-page .hero-emoji.left-8{width:var(--d60);height:var(--d60);margin-left:11.2rem;margin-top:-.5rem}
+.is--security-page .hero-emoji.right-2{width:var(--d90);height:var(--d90);margin-top:2.599rem;margin-right:6.3rem}
+.is--security-page .hero-emoji.right-3{width:var(--d65);height:var(--d65);margin-top:-4.8rem;margin-right:0}
+.is--security-page .hero-emoji.right-4{width:var(--d66);height:var(--d66);margin-top:.1rem;margin-right:1.99rem}
+.is--security-page .hero-emoji.right-5{margin-top:-1.95rem}
+.is--security-page .hero-emoji.right-7{width:var(--d60);height:var(--d60);margin-top:-1.6rem;margin-right:11.06rem}
+.is--security-page .hero-emoji.right-8{width:var(--d50);height:var(--d50);margin-top:.3rem;margin-right:1.25rem}
+.is--security-page .hero-emoji{background: url('https://cdn.prod.website-files.com/64328ad759d957f990749456/67336ba71fc0b641d607affd_scr_emoji_bg.svg');background-size:cover;border-radius:0}
+@media(max-width: 767px) {
+    .is--security-page .hero__emoji-left-item{margin-top:.75rem;}
+    .is--security-page .hero-emoji.left-2{width:var(--m54);height:var(--m54);left:1.9rem;top:.4rem}
+    .is--security-page .hero-emoji.left-3{width:var(--m36);height:var(--m36);margin-top:0;margin-left: 8rem}
+    .is--security-page .hero-emoji.left-5{width:var(--m58);height:var(--m58);top:6.4rem;left:0.3rem;right:auto;margin-left:0}
+    .is--security-page .hero-emoji.left-6{width:var(--m44);height:var(--m44);top:5.7rem;left:6.4rem;margin-left:0}
+    .is--security-page .hero-emoji.right-2{width:var(--m48);height:var(--m48);margin-top:2.6rem;margin-right:.34rem}
+    .is--security-page .hero-emoji.right-3{width:var(--m48);height:var(--m48);margin:0;right:5rem;top:7.2rem}
+    .is--security-page .hero-emoji.right-4{width:var(--m40);height:var(--m40);margin:0;right:-0.3rem;top:8.85rem}
+    .is--security-page .hero-emoji.right-5{width:var(--m46);height:var(--m46);margin-top:1.3rem;margin-left:3.6rem}
+    .is--security-page .hero-emoji{background: url('https://cdn.prod.website-files.com/64328ad759d957f990749456/67336ba71fc0b641d607affd_scr_emoji_bg.svg');background-size:cover;border-radius:0}
+}
