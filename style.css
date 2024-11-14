@@ -130,6 +130,7 @@ html {
   background-color: #ffffff66
 }
 
+.w--current .active--bg-white,
 .is--no-touch .hover--bg-white:hover,
 .is--touch .hover--bg-white:active {
   background-color: #fff
