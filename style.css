@@ -83,7 +83,7 @@ html {
 .active--bg-white.w--open {
   background: #fff
 }
-
+.active--text-blue.w--current,
 .is--no-touch .hover--text-blue:hover,
 .is--touch .hover--text-blue:active {
   color: var(--b-c--blue)
