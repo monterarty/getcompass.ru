@@ -160,6 +160,7 @@ body{font-family: 'Inter', sans-serif}
 .basis-1\/3{flex-basis: 33.333333%}
 .basis-2\/3{flex-basis: 66.666667%}
 
+.gap-2{gap:var(--d2)}
 .gap-6{gap:var(--d6)}
 .gap-8{gap:var(--d8)}
 .gap-10{gap:var(--d10)}
@@ -674,6 +675,7 @@ body{font-family: 'Inter', sans-serif}
 .sh-237{height:var(--d237)}
 .sh-240{height:var(--d240)}
 .sh-243{height:var(--d243)}
+.sh-244{height:var(--d244)}
 .sh-248{height:var(--d248)}
 .sh-\[250\]{height:var(--d250)}
 .sh-259{height:var(--d259)}
@@ -739,6 +741,7 @@ body{font-family: 'Inter', sans-serif}
 .sw-330{width:var(--d330)}
 .sw-336{width:var(--d336)}
 .sw-338{width:var(--d338)}
+.sw-340{width:var(--d340)}
 .sw-350{width:var(--d350)}
 .sw-360{width:var(--d360)}
 .sw-367{width:var(--d367)}
@@ -924,6 +927,7 @@ body{font-family: 'Inter', sans-serif}
     .sh-78{height:var(--m78)}
     .sh-80{height:var(--m80)}
     .sh-138{height:var(--m138)}
+    .sh-244{height:var(--m244)}
     .sh-290{height:var(--m290)}
 
     /* Gap */
@@ -1158,6 +1162,7 @@ body{font-family: 'Inter', sans-serif}
     .sm--sh-228{height:var(--m228)}
     .sm--sh-234{height:var(--m234)}
     .sm--sh-235{height:var(--m235)}
+    .sm--sh-244{height:var(--m244)}
     .sm--sh-260{height:var(--m260)}
     .sm--sh-310{height:var(--m310)}
     .sm--sh-335{height:var(--m335)}
@@ -1168,6 +1173,7 @@ body{font-family: 'Inter', sans-serif}
     .sm--sh-371{height:var(--m371)}
     .sm--sh-374{height:var(--m374)}
     .sm--sh-376{height:var(--m376)}
+    .sm--sh-400{height:var(--m400)}
     .sm--sh-448{height:var(--m448)}
     .sm--sh-467{height:var(--m467)}
     .sm--sh-472{height:var(--m472)}
