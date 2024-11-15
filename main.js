@@ -214,6 +214,15 @@ const sendEvent = (id) => {
 };
 
 /**
+ * Отправляет событие в яндекс метрику с вставкой
+ * ID страницы с которой происходит отправка
+ * @param {string} id
+ */
+const sendPageEvent = (id) => {
+  sendEvent(eventTpl.replace('event', id));
+};
+
+/**
  * Функция получает UTM метки из URL и возвращает JS объект с ними
  * @returns {{utm_term: (string|string), utm_campaign: (string|string), utm_medium: (string|string), utm_source: (string|string), utm_content: (string|string)}}
  */
@@ -286,6 +295,7 @@ const getSize = () => {
  * - 'media' для страницы СМИ,
  * - 'download_on-premise' для страницы платформ On-premise
  * - 'download_cloud' - для страницы платформ cloud
+ * - 'security' - для страницы безопасности
  * - 'unknown' если страница не распознана.
  *
  * @example
@@ -309,6 +319,7 @@ const getPage = () => {
     'is--download-op': 'download_on-premise',
     'is--download-cloud': 'download_cloud',
     'is--download-page': 'download',
+    'is--security-page': 'security',
   };
 
   // Проверка классов
@@ -2788,6 +2799,9 @@ function sendRequest(url, form, formData) {
       const isSuccessful = JSON.parse(result).status === 'ok';
       button.removeClass('pointer-events-none');
       if (isSuccessful) {
+        if (modalId == '#consultation') {
+          sendPageEvent('CL002');
+        }
         if (getPage() === 'blog') {
           // [Блог] Отправлена заявка с гл блога
           ym(ymetrikaID, 'reachGoal', '220');
@@ -3015,40 +3029,15 @@ if (cookieBlock && cookieLink) {
   cookieLink.addEventListener('click', cookieToggleClickHandler);
 }
 
-//Логика оранжевого промо-баннера
-const promoBanner = document.querySelector('.promo-banner');
-
-if (promoBanner) {
-  window.addEventListener('scroll', () => {
-    if (
-      window.scrollY < 5 &&
-      !document.documentElement.classList.contains('remodal-is-locked')
-    ) {
-      promoBanner.classList.remove('-translate-y-full', 'opacity-0');
-      promoBanner.classList.add('shadow-xs');
-      promoBanner.parentNode.classList.remove('pointer-events-none');
-    } else {
-      promoBanner.parentNode.classList.add('pointer-events-none');
-      promoBanner.classList.add('-translate-y-full', 'opacity-0');
-      promoBanner.classList.remove('shadow-xs');
-    }
-  });
-  if (window.location.hash) {
-    if (document.querySelector(window.location.hash.split('?')[0])) {
-      promoBanner.parentNode.classList.add('pointer-events-none');
-      promoBanner.classList.add('-translate-y-full', 'opacity-0');
-      promoBanner.classList.remove('shadow-xs');
-    }
-  }
-}
-
 //Показываем кнопку "Попробовать бесплатно"
 window.addEventListener('scroll', () => {
+  console.log(window.scrollY);
   if (
     (['partner', 'on-premise'].indexOf(getPage()) + 1 &&
       window.scrollY > getSize() * 47.13) ||
     (getPage() === 'home' && window.scrollY > getSize() * 51.66) ||
-    (getPage() === 'download' && window.scrollY > getSize() * 25)
+    (getPage() === 'download' && window.scrollY > getSize() * 25) ||
+    (getPage() === 'security' && window.scrollY > getSize() * 42.6)
   ) {
     if ($(window).width() < 768) {
       if (getPage() === 'partner') {
