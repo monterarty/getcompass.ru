@@ -3079,6 +3079,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+/* Mobile Scroll to active tab */
+const tabLinks = document.querySelectorAll('.w-tab-link');
+
+Array.prototype.forEach.call(tabLinks, (tabLink) => {
+  tabLink.addEventListener('click', () => {
+    tabLink.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'nearest',
+    });
+  });
+});
+
 // Класс группы выпадающих списков в меню на мобильной версии
 class MenuDropdownsGroup {
   constructor(options) {
