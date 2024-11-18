@@ -2556,13 +2556,13 @@ if ($('.blog-hero__filter').length) {
 
 // Фикс плавного подскролла к секции при загрузке
 if (window.location.hash) {
-  const rawHash = window.location.hash.split('?')[0];
-  const validSelector = rawHash.replace(/(:|\.|\[|\]|,|=|#|%|&)/g, '\\$1'); // Экранируем запрещённые символы
+  const rawHash = window.location.hash.split("?")[0];
+  const validSelector = `#${CSS.escape(rawHash.substring(1))}`; // Экранируем только содержимое
   const targetEl = document.querySelector(validSelector);
   if (targetEl) {
     window.scrollTo({
       top: targetEl.offsetTop,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   }
   removeAnchorFormURL();
