@@ -915,7 +915,7 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
   });
 });
 
-//Определеяем систему и добавляем класс в body
+//Определяем систему и добавляем класс в body
 switch (os) {
   case 'iOS':
     body.classList.add('is--ios');
@@ -1186,6 +1186,9 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
           sendEvent('305');
           break;
         case 'windows':
+        case 'windowsmsi':
+        case 'windowsmsi_old':
+        case 'windows_old':
           !isMobileDevice && sendEvent('305'); //Переход в стор для on-premise
           !isMobileDevice && isOnPremisePlatformsBlock && sendEvent('356');
           break;
