@@ -1017,11 +1017,13 @@ picture img {
   display: none
 }
 
+.sm--scrollbar-hidden::-webkit-scrollbar-thumb,
 .hero__slider-wrapper::-webkit-scrollbar-thumb,
 .popup__scroll-content::-webkit-scrollbar-thumb {
   display: none
 }
 
+.sm--scrollbar-hidden::-webkit-scrollbar-thumb:hover,
 .hero__slider-wrapper::-webkit-scrollbar-thumb:hover,
 .popup__scroll-content::-webkit-scrollbar-thumb:hover {
   display: none
