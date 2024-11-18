@@ -2556,15 +2556,16 @@ if ($('.blog-hero__filter').length) {
 
 // Фикс плавного подскролла к секции при загрузке
 if (window.location.hash) {
-  const targetEl = document.querySelector(window.location.hash.split('?')[0]);
-
+  const rawHash = window.location.hash.split('?')[0];
+  const validSelector = rawHash.replace(/(:|\.|\[|\]|,|=|#|%|&)/g, '\\$1'); // Экранируем запрещённые символы
+  const targetEl = document.querySelector(validSelector);
   if (targetEl) {
     window.scrollTo({
       top: targetEl.offsetTop,
       behavior: 'smooth',
     });
   }
-  removeAnchorFormURL(); //Удаляем hash из адреса
+  removeAnchorFormURL();
 }
 
 //Фикс удаления хэша после перехода к разделу
@@ -3068,19 +3069,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// /* Mobile Scroll to active tab */
-// const tabLinks = document.querySelectorAll('.w-tab-link');
-//
-// Array.prototype.forEach.call(tabLinks, (tabLink) => {
-//   tabLink.addEventListener('click', () => {
-//     tabLink.scrollIntoView({
-//       behavior: 'smooth',
-//       block: 'nearest',
-//       inline: 'nearest',
-//     });
-//   });
-// });
-
 function scrollElementToCenter(container, element) {
   const containerRect = container.getBoundingClientRect();
   const elementRect = element.getBoundingClientRect();
@@ -3100,9 +3088,9 @@ function scrollElementToCenter(container, element) {
 }
 
 const tabContainer = document.querySelector('.w-tab-menu');
-const tabLinks = tabContainer.querySelectorAll('.w-tab-menu .w-tab-link');
+const tabLinks = tabContainer?.querySelectorAll('.w-tab-menu .w-tab-link');
 
-tabLinks.forEach((tabLink) => {
+tabLinks?.forEach((tabLink) => {
   tabLink.addEventListener('click', () => {
     scrollElementToCenter(tabContainer, tabLink);
   });
