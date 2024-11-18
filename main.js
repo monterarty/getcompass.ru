@@ -2564,7 +2564,7 @@ if (window.location.hash) {
     const navbarHeight = navbar.offsetHeight || 0; // Высота navbar
 
     window.scrollTo({
-      top: targetEl.offsetTop - navbarHeight - 3.2 * getSize(), // Учитываем отступ
+      top: targetEl.offsetTop - navbarHeight - 320 * getSize(), // Учитываем отступ
       behavior: 'smooth',
     });
   }
