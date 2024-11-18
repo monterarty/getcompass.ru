@@ -3099,27 +3099,12 @@ function scrollElementToCenter(container, element) {
   });
 }
 
-
-  // Горизонтальная прокрутка
-  if (elementRect.left < containerRect.left) {
-    container.scrollTo({
-      left: container.scrollLeft - (containerRect.left - elementRect.left),
-      ...scrollOptions,
-    });
-  } else if (elementRect.right > containerRect.right) {
-    container.scrollTo({
-      left: container.scrollLeft + (elementRect.right - containerRect.right),
-      ...scrollOptions,
-    });
-  }
-}
-
 const tabContainer = document.querySelector('.w-tab-menu');
 const tabLinks = tabContainer.querySelectorAll('.w-tab-menu .w-tab-link');
 
 tabLinks.forEach((tabLink) => {
   tabLink.addEventListener('click', () => {
-    scrollElementIntoView(tabContainer, tabLink);
+    scrollElementToCenter(tabContainer, tabLink);
   });
 });
 
