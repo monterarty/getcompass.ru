@@ -2556,13 +2556,16 @@ if ($('.blog-hero__filter').length) {
 
 // Фикс плавного подскролла к секции при загрузке
 if (window.location.hash) {
-  const rawHash = window.location.hash.split("?")[0];
-  const validSelector = `#${CSS.escape(rawHash.substring(1))}`; // Экранируем только содержимое
+  const rawHash = window.location.hash.split('?')[0];
+  const validSelector = `#${CSS.escape(rawHash.substring(1))}`;
   const targetEl = document.querySelector(validSelector);
+
   if (targetEl) {
+    const navbarHeight = navbar.offsetHeight || 0; // Высота navbar
+
     window.scrollTo({
-      top: targetEl.offsetTop,
-      behavior: "smooth",
+      top: targetEl.offsetTop - navbarHeight - 3.2 * getSize(), // Учитываем отступ
+      behavior: 'smooth',
     });
   }
   removeAnchorFormURL();
