@@ -575,6 +575,7 @@ body{font-family: 'Inter', sans-serif}
 .mx-0{margin-left:0;margin-right:0}
 .mb-0{margin-bottom:0}
 .ml-2{margin-left:var(--d2)}
+.mr-2{margin-right:var(--d2)}
 .ml-3{margin-left:var(--d3)}
 .mr-4{margin-right:var(--d4)}
 .mt-4{margin-top:var(--d4)}
@@ -624,6 +625,7 @@ body{font-family: 'Inter', sans-serif}
 .ml-263{margin-left:var(--d263)}
 
 .sh-full{height:100%}
+.sh-14{height:var(--d14)}
 .sh-18{height:var(--d18)}
 .sh-24{height:var(--d24)}
 .sh-28{height:var(--d28)}
@@ -706,6 +708,7 @@ body{font-family: 'Inter', sans-serif}
 .sw-full{width:100%}
 .sw-auto{width:auto}
 .sw-13{width:var(--d13)}
+.sw-14{width:var(--d14)}
 .sw-18{width:var(--d18)}
 .sw-24{width:var(--d24)}
 .sw-30{width:var(--d30)}
@@ -873,6 +876,7 @@ body{font-family: 'Inter', sans-serif}
 
     /* Margins */
     .ml-2{margin-left:var(--m2)}
+    .mr-2{margin-right:var(--m2)}
     .mr-4{margin-right:var(--m4)}
     .ml-4{margin-left:var(--m4)}
     .mb-4{margin-bottom:var(--m4)}
@@ -907,6 +911,7 @@ body{font-family: 'Inter', sans-serif}
 
     /* Width */
     .sw-13{width:var(--m13)}
+    .sw-14{width:var(--m14)}
     .sw-18{width:var(--m18)}
     .sw-33{width:var(--m33)}
     .sw-40{width:var(--m40)}
@@ -917,6 +922,7 @@ body{font-family: 'Inter', sans-serif}
     .sw-278{width:var(--m278)}
 
     /* Height */
+    .sh-14{height:var(--m14)}
     .sh-18{height:var(--m18)}
     .sh-24{height:var(--m24)}
     .sh-40{height:var(--m40)}

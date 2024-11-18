@@ -520,21 +520,6 @@ picture img {
   overflow: hidden
 }
 
-.popup__form-bottom-link::before {
-  content: "";
-  display: block;
-  width: .778rem;
-  height: .778rem;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0;
-  background-image: url("https://getcompass.ru/static/img/telegram.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: 50% 50%
-}
-
 html body #carrotquest-messenger-collapsed-container {
   z-index: 900 !important
 }
