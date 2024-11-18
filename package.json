@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "parcel-css src/css/compass-layout.css -o dist/assets/css/compass-layout-v2.6.9.min.css --minify",
+    "postbuild": "parcel-css src/css/compass-layout.css -o dist/assets/css/compass-layout-v2.6.9.min.css --minify && parcel-css src/css/blog-grid-layout.css -o dist/assets/css/blog-grid-layout-v2.6.9.min.css --minify",
     "preview": "vite preview"
   },
   "devDependencies": {
