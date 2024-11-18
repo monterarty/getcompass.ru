@@ -3035,7 +3035,6 @@ if (cookieBlock && cookieLink) {
 
 //Показываем кнопку "Попробовать бесплатно"
 window.addEventListener('scroll', () => {
-  console.log(window.scrollY);
   if (
     (['partner', 'on-premise'].indexOf(getPage()) + 1 &&
       window.scrollY > getSize() * 47.13) ||
