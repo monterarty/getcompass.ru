@@ -3081,26 +3081,25 @@ document.addEventListener('DOMContentLoaded', () => {
 //   });
 // });
 
-function scrollElementIntoView(container, element) {
+function scrollElementToCenter(container, element) {
   const containerRect = container.getBoundingClientRect();
   const elementRect = element.getBoundingClientRect();
 
-  const scrollOptions = {
-    behavior: 'smooth',
-  };
+  // Вычисляем вертикальную и горизонтальную разницу между центрами
+  const containerCenterY = containerRect.top + containerRect.height / 2;
+  const elementCenterY = elementRect.top + elementRect.height / 2;
 
-  // Вертикальная прокрутка
-  if (elementRect.top < containerRect.top) {
-    container.scrollTo({
-      top: container.scrollTop - (containerRect.top - elementRect.top),
-      ...scrollOptions,
-    });
-  } else if (elementRect.bottom > containerRect.bottom) {
-    container.scrollTo({
-      top: container.scrollTop + (elementRect.bottom - containerRect.bottom),
-      ...scrollOptions,
-    });
-  }
+  const containerCenterX = containerRect.left + containerRect.width / 2;
+  const elementCenterX = elementRect.left + elementRect.width / 2;
+
+  // Прокрутка по вертикали
+  container.scrollTo({
+    top: container.scrollTop + (elementCenterY - containerCenterY),
+    left: container.scrollLeft + (elementCenterX - containerCenterX),
+    behavior: 'smooth', // Плавная прокрутка
+  });
+}
+
 
   // Горизонтальная прокрутка
   if (elementRect.left < containerRect.left) {
