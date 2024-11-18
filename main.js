@@ -2561,10 +2561,8 @@ if (window.location.hash) {
   const targetEl = document.querySelector(validSelector);
 
   if (targetEl) {
-    const navbarHeight = navbar.offsetHeight || 0; // Высота navbar
-
     window.scrollTo({
-      top: targetEl.offsetTop - navbarHeight - 320 * getSize(), // Учитываем отступ
+      top: targetEl.offsetTop,
       behavior: 'smooth',
     });
   }
