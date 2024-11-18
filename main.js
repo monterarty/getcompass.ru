@@ -3081,6 +3081,50 @@ document.addEventListener('DOMContentLoaded', () => {
 //   });
 // });
 
+function scrollElementIntoView(container, element) {
+  const containerRect = container.getBoundingClientRect();
+  const elementRect = element.getBoundingClientRect();
+
+  const scrollOptions = {
+    behavior: 'smooth',
+  };
+
+  // Вертикальная прокрутка
+  if (elementRect.top < containerRect.top) {
+    container.scrollTo({
+      top: container.scrollTop - (containerRect.top - elementRect.top),
+      ...scrollOptions,
+    });
+  } else if (elementRect.bottom > containerRect.bottom) {
+    container.scrollTo({
+      top: container.scrollTop + (elementRect.bottom - containerRect.bottom),
+      ...scrollOptions,
+    });
+  }
+
+  // Горизонтальная прокрутка
+  if (elementRect.left < containerRect.left) {
+    container.scrollTo({
+      left: container.scrollLeft - (containerRect.left - elementRect.left),
+      ...scrollOptions,
+    });
+  } else if (elementRect.right > containerRect.right) {
+    container.scrollTo({
+      left: container.scrollLeft + (elementRect.right - containerRect.right),
+      ...scrollOptions,
+    });
+  }
+}
+
+const tabContainer = document.querySelector('.w-tab-menu');
+const tabLinks = tabContainer.querySelectorAll('.w-tab-menu .w-tab-link');
+
+tabLinks.forEach((tabLink) => {
+  tabLink.addEventListener('click', () => {
+    scrollElementIntoView(tabContainer, tabLink);
+  });
+});
+
 // Класс группы выпадающих списков в меню на мобильной версии
 class MenuDropdownsGroup {
   constructor(options) {
