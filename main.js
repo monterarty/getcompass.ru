@@ -3092,7 +3092,6 @@ function scrollElementToCenter(container, element) {
   const containerCenterX = containerRect.left + containerRect.width / 2;
   const elementCenterX = elementRect.left + elementRect.width / 2;
 
-  // Прокрутка по вертикали
   container.scrollTo({
     top: container.scrollTop + (elementCenterY - containerCenterY),
     left: container.scrollLeft + (elementCenterX - containerCenterX),
