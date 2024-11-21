@@ -1042,7 +1042,7 @@ window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       setCookie(`startDownload_${downloadPlatform}`, 'no', 0.000694);
       location.href = downloadLinksData[downloadPlatform][3];
-    }, 30000);
+    }, 5000);
   }
 });
 
