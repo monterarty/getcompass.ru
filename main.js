@@ -1039,8 +1039,10 @@ window.addEventListener('DOMContentLoaded', () => {
     if (os !== 'Android' && platform.name !== 'Firefox') {
       window.history.pushState({}, '', url.toString());
     }
-    setCookie(`startDownload_${downloadPlatform}`, 'no', 0.000694);
-    location.href = downloadLinksData[downloadPlatform][3];
+    setTimeout(() => {
+      setCookie(`startDownload_${downloadPlatform}`, 'no', 0.000694);
+      location.href = downloadLinksData[downloadPlatform][3];
+    }, 30000);
   }
 });
 
