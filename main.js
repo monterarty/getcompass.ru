@@ -1039,10 +1039,10 @@ window.addEventListener('DOMContentLoaded', () => {
     if (os !== 'Android' && platform.name !== 'Firefox') {
       window.history.pushState({}, '', url.toString());
     }
-    setTimeout(() => {
-      setCookie(`startDownload_${downloadPlatform}`, 'no', 0.000694);
-      window.location.href = downloadLinksData[downloadPlatform][3];
-    }, 1000);
+    //setTimeout(() => {
+    setCookie(`startDownload_${downloadPlatform}`, 'no', 0.000694);
+    window.location.href = downloadLinksData[downloadPlatform][3];
+    // }, 1000);
   }
 });
 
