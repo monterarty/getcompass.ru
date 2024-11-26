@@ -3815,42 +3815,41 @@ $('[data-banner="cta-home"] a').on('click', () => {
   ym(ymetrikaID, 'reachGoal', '225');
 });
 
-$('a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?"]').on(
-  'click',
-  function () {
-    if (['blog', 'post'].indexOf(getPage()) + 1) {
-      if ($(this).closest('.w-nav').length) {
-        if ($(this).hasClass('cta__btn')) {
-          // [Блог] "Попробовать Compass" -> Главная сайта
-          ym(ymetrikaID, 'reachGoal', '216');
-        } else if ($(this).hasClass('logo__container')) {
-          // [Блог] Блог → Главная сайта лого
-          ym(ymetrikaID, 'reachGoal', '250');
-        } else {
-          // [Блог] Меню "Продукт" (хедер)
-          ym(ymetrikaID, 'reachGoal', '210');
-        }
-      } else if ($(this).closest('[data-cta-btns]').length) {
+$(
+  'a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?", a[href^="/security"]'
+).on('click', function () {
+  if (['blog', 'post'].indexOf(getPage()) + 1) {
+    if ($(this).closest('.w-nav').length) {
+      if ($(this).hasClass('cta__btn')) {
         // [Блог] "Попробовать Compass" -> Главная сайта
         ym(ymetrikaID, 'reachGoal', '216');
-      } else if ($(this).closest('footer').length) {
-        // [Блог] Раздел "Продукт" (футер)
-        ym(ymetrikaID, 'reachGoal', '226');
+      } else if ($(this).hasClass('logo__container')) {
+        // [Блог] Блог → Главная сайта лого
+        ym(ymetrikaID, 'reachGoal', '250');
+      } else {
+        // [Блог] Меню "Продукт" (хедер)
+        ym(ymetrikaID, 'reachGoal', '210');
       }
-    } else {
-      if ($(this).closest('footer').length) {
-        // [All] Раздел "Продукт" (футер)
-        ym(ymetrikaID, 'reachGoal', '96');
-      } else if ($(this).closest('[data-product]').length) {
-        // [All] Раздел "Продукт" (хедэр)
-        ym(ymetrikaID, 'reachGoal', '98');
-      } else if ($(this).closest('.navbar__logo-flex').length) {
-        // [All] Нажато лого (хедэр)
-        ym(ymetrikaID, 'reachGoal', '99');
-      }
+    } else if ($(this).closest('[data-cta-btns]').length) {
+      // [Блог] "Попробовать Compass" -> Главная сайта
+      ym(ymetrikaID, 'reachGoal', '216');
+    } else if ($(this).closest('footer').length) {
+      // [Блог] Раздел "Продукт" (футер)
+      ym(ymetrikaID, 'reachGoal', '226');
+    }
+  } else {
+    if ($(this).closest('footer').length) {
+      // [All] Раздел "Продукт" (футер)
+      ym(ymetrikaID, 'reachGoal', '96');
+    } else if ($(this).closest('[data-product]').length) {
+      // [All] Раздел "Продукт" (хедэр)
+      ym(ymetrikaID, 'reachGoal', '98');
+    } else if ($(this).closest('.navbar__logo-flex').length) {
+      // [All] Нажато лого (хедэр)
+      ym(ymetrikaID, 'reachGoal', '99');
     }
   }
-);
+});
 
 function analyticsModal(hash) {
   switch (hash) {
