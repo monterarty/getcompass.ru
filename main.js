@@ -3731,8 +3731,8 @@ $('[href^="/mediakit"]').on('click', function () {
 });
 
 $('a[href*="github"]').on('click', function () {
-  if (getPage() === 'on-premise') {
-    ym(ymetrikaID, 'reachGoal', '304');
+  if (['on-premise', 'download_on-premise'].includes(getPage())) {
+    sendEvent('304');
   }
 });
 
