@@ -3816,7 +3816,7 @@ $('[data-banner="cta-home"] a').on('click', () => {
 });
 
 $(
-  'a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?", a[href^="/security"]'
+  'a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?"], a[href^="/security"]'
 ).on('click', function () {
   if (['blog', 'post'].indexOf(getPage()) + 1) {
     if ($(this).closest('.w-nav').length) {
