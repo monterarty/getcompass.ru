@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: '/getcompass.ru/', // Указываем базовый путь для проекта
+  base: "/getcompass.ru/", // Указываем базовый путь для проекта
   build: {
     //cssMinify: 'lightningcss',
     //minify: 'none',
-    minify: 'terser', // Минификация с использованием Terser
+    minify: "terser", // Минификация с использованием Terser
     terserOptions: {
       compress: {
         drop_console: true, // Удалить все console.log
@@ -14,22 +14,22 @@ export default defineConfig({
     },
     cssCodeSplit: false, // Разделяем CSS и JS на отдельные файлы
     rollupOptions: {
-      external: ['jquery'],
+      external: ["jquery"],
       output: {
-        format: 'iife',
-        name: 'Getcompass',
+        format: "iife",
+        name: "Getcompass",
         globals: {
-          jquery: '$',
+          jquery: "$",
         },
         entryFileNames: `assets/js/main-v2.6.9.min.js`, // Имя для JavaScript файлов
         chunkFileNames: `assets/js/[name].[hash].min.js`, // Имя для чанков JavaScript
         assetFileNames: (assetInfo) => {
-          if (assetInfo.name.endsWith('.css')) {
-            return 'assets/css/main-v2.6.9.min[extname]'; // CSS файлы в отдельную папку
-          } else if (assetInfo.name.endsWith('.png')) {
-            return 'assets/images/[name]-v2.6.9[extname]'; // Картинки в папку images
+          if (assetInfo.name.endsWith(".css")) {
+            return "assets/css/main-v2.6.9.min[extname]"; // CSS файлы в отдельную папку
+          } else if (assetInfo.name.endsWith(".png")) {
+            return "assets/images/[name]-v2.6.9[extname]"; // Картинки в папку images
           }
-          return 'assets/[name]-v2.6.9[extname]'; // Другие ассеты
+          return "assets/[name]-v2.6.9[extname]"; // Другие ассеты
         },
       },
     },

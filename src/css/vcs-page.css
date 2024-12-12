@@ -1,0 +1,127 @@
+.heading__h1_vcs:after {
+    content: "HD";
+    display: block;
+    position: absolute;
+    right: -2.5rem;
+    top: 0.2rem;
+    color: #ff4f47;
+    font-size: var(--d28);
+    font-style: italic;
+    font-weight: 700;
+}
+
+@media (max-width: 767px) {
+    .is--vcs-page .sm--background {
+        display: none;
+    }
+
+    .is--vcs-page .page-wrapper {
+        background: linear-gradient(
+                180deg,
+                rgba(145, 155, 234, 0.2) 0%,
+                rgba(145, 155, 234, 0.25) 8.45%,
+                rgba(145, 155, 234, 0.2) 12.29%,
+                rgba(166, 195, 243, 0.15) 18.13%,
+                rgba(145, 155, 234, 0.2) 25.55%,
+                rgba(172, 206, 245, 0.18) 36.35%,
+                rgba(145, 155, 234, 0.2) 42.73%,
+                rgba(172, 206, 245, 0.2) 56.24%,
+                rgba(145, 155, 234, 0.190044) 62.23%,
+                rgba(145, 155, 234, 0.3) 71.48%,
+                rgba(172, 206, 245, 0.2) 91.65%);
+    }
+
+    .heading__h1_vcs:after {
+        right: -2rem;
+        top: .35rem;
+        font-size: var(--m15);
+    }
+
+    .is--vcs-page .hero__emoji-left-item {
+        width: var(--m180);
+        margin-top: 0.2rem;
+    }
+
+    .is--vcs-page .hero__emoji-right-item {
+        width: 17rem;
+    }
+
+    .is--vcs-page .hero-emoji {
+        background: url("https://cdn.prod.website-files.com/64328ad759d957f990749456/67336ba71fc0b641d607affd_scr_emoji_bg.svg");
+        background-size: cover;
+        border-radius: 0;
+
+
+    }
+
+    .is--vcs-page .hero-emoji.left-2 {
+        left: 2.2rem;
+        width: var(--m52);
+        height: var(--m52);
+        top: 0.6rem;
+    }
+
+    .is--vcs-page .hero-emoji.left-5 {
+        width: var(--m60);
+        height: var(--m60);
+        top: var(--m16);
+        right: var(--m3);
+    }
+
+    .hero-emoji.left-6 {
+        width: var(--m44);
+        height: var(--m44);
+        top: var(--s88);
+        left: var(--s92);
+    }
+
+    .is--vcs-page .hero-emoji.left-7 {
+        left: 0.2rem;
+        top: 6.45rem;
+        width: var(--m56);
+        height: var(--m56);
+    }
+
+    .is--vcs-page .hero-emoji.right-1 {
+        width: var(--m48);
+        height: var(--m48);
+        position: absolute;
+        margin: 0;
+        right: .5rem;
+        top: 2.1rem;
+    }
+
+    .is--vcs-page .hero-emoji.right-2 {
+        height: var(--m40);
+        width: var(--m40);
+        position: absolute;
+        margin: 0;
+        top: 8.666666rem;
+        right: 0;
+    }
+
+    .is--vcs-page .hero-emoji.right-3 {
+        width: var(--m48);
+        height: var(--m48);
+        position: absolute;
+        left: .4rem;
+        right: auto;
+        top: 6.3rem;
+    }
+
+    .is--vcs-page .hero-emoji.right-4 {
+        height: var(--m60);
+        width: var(--m60);
+        top: 0.4rem;
+        right: var(--s88);
+    }
+
+    .is--vcs-page .hero-emoji.right-8 {
+        width: var(--m48);
+        height: var(--m48);
+        top: 7.1rem;
+        position: absolute;
+        left: 7.4rem;
+        margin: 0;
+    }
+}

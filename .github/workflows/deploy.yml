@@ -3,7 +3,7 @@ name: Build and Deploy Vite Project to GitHub Pages
 on:
   push:
     branches:
-      - main  # Действие будет запускаться при пуше в ветку main
+      - main # Действие будет запускаться при пуше в ветку main
 
 jobs:
   build:
@@ -16,16 +16,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'  # Vite требует Node.js версии 16 или выше
+          node-version: "16" # Vite требует Node.js версии 16 или выше
 
       - name: Install dependencies
         run: npm install
 
       - name: Build project
-        run: npm run build  # Команда для сборки Vite проекта
+        run: npm run build # Команда для сборки Vite проекта
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub токен для деплоя
-          publish_dir: ./dist  # Публикация из папки dist, где Vite сохраняет файлы
+          github_token: ${{ secrets.GITHUB_TOKEN }} # GitHub токен для деплоя
+          publish_dir: ./dist # Публикация из папки dist, где Vite сохраняет файлы
