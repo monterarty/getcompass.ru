@@ -6,7 +6,7 @@ import noUiSlider from "nouislider";
 import "@finsweet/cookie-consent";
 import { UAParser } from "ua-parser-js";
 import "remodal";
-import $ from "jquery";
+/*import $ from "jquery";*/
 
 window.REMODAL_GLOBALS = {
   NAMESPACE: "remodal",

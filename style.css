@@ -68,14 +68,16 @@ html {
     background-color: #fff;
 }
 
+.is--no-touch .hover--bg-white\/5:hover,
+.is--touch .hover--bg-white\/5:active,
 .is--no-touch .hover--bg-white-5pr:hover,
 .is--touch .hover--bg-white-5pr:active {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
 .active--text-light-red-80pr.w--open,
-.is--no-touch .hover--text-light-red-80pr:hover,
-.is--touch .hover--text-light-red-80pr:active {
+.is--no-touch .hover--text-light-red\/80:hover,
+.is--touch .hover--text-light-red\/80:active {
     color: rgba(248, 248, 248, 0.8);
 }
 
@@ -446,12 +448,13 @@ picture {
     display: flex;
 }
 
+/* Скрыты сборки для Windows 7 */
 .is--windows
 .cta__dd-list:not(.is--sort-disable)
 .cta__dd-list-inner-wrap
 > div:nth-child(2) {
     order: 1;
-    display: none;
+    display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */
@@ -460,7 +463,7 @@ picture {
 .cta__dd-list-inner-wrap
 > div:nth-child(3) {
     order: 4;
-    display: none;
+    display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */
@@ -477,7 +480,7 @@ picture {
 .cta__dd-list-inner-wrap
 > div:nth-child(7) {
     order: 3;
-    display: none;
+    display: flex;
 }
 
 /* Скрыты сборки для Windows msi */
@@ -486,7 +489,7 @@ picture {
 .cta__dd-list-inner-wrap
 > div:nth-child(8) {
     order: 5;
-    display: none;
+    display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */
@@ -495,7 +498,7 @@ picture {
 .cta__dd-list-inner-wrap
 > div:nth-child(9) {
     order: 6;
-    display: none;
+    display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */
@@ -677,11 +680,12 @@ picture {
     display: none;
 }
 
+/* Скрыты сборки для Windows 7 */
 .cta__dd-list.is--win-list.is--sort-disable
 .cta__dd-list-inner-wrap
 > div:nth-child(2) {
     order: 1;
-    display: none;
+    display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */
@@ -689,7 +693,7 @@ picture {
 .cta__dd-list-inner-wrap
 > div:nth-child(3) {
     order: 4;
-    display: none;
+    display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */
@@ -712,7 +716,7 @@ picture {
 .cta__dd-list-inner-wrap
 > div:nth-child(8) {
     order: 5;
-    display: none;
+    display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */
@@ -720,7 +724,7 @@ picture {
 .cta__dd-list-inner-wrap
 > div:nth-child(9) {
     order: 6;
-    display: none;
+    display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */

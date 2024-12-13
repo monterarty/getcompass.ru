@@ -925,6 +925,7 @@ body {
     color: #2574a9;
 }
 
+.text-blue\/80,
 .text-blue-80pr {
     color: #009fe6cc;
 }
@@ -1025,6 +1026,7 @@ body {
     background: #665ebe0d;
 }
 
+.bg-white\/2,
 .bg-white-2pr {
     background: #ffffff05;
 }
@@ -5042,7 +5044,7 @@ body {
         color: var(--b-c--platinum);
     }
 
-    .sm--text-light-red-30pr {
+    .sm--text-light-red\/30 {
         color: #f8f8f84d;
     }
 

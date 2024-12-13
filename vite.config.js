@@ -25,11 +25,11 @@ export default defineConfig({
         chunkFileNames: `assets/js/[name].[hash].min.js`, // Имя для чанков JavaScript
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith(".css")) {
-            return "assets/css/main-v2.6.9.min[extname]"; // CSS файлы в отдельную папку
+            return "assets/css/main-v2.6.10.min[extname]"; // CSS файлы в отдельную папку
           } else if (assetInfo.name.endsWith(".png")) {
-            return "assets/images/[name]-v2.6.9[extname]"; // Картинки в папку images
+            return "assets/images/[name]-v2.6.10[extname]"; // Картинки в папку images
           }
-          return "assets/[name]-v2.6.9[extname]"; // Другие ассеты
+          return "assets/[name]-v2.6.10[extname]"; // Другие ассеты
         },
       },
     },
