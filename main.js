@@ -6,7 +6,7 @@ import noUiSlider from "nouislider";
 import "@finsweet/cookie-consent";
 import { UAParser } from "ua-parser-js";
 import "remodal";
-/*import $ from "jquery";*/
+//import $ from "jquery";
 
 window.REMODAL_GLOBALS = {
   NAMESPACE: "remodal",
@@ -1063,6 +1063,10 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   const platform = platformClass
     ? platformClass
     : downloadLink.dataset.platform;
+  /**
+   * Ссылка мобильную сборку?
+   * @type {boolean}
+   */
   const isLinkForMobilePlatform =
     mobileDownloadPlatformsNames.includes(platform);
 
@@ -1214,11 +1218,12 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
       ) {
         window.location.href = instructionLink;
       } else if (
-        (isInstructionLinkPresent &&
-          ((isMobileDevice && isLinkForMobilePlatform) || !isMobileDevice)) ||
-        (!isMobileDevice && isLinkForMobilePlatform)
+        isInstructionLinkPresent &&
+        ((isMobileDevice && isLinkForMobilePlatform) || !isMobileDevice)
       ) {
         window.location.href = downloadLink.href;
+      } else if (!isMobileDevice && isLinkForMobilePlatform) {
+        window.open(downloadLink.href);
       }
     } else if (downloadLink.dataset.version === "onpremise") {
       switch (platform) {
