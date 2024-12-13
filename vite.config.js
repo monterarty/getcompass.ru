@@ -21,7 +21,7 @@ export default defineConfig({
         globals: {
           jquery: "$",
         },
-        entryFileNames: `assets/js/main-v2.6.9.min.js`, // Имя для JavaScript файлов
+        entryFileNames: `assets/js/main-v2.6.10.min.js`, // Имя для JavaScript файлов
         chunkFileNames: `assets/js/[name].[hash].min.js`, // Имя для чанков JavaScript
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith(".css")) {
