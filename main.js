@@ -2221,6 +2221,10 @@ const bodyScrollControls = {
   },
 };
 
+$('[data-remodal-id="consultation-vcs"]').remodal({
+  closeOnOutsideClick: false,
+});
+
 $('[data-remodal-id="consultation-on-premise"]').remodal({
   closeOnOutsideClick: false,
 });
