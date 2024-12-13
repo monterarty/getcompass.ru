@@ -670,10 +670,6 @@ body {
     left: var(--d200);
 }
 
-.left-207 {
-    left: var(--d207);
-}
-
 .left-224 {
     left: var(--d224);
 }
@@ -897,10 +893,12 @@ body {
     color: var(--white-smoke);
 }
 
+.text-light-red\/20,
 .text-light-red-20pr {
     color: #f8f8f833;
 }
 
+.text-light-red\/30,
 .text-light-red-30pr {
     color: #f8f8f84d;
 }
@@ -1242,22 +1240,22 @@ body {
 }
 
 .shadow-xxs {
-    --shadow: 0px 1.22px 6.09px 0px #0000000d;
-    --shadow-colored: 0px 1.22px 6.09px 0px var(--shadow-color);
+    --shadow: 0 1px 6px 0 #0000000d;
+    --shadow-colored: 0 1px 6px 0 var(--shadow-color);
     box-shadow: var(--ring-offset-shadow, 0 0 #0000),
     var(--ring-shadow, 0 0 #0000), var(--shadow);
 }
 
 .shadow-xs {
-    --shadow: 0px 4px 20px 0px #00000014;
-    --shadow-colored: 0px 4px 20px 0px var(--shadow-color);
+    --shadow: 0 4px 20px 0 #00000014;
+    --shadow-colored: 0 4px 20px 0 var(--shadow-color);
     box-shadow: var(--ring-offset-shadow, 0 0 #0000),
     var(--ring-shadow, 0 0 #0000), var(--shadow);
 }
 
 .shadow-sm {
-    --shadow: 0 2px 20px 0px #0000001a;
-    --shadow-colored: 0 0px 20px 0px var(--shadow-color);
+    --shadow: 0 2px 20px 0 #0000001a;
+    --shadow-colored: 0 0 20px 0 var(--shadow-color);
     box-shadow: var(--ring-offset-shadow, 0 0 #0000),
     var(--ring-shadow, 0 0 #0000), var(--shadow);
 }
@@ -1322,9 +1320,9 @@ body {
 }
 
 .box-shadow-4 {
-    box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.06);
-    -webkit-box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.06);
-    -moz-box-shadow: 0px 0px 0px 1px rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+    -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+    -moz-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 .opacity-40 {
@@ -2633,10 +2631,6 @@ body {
     width: var(--d290);
 }
 
-.sw-300 {
-    width: var(--d300);
-}
-
 .sw-320 {
     width: var(--d320);
 }
@@ -3079,10 +3073,6 @@ body {
     .py-24 {
         padding-top: var(--m24);
         padding-bottom: var(--m24);
-    }
-
-    .pb-26 {
-        padding-bottom: var(--m26);
     }
 
     .pt-32 {
@@ -3849,10 +3839,6 @@ body {
         padding: var(--m24);
     }
 
-    .sm--pb-26 {
-        padding-bottom: var(--m26);
-    }
-
     .sm--pb-30 {
         padding-bottom: var(--m30);
     }
@@ -4399,10 +4385,6 @@ body {
 
     .sm--sh-342 {
         height: var(--m342);
-    }
-
-    .sm--sh-343 {
-        height: var(--m343);
     }
 
     .sm--sh-350 {
