@@ -10,6 +10,15 @@
     font-weight: 700;
 }
 
+.is--vcs-page .hero-emoji {
+    background: url("https://cdn.prod.website-files.com/64328ad759d957f990749456/67336ba71fc0b641d607affd_scr_emoji_bg.svg");
+    background-size: 90%;
+    background-position: 50% 50%;
+    border-radius: 0;
+    background-repeat: no-repeat;
+    background-color: transparent;
+}
+
 @media (max-width: 767px) {
     .is--vcs-page .sm--background {
         display: none;
@@ -50,8 +59,6 @@
         background: url("https://cdn.prod.website-files.com/64328ad759d957f990749456/67336ba71fc0b641d607affd_scr_emoji_bg.svg");
         background-size: cover;
         border-radius: 0;
-
-
     }
 
     .is--vcs-page .hero-emoji.left-2 {
