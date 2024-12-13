@@ -321,6 +321,7 @@ const getPage = () => {
     "is--download-cloud": "download_cloud",
     "is--download-page": "download",
     "is--security-page": "security",
+    "is--vcs-page": "vcs",
   };
 
   // Проверка классов
@@ -2485,10 +2486,10 @@ function closeDropdown(dropdown) {
   dropdown.removeClass("is--open");
 }
 
-//Copy fields
+// Copy fields
 const copyFields = document.querySelectorAll("[clipboard-field]");
 
-Array.prototype.forEach.call(copyFields, (copyField) => {
+copyFields.forEach((copyField) => {
   const copyBtn = copyField.querySelector("[clipboard-btn]");
   const copyBtnTooltip = copyField.querySelector("[clipboard-tooltip]");
   const copyText = copyField.querySelector("[clipboard-text]").textContent;
@@ -2497,6 +2498,7 @@ Array.prototype.forEach.call(copyFields, (copyField) => {
       return copyText;
     },
   });
+
   copyClipboard.on("success", function (e) {
     copyBtnTooltip.textContent = "Скопировано";
     copyBtn.classList.add("is--done");
@@ -2505,6 +2507,7 @@ Array.prototype.forEach.call(copyFields, (copyField) => {
     }, 2000);
     e.clearSelection();
   });
+
   copyClipboard.on("error", function (e) {
     copyBtnTooltip.textContent = "Ошибка!";
     copyBtn.classList.add("is--fail");
@@ -2515,9 +2518,12 @@ Array.prototype.forEach.call(copyFields, (copyField) => {
   });
 });
 
-$(".article__social-share-link--copy").css("display", "inline-block");
-var copyPostLinkTimeout = setTimeout(function () {}, 0);
-var copyPostLink = new ClipboardJS(".article__social-share-link--copy", {
+// Show copy link button
+document.querySelector(".article__social-share-link--copy").style.display =
+  "inline-block";
+let copyPostLinkTimeout = setTimeout(function () {}, 0);
+
+const copyPostLink = new ClipboardJS(".article__social-share-link--copy", {
   text: function () {
     return window.location.href;
   },
@@ -2536,46 +2542,58 @@ copyPostLink.on("success", function (e) {
 
 copyPostLink.on("error", function (e) {
   clearTimeout(copyPostLinkTimeout);
-  var copyElement = $(e.trigger);
+  const copyElement = e.trigger;
 
-  copyElement.addClass("is--copy-fail");
+  copyElement.classList.add("is--copy-fail");
   copyPostLinkTimeout = setTimeout(function () {
-    copyElement.removeClass("is--copy-fail");
+    copyElement.classList.remove("is--copy-fail");
   }, 2000);
 });
 
+let closingMessageTimeout;
+
 function showCopyNote(text, error) {
   clearTimeout(closingMessageTimeout);
+  const messageElement = document.querySelector(".event__message");
+
   if (text !== "") {
-    $(".event__message").html(text);
+    messageElement.innerHTML = text;
   }
+
   if (error) {
-    $(".event__message").addClass("is--error");
+    messageElement.classList.add("is--error");
   } else {
-    $(".event__message").removeClass("is--error");
-    $(".event__message").html(
-      "Ссылка на скачивание Compass для&nbsp;компьютера скопирована",
-    );
+    messageElement.classList.remove("is--error");
+    messageElement.innerHTML =
+      "Ссылка на скачивание Compass для&nbsp;компьютера скопирована";
   }
-  $(".event__message").addClass("is--display-block");
+
+  messageElement.classList.add("is--display-block");
+
   setTimeout(function () {
-    $(".event__message").addClass("is--visible");
+    messageElement.classList.add("is--visible");
   }, 300);
+
   closingMessageTimeout = setTimeout(function () {
-    $(".event__message").removeClass("is--visible");
+    messageElement.classList.remove("is--visible");
     setTimeout(function () {
-      $(".event__message").removeClass("is--display-block");
+      messageElement.classList.remove("is--display-block");
     }, 300);
   }, 3000);
 }
 
-$(".event__message").on("touchmove", function () {
-  clearTimeout(closingMessageTimeout);
-  $(".event__message").removeClass("is--visible");
-  setTimeout(function () {
-    $(".event__message").removeClass("is--display-block");
-  }, 300);
-});
+// Touch event handler for message
+document
+  .querySelector(".event__message")
+  .addEventListener("touchmove", function () {
+    clearTimeout(closingMessageTimeout);
+    const messageElement = this;
+
+    messageElement.classList.remove("is--visible");
+    setTimeout(function () {
+      messageElement.classList.remove("is--display-block");
+    }, 300);
+  });
 
 $(".w-dropdown-toggle").on("click", function (e) {
   if (e.which === 2) {
@@ -2791,94 +2809,105 @@ if (tgLink.length) {
 }
 
 // Отправка формы в апи
-$("form").on("submit", function (e) {
-  e.preventDefault();
-  var form = $(this),
-    formData = new FormData($(this)[0]),
-    currentHost = `${window.location.protocol}//${window.location.host}/`,
-    url = currentHost + "www/getcompass/requestConsultation",
-    button = form.find('[type="submit"]'),
-    currentModal = $(".remodal.remodal-is-opened"),
-    modalId = "#" + currentModal.data("remodal-id");
+document.querySelectorAll("form").forEach((form) => {
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const currentHost = `${window.location.protocol}//${window.location.host}/`;
+    const url = currentHost + "www/getcompass/requestConsultation";
+    const button = this.querySelector('[type="submit"]');
+    const currentModal = document.querySelector(".remodal.remodal-is-opened");
+    const modalId = currentModal ? "#" + currentModal.dataset.remodalId : null;
 
-  if (formValidation(form[0])) {
-    if (formData.get("team_size") === "") formData.set("team_size", 0);
-    formData.set("source_id", sourceID);
-    formData.set("pagetitle", document.title);
-    formData.set("page_url", window.location.href);
-    formData.set("utm_tag", utmTag);
-    if (modalId === "#pilot-modal") {
-      formData.set("form_type", "request_pilot_project");
-    } else {
-      formData.set("form_type", "request_consultation");
-    }
-    button.val(button.data("wait"));
-    button.addClass("pointer-events-none");
-    try {
-      grecaptcha.enterprise
-        .execute(window.googleCaptchaKey)
-        .then(function (token) {
+    if (formValidation(this)) {
+      if (formData.get("team_size") === "") formData.set("team_size", 0);
+      formData.set("source_id", sourceID);
+      formData.set("pagetitle", document.title);
+      formData.set("page_url", window.location.href);
+      formData.set("utm_tag", utmTag);
+
+      formData.set(
+        "form_type",
+        modalId === "#pilot-modal"
+          ? "request_pilot_project"
+          : "request_consultation",
+      );
+
+      button.value = button.dataset.wait;
+      button.classList.add("pointer-events-none");
+
+      try {
+        grecaptcha.enterprise.execute(window.googleCaptchaKey).then((token) => {
           formData.set("grecaptcha_response", token);
           sendRequest(url, form, formData);
           return false;
         });
-    } catch (error) {
-      sendRequest(url, form, formData);
+      } catch (error) {
+        sendRequest(url, form, formData);
+        return false;
+      }
+    } else {
       return false;
     }
-  } else {
-    return false;
-  }
+  });
 });
 
 function sendRequest(url, form, formData) {
-  var successMessage = form.siblings(".w-form-done"),
-    errorMessage = form.siblings(".w-form-fail"),
-    button = form.find('[type="submit"]'),
-    currentModal = $(".remodal.remodal-is-opened"),
-    modalId = "#" + currentModal.data("remodal-id");
-  button.addClass("pointer-events-none");
-  $.ajax({
-    url: url,
-    type: "POST",
-    dataType: "text",
-    data: formData,
-    contentType: false,
-    processData: false,
-    statusCode: {
-      423: function () {
-        showErrorMessage(
-          form,
-          "Произошла ошибка при отправке формы. Попробуйте позже или свяжитесь с&nbsp;нами другим способом.",
-        );
-      },
-    },
-    success: function (result) {
+  const successMessage = form.nextElementSibling.classList.contains(
+    "w-form-done",
+  )
+    ? form.nextElementSibling
+    : null;
+  const errorMessage = form.nextElementSibling.classList.contains("w-form-fail")
+    ? form.nextElementSibling
+    : form.nextElementSibling.nextElementSibling;
+  const button = form.querySelector('[type="submit"]');
+  const currentModal = document.querySelector(".remodal.remodal-is-opened");
+  const modalId = currentModal ? "#" + currentModal.dataset.remodalId : null;
+
+  button.classList.add("pointer-events-none");
+
+  fetch(url, {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (response.status === 423) {
+        throw new Error("Form locked");
+      }
+      return response.text();
+    })
+    .then((result) => {
       const isSuccessful = JSON.parse(result).status === "ok";
-      button.removeClass("pointer-events-none");
+      button.classList.remove("pointer-events-none");
+
       if (isSuccessful) {
+        // Event tracking
         if (modalId === "#consultation-vcs") {
           sendPageEvent("PV002");
         }
         if (modalId === "#consultation") {
           sendPageEvent("CL002");
         }
+
+        // Yandex Metrika goals
         if (getPage() === "blog") {
-          // [Блог] Отправлена заявка с гл блога
           ym(ymetrikaID, "reachGoal", "220");
         } else if (
           getPage() === "post" &&
           modalId === "#consultation-on-premise"
         ) {
-          // [Блог] Отправлена заявка из баннера On-premise
           ym(ymetrikaID, "reachGoal", "223");
         } else {
           ym(ymetrikaID, "reachGoal", "101");
         }
-        button.val(button.data("btn-default"));
-        successMessage.show();
-        errorMessage.hide();
-        form.hide();
+
+        button.value = button.dataset.btnDefault;
+        successMessage.style.display = "block";
+        errorMessage.style.display = "none";
+        form.style.display = "none";
+
+        // Additional tracking for specific pages
         if (getPage() === "on-premise") {
           if (modalId === "#consultation") {
             ym(ymetrikaID, "reachGoal", "302");
@@ -2903,40 +2932,45 @@ function sendRequest(url, form, formData) {
             ym(ymetrikaID, "reachGoal", "307");
           }
         }
-        form
-          .closest(".remodal")
-          .addClass("is--success")
-          .removeClass("is--no-radius");
+
+        const modal = form.closest(".remodal");
+        if (modal) {
+          modal.classList.add("is--success");
+          modal.classList.remove("is--no-radius");
+        }
+
         if (html.classList.contains("remodal-is-locked")) {
           html.classList.remove("is--white-overlay", "is--disable-bg-close");
         }
       }
-      return false;
-    },
-    error: function (xhr, resp, text) {
-      button.removeClass("pointer-events-none");
+    })
+    .catch((error) => {
+      button.classList.remove("pointer-events-none");
       showErrorMessage(
         form,
         "Произошла ошибка при отправке формы. Попробуйте позже или свяжитесь с&nbsp;нами другим способом.",
       );
-      console.log(xhr, resp, text);
-      return false;
-    },
-  });
+      console.log(error);
+    });
+
   return false;
 }
 
 function showErrorMessage(form, msg) {
-  var button = form.find('[type="submit"]'),
-    errorMessage = form.siblings(".w-form-fail");
+  const button = form.querySelector('[type="submit"]');
+  const errorMessage = Array.from(form.parentElement.children).find((el) =>
+    el.classList.contains("w-form-fail"),
+  );
 
-  errorMessage.find("div").html(msg);
-  button.val(button.data("btn-default"));
-  errorMessage.show();
-  setTimeout(function () {
-    errorMessage.hide();
+  errorMessage.querySelector("div").innerHTML = msg;
+  button.value = button.dataset.btnDefault;
+  errorMessage.style.display = "block";
+
+  setTimeout(() => {
+    errorMessage.style.display = "none";
   }, 3000);
-  form.show();
+
+  form.style.display = "block";
 }
 
 //Получить скролл страницы в процентах
@@ -3097,7 +3131,8 @@ window.addEventListener("scroll", () => {
       window.scrollY > getSize() * 47.13) ||
     (getPage() === "home" && window.scrollY > getSize() * 51.66) ||
     (getPage() === "download" && window.scrollY > getSize() * 25) ||
-    (getPage() === "security" && window.scrollY > getSize() * 42.6)
+    (getPage() === "security" && window.scrollY > getSize() * 42.6) ||
+    (getPage() === "vcs" && window.scrollY > getSize() * 44.7)
   ) {
     if ($(window).width() < 768) {
       if (getPage() === "partner") {
@@ -3397,9 +3432,15 @@ document.addEventListener("DOMContentLoaded", function () {
     scrollEvent100 = false;
   window.onscroll = function () {
     if (
-      ["blog", "post", "home", "download", "partner", "on-premise"].indexOf(
-        getPage(),
-      ) + 1
+      [
+        "blog",
+        "post",
+        "home",
+        "download",
+        "partner",
+        "on-premise",
+        "vcs",
+      ].indexOf(getPage()) + 1
     ) {
       if (!scrollEventStart && getScrollPercentage() > 0) {
         if ($(".popup__video-iframe").find("iframe").length) {
