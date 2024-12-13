@@ -6,7 +6,7 @@ import noUiSlider from "nouislider";
 import "@finsweet/cookie-consent";
 import { UAParser } from "ua-parser-js";
 import "remodal";
-//import $ from "jquery";
+import $ from "jquery";
 
 window.REMODAL_GLOBALS = {
   NAMESPACE: "remodal",
@@ -1275,45 +1275,6 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   }
 });
 
-if (isMobileDevice) {
-  var closingMessageTimeout = setTimeout(function () {}, 0);
-  const clipboard = new ClipboardJS("[build-link]", {
-    text: function (trigger) {
-      return trigger.getAttribute("build-link");
-    },
-  });
-
-  clipboard.on("success", function (e) {
-    showCopyNote();
-    if (
-      [
-        "download",
-        "blog",
-        "post",
-        "download_cloud",
-        "download_on-premise",
-      ].indexOf(getPage()) === -1 &&
-      e.trigger.dataset.version === "cloud"
-    ) {
-      sendEvent("25");
-    }
-
-    const isSaasPlatformsPage = getPage() === "download_cloud";
-    const isOnPremisePlatformsPage = getPage() === "download_on-premise";
-
-    isSaasPlatformsPage && sendEvent("715");
-    isOnPremisePlatformsPage && sendEvent("361");
-    e.clearSelection();
-  });
-
-  clipboard.on("error", function () {
-    showCopyNote(
-      "Не получилось скопировать ссылку. Возможно, ваш&nbsp;браузер устарел.",
-      true,
-    );
-  });
-}
-
 //Центруем всплывашку платформ на мобилке
 const setCenterCTAListArrow = (dropdown) => {
   const hasArrowCTALists = document.querySelectorAll(
@@ -2461,7 +2422,7 @@ $(".faq__close-button").on("click", function () {
 $(".faq__wrapper").removeClass("is--open");
 
 function openDropdown(dropdown) {
-  var dropdownContent = dropdown.find(".faq__resp-wrapper"),
+  const dropdownContent = dropdown.find(".faq__resp-wrapper"),
     dropdownInnerContent = dropdown.find(".faq__resp");
 
   dropdownContent.css({
@@ -2474,7 +2435,7 @@ function openDropdown(dropdown) {
 }
 
 function closeDropdown(dropdown) {
-  var dropdownContent = dropdown.find(".faq__resp-wrapper"),
+  const dropdownContent = dropdown.find(".faq__resp-wrapper"),
     dropdownInnerContent = dropdown.find(".faq__resp");
 
   dropdownContent.css({
@@ -2486,10 +2447,13 @@ function closeDropdown(dropdown) {
   dropdown.removeClass("is--open");
 }
 
-// Copy fields
+/**
+ * Список полей для копирования команд на страницах инструкций
+ * @type {NodeListOf<Element>}
+ */
 const copyFields = document.querySelectorAll("[clipboard-field]");
 
-copyFields.forEach((copyField) => {
+copyFields?.forEach((copyField) => {
   const copyBtn = copyField.querySelector("[clipboard-btn]");
   const copyBtnTooltip = copyField.querySelector("[clipboard-tooltip]");
   const copyText = copyField.querySelector("[clipboard-text]").textContent;
@@ -2518,39 +2482,84 @@ copyFields.forEach((copyField) => {
   });
 });
 
-// Show copy link button
-document.querySelector(".article__social-share-link--copy").style.display =
-  "inline-block";
-let copyPostLinkTimeout = setTimeout(function () {}, 0);
+/**
+ * Кнопка на копирование ссылки на статью
+ * @type {Element}
+ */
+const copyPostLinkButton = document.querySelector(
+  ".article__social-share-link",
+);
+if (copyPostLinkButton) {
+  copyPostLinkButton.style.display = "inline-block";
+  let copyPostLinkTimeout = setTimeout(function () {}, 0);
 
-const copyPostLink = new ClipboardJS(".article__social-share-link--copy", {
-  text: function () {
-    return window.location.href;
-  },
-});
+  const copyPostLink = new ClipboardJS(copyPostLinkButton, {
+    text: function () {
+      return window.location.href;
+    },
+  });
 
-copyPostLink.on("success", function (e) {
-  clearTimeout(copyPostLinkTimeout);
-  const copyElement = e.trigger;
+  copyPostLink.on("success", function (e) {
+    clearTimeout(copyPostLinkTimeout);
+    const copyElement = e.trigger;
 
-  copyElement.classList.add("is--copy-done");
-  copyPostLinkTimeout = setTimeout(function () {
-    copyElement.classList.remove("is--copy-done");
-  }, 2000);
-  e.clearSelection();
-});
+    copyElement.classList.add("is--copy-done");
+    copyPostLinkTimeout = setTimeout(function () {
+      copyElement.classList.remove("is--copy-done");
+    }, 2000);
+    e.clearSelection();
+  });
 
-copyPostLink.on("error", function (e) {
-  clearTimeout(copyPostLinkTimeout);
-  const copyElement = e.trigger;
+  copyPostLink.on("error", function (e) {
+    clearTimeout(copyPostLinkTimeout);
+    const copyElement = e.trigger;
 
-  copyElement.classList.add("is--copy-fail");
-  copyPostLinkTimeout = setTimeout(function () {
-    copyElement.classList.remove("is--copy-fail");
-  }, 2000);
-});
+    copyElement.classList.add("is--copy-fail");
+    copyPostLinkTimeout = setTimeout(function () {
+      copyElement.classList.remove("is--copy-fail");
+    }, 2000);
+  });
+}
 
 let closingMessageTimeout;
+if (isMobileDevice) {
+  closingMessageTimeout = setTimeout(function () {}, 0);
+  const clipboard = new ClipboardJS("[build-link]", {
+    text: function (trigger) {
+      return trigger.getAttribute("build-link");
+    },
+  });
+
+  clipboard?.on("success", function (e) {
+    showCopyNote();
+    if (
+      [
+        "download",
+        "blog",
+        "post",
+        "download_cloud",
+        "download_on-premise",
+      ].indexOf(getPage()) === -1 &&
+      e.trigger?.dataset.version === "cloud"
+    ) {
+      sendEvent("25");
+    }
+
+    const isSaasPlatformsPage = getPage() === "download_cloud";
+    const isOnPremisePlatformsPage = getPage() === "download_on-premise";
+
+    isSaasPlatformsPage && sendEvent("715");
+    isOnPremisePlatformsPage && sendEvent("361");
+    e.clearSelection();
+  });
+
+  clipboard?.on("error", function () {
+    showCopyNote(
+      "Не получилось скопировать ссылку. Возможно, ваш&nbsp;браузер устарел.",
+      true,
+    );
+  });
+}
 
 function showCopyNote(text, error) {
   clearTimeout(closingMessageTimeout);
@@ -2585,7 +2594,7 @@ function showCopyNote(text, error) {
 // Touch event handler for message
 document
   .querySelector(".event__message")
-  .addEventListener("touchmove", function () {
+  ?.addEventListener("touchmove", function () {
     clearTimeout(closingMessageTimeout);
     const messageElement = this;
 
