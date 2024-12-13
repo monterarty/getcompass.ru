@@ -4026,5 +4026,9 @@ function analyticsModal(hash) {
     case "#video-windows-msi":
       ym(ymetrikaID, "reachGoal", "75");
       break;
+    case "#video-windows-7":
+    case "#video-windows-7-msi":
+      ym(ymetrikaID, "reachGoal", "75");
+      break;
   }
 }

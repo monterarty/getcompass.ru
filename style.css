@@ -324,6 +324,7 @@ picture {
 .cta__dd-list-inner-wrap
 > div:nth-child(8) {
     order: 8;
+    display: none;
 }
 
 /* Windows exe old */
@@ -338,6 +339,7 @@ picture {
 .cta__dd-list-inner-wrap
 > div:nth-child(10) {
     order: 10;
+    display: none;
 }
 
 /* Linux deb */
@@ -475,15 +477,14 @@ picture {
     display: flex;
 }
 
+/* Windows 10 msi */
 .is--windows
 .cta__dd-list:not(.is--sort-disable)
 .cta__dd-list-inner-wrap
 > div:nth-child(7) {
     order: 3;
-    display: flex;
 }
 
-/* Скрыты сборки для Windows msi */
 .is--windows
 .cta__dd-list:not(.is--sort-disable)
 .cta__dd-list-inner-wrap
@@ -492,8 +493,30 @@ picture {
     display: flex;
 }
 
-/* Скрыты сборки для Windows 7 */
+/* Windows 7 msi*/
 .is--windows
+.cta__dd-list:not(.is--sort-disable)
+.cta__dd-list-inner-wrap
+> div:nth-child(9) {
+    order: 6;
+}
+
+/* Windows 7 msi показ на странице всех сборок и стр инструкций */
+.is--download-page[data-download-platform="windowsmsi_old"].is--windows .cta__dd-list:not(.is--sort-disable)
+.cta__dd-list-inner-wrap
+> div:nth-child(9),
+.is--download-page[data-download-platform="windowsmsi"].is--windows .cta__dd-list:not(.is--sort-disable)
+.cta__dd-list-inner-wrap
+> div:nth-child(9),
+.is--download-page.is--windows
+.cta__dd-list:not(.is--sort-disable)
+.cta__dd-list-inner-wrap
+> div:nth-child(9),
+.is--download-op.is--windows
+.cta__dd-list:not(.is--sort-disable)
+.cta__dd-list-inner-wrap
+> div:nth-child(9),
+.is--download-cloud.is--windows
 .cta__dd-list:not(.is--sort-disable)
 .cta__dd-list-inner-wrap
 > div:nth-child(9) {
@@ -502,7 +525,6 @@ picture {
 }
 
 /* Скрыты сборки для Windows 7 */
-
 .is--linux .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div {
     display: none;
 }
@@ -704,9 +726,8 @@ picture {
     display: flex;
 }
 
-.cta__dd-list.is--win-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(7) {
+/* Windows 10 msi */
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(7) {
     order: 3;
     display: flex;
 }
@@ -719,10 +740,16 @@ picture {
     display: flex;
 }
 
-/* Скрыты сборки для Windows 7 */
+/* Скрыты сборки для Windows msi */
 .cta__dd-list.is--win-list.is--sort-disable
 .cta__dd-list-inner-wrap
 > div:nth-child(9) {
+    order: 6;
+    display: flex;
+}
+
+/* Windows 7 msi*/
+.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(9) {
     order: 6;
     display: flex;
 }
