@@ -1943,7 +1943,7 @@ if (["post", "blog"].indexOf(getPage()) + 1) {
 
   Array.prototype.forEach.call(blogLinks, (link) => {
     const linkHref = link.getAttribute("href");
-    var utm_content = "";
+    let utm_content = "";
     if (link.closest(".w-nav")) {
       if (linkHref.indexOf("/#") === 0) {
         // [Блог] Меню "Продукт"(хедер)
@@ -2894,6 +2894,7 @@ function sendRequest(url, form, formData) {
         // Event tracking
         if (modalId === "#consultation-vcs") {
           sendPageEvent("PV002");
+          sendEvent("10");
         }
         if (modalId === "#consultation") {
           sendPageEvent("CL002");
@@ -2901,14 +2902,14 @@ function sendRequest(url, form, formData) {
 
         // Yandex Metrika goals
         if (getPage() === "blog") {
-          ym(ymetrikaID, "reachGoal", "220");
+          sendEvent("220");
         } else if (
           getPage() === "post" &&
           modalId === "#consultation-on-premise"
         ) {
-          ym(ymetrikaID, "reachGoal", "223");
+          sendEvent("223");
         } else {
-          ym(ymetrikaID, "reachGoal", "101");
+          sendEvent("101");
         }
 
         button.value = button.dataset.btnDefault;
@@ -2919,9 +2920,9 @@ function sendRequest(url, form, formData) {
         // Additional tracking for specific pages
         if (getPage() === "on-premise") {
           if (modalId === "#consultation") {
-            ym(ymetrikaID, "reachGoal", "302");
+            sendEvent("302");
           } else if (modalId === "#pilot-modal") {
-            ym(ymetrikaID, "reachGoal", "309");
+            sendEvent("309");
           }
         } else if (getPage() !== "post" && getPage() !== "blog") {
           if (
@@ -2929,16 +2930,16 @@ function sendRequest(url, form, formData) {
             modalId === "#consultation-on-premise"
           ) {
             if (modalId === "#consultation-on-premise") {
-              ym(ymetrikaID, "reachGoal", "302");
+              sendEvent("302");
             }
-            ym(ymetrikaID, "reachGoal", "10");
+            sendEvent("10");
             _tmr.push({
               type: "reachGoal",
               id: 3381982,
               goal: "Demo",
             });
           } else if (modalId === "#pilot-modal") {
-            ym(ymetrikaID, "reachGoal", "307");
+            sendEvent("307");
           }
         }
 
@@ -3429,10 +3430,9 @@ document.addEventListener("DOMContentLoaded", function () {
   setCenterCTAListArrow();
   setTimeout(function () {
     //Пользователь на сайте больше минуты
-    if (getPage() === "home") ym(ymetrikaID, "reachGoal", "4");
-    else if (["blog", "post"].indexOf(getPage()) + 1)
-      ym(ymetrikaID, "reachGoal", "209");
-    else if (getPage() === "on-premise") ym(ymetrikaID, "reachGoal", "314");
+    if (getPage() === "home") sendEvent("4");
+    else if (["blog", "post"].indexOf(getPage()) + 1) sendEvent("209");
+    else if (getPage() === "on-premise") sendEvent("314");
   }, 60000);
   // Переменные прокрутки
   var scrollEventStart = false,
@@ -3464,26 +3464,26 @@ document.addEventListener("DOMContentLoaded", function () {
         scrollEventStart = true;
       }
       if (!scrollEvent50 && getScrollPercentage() > 50) {
-        if (getPage() === "home") ym(ymetrikaID, "reachGoal", "1");
-        else if (getPage() === "blog") ym(ymetrikaID, "reachGoal", "250");
-        else if (getPage() === "post") ym(ymetrikaID, "reachGoal", "253");
-        else if (getPage() === "on-premise") ym(ymetrikaID, "reachGoal", "311");
+        if (getPage() === "home") sendEvent("1");
+        else if (getPage() === "blog") sendEvent("250");
+        else if (getPage() === "post") sendEvent("253");
+        else if (getPage() === "on-premise") sendEvent("311");
         scrollEvent50 = true;
       }
       if (!scrollEvent75 && getScrollPercentage() > 75) {
         //console.log('Страница прокручена на 75%');
-        if (getPage() === "home") ym(ymetrikaID, "reachGoal", "2");
-        else if (getPage() === "blog") ym(ymetrikaID, "reachGoal", "251");
-        else if (getPage() === "post") ym(ymetrikaID, "reachGoal", "254");
-        else if (getPage() === "on-premise") ym(ymetrikaID, "reachGoal", "312");
+        if (getPage() === "home") sendEvent("2");
+        else if (getPage() === "blog") sendEvent("251");
+        else if (getPage() === "post") sendEvent("254");
+        else if (getPage() === "on-premise") sendEvent("312");
         scrollEvent75 = true;
       }
       if (!scrollEvent100 && getScrollPercentage() > 95) {
         //Страница прокручена на 100%
-        if (getPage() === "home") ym(ymetrikaID, "reachGoal", "3");
-        else if (getPage() === "blog") ym(ymetrikaID, "reachGoal", "252");
-        else if (getPage() === "post") ym(ymetrikaID, "reachGoal", "255");
-        else if (getPage() === "on-premise") ym(ymetrikaID, "reachGoal", "313");
+        if (getPage() === "home") sendEvent("3");
+        else if (getPage() === "blog") sendEvent("252");
+        else if (getPage() === "post") sendEvent("255");
+        else if (getPage() === "on-premise") sendEvent("313");
         scrollEvent100 = true;
       }
     }
@@ -3519,7 +3519,7 @@ async function getVksLink() {
     const responseData = await response.json();
     console.log(responseData);
     // Успешный переход в конференцию
-    ym(ymetrikaID, "reachGoal", "500");
+    sendEvent("500");
     window.open(
       `https://${responseData.conference_joining_data.domain}/${responseData.conference_joining_data.room}?jwt=${responseData.conference_joining_data.jwt_token}`,
     );
@@ -3590,7 +3590,7 @@ function attachYandexMetricaClickEvents(nodeList, targetID, options = {}) {
     }
 
     link.addEventListener("click", (e) => {
-      ym(ymetrikaID, "reachGoal", targetID);
+      sendEvent(targetID);
 
       // Если передан callback, вызываем его после основного действия
       if (callback && typeof callback === "function") {
@@ -3663,7 +3663,7 @@ attachYandexMetricaClickEvents(socialMediaLoadMore, "601", {
 // Назначаем цели добавленым статьям
 document.addEventListener("click", function (event) {
   if (event.target.matches(".social-media-item-link")) {
-    ym(ymetrikaID, "reachGoal", "602");
+    sendEvent("602");
   }
 });
 
@@ -3672,27 +3672,27 @@ $('a[href="/blog"], a[href*="/blog?"], a[href*="/blog/?"]').on(
   function () {
     //переход в блог
     if (!(["blog", "post"].indexOf(getPage()) + 1)) {
-      ym(ymetrikaID, "reachGoal", "200");
+      sendEvent("200");
     }
     if (getPage() === "post" && $(this).hasClass("logo__container")) {
-      ym(ymetrikaID, "reachGoal", "214");
+      sendEvent("214");
     }
   },
 );
 
 // [Блог] Кнопка "Загрузить ещё"
 $(".fs-cmsload_button").on("click", () => {
-  ym(ymetrikaID, "reachGoal", "256");
+  sendEvent("256");
 });
 
 // [Блог] Главная блога → статья
 $(".blog-grid__card-link").on("click", () => {
-  if (getPage() === "blog") ym(ymetrikaID, "reachGoal", "208");
+  if (getPage() === "blog") sendEvent("208");
 });
 
 $('[data-banner="cta"] a').on("click", function () {
   // [Блог] Банер "Вы читаете журнал Compass"
-  ym(ymetrikaID, "reachGoal", "221");
+  sendEvent("221");
 });
 
 $('a[href^="mailto"]').on("click", function () {
@@ -3707,11 +3707,11 @@ $('a[href^="mailto"]').on("click", function () {
     sendEvent("103");
   } else {
     if (["download_cloud"].indexOf(getPage()) + 1) {
-      ym(ymetrikaID, "reachGoal", "714");
+      sendEvent("714");
     } else if (["download_on-premise"].indexOf(getPage()) + 1) {
-      ym(ymetrikaID, "reachGoal", "360");
+      sendEvent("360");
     } else {
-      ym(ymetrikaID, "reachGoal", "104");
+      sendEvent("104");
     }
   }
 });
@@ -3719,13 +3719,13 @@ $('a[href^="mailto"]').on("click", function () {
 $('a[href^="tel"]').on("click", function () {
   if (["blog", "post"].indexOf(getPage()) + 1 && $(this).closest("footer")) {
     // [Блог] Блог → Телефоны
-    ym(ymetrikaID, "reachGoal", "232");
+    sendEvent("232");
   } else if ($(this).closest("footer").length) {
     // Нажата кнопка телефонов с футера
-    ym(ymetrikaID, "reachGoal", "95");
+    sendEvent("95");
   }
   // Общая цель на контакт с футера
-  ym(ymetrikaID, "reachGoal", "103");
+  sendEvent("103");
 });
 
 $(".cta__dropdown .w-dropdown-toggle").on("click", function () {
@@ -3736,21 +3736,21 @@ $(".cta__dropdown .w-dropdown-toggle").on("click", function () {
     !$(this).closest(".footer").length
   ) {
     if (getPage() === "home") {
-      ym(ymetrikaID, "reachGoal", "50");
+      sendEvent("50");
       _tmr.push({
         type: "reachGoal",
         id: 3381982,
         goal: "besplatno",
       });
     } else if (getPage() === "media") {
-      ym(ymetrikaID, "reachGoal", "650");
+      sendEvent("650");
     }
   }
 });
 
 $(".price__block.is--start .w-dropdown-toggle").on("click", function () {
   //Ленд – Нажата кнопка Попробовать, тариф Старт
-  ym(ymetrikaID, "reachGoal", "65");
+  sendEvent("65");
   _tmr.push({
     type: "reachGoal",
     id: 3381982,
@@ -3760,7 +3760,7 @@ $(".price__block.is--start .w-dropdown-toggle").on("click", function () {
 
 $(".price__block.is--center .w-dropdown-toggle").on("click", function () {
   //Ленд – Нажата кнопка Попробовать, тариф Образование
-  ym(ymetrikaID, "reachGoal", "66");
+  sendEvent("66");
   _tmr.push({
     type: "reachGoal",
     id: 3381982,
@@ -3770,24 +3770,24 @@ $(".price__block.is--center .w-dropdown-toggle").on("click", function () {
 
 $(".price__block.is--corp .w-dropdown-toggle").on("click", function () {
   //Ленд – Нажата кнопка Попробовать, тариф Бизнес
-  ym(ymetrikaID, "reachGoal", "67");
+  sendEvent("67");
 });
 
 $("#carrot-messenger-collapsed-frame").on("click", function () {
   //Идентификатор 5
-  ym(ymetrikaID, "reachGoal", "5");
+  sendEvent("5");
 });
 
 $(".ceo-link").on("click", function () {
   if ($(this).closest("footer")) {
     if (["blog", "post"].indexOf(getPage()) + 1) {
       // [Блог] Блог → Письмо директору
-      ym(ymetrikaID, "reachGoal", "230");
+      sendEvent("230");
     } else {
-      ym(ymetrikaID, "reachGoal", "94");
+      sendEvent("94");
     }
     // Общая цель на контакт с футера
-    ym(ymetrikaID, "reachGoal", "103");
+    sendEvent("103");
   }
 });
 
@@ -3795,42 +3795,42 @@ $(
   'a[href*="https://t.me/getcompass"],a[href*="https://wa.me/message/CJINDDW52XJYM1"]',
 ).on("click", function () {
   if (["partner"].indexOf(getPage()) + 1) {
-    ym(ymetrikaID, "reachGoal", "402");
+    sendEvent("402");
   } else if (["on-premise"].indexOf(getPage()) + 1) {
-    ym(ymetrikaID, "reachGoal", "315");
+    sendEvent("315");
   } else if (["download_cloud"].indexOf(getPage()) + 1) {
-    ym(ymetrikaID, "reachGoal", "714");
+    sendEvent("714");
   } else if (["download_on-premise"].indexOf(getPage()) + 1) {
-    ym(ymetrikaID, "reachGoal", "360");
+    sendEvent("360");
   }
   if ($(this).closest("footer").length) {
     // Общая цель на контакт с футера
-    ym(ymetrikaID, "reachGoal", "103");
+    sendEvent("103");
   } else if ($(this).closest(".remodal").length) {
-    ym(ymetrikaID, "reachGoal", "104");
+    sendEvent("104");
   }
 });
 
 $(".privacy-target").on("click", function () {
-  ym(ymetrikaID, "reachGoal", "7");
+  sendEvent("7");
 });
 $(".offer-target").on("click", function () {
-  ym(ymetrikaID, "reachGoal", "8");
+  sendEvent("8");
 });
 $(".reccurent-target").on("click", function () {
-  ym(ymetrikaID, "reachGoal", "31");
+  sendEvent("31");
 });
 
 $(".mediakit__link").on("click", function () {
-  ym(ymetrikaID, "reachGoal", "82");
+  sendEvent("82");
 });
 
 $('[href^="/mediakit"]').on("click", function () {
   if (["blog", "post"].indexOf(getPage()) + 1 && $(this).closest("footer")) {
     // [Блог] Блог → Медиакит(футер)
-    ym(ymetrikaID, "reachGoal", "229");
+    sendEvent("229");
   } else if (getPage() !== "mediakit") {
-    ym(ymetrikaID, "reachGoal", "81");
+    sendEvent("81");
   }
 });
 
@@ -3844,24 +3844,24 @@ $('a[href*="vc.ru/getcompass"]').on("click", function () {
   if (["blog", "post"].indexOf(getPage()) + 1) {
     if ($(this).closest(".w-nav").length) {
       // [Блог] Блог → Блог на VC (хедер)
-      ym(ymetrikaID, "reachGoal", "213");
+      sendEvent("213");
     } else {
       // [Блог] Блог → Блог на VC(футер)
-      ym(ymetrikaID, "reachGoal", "228");
+      sendEvent("228");
     }
   } else {
-    ym(ymetrikaID, "reachGoal", "84");
+    sendEvent("84");
   }
 });
 
 $('a[href*="partner.getcompass.ru"]').on("click", function () {
   if (getPage() === "partner") {
-    ym(ymetrikaID, "reachGoal", "403");
+    sendEvent("403");
   }
 });
 
 $('a[href*="https://doc-onpremise.getcompass.ru/"]').on("click", () => {
-  ym(ymetrikaID, "reachGoal", "310");
+  sendEvent("310");
 });
 
 $('a[href^="/on-premise"]:not([href*="/on-premise/download"])').on(
@@ -3870,16 +3870,16 @@ $('a[href^="/on-premise"]:not([href*="/on-premise/download"])').on(
     if (["blog", "post"].indexOf(getPage()) + 1) {
       if ($(this).closest(".w-nav").length) {
         // [Блог] Меню "Коробочное решение" (хедер)
-        ym(ymetrikaID, "reachGoal", "211");
+        sendEvent("211");
       } else if ($(this).closest("[data-cta-btns]").length) {
         // [Блог] Переход блог -> стр On-premise
-        ym(ymetrikaID, "reachGoal", "217");
+        sendEvent("217");
       } else if ($(this).closest("footer").length) {
         // [Блог] Меню "Коробочное решение" (хедер)
-        ym(ymetrikaID, "reachGoal", "233");
+        sendEvent("233");
       }
     } else if (getPage() !== "on-premise") {
-      ym(ymetrikaID, "reachGoal", "300");
+      sendEvent("300");
     }
   },
 );
@@ -3887,7 +3887,7 @@ $('a[href^="/on-premise"]:not([href*="/on-premise/download"])').on(
 $("[data-cta-btns] a").on("click", () => {
   if (["blog", "post"].indexOf(getPage()) + 1) {
     // [Блог] Переход блог -> главная/он-прем/ПП (общая цель)
-    ym(ymetrikaID, "reachGoal", "215");
+    sendEvent("215");
   }
 });
 
@@ -3895,62 +3895,62 @@ $('.partner-page, a[href^="/partner"]').on("click", function () {
   if (["blog", "post"].indexOf(getPage()) + 1) {
     if ($(this).closest(".w-nav").length) {
       // [Блог] Меню "Партнерская программа" (хедер)
-      ym(ymetrikaID, "reachGoal", "212");
+      sendEvent("212");
     } else if (
       getPage() === "post" &&
       $(this).closest('[data-banner="cta-partner"]').length
     ) {
       // [Блог] Банер с рекламой ПП
-      ym(ymetrikaID, "reachGoal", "224");
+      sendEvent("224");
     } else if ($(this).closest("[data-cta-btns]").length) {
       // [Блог] Переход блог -> стр ПП
-      ym(ymetrikaID, "reachGoal", "218");
+      sendEvent("218");
     } else if ($(this).closest("footer").length) {
       // [Блог] Блог → страница ПП(футер)
-      ym(ymetrikaID, "reachGoal", "227");
+      sendEvent("227");
     }
   } else if (getPage() !== "partner") {
-    ym(ymetrikaID, "reachGoal", "400");
+    sendEvent("400");
   }
 });
 
 $('[data-banner="cta-home"] a').on("click", () => {
   // [Блог] Банер "повысим эффективность работы"
-  ym(ymetrikaID, "reachGoal", "225");
+  sendEvent("225");
 });
 
 $(
-  'a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?"], a[href^="/security"]',
+  'a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?"], a[href^="/security"], a[href^="/partner"], a[href^="/videoconferences"]',
 ).on("click", function () {
   if (["blog", "post"].indexOf(getPage()) + 1) {
     if ($(this).closest(".w-nav").length) {
       if ($(this).hasClass("cta__btn")) {
         // [Блог] "Попробовать Compass" -> Главная сайта
-        ym(ymetrikaID, "reachGoal", "216");
+        sendEvent("216");
       } else if ($(this).hasClass("logo__container")) {
         // [Блог] Блог → Главная сайта лого
-        ym(ymetrikaID, "reachGoal", "250");
+        sendEvent("250");
       } else {
         // [Блог] Меню "Продукт" (хедер)
-        ym(ymetrikaID, "reachGoal", "210");
+        sendEvent("210");
       }
     } else if ($(this).closest("[data-cta-btns]").length) {
       // [Блог] "Попробовать Compass" -> Главная сайта
-      ym(ymetrikaID, "reachGoal", "216");
+      sendEvent("216");
     } else if ($(this).closest("footer").length) {
       // [Блог] Раздел "Продукт" (футер)
-      ym(ymetrikaID, "reachGoal", "226");
+      sendEvent("226");
     }
   } else {
     if ($(this).closest("footer").length) {
       // [All] Раздел "Продукт" (футер)
-      ym(ymetrikaID, "reachGoal", "96");
+      sendEvent("96");
     } else if ($(this).closest("[data-product]").length) {
       // [All] Раздел "Продукт" (хедэр)
-      ym(ymetrikaID, "reachGoal", "98");
+      sendEvent("98");
     } else if ($(this).closest(".navbar__logo-flex").length) {
       // [All] Нажато лого (хедэр)
-      ym(ymetrikaID, "reachGoal", "99");
+      sendEvent("99");
     }
   }
 });
@@ -3958,77 +3958,77 @@ $(
 function analyticsModal(hash) {
   switch (hash) {
     case "#about-compass":
-      ym(ymetrikaID, "reachGoal", "83");
+      sendEvent("83");
       break;
     case "#consultation-vcs":
       sendPageEvent("PV001");
       break;
     case "#consultation":
       if (getPage() === "on-premise") {
-        ym(ymetrikaID, "reachGoal", "301");
+        sendEvent("301");
       } else if (getPage() === "blog") {
         // [Блог] Открыта заявка с гл блога
-        ym(ymetrikaID, "reachGoal", "219");
+        sendEvent("219");
       } else {
-        ym(ymetrikaID, "reachGoal", "9");
+        sendEvent("9");
       }
 
       if (getPage() !== "post" && getPage() !== "blog") {
-        ym(ymetrikaID, "reachGoal", "100");
+        sendEvent("100");
       }
       break;
     case "#consultation-on-premise":
       sendPageEvent("POP01");
       if (getPage() === "post") {
         // [Блог] Открыта заявка из баннера On-premise
-        ym(ymetrikaID, "reachGoal", "222");
+        sendEvent("222");
       } else {
-        ym(ymetrikaID, "reachGoal", "100");
+        sendEvent("100");
       }
 
       if (getPage() === "on-premise") {
-        ym(ymetrikaID, "reachGoal", "301");
+        sendEvent("301");
       } else if (getPage() !== "post") {
-        ym(ymetrikaID, "reachGoal", "301");
-        ym(ymetrikaID, "reachGoal", "9");
+        sendEvent("301");
+        sendEvent("9");
       }
       break;
     case "#pilot-modal":
-      ym(ymetrikaID, "reachGoal", "100");
+      sendEvent("100");
       if (getPage() === "on-premise") {
-        ym(ymetrikaID, "reachGoal", "308");
+        sendEvent("308");
       } else {
-        ym(ymetrikaID, "reachGoal", "306");
+        sendEvent("306");
       }
       break;
     case "#video-mac-intel":
-      ym(ymetrikaID, "reachGoal", "71");
+      sendEvent("71");
       break;
     case "#video-mac-apple":
-      ym(ymetrikaID, "reachGoal", "72");
+      sendEvent("72");
       break;
     case "#video-linux-deb-standart":
     case "#video-linux-deb-terminal":
-      ym(ymetrikaID, "reachGoal", "73");
+      sendEvent("73");
       break;
     case "#video-linux-rpm-standart":
     case "#video-linux-rpm-terminal":
-      ym(ymetrikaID, "reachGoal", "78");
+      sendEvent("78");
       break;
     case "#video-linux-astra-standart":
     case "#video-linux-astra-terminal":
-      ym(ymetrikaID, "reachGoal", "77");
+      sendEvent("77");
       break;
     case "#video-linux-tar":
-      ym(ymetrikaID, "reachGoal", "74");
+      sendEvent("74");
       break;
     case "#video-windows":
     case "#video-windows-msi":
-      ym(ymetrikaID, "reachGoal", "75");
+      sendEvent("75");
       break;
     case "#video-windows-7":
     case "#video-windows-7-msi":
-      ym(ymetrikaID, "reachGoal", "75");
+      sendEvent("75");
       break;
   }
 }
