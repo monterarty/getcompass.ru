@@ -2367,7 +2367,7 @@ body {
 }
 
 .sh-248 {
-    height: var(--d248);
+    height: var(--s248);
 }
 
 .sh-\[250\] {
@@ -3358,10 +3358,6 @@ body {
 
     .sw-160 {
         width: var(--m160);
-    }
-
-    .sm--sh-\[249\] {
-        width: var(--m249);
     }
 
     .sw-278 {
@@ -4365,6 +4361,14 @@ body {
 
     .sm--sh-244 {
         height: var(--m244);
+    }
+
+    .sm--sh-\[248\] {
+        height: var(--s248);
+    }
+
+    .sm--sh-\[249\] {
+        width: var(--m249);
     }
 
     .sm--sh-260 {
