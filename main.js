@@ -2979,7 +2979,7 @@ function showErrorMessage(form, msg) {
     errorMessage.style.display = "none";
   }, 3000);
 
-  form.style.display = "block";
+  form.style.display = "flex";
 }
 
 //Получить скролл страницы в процентах
