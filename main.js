@@ -1266,6 +1266,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
     }
 
     if (!isMobileDevice && isLinkForMobilePlatform) {
+      e.preventDefault();
       window.open(downloadLink.href);
     }
   });
