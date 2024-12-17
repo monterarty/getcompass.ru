@@ -2133,6 +2133,10 @@ body {
     height: 100%;
 }
 
+.sh-1 {
+    height: 1px;
+}
+
 .sh-14 {
     height: var(--d14);
 }
