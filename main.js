@@ -1264,11 +1264,11 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
     if (!isLinkForMobilePlatform && !["blog", "download"].includes(getPage())) {
       !isMobileDevice && sendEvent("52");
     }
-  });
 
-  if (!isMobileDevice && isLinkForMobilePlatform) {
-    window.open(downloadLink.href);
-  }
+    if (!isMobileDevice && isLinkForMobilePlatform) {
+      window.open(downloadLink.href);
+    }
+  });
 
   if (!isLinkForMobilePlatform && !isMobileDevice) {
     downloadLink.setAttribute("download", "download");
