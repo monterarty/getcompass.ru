@@ -968,6 +968,10 @@ body {
     background: #fff;
 }
 
+.bg-white\/5 {
+    background: #ffffff0d;
+}
+
 .bg-white\/30 {
     background: #ffffff4d;
 }
@@ -4542,6 +4546,10 @@ body {
 
     .sm--sw-\[195\] {
         width: var(--m195);
+    }
+
+    .sm--sw-\[237\] {
+        width: var(--s237);
     }
 
     .sm--sw-250 {
