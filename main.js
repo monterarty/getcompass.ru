@@ -3942,7 +3942,7 @@ $(
     } else if ($(this).closest("[data-cta-btns]").length) {
       // [Блог] "Попробовать Compass" -> Главная сайта
       sendEvent("216");
-    } else if ($(this).closest("footer").length) {
+    } else if ($(this).closest("footer [data-product]").length) {
       // [Блог] Раздел "Продукт" (футер)
       sendEvent("226");
     }
