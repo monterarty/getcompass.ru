@@ -766,10 +766,10 @@ const downloadLinksOtherLinkWrap = `
 `;
 const downloadLinksWindowsTitles = `
     <div class="cta__dd-list-title pt-8 pb-4 px-15">
-      <div class="font-medium text-s-14 leading-150 text-dark-gray">Windows 10 и выше</div>
+      <div class="font-medium text-s-14 leading-150 text-dark-gray dark--text-white/30">Windows 10 и выше</div>
     </div>
     <div class="cta__dd-list-title pt-8 pb-4 px-15">
-      <div class="font-medium text-s-14 leading-150 text-dark-gray">Windows 7 и 8</div>
+      <div class="font-medium text-s-14 leading-150 text-dark-gray dark--text-white/30">Windows 7 и 8</div>
     </div>
 `;
 downloadLinksList.innerHTML =
