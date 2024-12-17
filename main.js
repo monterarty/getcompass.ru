@@ -1114,7 +1114,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
         switch (platform) {
           case "appstore":
             sendEvent("12");
-            sendPageEvent("AP001");
+            sendPageEvent("AS001");
             isMobileDevice && sendEvent("51");
             // Цели для блока SaaS
             isSaasPlatfomsBlock && sendEvent("707");
@@ -1140,61 +1140,61 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
             isSaasPlatfomsBlock && sendEvent("707");
             break;
           case "windows":
-            sendPageEvent("WC001");
+            sendPageEvent("W0001");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "windowsmsi":
-            sendPageEvent("WC002");
+            sendPageEvent("W0002");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "windowsmsi_old":
-            sendPageEvent("WC004");
+            sendPageEvent("W0004");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "windows_old":
-            sendPageEvent("WC003");
+            sendPageEvent("W0003");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "macintel":
-            sendPageEvent("MC001");
+            sendPageEvent("M0001");
             !isMobileDevice && sendEvent("16");
             // Цели для блока SaaS
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent("704");
             break;
           case "macapple":
-            sendPageEvent("MC002");
+            sendPageEvent("M0002");
             !isMobileDevice && sendEvent("16");
             // Цели для блока SaaS
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent("704");
             break;
           case "linuxdeb":
-            sendPageEvent("LC001");
+            sendPageEvent("L0001");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent("706");
             break;
           case "linuxtar":
-            sendPageEvent("LC002");
+            sendPageEvent("L0002");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent("706");
             break;
           case "linuxrpm":
-            sendPageEvent("LC003");
+            sendPageEvent("L0003");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent("706");
             break;
           case "linuxastra":
-            sendPageEvent("LC004");
+            sendPageEvent("L0004");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
             isSaasPlatfomsBlock && !isMobileDevice && sendEvent("706");
