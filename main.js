@@ -408,20 +408,19 @@ var Detector = new oldBrowserDetector(
 );
 
 Detector.detect();
-console.log(platform);
-switch (platform.name) {
+switch (platform?.name) {
   case "Safari":
-    switch (platform.os.family) {
+    switch (platform?.os?.family) {
       case "iOS":
         if (
-          platform.version.split(".")[0] <= 13 &&
-          platform.os.version.split(".")[0] <= 13
+          platform?.version?.split(".")[0] <= 13 &&
+          platform?.os?.version?.split(".")[0] <= 13
         ) {
           showOldBrowserMsg();
         }
         break;
       case "OS X":
-        if (platform.version.split(".")[0] <= 13) {
+        if (platform?.version?.split(".")[0] <= 13) {
           showOldBrowserMsg();
         }
         body.classList.remove("is--blur-nav");
@@ -431,22 +430,22 @@ switch (platform.name) {
     }
     break;
   case "Chrome":
-    if (platform.version.split(".")[0] <= 87) {
+    if (platform?.version?.split(".")[0] <= 87) {
       showOldBrowserMsg();
     }
     break;
   case "Chrome Mobile":
-    if (platform.version.split(".")[0] <= 87) {
+    if (platform?.version?.split(".")[0] <= 87) {
       showOldBrowserMsg();
     }
     break;
   case "Opera":
-    if (platform.version.split(".")[0] <= 73) {
+    if (platform?.version?.split(".")[0] <= 73) {
       showOldBrowserMsg();
     }
     break;
   case "Firefox":
-    if (platform.version.split(".")[0] <= 73) {
+    if (platform?.version?.split(".")[0] <= 73) {
       showOldBrowserMsg();
     }
     break;
@@ -456,11 +455,9 @@ $(document).ready(function () {
   $(".w-webflow-badge").removeClass("w-webflow-badge").empty();
 });
 
-var os = platform.os.family;
-
 function getOS() {
   "use strict";
-  var userAgent = window.navigator.userAgent,
+  let userAgent = window.navigator.userAgent,
     platform = window.navigator.userAgentData
       ? window.navigator.userAgentData
       : window.navigator.platform || window.navigator.platform,
@@ -501,6 +498,8 @@ function iOS() {
   );
 }
 
+let os = platform?.os?.family;
+
 if (os === null || os === "Android") {
   os = getOS();
   if (os === "OS X") {
@@ -514,7 +513,7 @@ function isTouchDevice() {
   return (
     "ontouchstart" in window ||
     navigator.maxTouchPoints > 0 ||
-    navigator.msMaxTouchPoints > 0
+    navigator?.msMaxTouchPoints > 0
   );
 }
 
