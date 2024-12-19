@@ -197,7 +197,6 @@ const navbar = document.querySelector(".w-nav");
 /**
  * Яндекс метрика
  */
-const ymetrikaID = window.ymetrikaID;
 const eventTpl = `${body.dataset.pageId}_event`;
 const sendEvent = (id) => {
   const pageUrl = window.location.href.split("?")[0];
@@ -3664,12 +3663,27 @@ attachYandexMetricaClickEvents(socialMediaLoadMore, "601", {
   includePages: ["media"],
 });
 
-// Назначаем цели добавленым статьям
+// Назначаем цели добавленным статьям
 document.addEventListener("click", function (event) {
   if (event.target.matches(".social-media-item-link")) {
     sendEvent("602");
   }
 });
+
+const footerProductLinks = body.querySelectorAll("footer [data-product] a");
+const navbarProductLinks = body.querySelectorAll("nav [data-product] a");
+const footerProductTarget = getPage().includes(["blog", "post"]) ? "226" : "96";
+const navbarProductTarget = getPage().includes(["blog", "post"]) ? "210" : "98";
+
+/**
+ * Нажата любая кнопка в разделе продукт в футере
+ */
+attachYandexMetricaClickEvents(footerProductLinks, footerProductTarget);
+
+/**
+ * Нажата любая кнопка в разделе продукт в навбаре
+ */
+attachYandexMetricaClickEvents(navbarProductLinks, navbarProductTarget);
 
 $('a[href="/blog"], a[href*="/blog?"], a[href*="/blog/?"]').on(
   "click",
@@ -3934,25 +3948,13 @@ $(
       } else if ($(this).hasClass("logo__container")) {
         // [Блог] Блог → Главная сайта лого
         sendEvent("250");
-      } else {
-        // [Блог] Меню "Продукт" (хедер)
-        sendEvent("210");
       }
     } else if ($(this).closest("[data-cta-btns]").length) {
       // [Блог] "Попробовать Compass" -> Главная сайта
       sendEvent("216");
-    } else if ($(this).closest("footer [data-product]").length) {
-      // [Блог] Раздел "Продукт" (футер)
-      sendEvent("226");
     }
   } else {
-    if ($(this).closest("footer").length) {
-      // [All] Раздел "Продукт" (футер)
-      sendEvent("96");
-    } else if ($(this).closest("[data-product]").length) {
-      // [All] Раздел "Продукт" (хедэр)
-      sendEvent("98");
-    } else if ($(this).closest(".navbar__logo-flex").length) {
+    if ($(this).closest(".navbar__logo-flex").length) {
       // [All] Нажато лого (хедэр)
       sendEvent("99");
     }
