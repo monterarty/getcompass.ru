@@ -1263,6 +1263,11 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
       !isMobileDevice && sendEvent("52");
     }
 
+    // Рекламная цель 500 для Я метрики на страницу ВКС
+    if (!isLinkForMobilePlatform && ["vcs"].includes(getPage())) {
+      !isMobileDevice && sendEvent("500");
+    }
+
     if (!isMobileDevice && isLinkForMobilePlatform) {
       e.preventDefault();
       window.open(downloadLink.href);
