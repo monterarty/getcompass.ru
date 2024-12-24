@@ -3945,7 +3945,7 @@ $('[data-banner="cta-home"] a').on("click", () => {
 const homeLinks = document.querySelectorAll(
   'a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?"]',
 );
-homeLinks?.forEach(function (link) {
+homeLinks?.forEach((link) => {
   link.addEventListener("click", function () {
     if (["blog", "post"].indexOf(getPage()) + 1) {
       if (link.closest(".w-nav")) {
