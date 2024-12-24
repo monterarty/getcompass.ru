@@ -351,9 +351,9 @@ body.classList.add("is--js-success");
 
 // Функции для работы с куки
 function setCookie(name, value, days) {
-  var expires = "";
+  let expires = "";
   if (days) {
-    var date = new Date();
+    const date = new Date();
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     expires = "; expires=" + date.toUTCString();
   }
@@ -361,10 +361,10 @@ function setCookie(name, value, days) {
 }
 
 function getCookie(name) {
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(";");
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(";");
   for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
+    let c = ca[i];
     while (c.charAt(0) === " ") c = c.substring(1, c.length);
     if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
   }
@@ -3942,28 +3942,31 @@ $('[data-banner="cta-home"] a').on("click", () => {
   sendEvent("225");
 });
 
-$(
-  'a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?"], a[href^="/security"], a[href^="/partner"], a[href^="/videoconferences"]',
-).on("click", function () {
-  if (["blog", "post"].indexOf(getPage()) + 1) {
-    if ($(this).closest(".w-nav").length) {
-      if ($(this).hasClass("cta__btn")) {
+const homeLinks = document.querySelectorAll(
+  'a[href="/"], a[href^="/#"], a[href^="#"], a[href^="/?"]',
+);
+homeLinks?.forEach(function (link) {
+  link.addEventListener("click", function () {
+    if (["blog", "post"].indexOf(getPage()) + 1) {
+      if (link.closest(".w-nav")) {
+        if (link.classList.contains("cta__btn")) {
+          // [Блог] "Попробовать Compass" -> Главная сайта
+          sendEvent("216");
+        } else if (link.classList.contains("logo__container")) {
+          // [Блог] Блог → Главная сайта лого
+          sendEvent("250");
+        }
+      } else if (link.closest("[data-cta-btns]")) {
         // [Блог] "Попробовать Compass" -> Главная сайта
         sendEvent("216");
-      } else if ($(this).hasClass("logo__container")) {
-        // [Блог] Блог → Главная сайта лого
-        sendEvent("250");
       }
-    } else if ($(this).closest("[data-cta-btns]").length) {
-      // [Блог] "Попробовать Compass" -> Главная сайта
-      sendEvent("216");
+    } else {
+      if (link.closest(".navbar__logo-flex")) {
+        // [All] Нажато лого (хедэр)
+        sendEvent("99");
+      }
     }
-  } else {
-    if ($(this).closest(".navbar__logo-flex").length) {
-      // [All] Нажато лого (хедэр)
-      sendEvent("99");
-    }
-  }
+  });
 });
 
 function analyticsModal(hash) {
