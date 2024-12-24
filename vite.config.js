@@ -21,15 +21,15 @@ export default defineConfig({
         globals: {
           jquery: "$",
         },
-        entryFileNames: `assets/js/main-v2.6.10.min.js`, // Имя для JavaScript файлов
-        chunkFileNames: `assets/js/[name].[hash].min.js`, // Имя для чанков JavaScript
+        entryFileNames: `static/js/main-v2.6.10.min.js`, // Имя для JavaScript файлов
+        chunkFileNames: `static/js/[name].[hash].min.js`, // Имя для чанков JavaScript
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith(".css")) {
-            return "assets/css/main-v2.6.10.min[extname]"; // CSS файлы в отдельную папку
+            return "static/css/main-v2.6.10.min[extname]"; // CSS файлы в отдельную папку
           } else if (assetInfo.name.endsWith(".png")) {
-            return "assets/images/[name]-v2.6.10[extname]"; // Картинки в папку images
+            return "static/images/[name]-v2.6.10[extname]"; // Картинки в папку images
           }
-          return "assets/[name]-v2.6.10[extname]"; // Другие ассеты
+          return "static/[name]-v2.6.10[extname]"; // Другие ассеты
         },
       },
     },
