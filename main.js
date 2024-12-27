@@ -546,7 +546,6 @@ function createDownloadLink(options) {
   link.href = "#";
 
   link.classList.add("cta__list-item", "w-inline-block", linkClass);
-  link.setAttribute("download", "download");
   link.addEventListener("click", () => {
     $(".w-dropdown").trigger("w-close");
   });
@@ -884,7 +883,6 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
           ) &&
           !isMobileDevice
         ) {
-          link.setAttribute("download", "download");
         } else if (
           !mobileDownloadPlatformsNames.some((className) =>
             link.classList.contains(className),
