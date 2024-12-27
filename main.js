@@ -349,7 +349,7 @@ const getPage = () => {
 
 body.classList.add("is--js-success");
 
-// Функции для работы с куки
+// Функции для работы с cookies
 function setCookie(name, value, days) {
   let expires = "";
   if (days) {
@@ -1657,7 +1657,7 @@ function removeErrorClassOnInput(input) {
     }
     if (
       os === "iOS" &&
-      parseFloat(platform.version.replace(/\D/g, "")) > 1731
+      parseFloat(platform?.version.replace(/\D/g, "")) > 1731
     ) {
       document.documentElement.scrollTo({
         top: 0,
@@ -3440,7 +3440,7 @@ document.addEventListener("DOMContentLoaded", function () {
     else if (getPage() === "on-premise") sendEvent("314");
   }, 60000);
   // Переменные прокрутки
-  var scrollEventStart = false,
+  let scrollEventStart = false,
     scrollEvent50 = false,
     scrollEvent75 = false,
     scrollEvent100 = false;
@@ -3674,8 +3674,8 @@ document.addEventListener("click", function (event) {
 
 const footerProductLinks = body.querySelectorAll("footer [data-product] a");
 const navbarProductLinks = body.querySelectorAll("nav [data-product] a");
-const footerProductTarget = getPage().includes(["blog", "post"]) ? "226" : "96";
-const navbarProductTarget = getPage().includes(["blog", "post"]) ? "210" : "98";
+const footerProductTarget = ["blog", "post"].includes(getPage()) ? "226" : "96";
+const navbarProductTarget = ["blog", "post"].includes(getPage()) ? "210" : "98";
 
 /**
  * Нажата любая кнопка в разделе продукт в футере
