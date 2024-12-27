@@ -1096,7 +1096,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
      * Нажатая ссылка находится внутри блока Saas?
      * @type {boolean}
      */
-    const isSaasPlatfomsBlock =
+    const isSaasPlatformsBlock =
       downloadLink.closest(".download_cloud-block") !== null;
     /**
      * Нажатая ссылка находится внутри блока Saas для on-premise?
@@ -1115,87 +1115,87 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
             sendPageEvent("AS001");
             isMobileDevice && sendEvent("51");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && sendEvent("707");
+            isSaasPlatformsBlock && sendEvent("707");
             break;
           case "huawei":
             sendEvent("13");
             sendPageEvent("AG001");
             isMobileDevice && sendEvent("51");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && sendEvent("707");
+            isSaasPlatformsBlock && sendEvent("707");
             break;
           case "playmarket":
             sendEvent("14");
             sendPageEvent("GP001");
             isMobileDevice && sendEvent("51");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && sendEvent("707");
+            isSaasPlatformsBlock && sendEvent("707");
             break;
           case "rustore":
             sendEvent("24");
             isMobileDevice && sendEvent("51");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && sendEvent("707");
+            isSaasPlatformsBlock && sendEvent("707");
             break;
           case "windows":
             sendPageEvent("W0001");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && !isMobileDevice && sendEvent("705");
+            isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "windowsmsi":
             sendPageEvent("W0002");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && !isMobileDevice && sendEvent("705");
+            isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "windowsmsi_old":
             sendPageEvent("W0004");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && !isMobileDevice && sendEvent("705");
+            isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "windows_old":
             sendPageEvent("W0003");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && !isMobileDevice && sendEvent("705");
+            isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "macintel":
             sendPageEvent("M0001");
             !isMobileDevice && sendEvent("16");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && !isMobileDevice && sendEvent("704");
+            isSaasPlatformsBlock && !isMobileDevice && sendEvent("704");
             break;
           case "macapple":
             sendPageEvent("M0002");
             !isMobileDevice && sendEvent("16");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && !isMobileDevice && sendEvent("704");
+            isSaasPlatformsBlock && !isMobileDevice && sendEvent("704");
             break;
           case "linuxdeb":
             sendPageEvent("L0001");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && !isMobileDevice && sendEvent("706");
+            isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
             break;
           case "linuxtar":
             sendPageEvent("L0002");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && !isMobileDevice && sendEvent("706");
+            isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
             break;
           case "linuxrpm":
             sendPageEvent("L0003");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && !isMobileDevice && sendEvent("706");
+            isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
             break;
           case "linuxastra":
             sendPageEvent("L0004");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
-            isSaasPlatfomsBlock && !isMobileDevice && sendEvent("706");
+            isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
             break;
         }
         !isMobileDevice && sendEvent("51");
@@ -1274,10 +1274,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
     }
   });
 
-  if (!isLinkForMobilePlatform && !isMobileDevice) {
-    downloadLink.setAttribute("download", "download");
-  } else if (!isLinkForMobilePlatform && isMobileDevice) {
-    downloadLink.removeAttribute("download");
+  if (!isLinkForMobilePlatform && isMobileDevice) {
     downloadLink.setAttribute("build-link", downloadLink.href);
     downloadLink.href = "#";
   }
