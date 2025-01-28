@@ -323,13 +323,6 @@ const getPage = () => {
     "is--vcs-page": "vcs",
   };
 
-  // Проверка классов
-  for (const [className, pageName] of Object.entries(classToPageMap)) {
-    if (document.body.classList.contains(className)) {
-      return pageName;
-    }
-  }
-
   // Проверка URL
   const urlToPageMap = {
     //'/download/': 'download',
@@ -340,6 +333,13 @@ const getPage = () => {
   const currentUrl = window.location.href;
   for (const [urlFragment, pageName] of Object.entries(urlToPageMap)) {
     if (currentUrl.includes(urlFragment)) {
+      return pageName;
+    }
+  }
+
+  // Проверка классов
+  for (const [className, pageName] of Object.entries(classToPageMap)) {
+    if (document.body.classList.contains(className)) {
       return pageName;
     }
   }
@@ -2667,6 +2667,7 @@ if (pathHasHash) {
  * Переход к секции обновлений при
  * загрузке страницы по задаче LAND-1601
  */
+console.log(getPage);
 if (getPage() === "blog-updates") {
   const blogGridElement = document.querySelector("#grid");
   if (blogGridElement) {
