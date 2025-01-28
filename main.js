@@ -1156,61 +1156,61 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
             isSaasPlatformsBlock && sendEvent("707");
             break;
           case "windows":
-            sendPageEvent("W0001");
+            sendPageEvent(isMobileDevice ? "WC001" : "W0001");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
             isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "windowsmsi":
-            sendPageEvent("W0002");
+            sendPageEvent(isMobileDevice ? "WC002" : "W0002");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
             isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "windowsmsi_old":
-            sendPageEvent("W0004");
+            sendPageEvent(isMobileDevice ? "WC004" : "W0004");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
             isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "windows_old":
-            sendPageEvent("W0003");
+            sendPageEvent(isMobileDevice ? "WC003" : "W0003");
             !isMobileDevice && sendEvent("15");
             // Цели для блока SaaS
             isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
             break;
           case "macintel":
-            sendPageEvent("M0001");
+            sendPageEvent(isMobileDevice ? "MC001" : "M0001");
             !isMobileDevice && sendEvent("16");
             // Цели для блока SaaS
             isSaasPlatformsBlock && !isMobileDevice && sendEvent("704");
             break;
           case "macapple":
-            sendPageEvent("M0002");
+            sendPageEvent(isMobileDevice ? "MC002" : "M0002");
             !isMobileDevice && sendEvent("16");
             // Цели для блока SaaS
             isSaasPlatformsBlock && !isMobileDevice && sendEvent("704");
             break;
           case "linuxdeb":
-            sendPageEvent("L0001");
+            sendPageEvent(isMobileDevice ? "LC001" : "L0001");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
             isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
             break;
           case "linuxtar":
-            sendPageEvent("L0002");
+            sendPageEvent(isMobileDevice ? "LC002" : "L0002");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
             isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
             break;
           case "linuxrpm":
-            sendPageEvent("L0003");
+            sendPageEvent(isMobileDevice ? "LC003" : "L0003");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
             isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
             break;
           case "linuxastra":
-            sendPageEvent("L0004");
+            sendPageEvent(isMobileDevice ? "LC004" : "L0004");
             !isMobileDevice && sendEvent("17");
             // Цели для блока SaaS
             isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
@@ -2497,13 +2497,14 @@ copyFields?.forEach((copyField) => {
  * @type {Element}
  */
 const copyPostLinkButton = document.querySelector(
-  ".article__social-share-link",
+  ".article__social-share-link--copy",
 );
+
 if (copyPostLinkButton) {
   copyPostLinkButton.style.display = "inline-block";
   let copyPostLinkTimeout = setTimeout(function () {}, 0);
 
-  const copyPostLink = new ClipboardJS(copyPostLinkButton, {
+  const copyPostLink = new ClipboardJS(".article__social-share-link--copy", {
     text: function () {
       return window.location.href;
     },
@@ -2667,16 +2668,17 @@ if (pathHasHash) {
  * Переход к секции обновлений при
  * загрузке страницы по задаче LAND-1601
  */
-console.log(getPage);
-if (getPage() === "blog-updates") {
-  const blogGridElement = document.querySelector("#grid");
-  if (blogGridElement) {
-    window.scrollTo({
-      top: blogGridElement.offsetTop,
-      behavior: "smooth",
-    });
+document.addEventListener("DOMContentLoaded", () => {
+  if (getPage() === "blog-updates") {
+    const blogGridElement = document.querySelector("#grid");
+    if (blogGridElement) {
+      window.scrollTo({
+        top: blogGridElement.offsetTop - navbar.offsetHeight,
+        behavior: "smooth",
+      });
+    }
   }
-}
+});
 
 //Фикс удаления хэша после перехода к разделу
 history.scrollRestoration = "manual";
@@ -3543,9 +3545,8 @@ async function getVksLink() {
     }
 
     const responseData = await response.json();
-    console.log(responseData);
     // Успешный переход в конференцию
-    sendEvent("500");
+    // sendEvent("500");
     window.open(
       `https://${responseData.conference_joining_data.domain}/${responseData.conference_joining_data.room}?jwt=${responseData.conference_joining_data.jwt_token}`,
     );

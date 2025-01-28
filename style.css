@@ -75,13 +75,19 @@ html {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
+.is--no-touch .hover--bg-cta-footer:hover,
+.is--touch .hover--bg-cta-footer:active {
+    background-color: #434456;
+}
+
 .active--text-light-red-80pr.w--open,
 .is--no-touch .hover--text-light-red\/80:hover,
 .is--touch .hover--text-light-red\/80:active {
     color: rgba(248, 248, 248, 0.8);
 }
 
-.active--bg-dark-blue.w--open {
+.active--bg-dark-blue.w--open,
+.w--open .active--bg-dark-blue {
     background-color: #333445;
 }
 
@@ -275,137 +281,99 @@ picture {
     background-color: #e6e6e60d;
 }
 
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(1) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {
     order: 1;
 }
 
 /* Другие платформы */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(2) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(2) {
     order: 4;
 }
 
 /* Windows 10 и выше */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(3) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(3) {
     order: 7;
 }
 
 /* Windows 8.1 */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(4) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(4) {
     order: 2;
 }
 
 /* Mac Intel */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(5) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(5) {
     order: 3;
 }
 
 /* Mac Silicon */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(6) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(6) {
     order: 5;
 }
 
 /* Windows exe New */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(7) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(7) {
     order: 6;
 }
 
 /* Windows msi new */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(8) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(8) {
     order: 8;
     display: none;
 }
 
 /* Windows exe old */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(9) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(9) {
     order: 9;
 }
 
 /* Windows msi old  */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(10) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(10) {
     order: 10;
     display: none;
 }
 
 /* Linux deb */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(11) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(11) {
     order: 11;
 }
 
 /* Linux tar */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(12) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(12) {
     order: 12;
 }
 
 /* Linux rpm */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(13) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(13) {
     order: 13;
 }
 
 /* Linux Astra deb */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(14) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(14) {
     order: 14;
 }
 
 /* AppStore */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(15) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(15) {
     order: 15;
 }
 
 /* Playmarket */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(16) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(16) {
     order: 16;
 }
 
 /* AppGallery */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(17) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(17) {
     order: 17;
 }
 
 /* RuStore */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(18) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(18) {
     order: 18;
 }
 
 /* Download Cloud */
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(19) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(19) {
     order: 19;
 }
 
@@ -416,33 +384,22 @@ picture {
 }
 
 .is--mac
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(1) {
+.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {
     order: 3;
     display: flex;
 }
 
-.is--mac
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(4) {
+.is--mac .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(4) {
     order: 1;
     display: flex;
 }
 
-.is--mac
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(5) {
+.is--mac .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(5) {
     order: 2;
     display: flex;
 }
 
-.is--windows
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div {
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div {
     display: none;
 }
 
@@ -517,10 +474,6 @@ picture {
 .cta__dd-list-inner-wrap
 > div:nth-child(9),
 .is--download-op.is--windows
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(9),
-.is--download-cloud.is--windows
 .cta__dd-list:not(.is--sort-disable)
 .cta__dd-list-inner-wrap
 > div:nth-child(9) {
