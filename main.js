@@ -333,6 +333,7 @@ const getPage = () => {
   // Проверка URL
   const urlToPageMap = {
     //'/download/': 'download',
+    "topics/updates": "blog-updates",
     mediakit: "mediakit",
   };
 
@@ -2647,7 +2648,8 @@ if ($(".blog-hero__filter").length) {
 }
 
 // Фикс плавного подскролла к секции при загрузке
-if (window.location.hash) {
+const pathHasHash = !!window.location.hash;
+if (pathHasHash) {
   const rawHash = window.location.hash.split("?")[0];
   const validSelector = `#${CSS.escape(rawHash.substring(1))}`;
   const targetEl = document.querySelector(validSelector);
@@ -2659,6 +2661,20 @@ if (window.location.hash) {
     });
   }
   removeAnchorFormURL();
+}
+
+/**
+ * Переход к секции обновлений при
+ * загрузке страницы по задаче LAND-1601
+ */
+if (getPage() === "blog-updates") {
+  const blogGridElement = document.querySelector("#grid");
+  if (blogGridElement) {
+    window.scrollTo({
+      top: blogGridElement.offsetTop,
+      behavior: "smooth",
+    });
+  }
 }
 
 //Фикс удаления хэша после перехода к разделу
@@ -3994,7 +4010,6 @@ function analyticsModal(hash) {
       }
       break;
     case "#consultation-on-premise":
-      sendPageEvent("POP01");
       if (getPage() === "post") {
         // [Блог] Открыта заявка из баннера On-premise
         sendEvent("222");
