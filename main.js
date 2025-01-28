@@ -6,7 +6,7 @@ import noUiSlider from "nouislider";
 import "@finsweet/cookie-consent";
 import { UAParser } from "ua-parser-js";
 import "remodal";
-//import $ from "jquery";
+import $ from "jquery";
 
 window.REMODAL_GLOBALS = {
   NAMESPACE: "remodal",
@@ -333,6 +333,7 @@ const getPage = () => {
   // Проверка URL
   const urlToPageMap = {
     //'/download/': 'download',
+    "topics/updates": "blog-updates",
     mediakit: "mediakit",
   };
 
@@ -821,18 +822,34 @@ const allDownloadDropdowns = [
 const downloadDropdownsObserver = new MutationObserver((mutations) => {
   mutations.forEach((mu) => {
     if (mu.type === "attributes" && mu.attributeName === "class") {
-      if (mu.target.classList.contains("w--open")) {
-        mu.target.closest(".w-dropdown").classList.add("is--open");
-        if (mu.target.closest("[data-menu-dd-wrap]")) {
-          mu.target.closest("[data-menu-dd-wrap]").classList.add("sm--z-900");
+      const trigger = mu.target;
+      const dropdown = trigger.closest(".w-dropdown");
+      const dropdownList = dropdown.querySelector(".w-dropdown-list");
+      const isOpen = trigger.classList.contains("w--open");
+      if (isOpen) {
+        trigger.closest(".w-dropdown").classList.add("is--open");
+        if (trigger.closest("[data-menu-dd-wrap]")) {
+          trigger.closest("[data-menu-dd-wrap]").classList.add("sm--z-900");
+        }
+        const { top: triggerTop } = trigger.getBoundingClientRect();
+        const { top, bottom, height } = dropdownList.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const offset = 50;
+        const { bottom: navbarBottom } = navbar.getBoundingClientRect();
+        const isBottomEmptySpace = bottom + offset >= viewportHeight;
+        const isTopEmptySpace = triggerTop - height < navbarBottom;
+
+        if (isBottomEmptySpace && !isTopEmptySpace) {
+          dropdownList.classList.add("is--open-top");
+        } else {
+          dropdownList.classList.remove("is--open-top");
         }
       } else {
-        mu.target.closest(".w-dropdown").classList.remove("is--open");
-        if (mu.target.closest("[data-menu-dd-wrap]")) {
-          mu.target
-            .closest("[data-menu-dd-wrap]")
-            .classList.remove("sm--z-900");
+        trigger.closest(".w-dropdown").classList.remove("is--open");
+        if (trigger.closest("[data-menu-dd-wrap]")) {
+          trigger.closest("[data-menu-dd-wrap]").classList.remove("sm--z-900");
         }
+        dropdownList.classList.remove("is--open-top");
       }
     }
   });
@@ -847,7 +864,8 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
     attributes: true,
   });
   toggle.addEventListener("mousedown", (e) => {
-    if (!downloadDropdown.classList.contains("w-open")) {
+    const isOpen = !downloadDropdown.classList.contains("is--open");
+    if (isOpen) {
       allDownloadDropdowns.forEach((downloadOtherDropdown) => {
         if (downloadOtherDropdown !== downloadDropdown) {
           downloadOtherDropdown
@@ -894,9 +912,11 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
           link.href = "#";
         }
       });
+
       downloadDropdown
         .querySelector(".cta__dd-list-wrap")
         .appendChild(downloadLinksList);
+
       // Цели Метрики
       // Нажата кнопка попробовать бесплатно для облачной версии приложения в шапке сайта
       if (version === "cloud" && downloadDropdown.closest(".w-nav")) {
@@ -1336,9 +1356,6 @@ window.addEventListener("resize", () => {
 const CTADropdowns = document.querySelectorAll(".w-dropdown");
 Array.prototype.forEach.call(CTADropdowns, (dropdown) => {
   const dropdownToggle = dropdown.querySelector(".w-dropdown-toggle");
-  // const isWindowsList = dropdown
-  //   .querySelector('.w-dropdown-list')
-  //   ?.classList.contains('is--win-list');
   const isOpen = dropdownToggle.classList.contains("w--open");
 
   dropdownToggle.addEventListener("click", () => {
@@ -1346,16 +1363,6 @@ Array.prototype.forEach.call(CTADropdowns, (dropdown) => {
      * Отцентровать стрелку если закрыт выпадающий список
      */
     !isOpen && setCenterCTAListArrow(dropdown);
-
-    /**
-     * Логика на время отсутствия сборки msi для windows
-     */
-    // if (isWindowsList) {
-    //   const buildLink = dropdown.querySelector('.windows');
-    //   dropdown.classList.add('is--hidden-list');
-    //
-    //   buildLink.click();
-    // }
   });
 });
 
@@ -2641,7 +2648,8 @@ if ($(".blog-hero__filter").length) {
 }
 
 // Фикс плавного подскролла к секции при загрузке
-if (window.location.hash) {
+const pathHasHash = !!window.location.hash;
+if (pathHasHash) {
   const rawHash = window.location.hash.split("?")[0];
   const validSelector = `#${CSS.escape(rawHash.substring(1))}`;
   const targetEl = document.querySelector(validSelector);
@@ -2653,6 +2661,20 @@ if (window.location.hash) {
     });
   }
   removeAnchorFormURL();
+}
+
+/**
+ * Переход к секции обновлений при
+ * загрузке страницы по задаче LAND-1601
+ */
+if (getPage() === "blog-updates") {
+  const blogGridElement = document.querySelector("#grid");
+  if (blogGridElement) {
+    window.scrollTo({
+      top: blogGridElement.offsetTop,
+      behavior: "smooth",
+    });
+  }
 }
 
 //Фикс удаления хэша после перехода к разделу
@@ -3988,7 +4010,6 @@ function analyticsModal(hash) {
       }
       break;
     case "#consultation-on-premise":
-      sendPageEvent("POP01");
       if (getPage() === "post") {
         // [Блог] Открыта заявка из баннера On-premise
         sendEvent("222");
