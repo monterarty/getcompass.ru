@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 
+const releaseVersion = "2.6.13";
 export default defineConfig({
   base: "/getcompass.ru/", // Указываем базовый путь для проекта
   build: {
@@ -21,15 +22,15 @@ export default defineConfig({
         globals: {
           jquery: "$",
         },
-        entryFileNames: `static/js/main-v2.6.10.min.js`, // Имя для JavaScript файлов
+        entryFileNames: `static/js/main-v${releaseVersion}.min.js`, // Имя для JavaScript файлов
         chunkFileNames: `static/js/[name].[hash].min.js`, // Имя для чанков JavaScript
         assetFileNames: (assetInfo) => {
           if (assetInfo.name.endsWith(".css")) {
-            return "static/css/main-v2.6.10.min[extname]"; // CSS файлы в отдельную папку
+            return `static/css/main-v${releaseVersion}.min[extname]`; // CSS файлы в отдельную папку
           } else if (assetInfo.name.endsWith(".png")) {
-            return "static/images/[name]-v2.6.10[extname]"; // Картинки в папку images
+            return `static/images/[name]-v${releaseVersion}[extname]`; // Картинки в папку images
           }
-          return "static/[name]-v2.6.10[extname]"; // Другие ассеты
+          return `static/[name]-v${releaseVersion}[extname]`; // Другие ассеты
         },
       },
     },
