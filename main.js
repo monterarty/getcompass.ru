@@ -1293,7 +1293,19 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   });
 
   if (!isLinkForMobilePlatform && isMobileDevice) {
-    downloadLink.setAttribute("build-link", downloadLink.href);
+    /**
+     * Проставляем ссылку на копирование:
+     * onpremise - билд, на cloud - инструкция
+     */
+    if (downloadLink.dataset.version === "onpremise") {
+      downloadLink.setAttribute("build-link", downloadLink.href);
+    } else {
+      downloadLink.setAttribute(
+        "build-link",
+        window.location.origin +
+          instructionLinks[downloadLink.dataset.platform],
+      );
+    }
     downloadLink.href = "#";
   }
 });
