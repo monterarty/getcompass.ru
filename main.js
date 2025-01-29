@@ -523,6 +523,35 @@ if (isTouchDevice()) {
   body.classList.add("is--no-touch");
 }
 
+//Определяем систему и добавляем класс в body
+switch (os) {
+  case "iOS":
+    body.classList.add("is--ios");
+    break;
+  case "Android":
+    body.classList.add("is--android");
+    break;
+  case "Windows":
+    body.classList.add("is--windows");
+    break;
+  case "Linux":
+    body.classList.add("is--linux");
+    break;
+  case "OS X":
+    body.classList.add("is--mac");
+    break;
+  case "Huawei":
+    body.classList.add("is--android");
+    break;
+}
+
+const mobilePlatforms = ["Android", "iOS", "Huawei"];
+/**
+ * Мобильное устройтво?
+ * @type {boolean}
+ */
+const isMobileDevice = mobilePlatforms.includes(os);
+
 // Функция для создания ссылки с SVG и названием
 function createDownloadLink(options) {
   const linkText = options[0],
@@ -908,7 +937,6 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
           isMobileDevice
         ) {
           link.removeAttribute("download");
-          link.setAttribute("build-link", link.href);
           link.href = "#";
         }
       });
@@ -933,42 +961,12 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
   });
 });
 
-//Определяем систему и добавляем класс в body
-switch (os) {
-  case "iOS":
-    body.classList.add("is--ios");
-    break;
-  case "Android":
-    body.classList.add("is--android");
-    break;
-  case "Windows":
-    body.classList.add("is--windows");
-    break;
-  case "Linux":
-    body.classList.add("is--linux");
-    break;
-  case "OS X":
-    body.classList.add("is--mac");
-    break;
-  case "Huawei":
-    body.classList.add("is--android");
-    break;
-}
-
 const mobileDownloadPlatformsNames = [
   "appstore",
   "playmarket",
   "huawei",
   "rustore",
 ];
-const mobileBodyClassNames = ["is--ios", "is--android", "is--huawei"];
-/**
- * Мобильное устройтво?
- * @type {boolean}
- */
-const isMobileDevice = mobileBodyClassNames.some((className) =>
-  document.body.classList.contains(className),
-);
 const url = new URL(location);
 const urlParams = url.searchParams;
 const sourceID = urlParams.get("source_id") || "";
@@ -1097,6 +1095,22 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
     } else {
       downloadLink.dataset.version = "cloud";
       downloadLink.href = downloadLinksData[platform][3];
+    }
+
+    if (!isLinkForMobilePlatform && isMobileDevice) {
+      /**
+       * Проставляем ссылку на копирование:
+       * onpremise - билд, на cloud - инструкция
+       */
+      if (isShowOnpremiseLinks) {
+        downloadLink.setAttribute("build-link", downloadLinksData[platform][4]);
+      } else {
+        downloadLink.setAttribute(
+          "build-link",
+          window.location.origin + instructionLinks[platform],
+        );
+      }
+      downloadLink.href = "#";
     }
   }
   //Цели яндекс на клик по стору
@@ -1291,23 +1305,6 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
       window.open(downloadLink.href);
     }
   });
-
-  if (!isLinkForMobilePlatform && isMobileDevice) {
-    /**
-     * Проставляем ссылку на копирование:
-     * onpremise - билд, на cloud - инструкция
-     */
-    if (downloadLink.dataset.version === "onpremise") {
-      downloadLink.setAttribute("build-link", downloadLink.href);
-    } else {
-      downloadLink.setAttribute(
-        "build-link",
-        window.location.origin +
-          instructionLinks[downloadLink.dataset.platform],
-      );
-    }
-    downloadLink.href = "#";
-  }
 });
 
 //Центруем всплывашку платформ на мобилке
