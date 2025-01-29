@@ -2671,9 +2671,10 @@ if (pathHasHash) {
 document.addEventListener("DOMContentLoaded", () => {
   if (getPage() === "blog-updates") {
     const blogGridElement = document.querySelector("#grid");
+    const blogGridElementRect = blogGridElement.getBoundingClientRect();
     if (blogGridElement) {
       window.scrollTo({
-        top: blogGridElement.offsetTop - navbar.offsetHeight,
+        top: blogGridElementRect.top - navbar.offsetHeight,
         behavior: "smooth",
       });
     }
