@@ -1118,8 +1118,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   //Цели яндекс на клик по стору
   downloadLink.addEventListener("click", (e) => {
     const instructionLink = window.location.origin + instructionLinks[platform];
-    const blockID =
-      downloadLink.closest("[data-block]")?.dataset?.dataBlock ?? "";
+    const blockID = downloadLink.closest("[data-block]")?.dataset?.block ?? "";
 
     console.log(blockID);
 
