@@ -1514,15 +1514,27 @@ function addInputPhoneMask() {
     }
   };
 
-  const onPasteHandler = (event) => {
+  const onPasteHandler = async (event) => {
+    event.preventDefault(); // Останавливаем стандартное поведение вставки
     const input = event.target;
     const inputNumbersValue = getInputNumbersValue(input);
-    const pasted = event.clipboardData || window.Clipboard;
-    if (pasted) {
-      const pastedText = pasted.getData("Text");
-      if (regExp.test(pastedText)) {
-        input.value = inputNumbersValue;
+
+    let pastedText = "";
+
+    if (event.clipboardData?.getData) {
+      // Используем clipboardData, если оно доступно
+      pastedText = event.clipboardData.getData("Text");
+    } else if (navigator.clipboard?.readText) {
+      // Если clipboardData нет, пробуем Clipboard API
+      try {
+        pastedText = await navigator.clipboard.readText();
+      } catch (error) {
+        console.warn("Ошибка доступа к буферу обмена:", error);
       }
+    }
+
+    if (regExp.test(pastedText)) {
+      input.value = inputNumbersValue;
     }
   };
 
