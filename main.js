@@ -198,7 +198,7 @@ const navbar = document.querySelector(".w-nav");
  * Яндекс метрика
  */
 const eventTpl = `${body.dataset.pageId}_event`;
-const sendEvent = (id) => {
+const sendEvent = (id, props) => {
   const pageUrl = window.location.href.split("?")[0];
   const utmParams = getUtmParams();
   if (typeof ym !== "undefined") {
@@ -209,6 +209,7 @@ const sendEvent = (id) => {
       utm_campaign: utmParams.utm_campaign,
       utm_term: utmParams.utm_term,
       utm_content: utmParams.utm_content,
+      ...props,
     });
   }
 };
@@ -217,9 +218,10 @@ const sendEvent = (id) => {
  * Отправляет событие в яндекс метрику с вставкой
  * ID страницы с которой происходит отправка
  * @param {string} id
+ * @param props - набор параметров
  */
-const sendPageEvent = (id) => {
-  sendEvent(eventTpl.replace("event", id));
+const sendPageEvent = (id, props) => {
+  sendEvent(eventTpl.replace("event", id), props);
 };
 
 /**
@@ -1116,6 +1118,11 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
   //Цели яндекс на клик по стору
   downloadLink.addEventListener("click", (e) => {
     const instructionLink = window.location.origin + instructionLinks[platform];
+    const blockID =
+      downloadLink.closest("[data-block]")?.dataset?.dataBlock ?? "";
+
+    console.log(blockID);
+
     /**
      * Пользователь находится на странице
      * инструкции билда на который он нажал?
@@ -1137,108 +1144,134 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
     const isOnPremisePlatformsBlock =
       downloadLink.closest(".download_op-block") !== null;
 
+    /**
+     * Если нажатая ссылка находится внутри первого блока
+     * для повторного скачивания на страницах инструкций
+     * @type {boolean}
+     */
+    const isDonwloadHeroBlock =
+      downloadLink.closest(".is--download-ddown") !== null;
+
     // Цели для Cloud версии приложения
     if (downloadLink.dataset.version === "cloud") {
       e.preventDefault();
-      if (getPage() !== "download") {
-        switch (platform) {
-          case "appstore":
-            sendEvent("12");
-            sendPageEvent("AS001");
-            isMobileDevice && sendEvent("51");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && sendEvent("707");
-            break;
-          case "huawei":
-            sendEvent("13");
-            sendPageEvent("AG001");
-            isMobileDevice && sendEvent("51");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && sendEvent("707");
-            break;
-          case "playmarket":
-            sendEvent("14");
-            sendPageEvent("GP001");
-            isMobileDevice && sendEvent("51");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && sendEvent("707");
-            break;
-          case "rustore":
-            sendEvent("24");
-            isMobileDevice && sendEvent("51");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && sendEvent("707");
-            break;
-          case "windows":
-            sendPageEvent(isMobileDevice ? "WC001" : "W0001");
-            !isMobileDevice && sendEvent("15");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
-            break;
-          case "windowsmsi":
-            sendPageEvent(isMobileDevice ? "WC002" : "W0002");
-            !isMobileDevice && sendEvent("15");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
-            break;
-          case "windowsmsi_old":
-            sendPageEvent(isMobileDevice ? "WC004" : "W0004");
-            !isMobileDevice && sendEvent("15");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
-            break;
-          case "windows_old":
-            sendPageEvent(isMobileDevice ? "WC003" : "W0003");
-            !isMobileDevice && sendEvent("15");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
-            break;
-          case "macintel":
-            sendPageEvent(isMobileDevice ? "MC001" : "M0001");
-            !isMobileDevice && sendEvent("16");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && !isMobileDevice && sendEvent("704");
-            break;
-          case "macapple":
-            sendPageEvent(isMobileDevice ? "MC002" : "M0002");
-            !isMobileDevice && sendEvent("16");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && !isMobileDevice && sendEvent("704");
-            break;
-          case "linuxdeb":
-            sendPageEvent(isMobileDevice ? "LC001" : "L0001");
-            !isMobileDevice && sendEvent("17");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
-            break;
-          case "linuxtar":
-            sendPageEvent(isMobileDevice ? "LC002" : "L0002");
-            !isMobileDevice && sendEvent("17");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
-            break;
-          case "linuxrpm":
-            sendPageEvent(isMobileDevice ? "LC003" : "L0003");
-            !isMobileDevice && sendEvent("17");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
-            break;
-          case "linuxastra":
-            sendPageEvent(isMobileDevice ? "LC004" : "L0004");
-            !isMobileDevice && sendEvent("17");
-            // Цели для блока SaaS
-            isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
-            break;
-        }
-        !isMobileDevice && sendEvent("51");
-        _tmr.push({
-          type: "reachGoal",
-          id: 3381982,
-          goal: "click",
-        });
+      switch (platform) {
+        case "appstore":
+          sendEvent("12");
+          sendPageEvent("AS001", { page_block: blockID });
+          isMobileDevice && sendEvent("51");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && sendEvent("707");
+          break;
+        case "huawei":
+          sendEvent("13");
+          sendPageEvent("AG001", { page_block: blockID });
+          isMobileDevice && sendEvent("51");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && sendEvent("707");
+          break;
+        case "playmarket":
+          sendEvent("14");
+          sendPageEvent("GP001", { page_block: blockID });
+          isMobileDevice && sendEvent("51");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && sendEvent("707");
+          break;
+        case "rustore":
+          sendEvent("24");
+          isMobileDevice && sendEvent("51");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && sendEvent("707");
+          break;
+        case "windows":
+          sendPageEvent(isMobileDevice ? "WC001" : "W0001", {
+            page_block: blockID,
+          });
+          !isMobileDevice && sendEvent("15");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
+          break;
+        case "windowsmsi":
+          sendPageEvent(isMobileDevice ? "WC002" : "W0002", {
+            page_block: blockID,
+          });
+          !isMobileDevice && sendEvent("15");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
+          break;
+        case "windowsmsi_old":
+          sendPageEvent(isMobileDevice ? "WC004" : "W0004", {
+            page_block: blockID,
+          });
+          !isMobileDevice && sendEvent("15");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
+          break;
+        case "windows_old":
+          sendPageEvent(isMobileDevice ? "WC003" : "W0003", {
+            page_block: blockID,
+          });
+          !isMobileDevice && sendEvent("15");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && !isMobileDevice && sendEvent("705");
+          break;
+        case "macintel":
+          sendPageEvent(isMobileDevice ? "MC001" : "M0001", {
+            page_block: blockID,
+          });
+          !isMobileDevice && sendEvent("16");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && !isMobileDevice && sendEvent("704");
+          break;
+        case "macapple":
+          sendPageEvent(isMobileDevice ? "MC002" : "M0002", {
+            page_block: blockID,
+          });
+          !isMobileDevice && sendEvent("16");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && !isMobileDevice && sendEvent("704");
+          break;
+        case "linuxdeb":
+          sendPageEvent(isMobileDevice ? "LC001" : "L0001", {
+            page_block: blockID,
+          });
+          !isMobileDevice && sendEvent("17");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
+          break;
+        case "linuxtar":
+          sendPageEvent(isMobileDevice ? "LC002" : "L0002", {
+            page_block: blockID,
+          });
+          !isMobileDevice && sendEvent("17");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
+          break;
+        case "linuxrpm":
+          sendPageEvent(isMobileDevice ? "LC003" : "L0003", {
+            page_block: blockID,
+          });
+          !isMobileDevice && sendEvent("17");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
+          break;
+        case "linuxastra":
+          sendPageEvent(isMobileDevice ? "LC004" : "L0004", {
+            page_block: blockID,
+          });
+          !isMobileDevice && sendEvent("17");
+          // Цели для блока SaaS
+          isSaasPlatformsBlock && !isMobileDevice && sendEvent("706");
+          break;
       }
+      !isMobileDevice && sendEvent("51");
+      _tmr.push({
+        type: "reachGoal",
+        id: 3381982,
+        goal: "click",
+      });
 
-      if (getPage() === "download") {
+      if (getPage() === "download" && isDonwloadHeroBlock) {
         !isMobileDevice && sendEvent("76");
       }
 
