@@ -451,8 +451,6 @@ picture {
 }
 
 /* Windows 7 msi показ на странице всех сборок и стр инструкций */
-.is--download-page[data-download-platform="windowsmsi_old"].is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(9),
-.is--download-page[data-download-platform="windowsmsi"].is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(9),
 .is--download-op.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(9) {
     order: 6;
     display: flex;
