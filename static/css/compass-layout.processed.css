@@ -1,4 +1,7 @@
 :root {
+    --s15: .8333333333rem;
+    --s17: .9444444444rem;
+    --s37: 2.055555555rem;
     --s45: 2.5rem;
     --s62: 3.4444444444rem;
     --s81: 4.5rem;
@@ -30,6 +33,9 @@
 @media (max-width: 767px) {
     :root {
         --d2: 0.1666666667rem;
+        --s15: 1.25rem;
+        --s17: 1.416666667rem;
+        --s37: 3.083333333rem;
         --s45: 3.75rem;
         --m61: 5.0833333333rem;
         --s62: 5.1666666667rem;
@@ -1037,7 +1043,9 @@ body {
 }
 
 .bg-grad-cta {
-    background-image: linear-gradient(114.72deg, rgba(21, 95, 237, 0.3) 22.85%, #217E9C 57.29%, #155FED 82.23%)
+    background-image: linear-gradient(114.72deg, rgba(21, 95, 237, 0.3) 22.85%, rgba(33, 126, 156, 0.7) 57.29%, rgba(21, 95, 237, 0.7) 82.23%);
+
+
 }
 
 .bg-footer-btn {
@@ -1504,8 +1512,8 @@ body {
     padding-bottom: 0;
 }
 
-.p-1 {
-    padding: 1px;
+.p-2 {
+    padding: var(--d2);
 }
 
 .pb-2 {
@@ -1629,8 +1637,8 @@ body {
 }
 
 .py-15 {
-    padding-top: var(--d15);
-    padding-bottom: var(--d15);
+    padding-top: var(--s15);
+    padding-bottom: var(--s15);
 }
 
 .p-16 {
@@ -1656,6 +1664,10 @@ body {
 .py-16 {
     padding-top: var(--d16);
     padding-bottom: var(--d16);
+}
+
+.pl-17 {
+    padding-left: var(--s17)
 }
 
 .px-16 {
@@ -1820,6 +1832,10 @@ body {
 
 .pt-36 {
     padding-top: var(--d36);
+}
+
+.pr-37 {
+    padding-right: var(--s37)
 }
 
 .pr-38 {
@@ -3036,6 +3052,10 @@ body {
     }
 
     /* Paddings */
+    .p-2 {
+        padding: var(--m2);
+    }
+
     .pb-2 {
         padding-bottom: var(--m2);
     }
