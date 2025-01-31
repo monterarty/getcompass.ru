@@ -412,37 +412,25 @@ picture {
 }
 
 /* Скрыты сборки для Windows 7 */
-.is--windows
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(2) {
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(2) {
     order: 1;
     display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */
-.is--windows
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(3) {
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(3) {
     order: 4;
     display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */
-.is--windows
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(6) {
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(6) {
     order: 2;
     display: flex;
 }
 
 /* Windows 10 msi */
-.is--windows
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(7) {
+.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(7) {
     order: 3;
 }
 
@@ -463,20 +451,9 @@ picture {
 }
 
 /* Windows 7 msi показ на странице всех сборок и стр инструкций */
-.is--download-page[data-download-platform="windowsmsi_old"].is--windows .cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(9),
-.is--download-page[data-download-platform="windowsmsi"].is--windows .cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(9),
-.is--download-page.is--windows
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(9),
-.is--download-op.is--windows
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(9) {
+.is--download-page[data-download-platform="windowsmsi_old"].is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(9),
+.is--download-page[data-download-platform="windowsmsi"].is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(9),
+.is--download-op.is--windows .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(9) {
     order: 6;
     display: flex;
 }
@@ -486,118 +463,79 @@ picture {
     display: none;
 }
 
-.is--linux
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(1) {
+.is--linux .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {
     order: 5;
     display: flex;
 }
 
-.is--linux
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(10) {
+.is--linux .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(10) {
     order: 1;
     display: flex;
 }
 
-.is--linux
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(11) {
+.is--linux .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(11) {
     order: 2;
     display: flex;
 }
 
-.is--linux
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(12) {
+.is--linux .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(12) {
     order: 3;
     display: flex;
 }
 
-.is--linux
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(13) {
+.is--linux .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(13) {
     order: 4;
     display: flex;
 }
 
-.is--android
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div {
+.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div {
     display: none;
 }
 
-.is--android
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(1) {
+.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {
     order: 4;
     display: none;
 }
 
 /* Скрыты другие платформы */
-.is--android
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(15) {
+.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(15) {
     order: 1;
     display: flex;
 }
 
-.is--android
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(16) {
+.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(16) {
     order: 2;
     display: flex;
 }
 
-.is--android
-.cta__dd-list:not(.is--sort-disable)
-.cta__dd-list-inner-wrap
-> div:nth-child(17) {
+.is--android .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(17) {
     order: 3;
     display: none;
 }
 
 /* Скрыт RuStore */
 
-.cta__dd-list.is--mobile-platforms.is--sort-disable
-.cta__dd-list-inner-wrap
-> div {
+.cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap > div {
     display: none;
 }
 
-.cta__dd-list.is--mobile-platforms.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(14) {
+.cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(14) {
     order: 1;
     display: flex;
 }
 
 /* Скрыты другие платформы */
-.cta__dd-list.is--mobile-platforms.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(15) {
+.cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(15) {
     order: 2;
     display: flex;
 }
 
-.cta__dd-list.is--mobile-platforms.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(16) {
+.cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(16) {
     order: 3;
     display: flex;
 }
 
-.cta__dd-list.is--mobile-platforms.is--sort-disable
-.cta__dd-list-inner-wrap
+.cta__dd-list.is--mobile-platforms.is--sort-disable .cta__dd-list-inner-wrap
 > div:nth-child(17) {
     order: 4;
     display: none;
@@ -609,16 +547,12 @@ picture {
     display: none;
 }
 
-.cta__dd-list.is--mac-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(4) {
+.cta__dd-list.is--mac-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(4) {
     order: 1;
     display: flex;
 }
 
-.cta__dd-list.is--mac-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(5) {
+.cta__dd-list.is--mac-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(5) {
     order: 2;
     display: flex;
 }
@@ -627,30 +561,22 @@ picture {
     display: none;
 }
 
-.cta__dd-list.is--linux-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(10) {
+.cta__dd-list.is--linux-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(10) {
     order: 1;
     display: flex;
 }
 
-.cta__dd-list.is--linux-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(11) {
+.cta__dd-list.is--linux-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(11) {
     order: 2;
     display: flex;
 }
 
-.cta__dd-list.is--linux-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(12) {
+.cta__dd-list.is--linux-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(12) {
     order: 3;
     display: flex;
 }
 
-.cta__dd-list.is--linux-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(13) {
+.cta__dd-list.is--linux-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(13) {
     order: 4;
     display: flex;
 }
@@ -660,25 +586,19 @@ picture {
 }
 
 /* Скрыты сборки для Windows 7 */
-.cta__dd-list.is--win-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(2) {
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(2) {
     order: 1;
     display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */
-.cta__dd-list.is--win-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(3) {
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(3) {
     order: 4;
     display: flex;
 }
 
 /* Скрыты сборки для Windows 7 */
-.cta__dd-list.is--win-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(6) {
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(6) {
     order: 2;
     display: flex;
 }
@@ -690,17 +610,13 @@ picture {
 }
 
 /* Скрыты сборки для Windows msi */
-.cta__dd-list.is--win-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(8) {
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(8) {
     order: 5;
     display: flex;
 }
 
 /* Скрыты сборки для Windows msi */
-.cta__dd-list.is--win-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(9) {
+.cta__dd-list.is--win-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(9) {
     order: 6;
     display: flex;
 }
@@ -713,22 +629,16 @@ picture {
 
 /* Скрыты сборки для Windows 7 */
 
-.cta__dd-list.is--platforms-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div {
+.cta__dd-list.is--platforms-list.is--sort-disable .cta__dd-list-inner-wrap > div {
     display: none;
 }
 
-.cta__dd-list.is--platforms-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(18) {
+.cta__dd-list.is--platforms-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(18) {
     order: 1;
     display: flex;
 }
 
-.cta__dd-list.is--platforms-list.is--sort-disable
-.cta__dd-list-inner-wrap
-> div:nth-child(19) {
+.cta__dd-list.is--platforms-list.is--sort-disable .cta__dd-list-inner-wrap > div:nth-child(19) {
     order: 2;
     display: flex;
 }
@@ -769,8 +679,7 @@ picture {
     display: none;
 }
 
-.article__content
-figure:last-child:not(
+.article__content figure:last-child:not(
     .article__desctop-content figure,
     .article__mobile-content figure
   ),
