@@ -876,11 +876,17 @@ const downloadDropdownsObserver = new MutationObserver((mutations) => {
           dropdownList.classList.remove("is--open-top");
         }
       } else {
-        trigger.closest(".w-dropdown").classList.remove("is--open");
+        dropdown.classList.remove("w--nav-dropdown-open");
+        trigger
+          .closest(".w-dropdown")
+          .classList.remove("is--open", "w--nav-dropdown-toggle-open");
         if (trigger.closest("[data-menu-dd-wrap]")) {
           trigger.closest("[data-menu-dd-wrap]").classList.remove("sm--z-900");
         }
-        dropdownList.classList.remove("is--open-top");
+        dropdownList.classList.remove(
+          "is--open-top",
+          "w--nav-dropdown-list-open",
+        );
       }
     }
   });
@@ -901,7 +907,7 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
         if (downloadOtherDropdown !== downloadDropdown) {
           downloadOtherDropdown
             .querySelector(".w-dropdown-list")
-            .classList.remove("w--open");
+            .classList.remove("w--open", "w--nav-dropdown-list-open");
         }
       });
       // Подставляем нужные ссылки в выпадающее меню
