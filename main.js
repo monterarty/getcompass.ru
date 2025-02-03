@@ -3422,10 +3422,18 @@ class MenuDropdown {
   }
 
   open() {
+    const ctaDropdownsListsInside =
+      this.content?.querySelectorAll(".w--dropdown-list");
+    ctaDropdownsListsInside?.forEach((el) => {
+      el.style({ display: "none" });
+    });
     this.dropdown.classList.add("is--open");
     this.content.style.height = `${this.innerWrap.scrollHeight / getSize()}rem`;
     setTimeout(() => {
       this.content.classList.remove("sm--overflow-hidden");
+      ctaDropdownsListsInside?.forEach((el) => {
+        el.style({});
+      });
     }, 700);
     this.isOpened = true;
     this.opened();
