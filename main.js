@@ -3423,7 +3423,7 @@ class MenuDropdown {
 
   open() {
     const ctaDropdownsListsInside =
-      this.content?.querySelectorAll(".w--dropdown-list");
+      this.content?.querySelectorAll(".cta__dd-list");
     ctaDropdownsListsInside?.forEach((el) => {
       el.style({ display: "none" });
     });
