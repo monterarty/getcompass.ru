@@ -3806,13 +3806,12 @@ $('[data-banner="cta"] a').on("click", function () {
 });
 
 $('a[href^="mailto"]').on("click", function () {
+  const isBlogPages = ["blog", "post"].includes(getPage());
+  // Общая цель на почту с футера
+  !isBlogPages && sendEvent("6");
+
   if ($(this).closest("footer").length) {
-    if (["blog", "post"].indexOf(getPage()) + 1) {
-      // [Блог] Блог → Почта
-      sendEvent("231");
-    }
-    // Общая цель на контакт с футера
-    sendEvent("6");
+    isBlogPages && sendEvent("231");
     // Общая цель на контакт с футера
     sendEvent("103");
   } else {
