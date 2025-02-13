@@ -4078,7 +4078,6 @@ function analyticsModal(hash) {
       sendEvent("83");
       break;
     case "#consultation-vcs":
-      sendPageEvent("PV001");
       sendEvent("9");
       break;
     case "#consultation":
