@@ -1832,6 +1832,14 @@ if (forms) {
 
 // Калькулятор на странице партнерки
 if (getPage() === "partner") {
+  const CALC_CLOUD_PRICE_PER_USER = 399;
+  const CALC_ON_PREMISE_PRICE_PER_USER = 490;
+  const CALC_BASIC_TERM = 24;
+  const CALC_BASIC_GIFT_FOR_ACTIVE_USER = 200;
+  const CALC_CLOUD_PERCENT = 0.1;
+  const CALC_ON_PREMISE_PERCENT = 0.2;
+  const CALC_HUNDRED_PERCENTS = 100;
+
   let calcRange = document.querySelector(".partner-calc__slider"),
     calcRangeStartLabel = document.querySelector(".partner-calc__slider-start"),
     calcRangeEndLabel = document.querySelector(".partner-calc__slider-end"),
@@ -1867,10 +1875,19 @@ if (getPage() === "partner") {
 
     switch (tarif) {
       case "business":
-        result = members * 200 + members * 299 * 0.1 * 24;
+        result =
+          members * CALC_BASIC_GIFT_FOR_ACTIVE_USER +
+          members *
+            CALC_CLOUD_PRICE_PER_USER *
+            CALC_CLOUD_PERCENT *
+            CALC_BASIC_TERM;
         break;
       case "on-premise":
-        result = members * 399 * 0.2 * 24;
+        result =
+          members *
+          CALC_ON_PREMISE_PRICE_PER_USER *
+          CALC_ON_PREMISE_PERCENT *
+          CALC_BASIC_TERM;
         break;
     }
 
@@ -1883,12 +1900,12 @@ if (getPage() === "partner") {
       membersField.textContent = `${membersFormated}\u00A0${membersString}`;
     });
 
-    calcBusinessFline.innerHTML = `${membersFormated}&nbsp;${membersString} х 200&nbsp;₽ = <strong>${String((members * 200).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽</strong>`;
-    calcBusinessSline.innerHTML = `${membersFormated}&nbsp;${membersString} х 299&nbsp;₽ х&nbsp;10% х&nbsp;24&nbsp;месяца = <strong>${String((members * 299 * 0.1 * 24).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽</strong>`;
-    calcBusinessTline.innerHTML = `${String((members * 200).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽ +&nbsp;${String((members * 299 * 0.1 * 24).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽ = <strong>${String((members * 200 + members * 299 * 0.1 * 24).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽</strong>`;
-    calcOnpremiseFline.innerHTML = `${membersFormated}&nbsp;${membersString} х 399&nbsp;₽ х&nbsp;20% х&nbsp;24&nbsp;месяца = <strong>${String((members * 399 * 0.2 * 24).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽</strong>`;
-    calcBusinessPFMembers.innerHTML = `${String((members * 299 * 0.1 * 24).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽`;
-    calcOnpremisePFMembers.innerHTML = `${String((members * 399 * 0.2 * 24).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽`;
+    calcBusinessFline.innerHTML = `${membersFormated}&nbsp;${membersString} х ${CALC_BASIC_GIFT_FOR_ACTIVE_USER}&nbsp;₽ = <strong>${String((members * CALC_BASIC_GIFT_FOR_ACTIVE_USER).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽</strong>`;
+    calcBusinessSline.innerHTML = `${membersFormated}&nbsp;${membersString} х ${CALC_CLOUD_PRICE_PER_USER}&nbsp;₽ х&nbsp;${CALC_CLOUD_PERCENT * CALC_HUNDRED_PERCENTS}% х&nbsp;${CALC_BASIC_TERM}&nbsp;месяца = <strong>${String((members * CALC_CLOUD_PRICE_PER_USER * CALC_CLOUD_PERCENT * CALC_BASIC_TERM).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽</strong>`;
+    calcBusinessTline.innerHTML = `${String((members * CALC_BASIC_GIFT_FOR_ACTIVE_USER).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽ +&nbsp;${String((members * CALC_CLOUD_PRICE_PER_USER * CALC_CLOUD_PERCENT * CALC_BASIC_TERM).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽ = <strong>${String((members * CALC_BASIC_GIFT_FOR_ACTIVE_USER + members * CALC_CLOUD_PRICE_PER_USER * CALC_CLOUD_PERCENT * CALC_BASIC_TERM).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽</strong>`;
+    calcOnpremiseFline.innerHTML = `${membersFormated}&nbsp;${membersString} х ${CALC_ON_PREMISE_PRICE_PER_USER}&nbsp;₽ х&nbsp;${CALC_ON_PREMISE_PERCENT * CALC_HUNDRED_PERCENTS}% х&nbsp;${CALC_BASIC_TERM}&nbsp;месяца = <strong>${String((members * CALC_ON_PREMISE_PRICE_PER_USER * CALC_ON_PREMISE_PERCENT * CALC_BASIC_TERM).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽</strong>`;
+    calcBusinessPFMembers.innerHTML = `${String((members * CALC_CLOUD_PRICE_PER_USER * CALC_CLOUD_PERCENT * CALC_BASIC_TERM).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽`;
+    calcOnpremisePFMembers.innerHTML = `${String((members * CALC_ON_PREMISE_PRICE_PER_USER * CALC_ON_PREMISE_PERCENT * CALC_BASIC_TERM).toFixed()).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, "$1\u00A0")}&nbsp;₽`;
     calcResultField.textContent = String(result.toFixed()).replace(
       /(\d)(?=(\d\d\d)+([^\d]|$))/g,
       "$1\u00A0",
@@ -1896,11 +1913,11 @@ if (getPage() === "partner") {
   };
 
   const switchCalcInfoTab = () => {
-    var tarif = Array.from(document.getElementsByName("tarif")).find(
+    const tariff = Array.from(document.getElementsByName("tarif")).find(
       (r) => r.checked,
     ).value;
 
-    $(`[data-w-tab="${tarif}"]`).trigger("click");
+    $(`[data-w-tab="${tariff}"]`).trigger("click");
   };
 
   Array.prototype.forEach.call(calcTarifsRadio, (radio) => {
@@ -3807,7 +3824,7 @@ $('[data-banner="cta"] a').on("click", function () {
 
 $('a[href^="mailto"]').on("click", function () {
   const isBlogPages = ["blog", "post"].includes(getPage());
-  // Общая цель на почту с футера
+  // Общая цель на почту
   !isBlogPages && sendEvent("6");
 
   if ($(this).closest("footer").length) {
