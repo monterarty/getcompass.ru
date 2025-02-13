@@ -1832,7 +1832,7 @@ if (forms) {
 
 // Калькулятор на странице партнерки
 if (getPage() === "partner") {
-  const CALC_CLOUD_PRICE_PER_USER = 399;
+  const CALC_CLOUD_PRICE_PER_USER = 390;
   const CALC_ON_PREMISE_PRICE_PER_USER = 490;
   const CALC_BASIC_TERM = 24;
   const CALC_BASIC_GIFT_FOR_ACTIVE_USER = 200;
