@@ -1,12 +1,12 @@
 {
   "name": "getcompass.ru",
   "private": true,
-  "version": "2.6.14",
+  "version": "2.6.15",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "postcss src/css/compass-layout.css -o dist/static/css/compass-layout.processed.css && parcel-css dist/static/css/compass-layout.processed.css -o dist/static/css/compass-layout-v2.6.14.min.css --minify && postcss src/css/blog-grid-layout.css -o dist/static/css/blog-grid-layout.processed.css && parcel-css dist/static/css/blog-grid-layout.processed.css -o dist/static/css/blog-grid-layout-v2.6.14.min.css --minify",
+    "postbuild": "postcss src/css/compass-layout.css -o dist/static/css/compass-layout.processed.css && parcel-css dist/static/css/compass-layout.processed.css -o dist/static/css/compass-layout-v2.6.15.min.css --minify && postcss src/css/blog-grid-layout.css -o dist/static/css/blog-grid-layout.processed.css && parcel-css dist/static/css/blog-grid-layout.processed.css -o dist/static/css/blog-grid-layout-v2.6.15.min.css --minify",
     "preview": "vite preview"
   },
   "devDependencies": {

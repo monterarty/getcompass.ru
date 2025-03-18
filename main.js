@@ -957,11 +957,6 @@ allDownloadDropdowns.forEach((downloadDropdown) => {
       // Нажата кнопка попробовать бесплатно для облачной версии приложения в шапке сайта
       if (version === "cloud" && downloadDropdown.closest(".w-nav")) {
         sendEvent("11");
-        _tmr.push({
-          type: "reachGoal",
-          id: 3381982,
-          goal: "besplatno",
-        });
       }
       e.preventDefault;
       return false;
@@ -1270,11 +1265,6 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
           break;
       }
       !isMobileDevice && sendEvent("51");
-      _tmr.push({
-        type: "reachGoal",
-        id: 3381982,
-        goal: "click",
-      });
 
       if (getPage() === "download" && isDonwloadHeroBlock) {
         !isMobileDevice && sendEvent("76");
@@ -3038,11 +3028,6 @@ function sendRequest(url, form, formData) {
               sendEvent("302");
             }
             sendEvent("10");
-            _tmr.push({
-              type: "reachGoal",
-              id: 3381982,
-              goal: "Demo",
-            });
           } else if (modalId === "#pilot-modal") {
             sendEvent("307");
           }
@@ -3863,11 +3848,6 @@ $(".cta__dropdown .w-dropdown-toggle").on("click", function () {
   ) {
     if (getPage() === "home") {
       sendEvent("50");
-      _tmr.push({
-        type: "reachGoal",
-        id: 3381982,
-        goal: "besplatno",
-      });
     } else if (getPage() === "media") {
       sendEvent("650");
     }
@@ -3877,21 +3857,11 @@ $(".cta__dropdown .w-dropdown-toggle").on("click", function () {
 $(".price__block.is--start .w-dropdown-toggle").on("click", function () {
   //Ленд – Нажата кнопка Попробовать, тариф Старт
   sendEvent("65");
-  _tmr.push({
-    type: "reachGoal",
-    id: 3381982,
-    goal: "besplatno",
-  });
 });
 
 $(".price__block.is--center .w-dropdown-toggle").on("click", function () {
   //Ленд – Нажата кнопка Попробовать, тариф Образование
   sendEvent("66");
-  _tmr.push({
-    type: "reachGoal",
-    id: 3381982,
-    goal: "besplatno",
-  });
 });
 
 $(".price__block.is--corp .w-dropdown-toggle").on("click", function () {
