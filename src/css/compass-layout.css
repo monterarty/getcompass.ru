@@ -2672,6 +2672,10 @@ body {
     width: var(--s252);
 }
 
+.sw-270 {
+    width: var(--d270);
+}
+
 /*1*/
 .sw-\[262\] {
     width: var(--s262);

@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 
-const releaseVersion = "2.6.15";
+const releaseVersion = "2.6.16";
 export default defineConfig({
   base: "/getcompass.ru/", // Указываем базовый путь для проекта
   build: {
