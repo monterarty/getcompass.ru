@@ -10,25 +10,9 @@
 
 @font-face {
     font-family: "Inter";
-    src: url("https://getcompass.ru/static/fonts/inter/Inter-LightItalic.woff2") format("woff2");
-    font-weight: 300;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Inter";
     src: url("https://getcompass.ru/static/fonts/inter/Inter-Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Inter";
-    src: url("https://getcompass.ru/static/fonts/inter/Inter-Italic.woff2") format("woff2");
-    font-weight: 400;
-    font-style: italic;
     font-display: swap;
 }
 
@@ -42,41 +26,9 @@
 
 @font-face {
     font-family: "Inter";
-    src: url("https://getcompass.ru/static/fonts/inter/Inter-MediumItalic.woff2") format("woff2");
-    font-weight: 500;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Inter";
-    src: url("https://getcompass.ru/static/fonts/inter/Inter-SemiBold.woff2") format("woff2");
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Inter";
-    src: url("https://getcompass.ru/static/fonts/inter/Inter-SemiBoldItalic.woff2") format("woff2");
-    font-weight: 600;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Inter";
     src: url("https://getcompass.ru/static/fonts/inter/Inter-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Inter";
-    src: url("https://getcompass.ru/static/fonts/inter/Inter-BoldItalic.woff2") format("woff2");
-    font-weight: 700;
-    font-style: italic;
     font-display: swap;
 }
 
@@ -961,7 +913,7 @@ body {
 }
 
 .font-semibold {
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .font-medium {
@@ -5142,7 +5094,7 @@ body {
     }
 
     .sm--font-semibold {
-        font-weight: 600;
+        font-weight: 500;
     }
 
     .sm--font-medium {
