@@ -100,11 +100,23 @@
 }
 
 @font-face {
+    font-family: "Inter-H1 Home";
+    src: url("https://monterarty.github.io/getcompass.ru/static/fonts/inter/Inter-Bold-header-subset.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
     font-family: "Inter";
     src: url("https://getcompass.ru/static/fonts/inter/Inter-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
+}
+
+.font-inter-h1-home {
+    font-family: "Inter-H1 Home";
 }
 
 .btn--small {
