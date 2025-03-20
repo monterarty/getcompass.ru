@@ -5049,8 +5049,13 @@ body {
         right: var(--m16);
     }
 
+
     .sm--top-20 {
         top: var(--m20);
+    }
+
+    .sm--top-64 {
+        top: var(--m64);
     }
 
     .sm--top-127 {
@@ -5063,6 +5068,10 @@ body {
 
     .sm--bottom-0 {
         bottom: 0;
+    }
+
+    .sm--bottom-\[5\] {
+        bottom: var(--m5);
     }
 
     .sm--bottom-24 {
@@ -5095,6 +5104,10 @@ body {
 
     .sm--left-full {
         left: 100%;
+    }
+
+    .sm--left-\[174\] {
+        left: var(--m174);
     }
 
     .sm--top-auto {
