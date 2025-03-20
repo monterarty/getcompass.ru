@@ -41,7 +41,7 @@
 }
 
 .font-inter-h1-home {
-    font-family: "Inter-H1 Home";
+    font-family: "Inter-H1 Home", serif;
 }
 
 .btn--small {
@@ -538,6 +538,14 @@ body {
     top: var(--d79);
 }
 
+.top-\[84\] {
+    top: var(--s84)
+}
+
+.top-\[113\] {
+    top: var(--s113);
+}
+
 .top-117 {
     top: var(--d117);
 }
@@ -545,6 +553,7 @@ body {
 .top-152 {
     top: var(--d152);
 }
+
 
 .top-161 {
     top: var(--d161);
@@ -634,12 +643,24 @@ body {
     left: var(--d98);
 }
 
+.left-\[154\] {
+    left: var(--s154);
+}
+
+.left-\[189\] {
+    left: var(--s189);
+}
+
 .left-200 {
     left: var(--d200);
 }
 
 .left-224 {
     left: var(--d224);
+}
+
+.left-\[253\] {
+    left: var(--s253)
 }
 
 .left-305 {
@@ -2171,6 +2192,10 @@ body {
     height: var(--d44);
 }
 
+.sh-\[46\] {
+    height: var(--d46);
+}
+
 .sh-47 {
     height: var(--d47);
 }
@@ -2303,6 +2328,10 @@ body {
     height: var(--d150);
 }
 
+.sh-\[158\] {
+    height: var(--s158);
+}
+
 /*1*/
 .sh-\[144\] {
     height: var(--d144);
@@ -2338,6 +2367,14 @@ body {
 
 .sh-193 {
     height: var(--d193);
+}
+
+.sh-\[197\] {
+    height: var(--s197);
+}
+
+.sh-\[202\] {
+    height: var(--s202);
 }
 
 .sh-213 {
@@ -2396,6 +2433,10 @@ body {
     height: var(--d260);
 }
 
+.sh-\[273\] {
+    height: var(--s273)
+}
+
 .sh-291 {
     height: var(--d291);
 }
@@ -2418,6 +2459,10 @@ body {
 
 .sh-320 {
     height: var(--d320);
+}
+
+.sh-\[326\] {
+    height: var(--d326)
 }
 
 .sh-\[325\] {
@@ -2636,6 +2681,10 @@ body {
     width: var(--s252);
 }
 
+.sw-\[266\] {
+    width: var(--d266);
+}
+
 .sw-270 {
     width: var(--d270);
 }
@@ -2655,6 +2704,14 @@ body {
 
 .sw-290 {
     width: var(--d290);
+}
+
+.sw-\[300\] {
+    width: var(--s300);
+}
+
+.sw-\[301\] {
+    width: var(--s301);
 }
 
 .sw-320 {
@@ -4358,6 +4415,10 @@ body {
         height: var(--m130);
     }
 
+    .sm--sh-\[152\] {
+        height: var(--s152);
+    }
+
     .sm--sh-186 {
         height: var(--m186);
     }
@@ -4366,8 +4427,12 @@ body {
         height: var(--m192);
     }
 
+    .sm--sh-\[193\] {
+        height: var(--s193)
+    }
+
     .sm--sh-\[202\] {
-        height: var(--m202);
+        height: var(--s202);
     }
 
     .sm--sh-204 {
@@ -4437,6 +4502,7 @@ body {
     .sm--sh-\[270\] {
         height: var(--m270);
     }
+
 
     .sm--sh-310 {
         height: var(--m310);
