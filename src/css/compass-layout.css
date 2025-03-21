@@ -4391,6 +4391,10 @@ body {
         height: var(--m94);
     }
 
+    .sm--sh-96 {
+        height: var(--s96);
+    }
+
     .sm--sh-97 {
         height: var(--m97);
     }
