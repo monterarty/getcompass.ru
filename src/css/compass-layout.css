@@ -4427,6 +4427,10 @@ body {
         height: var(--s152);
     }
 
+    .sm--sh-180 {
+        height: var(--m180);
+    }
+
     .sm--sh-186 {
         height: var(--m186);
     }
@@ -4469,6 +4473,10 @@ body {
 
     .sm--sh-228 {
         height: var(--m228);
+    }
+
+    .sm--sh-233 {
+        height: var(--s233);
     }
 
     .sm--sh-234 {
@@ -5555,6 +5563,10 @@ body {
 
     .xs--sh-\[107\] {
         height: var(--m107);
+    }
+
+    .xs--sh-152 {
+        height: var(--m152);
     }
 
     .xs--sh-154 {
