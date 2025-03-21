@@ -5189,8 +5189,8 @@ body {
         bottom: 0;
     }
 
-    .sm--bottom-\[5\] {
-        bottom: var(--m5);
+    .sm--bottom-6 {
+        bottom: var(--m6);
     }
 
     .sm--bottom-24 {
@@ -5577,6 +5577,10 @@ body {
         top: var(--m108);
     }
 
+    .xs--bottom-5 {
+        bottom: var(--m5);
+    }
+
     .xs--left-167 {
         left: var(--m167);
     }
@@ -5680,6 +5684,10 @@ body {
 
     .xs--sh-192 {
         height: var(--m192);
+    }
+
+    .xs--sh-193 {
+        height: var(--s193);
     }
 
     .xs--sh-\[195\] {
