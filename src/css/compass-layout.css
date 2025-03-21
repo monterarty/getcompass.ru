@@ -5474,6 +5474,10 @@ body {
         height: var(--m48);
     }
 
+    .xs--sh-\[50\] {
+        height: var(--m50);
+    }
+
     .xs--sh-51 {
         height: var(--m51);
     }
@@ -5573,7 +5577,6 @@ body {
         height: var(--m290);
     }
 
-
     .xs--sh-306 {
         height: var(--m306);
     }
@@ -5612,6 +5615,10 @@ body {
 
     .xs--sh-\[610\] {
         height: var(--m610);
+    }
+
+    .xs--sw-\[37\] {
+        width: var(--s37);
     }
 
     .xs--sw-44 {
