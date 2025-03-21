@@ -52,6 +52,7 @@
         --s45: 3.75rem;
         --m61: 5.0833333333rem;
         --s62: 5.1666666667rem;
+        --s77: 6.4166666667rem;
         --s81: 6.75rem;
         --m82: 6.8333333333rem;
         --s88: 7.3333333333rem;
@@ -82,9 +83,11 @@
         --m262: 21.8333333333rem;
         --m294: 24.5rem;
         --m298: 24.8333333333rem;
+        --s309: 25.75rem;
         --m318: 26.5rem;
         --s360: 30rem;
         --m384: 32rem;
+        --s394: 32.8333333333rem;
         --m610: 50.8333333333rem;
         --m743: 61.9166666667rem;
     }
@@ -4443,6 +4446,10 @@ body {
         height: var(--m59);
     }
 
+    .sm--sh-61 {
+        height: var(--m61);
+    }
+
     .sm--sh-64 {
         height: var(--m64);
     }
@@ -4595,6 +4602,9 @@ body {
         height: var(--m270);
     }
 
+    .sm--sh-309 {
+        height: var(--s309)
+    }
 
     .sm--sh-310 {
         height: var(--m310);
@@ -4626,6 +4636,10 @@ body {
 
     .sm--sh-376 {
         height: var(--m376);
+    }
+
+    .sm--sh-394 {
+        height: var(--s394)
     }
 
     .sm--sh-400 {
@@ -4702,6 +4716,10 @@ body {
 
     .sm--sw-39 {
         width: var(--m39);
+    }
+
+    .sm--sw-45 {
+        width: var(--s45);
     }
 
     .sm--sw-47 {
@@ -5150,6 +5168,10 @@ body {
         top: var(--m64);
     }
 
+    .sm--top-77 {
+        top: var(--s77)
+    }
+
     .sm--top-127 {
         top: var(--m127);
     }
@@ -5176,6 +5198,10 @@ body {
 
     .sm--left-auto {
         left: auto;
+    }
+
+    .sm--left-210 {
+        left: var(--m210);
     }
 
     .sm--right-0 {
@@ -5526,6 +5552,10 @@ body {
         border-radius: var(--m4);
     }
 
+    .xs--top-64 {
+        top: var(--m64);
+    }
+
     .xs--top-66 {
         top: var(--m66);
     }
@@ -5544,6 +5574,10 @@ body {
 
     .xs--left-167 {
         left: var(--m167);
+    }
+
+    .xs--left-174 {
+        left: var(--m174)
     }
 
     .xs--right-0 {
