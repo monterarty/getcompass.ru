@@ -4027,7 +4027,7 @@ homeLinks?.forEach((link) => {
           sendEvent("216");
         } else if (link.classList.contains("logo__container")) {
           // [Блог] Блог → Главная сайта лого
-          sendEvent("250");
+          sendEvent("299");
         }
       } else if (link.closest("[data-cta-btns]")) {
         // [Блог] "Попробовать Compass" -> Главная сайта
