@@ -536,6 +536,7 @@ switch (os) {
   case "Windows":
     body.classList.add("is--windows");
     break;
+  case "Ubuntu":
   case "Linux":
     body.classList.add("is--linux");
     break;
