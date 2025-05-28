@@ -2932,7 +2932,7 @@ document.querySelectorAll("form").forEach((form) => {
   privacyCheckbox.addEventListener("change", function (e) {
     e.preventDefault();
     privacyCheckbox
-      .clossest(".w-checkbox")
+      .closest(".w-checkbox")
       ?.classList.toggle("is-error", !this.checked);
   });
 
