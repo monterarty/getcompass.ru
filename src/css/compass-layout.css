@@ -1683,7 +1683,7 @@ body {
 }
 
 .pl-26 {
-    padding-left: var(--d26);
+    padding-left: var(--s26);
 }
 
 .pb-27 {
@@ -3185,6 +3185,10 @@ body {
     .py-24 {
         padding-top: var(--m24);
         padding-bottom: var(--m24);
+    }
+
+    .pl-26 {
+        padding-left: var(--s26);
     }
 
     .pt-32 {
