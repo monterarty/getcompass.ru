@@ -2933,7 +2933,7 @@ document.querySelectorAll("form").forEach((form) => {
     e.preventDefault();
     privacyCheckbox
       .closest(".w-checkbox")
-      ?.classList.toggle("is-error", !this.checked);
+      ?.classList.toggle("is--error", !this.checked);
   });
 
   form.addEventListener("submit", function (e) {
