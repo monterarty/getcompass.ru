@@ -1738,6 +1738,15 @@ function removeErrorClassOnInput(input) {
 function formValidation(form) {
   let isValid = true;
   const inputs = form.querySelectorAll(".input");
+  const privacyCheckbox = form.querySelector(
+    `[name="${PRIVACY_CHECKBOX_NAME}"]`,
+  );
+
+  isValid = privacyCheckbox.checked;
+
+  privacyCheckbox
+    .closest(".w-checkbox")
+    ?.classList.toggle("is--error", !isValid);
 
   inputs.forEach((input) => {
     const { value, dataset } = input;
@@ -2913,6 +2922,7 @@ if (tgLink.length) {
   });
 }
 
+const PRIVACY_CHECKBOX_NAME = "is_personal_data_consent_granted";
 // Отправка формы в апи
 document.querySelectorAll("form").forEach((form) => {
   form.addEventListener("submit", function (e) {
@@ -2923,6 +2933,15 @@ document.querySelectorAll("form").forEach((form) => {
     const button = this.querySelector('[type="submit"]');
     const currentModal = document.querySelector(".remodal.remodal-is-opened");
     const modalId = currentModal ? "#" + currentModal.dataset.remodalId : null;
+    const privacyCheckbox = this.querySelector(
+      `[name="${PRIVACY_CHECKBOX_NAME}"]`,
+    );
+    privacyCheckbox.addEventListener("change", function (e) {
+      e.preventDefault();
+      privacyCheckbox
+        .clossest(".w-checkbox")
+        ?.classList.toggle("is-error", !this.checked);
+    });
 
     if (formValidation(this)) {
       if (formData.get("team_size") === "") formData.set("team_size", 0);
@@ -2930,6 +2949,8 @@ document.querySelectorAll("form").forEach((form) => {
       formData.set("pagetitle", document.title);
       formData.set("page_url", window.location.href);
       formData.set("utm_tag", utmTag);
+      // Отправляем чекбокс о заполнении перс данных
+      formData.set(PRIVACY_CHECKBOX_NAME, privacyCheckbox?.checked ? 1 : 0);
 
       formData.set(
         "form_type",
@@ -3937,7 +3958,7 @@ $('a[href*="github"]').on("click", function () {
   }
 });
 
-$('a[href*="vc.ru/getcompass"]').on("click", function () {
+$('a[href*="vc.ru/u/1733639-compass-messendzher"]').on("click", function () {
   if (["blog", "post"].indexOf(getPage()) + 1) {
     if ($(this).closest(".w-nav").length) {
       // [Блог] Блог → Блог на VC (хедер)

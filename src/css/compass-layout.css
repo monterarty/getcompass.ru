@@ -909,7 +909,7 @@ body {
 }
 
 .text-dark-blue {
-    color: #2574a9;
+    color: var(--sky--700)
 }
 
 .text-dark-gray {
@@ -1682,6 +1682,10 @@ body {
     padding-top: var(--d26);
 }
 
+.pl-26 {
+    padding-left: var(--d26);
+}
+
 .pb-27 {
     padding-bottom: var(--d27);
 }
@@ -1941,6 +1945,10 @@ body {
 
 .mr-2 {
     margin-right: var(--d2);
+}
+
+.mt-3 {
+    margin-top: var(--d3);
 }
 
 .ml-3 {
