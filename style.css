@@ -1834,6 +1834,11 @@ picture img {
     color: var(--green--700);
 }
 
+.is--touch .hover--text-sky-800:active,
+.is--no-touch .hover--text-sky-800:hover {
+    color: var(--sky--800);
+}
+
 .is--touch .hover--scale-105:active {
     --scale-x: 1.05;
     --scale-y: 1.05;
