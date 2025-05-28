@@ -229,6 +229,49 @@ html {
     background: #811fff;
 }
 
+
+.w-checkbox.is--error .checkbox {
+    box-shadow: var(--salmon-2) 0 0 0 1px inset;
+}
+
+.w-checkbox.is--error .w-form-label a,
+.is--no-touch .w-checkbox.is--error .w-form-label a:hover,
+.is--touch .w-checkbox.is--error .w-form-label a:active,
+.w-checkbox.is--error .w-form-label {
+    color:  var(--salmon-2)
+}
+
+.dark .w-checkbox.is--error .checkbox {
+    box-shadow: #FF4F47B2 0 0 0 1px inset;
+}
+
+.dark .w-checkbox.is--error .w-form-label a,
+.is--no-touch.dark .w-checkbox.is--error .w-form-label a:hover,
+.is--touch.dark .w-checkbox.is--error .w-form-label a:active,
+.dark .w-checkbox.is--error .w-form-label {
+    color:  #FF4F47B2
+}
+
+.w-checkbox-input--inputType-custom.w--redirected-focus,
+.w-checkbox-input--inputType-custom,
+.checkbox {
+    margin: 0;
+    box-shadow:rgb(230, 230, 230) 0px 0px 0px 1px inset;
+    outline: none!important;
+}
+
+.checkbox.w--redirected-checked {
+    background-image: url("https://cdn.prod.website-files.com/64328ad759d957f990749456/6836e72966ed64acde748490_checkBold.svg");
+    background-size: var(--d14) var(--d14);
+    background-position: 50% 50%;
+    box-shadow: none;
+    background-color: var(--b-c--violet);
+}
+
+.dark .checkbox.w--redirected-checked {
+    background-color: var(--purple--600);
+}
+
 .cta__dd-list.w-dropdown-list {
     height: auto;
 }
@@ -2354,48 +2397,6 @@ html * {
 
     html input.input-error {
         border-color: rgba(255, 106, 100, 0.5) !important;
-    }
-
-    .w-checkbox.is--error .checkbox {
-        box-shadow: var(--salmon-2) 0 0 0 1px inset;
-    }
-
-    .w-checkbox.is--error .w-form-label a,
-    .is--no-touch .w-checkbox.is--error .w-form-label a:hover,
-    .is--touch .w-checkbox.is--error .w-form-label a:active,
-    .w-checkbox.is--error .w-form-label {
-        color:  var(--salmon-2)
-    }
-
-    .dark .w-checkbox.is--error .checkbox {
-        box-shadow: #FF4F47B2 0 0 0 1px inset;
-    }
-
-    .dark .w-checkbox.is--error .w-form-label a,
-    .is--no-touch.dark .w-checkbox.is--error .w-form-label a:hover,
-    .is--touch.dark .w-checkbox.is--error .w-form-label a:active,
-    .dark .w-checkbox.is--error .w-form-label {
-        color:  #FF4F47B2
-    }
-
-    .w-checkbox-input--inputType-custom.w--redirected-focus,
-    .w-checkbox-input--inputType-custom,
-    .checkbox {
-        margin: 0;
-        box-shadow:rgb(230, 230, 230) 0px 0px 0px 1px inset;
-        outline: none!important;
-    }
-
-    .checkbox.w--redirected-checked {
-        background-image: url("https://cdn.prod.website-files.com/64328ad759d957f990749456/6836e72966ed64acde748490_checkBold.svg");
-        background-size: var(--d14) var(--d14);
-        background-position: 50% 50%;
-        box-shadow: none;
-        background-color: var(--b-c--violet);
-    }
-
-    .dark .checkbox.w--redirected-checked {
-        background-color: var(--purple--600);
     }
 
     .navbar__wrapper .cta__dd-list-inner-wrap {

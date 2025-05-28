@@ -2925,6 +2925,17 @@ if (tgLink.length) {
 const PRIVACY_CHECKBOX_NAME = "is_personal_data_consent_granted";
 // Отправка формы в апи
 document.querySelectorAll("form").forEach((form) => {
+  const privacyCheckbox = form.querySelector(
+    `[name="${PRIVACY_CHECKBOX_NAME}"]`,
+  );
+
+  privacyCheckbox.addEventListener("change", function (e) {
+    e.preventDefault();
+    privacyCheckbox
+      .clossest(".w-checkbox")
+      ?.classList.toggle("is-error", !this.checked);
+  });
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     const formData = new FormData(this);
@@ -2933,15 +2944,6 @@ document.querySelectorAll("form").forEach((form) => {
     const button = this.querySelector('[type="submit"]');
     const currentModal = document.querySelector(".remodal.remodal-is-opened");
     const modalId = currentModal ? "#" + currentModal.dataset.remodalId : null;
-    const privacyCheckbox = this.querySelector(
-      `[name="${PRIVACY_CHECKBOX_NAME}"]`,
-    );
-    privacyCheckbox.addEventListener("change", function (e) {
-      e.preventDefault();
-      privacyCheckbox
-        .clossest(".w-checkbox")
-        ?.classList.toggle("is-error", !this.checked);
-    });
 
     if (formValidation(this)) {
       if (formData.get("team_size") === "") formData.set("team_size", 0);
