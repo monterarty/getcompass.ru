@@ -262,7 +262,7 @@ html {
 
 .checkbox.w--redirected-checked {
     background-image: url("https://cdn.prod.website-files.com/64328ad759d957f990749456/6836e72966ed64acde748490_checkBold.svg");
-    background-size: var(--d14) var(--d14);
+    background-size: var(--s14) var(--s14);
     background-position: 50% 50%;
     box-shadow: none;
     background-color: var(--b-c--violet);
