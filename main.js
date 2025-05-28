@@ -2366,11 +2366,16 @@ $(document).on("closing", ".remodal", function () {
     $(".w-form-fail").hide();
     $(".w-form-done").hide();
     if (formInModal.length) {
+      const formCheckboxes = formInModal.find(".w-checkbox-input");
+      formCheckboxes.each(function () {
+        this.classList.remove("w--redirected-checked");
+      });
       formInModal.find(".input-icon").each(function () {
         $(this).removeClass("display-none");
       });
       formButton.val(formButton.data("btn-default"));
       formInModal[0].reset();
+
       formInModal.show();
       formInModal.find("input").each(function () {
         $(this).removeClass("input-error");
@@ -2964,16 +2969,19 @@ document.querySelectorAll("form").forEach((form) => {
       button.value = button.dataset.wait;
       button.classList.add("pointer-events-none");
 
-      try {
-        grecaptcha.enterprise.execute(window.googleCaptchaKey).then((token) => {
-          formData.set("grecaptcha_response", token);
-          sendRequest(url, form, formData);
-          return false;
-        });
-      } catch (error) {
-        sendRequest(url, form, formData);
-        return false;
-      }
+      sendRequest(url, form, formData);
+      return false;
+
+      // try {
+      //   recapgtcha.enterprise.execute(window.googleCaptchaKey).then((token) => {
+      //     formData.set("grecaptcha_response", token);
+      //     sendRequest(url, form, formData);
+      //     return false;
+      //   });
+      // } catch (error) {
+      //   sendRequest(url, form, formData);
+      //   return false;
+      // }
     } else {
       return false;
     }
