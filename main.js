@@ -2935,7 +2935,7 @@ document.querySelectorAll("form").forEach((form) => {
     `[name="${PRIVACY_CHECKBOX_NAME}"]`,
   );
 
-  privacyCheckbox.addEventListener("change", function (e) {
+  privacyCheckbox?.addEventListener("change", function (e) {
     e.preventDefault();
     privacyCheckbox
       .closest(".w-checkbox")
