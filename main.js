@@ -2369,6 +2369,7 @@ $(document).on("closing", ".remodal", function () {
       const formCheckboxes = formInModal.find(".w-checkbox-input");
       formCheckboxes.each(function () {
         this.classList.remove("w--redirected-checked");
+        this.closest(".w-checkbox").classList.remove("is--error");
       });
       formInModal.find(".input-icon").each(function () {
         $(this).removeClass("display-none");
