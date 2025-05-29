@@ -260,6 +260,7 @@ html {
     outline: none!important;
 }
 
+.dark .checkbox.w--redirected-checked,
 .checkbox.w--redirected-checked {
     background-image: url("https://cdn.prod.website-files.com/64328ad759d957f990749456/6836e72966ed64acde748490_checkBold.svg");
     background-size: var(--s14) var(--s14);
