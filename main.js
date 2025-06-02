@@ -3545,18 +3545,18 @@ if (ctaBlogBtns.length) {
 
 document.addEventListener("DOMContentLoaded", function () {
   // Подключаем скрипт google recaptcha
-  window.doStart
-    .then(function (result) {
-      window.googleCaptchaKey = result.response.captcha_public_key;
-      let script = document.createElement("script");
-      script.src =
-        "https://www.google.com/recaptcha/enterprise.js?render=" +
-        result.response.captcha_public_key;
-      document.body.append(script);
-    })
-    .catch(function (result) {
-      console.log(result);
-    });
+  // window.doStart
+  //   .then(function (result) {
+  //     window.googleCaptchaKey = result.response.captcha_public_key;
+  //     let script = document.createElement("script");
+  //     script.src =
+  //       "https://www.google.com/recaptcha/enterprise.js?render=" +
+  //       result.response.captcha_public_key;
+  //     document.body.append(script);
+  //   })
+  //   .catch(function (result) {
+  //     console.log(result);
+  //   });
 
   setCenterCTAListArrow();
   setTimeout(function () {
