@@ -2937,9 +2937,9 @@ document.querySelectorAll("form").forEach((form) => {
 
   privacyCheckbox?.addEventListener("change", function (e) {
     e.preventDefault();
-    privacyCheckbox
-      .closest(".w-checkbox")
-      ?.classList.toggle("is--error", !this.checked);
+    if (this.checked) {
+      privacyCheckbox.closest(".w-checkbox")?.classList.remove("is--error");
+    }
   });
 
   form.addEventListener("submit", function (e) {
