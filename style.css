@@ -256,7 +256,7 @@ html {
 .w-checkbox-input--inputType-custom,
 .checkbox {
     margin: 0;
-    box-shadow:rgb(230, 230, 230) 0px 0px 0px 1px inset;
+    box-shadow:rgb(230, 230, 230) 0 0 0 1px inset;
     outline: none!important;
 }
 
@@ -428,8 +428,7 @@ picture {
     display: none;
 }
 
-.is--mac
-.cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {
+.is--mac .cta__dd-list:not(.is--sort-disable) .cta__dd-list-inner-wrap > div:nth-child(1) {
     order: 3;
     display: flex;
 }
@@ -916,7 +915,6 @@ input:-webkit-autofill,
 input:-webkit-autofill:active,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:hover {
-    -webkit-box-shadow: 0 0 0 30px #fff inset !important;
     -webkit-box-shadow: 0 0 0 60px #fbfbfd inset !important;
     background-color: rgba(255, 255, 255, 0.8) !important;
     background-clip: content-box !important;
@@ -942,11 +940,11 @@ input.input-error {
 }
 
 .remodal-overlay {
-    z-index: 9999999;
+    z-index: 888888;
 }
 
 .remodal-wrapper {
-    z-index: 99999999;
+    z-index: 888889;
     overflow-x: hidden;
     padding: 6.67rem 0;
 }
@@ -1032,7 +1030,6 @@ html.remodal-is-locked body {
 }
 
 .partner-calc__slider.noUi-horizontal .noUi-tooltip {
-    -webkit-transform: translate(-50%, 0);
     transform: translate(-50%, 0);
     left: 50%;
     bottom: 136%;
@@ -2155,8 +2152,7 @@ picture img {
     background-color: rgba(45, 52, 60, 0.2);
 }
 
-.is--touch
-.article__social-share-link.article__social-share-link--copy.is--copy-done:hover {
+.is--touch .article__social-share-link.article__social-share-link--copy.is--copy-done:hover {
     background-color: rgba(5, 196, 107, 0.1);
 }
 

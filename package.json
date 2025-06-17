@@ -1,12 +1,12 @@
 {
   "name": "getcompass.ru",
   "private": true,
-  "version": "2.6.18",
+  "version": "2.6.21",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "postcss src/css/compass-layout.css -o dist/static/css/compass-layout.processed.css && parcel-css dist/static/css/compass-layout.processed.css -o dist/static/css/compass-layout-v2.6.18.min.css --minify && postcss src/css/blog-grid-layout.css -o dist/static/css/blog-grid-layout.processed.css && parcel-css dist/static/css/blog-grid-layout.processed.css -o dist/static/css/blog-grid-layout-v2.6.18.min.css --minify && mkdir -p dist/static/fonts && cp -r src/fonts/* dist/static/fonts/",
+    "postbuild": "postcss src/css/compass-layout.css -o dist/static/css/compass-layout.processed.css && parcel-css dist/static/css/compass-layout.processed.css -o dist/static/css/compass-layout-v2.6.21.min.css --minify && postcss src/css/blog-grid-layout.css -o dist/static/css/blog-grid-layout.processed.css && parcel-css dist/static/css/blog-grid-layout.processed.css -o dist/static/css/blog-grid-layout-v2.6.21.min.css --minify && mkdir -p dist/static/fonts && cp -r src/fonts/* dist/static/fonts/",
     "preview": "vite preview"
   },
   "devDependencies": {

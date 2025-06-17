@@ -6,7 +6,7 @@ import noUiSlider from "nouislider";
 import "@finsweet/cookie-consent";
 import { UAParser } from "ua-parser-js";
 import "remodal";
-//import $ from "jquery";
+import $ from "jquery";
 
 window.REMODAL_GLOBALS = {
   NAMESPACE: "remodal",
@@ -76,16 +76,17 @@ class Attribution {
     let t = new URL(window.location),
       i = new URLSearchParams(t.search),
       r = new URL(e);
-    return (
-      i.forEach((e, t) => {
-        r.searchParams.append(t, e);
-      }),
-      r.toString()
-    );
+
+    i.forEach((e, t) => {
+      r.searchParams.append(t, e);
+    });
+
+    return r.toString();
   }
 
   static openStoreLink(e, t) {
-    (e = this.upgradeStoreLink(e)), window.open(e, t ? "_blank" : null);
+    e = this.upgradeStoreLink(e);
+    window.open(e, t ? "_blank" : null);
   }
 
   static sendDoStartRequest() {
@@ -864,7 +865,7 @@ const downloadDropdownsObserver = new MutationObserver((mutations) => {
           trigger.closest("[data-menu-dd-wrap]").classList.add("sm--z-900");
         }
         const { top: triggerTop } = trigger.getBoundingClientRect();
-        const { top, bottom, height } = dropdownList.getBoundingClientRect();
+        const { bottom, height } = dropdownList.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
         const offset = 50;
         const { bottom: navbarBottom } = navbar.getBoundingClientRect();
@@ -1337,7 +1338,7 @@ Array.prototype.forEach.call(downloadLinks, (downloadLink) => {
 });
 
 //Центруем всплывашку платформ на мобилке
-const setCenterCTAListArrow = (dropdown) => {
+const setCenterCTAListArrow = () => {
   const hasArrowCTALists = document.querySelectorAll(
     ".cta__dd-list.is--has-arrow, .cta__dd-list.is--mobile-has-arrow",
   );
@@ -1448,8 +1449,7 @@ function addInputPhoneMask() {
         input.value = inputNumbersValue;
       }
     }
-    var inputSelectionStart = selectionStart,
-      inputSelectionEnd = selectionEnd;
+
     if (["7", "8", "9"].indexOf(inputNumbersValue[0]) > -1) {
       if (inputNumbersValue[0] === "9" && ["iOS", "OS X"].indexOf(os) + 1) {
         inputNumbersValue = `7${inputNumbersValue}`;
@@ -1667,7 +1667,7 @@ nameInputs.forEach((input) => {
       (input.value.length > 49 ||
         (e.key &&
           e.key.match(
-            /[^А-яЁёІіЇїҐґЄєa-zA-ZẞßÄäÜüÖöÀàÈèÉéÌìÍíÎîÒòÓóÙùÚúÂâÊêÔôÛûËëÏïŸÿÇçÑñœ’`'.-\s]/,
+            /[^А-ЯЁа-яёІіЇїҐґЄєa-zA-ZẞßÄäÜüÖöÀàÈèÉéÌìÍíÎîÒòÓóÙùÚúÂâÊêÔôÛûËëÏïŸÿÇçÑñœ'`.-\s]/,
           )))
     )
       return e.preventDefault();
@@ -2773,7 +2773,8 @@ function removeAnchorFormURL() {
   }, 100);
 }
 
-$('a[href^="#"]').on("click", function () {
+$('a[href^="#"]').on("click", function (e) {
+  e.preventDefault();
   removeAnchorFormURL();
 });
 
@@ -2989,7 +2990,26 @@ document.querySelectorAll("form").forEach((form) => {
   });
 });
 
-function sendRequest(url, form, formData) {
+const renderCaptcha = (url, form, formData) => {
+  const captchaContainer = form
+    .closest(".w-form")
+    .querySelector(".form__captcha-container");
+  const isCaptchaPossible =
+    !!captchaContainer && !!window.smartCaptcha && !!window.yandexCaptchaKey;
+
+  if (isCaptchaPossible) {
+    window.smartCaptcha.render(captchaContainer, {
+      sitekey: window.yandexCaptchaKey,
+      hl: "ru",
+      callback: (token) => {
+        formData.set("grecaptcha_response", token);
+        sendRequest(url, form, formData, !!token);
+      },
+    });
+  }
+};
+
+function sendRequest(url, form, formData, isEnableYandexCaptcha) {
   const successMessage = form.nextElementSibling.classList.contains(
     "w-form-done",
   )
@@ -3001,16 +3021,24 @@ function sendRequest(url, form, formData) {
   const button = form.querySelector('[type="submit"]');
   const currentModal = document.querySelector(".remodal.remodal-is-opened");
   const modalId = currentModal ? "#" + currentModal.dataset.remodalId : null;
-
+  const captchaBlock = form
+    .closest(".w-form")
+    .querySelector(".form__captcha-block");
   button.classList.add("pointer-events-none");
 
   fetch(url, {
     method: "POST",
     body: formData,
+    headers: isEnableYandexCaptcha
+      ? {
+          "X-COMPASS-CAPTCHA-METHOD": "yandex_cloud",
+        }
+      : {},
   })
     .then((response) => {
       if (response.status === 423) {
-        throw new Error("Form locked");
+        captchaBlock.classList.remove("hidden");
+        renderCaptcha(url, form, formData);
       }
       return response.text();
     })
@@ -3019,6 +3047,7 @@ function sendRequest(url, form, formData) {
       button.classList.remove("pointer-events-none");
 
       if (isSuccessful) {
+        captchaBlock.classList.add("hidden");
         // Event tracking
         if (modalId === "#consultation-vcs") {
           sendPageEvent("PV002");
@@ -3075,6 +3104,9 @@ function sendRequest(url, form, formData) {
         if (html.classList.contains("remodal-is-locked")) {
           html.classList.remove("is--white-overlay", "is--disable-bg-close");
         }
+      } else {
+        const errorCode = JSON.parse(result)?.response?.error_code;
+        throw new Error(errorCode);
       }
     })
     .catch((error) => {
@@ -3545,18 +3577,16 @@ if (ctaBlogBtns.length) {
 
 document.addEventListener("DOMContentLoaded", function () {
   // Подключаем скрипт google recaptcha
-  // window.doStart
-  //   .then(function (result) {
-  //     window.googleCaptchaKey = result.response.captcha_public_key;
-  //     let script = document.createElement("script");
-  //     script.src =
-  //       "https://www.google.com/recaptcha/enterprise.js?render=" +
-  //       result.response.captcha_public_key;
-  //     document.body.append(script);
-  //   })
-  //   .catch(function (result) {
-  //     console.log(result);
-  //   });
+  window.doStart
+    .then(function (result) {
+      window.googleCaptchaKey =
+        result.response.captcha_public_data?.provider_list?.enterprise_google?.client_public_key;
+      window.yandexCaptchaKey =
+        result.response.captcha_public_data?.provider_list?.yandex_cloud?.client_public_key;
+    })
+    .catch(function (result) {
+      console.log(result);
+    });
 
   setCenterCTAListArrow();
   setTimeout(function () {
@@ -4058,6 +4088,7 @@ homeLinks?.forEach((link) => {
         if (link.classList.contains("cta__btn")) {
           // [Блог] "Попробовать Compass" -> Главная сайта
           sendEvent("216");
+          sendEvent("215");
         } else if (link.classList.contains("logo__container")) {
           // [Блог] Блог → Главная сайта лого
           sendEvent("299");

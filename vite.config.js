@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 
-const releaseVersion = "2.6.18";
+const releaseVersion = "2.6.21";
 export default defineConfig({
   base: "/getcompass.ru/", // Указываем базовый путь для проекта
   build: {
@@ -25,9 +25,6 @@ export default defineConfig({
         entryFileNames: `static/js/main-v${releaseVersion}.min.js`, // Имя для JavaScript файлов
         chunkFileNames: `static/js/[name].[hash].min.js`, // Имя для чанков JavaScript
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split(".");
-          const ext = info[info.length - 1];
-
           if (assetInfo.name.endsWith(".css")) {
             return `static/css/main-v${releaseVersion}.min[extname]`; // CSS файлы в отдельную папку
           } else if (assetInfo.name.endsWith(".png")) {
