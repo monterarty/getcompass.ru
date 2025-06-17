@@ -406,7 +406,12 @@ var Detector = new oldBrowserDetector(
   },
   function () {
     const browserInfoObj = oldBrowserDetector.getBrowser();
-    if (browserInfoObj.n !== "x" && browserInfoObj.v !== 0) showOldBrowserMsg();
+    console.log(browserInfoObj);
+    if (browserInfoObj.n !== "x" && browserInfoObj.v !== 0) {
+      if (!platform?.name && !platform?.version) {
+        showOldBrowserMsg();
+      }
+    }
   },
 );
 
