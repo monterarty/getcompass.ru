@@ -2366,6 +2366,7 @@ $(document).on("closing", ".remodal", function () {
     $(".w-form-fail").hide();
     $(".w-form-done").hide();
     if (formInModal.length) {
+      const captchaBlock = formInModal.siblings(".form__captcha-block");
       const formCheckboxes = formInModal.find(".w-checkbox-input");
       formCheckboxes.each(function () {
         this.classList.remove("w--redirected-checked");
@@ -2374,6 +2375,7 @@ $(document).on("closing", ".remodal", function () {
       formInModal.find(".input-icon").each(function () {
         $(this).removeClass("display-none");
       });
+      captchaBlock.addClass("hidden");
       formButton.val(formButton.data("btn-default"));
       formInModal[0].reset();
 
@@ -2990,25 +2992,6 @@ document.querySelectorAll("form").forEach((form) => {
   });
 });
 
-const renderCaptcha = (url, form, formData) => {
-  const captchaContainer = form
-    .closest(".w-form")
-    .querySelector(".form__captcha-container");
-  const isCaptchaPossible =
-    !!captchaContainer && !!window.smartCaptcha && !!window.yandexCaptchaKey;
-
-  if (isCaptchaPossible) {
-    window.smartCaptcha.render(captchaContainer, {
-      sitekey: window.yandexCaptchaKey,
-      hl: "ru",
-      callback: (token) => {
-        formData.set("grecaptcha_response", token);
-        sendRequest(url, form, formData, !!token);
-      },
-    });
-  }
-};
-
 function sendRequest(url, form, formData, isEnableYandexCaptcha) {
   const successMessage = form.nextElementSibling.classList.contains(
     "w-form-done",
@@ -3024,76 +3007,128 @@ function sendRequest(url, form, formData, isEnableYandexCaptcha) {
   const captchaBlock = form
     .closest(".w-form")
     .querySelector(".form__captcha-block");
+
   button.classList.add("pointer-events-none");
+
+  // Хранилище для виджетов капчи
+  if (!window.captchaWidgets) {
+    window.captchaWidgets = new Map();
+  }
+
+  const renderCaptcha = (url, form, formData) => {
+    const captchaContainer = form
+      .closest(".w-form")
+      .querySelector(".form__captcha-container");
+    const isCaptchaPossible =
+      !!captchaContainer && !!window.smartCaptcha && !!window.yandexCaptchaKey;
+
+    if (!isCaptchaPossible) return;
+
+    const formKey = form.id || form.closest(".w-form").id || "default";
+
+    // Удаляем существующий виджет если есть
+    if (window.captchaWidgets.has(formKey)) {
+      const existingWidgetId = window.captchaWidgets.get(formKey);
+      try {
+        window.smartCaptcha.destroy(existingWidgetId);
+      } catch (e) {
+        console.warn("Не удалось удалить существующий виджет капчи:", e);
+      }
+      window.captchaWidgets.delete(formKey);
+    }
+
+    // Очищаем контейнер
+    captchaContainer.innerHTML = "";
+
+    const handleCaptchaError = () => {
+      captchaBlock.classList.add("hidden");
+      button.classList.remove("pointer-events-none");
+      showErrorMessage(
+        form,
+        "Достигнут лимит отправки заявок. <br>Попробуйте через 30 минут.",
+      );
+
+      // Удаляем виджет из хранилища при ошибке
+      if (window.captchaWidgets.has(formKey)) {
+        window.captchaWidgets.delete(formKey);
+      }
+    };
+
+    try {
+      const widgetId = window.smartCaptcha.render(captchaContainer, {
+        sitekey: window.yandexCaptchaKey,
+        hl: "ru",
+        callback: (token) => {
+          formData.set("grecaptcha_response", token);
+          sendRequest(url, form, formData, !!token);
+        },
+      });
+
+      // Сохраняем ID виджета
+      window.captchaWidgets.set(formKey, widgetId);
+
+      // Подписываемся на ошибки
+      window.smartCaptcha.subscribe(
+        widgetId,
+        "network-error",
+        handleCaptchaError,
+      );
+      window.smartCaptcha.subscribe(
+        widgetId,
+        "javascript-error",
+        handleCaptchaError,
+      );
+    } catch (error) {
+      console.error("Ошибка при создании виджета капчи:", error);
+      handleCaptchaError();
+    }
+  };
 
   fetch(url, {
     method: "POST",
     body: formData,
     headers: isEnableYandexCaptcha
-      ? {
-          "X-COMPASS-CAPTCHA-METHOD": "yandex_cloud",
-        }
+      ? { "X-COMPASS-CAPTCHA-METHOD": "yandex_cloud" }
       : {},
   })
     .then((response) => {
       if (response.status === 423) {
         captchaBlock.classList.remove("hidden");
         renderCaptcha(url, form, formData);
+        return response.text();
       }
       return response.text();
     })
     .then((result) => {
-      const isSuccessful = JSON.parse(result).status === "ok";
+      if (!result || result === "[]") return;
+
+      const parsedResult = JSON.parse(result);
+      const isSuccessful = parsedResult.status === "ok";
+
       button.classList.remove("pointer-events-none");
 
       if (isSuccessful) {
         captchaBlock.classList.add("hidden");
+
+        // Очищаем виджет капчи при успешной отправке
+        const formKey = form.id || form.closest(".w-form").id || "default";
+        if (window.captchaWidgets.has(formKey)) {
+          try {
+            window.smartCaptcha.destroy(window.captchaWidgets.get(formKey));
+          } catch (e) {
+            console.warn("Не удалось удалить виджет капчи:", e);
+          }
+          window.captchaWidgets.delete(formKey);
+        }
+
         // Event tracking
-        if (modalId === "#consultation-vcs") {
-          sendPageEvent("PV002");
-          sendEvent("10");
-        }
-        if (modalId === "#consultation") {
-          sendPageEvent("CL002");
-        }
+        handleSuccessTracking(modalId);
 
-        // Yandex Metrika goals
-        if (getPage() === "blog") {
-          sendEvent("220");
-        } else if (
-          getPage() === "post" &&
-          modalId === "#consultation-on-premise"
-        ) {
-          sendEvent("223");
-        } else {
-          sendEvent("101");
-        }
-
+        // UI updates
         button.value = button.dataset.btnDefault;
         successMessage.style.display = "block";
         errorMessage.style.display = "none";
         form.style.display = "none";
-
-        // Additional tracking for specific pages
-        if (getPage() === "on-premise") {
-          if (modalId === "#consultation") {
-            sendEvent("302");
-          } else if (modalId === "#pilot-modal") {
-            sendEvent("309");
-          }
-        } else if (getPage() !== "post" && getPage() !== "blog") {
-          if (
-            modalId === "#consultation" ||
-            modalId === "#consultation-on-premise"
-          ) {
-            if (modalId === "#consultation-on-premise") {
-              sendEvent("302");
-            }
-            sendEvent("10");
-          } else if (modalId === "#pilot-modal") {
-            sendEvent("307");
-          }
-        }
 
         const modal = form.closest(".remodal");
         if (modal) {
@@ -3105,7 +3140,7 @@ function sendRequest(url, form, formData, isEnableYandexCaptcha) {
           html.classList.remove("is--white-overlay", "is--disable-bg-close");
         }
       } else {
-        const errorCode = JSON.parse(result)?.response?.error_code;
+        const errorCode = parsedResult?.response?.error_code;
         throw new Error(errorCode);
       }
     })
@@ -3119,6 +3154,45 @@ function sendRequest(url, form, formData, isEnableYandexCaptcha) {
     });
 
   return false;
+}
+
+// Вынесенная функция для обработки трекинга успешных отправок
+function handleSuccessTracking(modalId) {
+  // Event tracking
+  if (modalId === "#consultation-vcs") {
+    sendPageEvent("PV002");
+    sendEvent("10");
+  }
+  if (modalId === "#consultation") {
+    sendPageEvent("CL002");
+  }
+
+  // Yandex Metrika goals
+  if (getPage() === "blog") {
+    sendEvent("220");
+  } else if (getPage() === "post" && modalId === "#consultation-on-premise") {
+    sendEvent("223");
+  } else {
+    sendEvent("101");
+  }
+
+  // Additional tracking for specific pages
+  if (getPage() === "on-premise") {
+    if (modalId === "#consultation") {
+      sendEvent("302");
+    } else if (modalId === "#pilot-modal") {
+      sendEvent("309");
+    }
+  } else if (getPage() !== "post" && getPage() !== "blog") {
+    if (modalId === "#consultation" || modalId === "#consultation-on-premise") {
+      if (modalId === "#consultation-on-premise") {
+        sendEvent("302");
+      }
+      sendEvent("10");
+    } else if (modalId === "#pilot-modal") {
+      sendEvent("307");
+    }
+  }
 }
 
 function showErrorMessage(form, msg) {
