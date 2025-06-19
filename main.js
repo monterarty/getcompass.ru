@@ -3102,6 +3102,8 @@ function sendRequest(url, form, formData, isEnableYandexCaptcha) {
         captchaBlock.classList.remove("hidden");
         renderCaptcha(url, form, formData);
         return response.text();
+      } else if (response.status !== 200) {
+        throw new Error(errorCode);
       }
       return response.text();
     })
