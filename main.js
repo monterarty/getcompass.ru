@@ -3103,7 +3103,6 @@ function sendRequest(url, form, formData, isEnableYandexCaptcha) {
         renderCaptcha(url, form, formData);
         return response.text();
       } else if (response.status !== 200) {
-        captchaBlock.classList.add("hidden");
         throw new Error(errorCode);
       }
       return response.text();
@@ -3156,6 +3155,7 @@ function sendRequest(url, form, formData, isEnableYandexCaptcha) {
     .catch((error) => {
       button.value = button.dataset.btnDefault;
       button.classList.remove("pointer-events-none");
+      captchaBlock.classList.add("hidden");
       showErrorMessage(
         form,
         "Произошла ошибка при отправке формы. Попробуйте позже или свяжитесь с&nbsp;нами другим способом.",
