@@ -2382,6 +2382,7 @@ $(document).on("closing", ".remodal", function () {
       });
       captchaBlock.addClass("hidden");
       formButton.val(formButton.data("btn-default"));
+      formButton.removeClass("pointer-events-none");
       formInModal[0].reset();
 
       formInModal.show();
