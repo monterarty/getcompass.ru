@@ -3103,6 +3103,7 @@ function sendRequest(url, form, formData, isEnableYandexCaptcha) {
         renderCaptcha(url, form, formData);
         return response.text();
       } else if (response.status !== 200) {
+        captchaBlock.classList.add("hidden");
         throw new Error(errorCode);
       }
       return response.text();
@@ -3153,6 +3154,7 @@ function sendRequest(url, form, formData, isEnableYandexCaptcha) {
       }
     })
     .catch((error) => {
+      button.value = button.dataset.btnDefault;
       button.classList.remove("pointer-events-none");
       showErrorMessage(
         form,
