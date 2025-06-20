@@ -2257,6 +2257,10 @@ html * {
     display: none;
 }
 
+.form__captcha-container {
+    min-height: 100px;
+}
+
 @media (min-width: 767px) {
     .is--open-right .cta__dd-list-wrap {
         margin-top: 0;
