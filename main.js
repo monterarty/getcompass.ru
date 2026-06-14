@@ -4,72 +4,20 @@ import platform from "platform";
 import oldBrowserDetector from "old-browser-detector";
 import noUiSlider from "nouislider";
 import "@finsweet/cookie-consent";
-import { UAParser } from "ua-parser-js";
 import "remodal";
+import { DeviceDetect } from "@/js/device-detect.js";
 import $ from "jquery";
+/* Модуль для работы скриншотов на главной странице */
+import '@/js/hero-screenshots.js';
+/* Открытие Vimeo-видео сразу в фуллскрине по data-open-vimeo-fullscreen */
+import '@/js/vimeo-fullscreen.js';
+
 
 window.REMODAL_GLOBALS = {
   NAMESPACE: "remodal",
   DEFAULTS: { hashTracking: !1 },
 };
 
-const DeviceDetectParser = new UAParser(window.navigator.userAgent);
-
-class DeviceDetect {
-  static isMobile() {
-    return "mobile" === DeviceDetectParser.getDevice().type;
-  }
-
-  static isMobileHuawei() {
-    return (
-      DeviceDetect.isMobile() &&
-      "Huawei" === DeviceDetectParser.getDevice().vendor
-    );
-  }
-
-  static isMobileApple() {
-    return (
-      DeviceDetect.isMobile() &&
-      "Apple" === DeviceDetectParser.getDevice().vendor
-    );
-  }
-
-  static isMobileAndroid() {
-    return (
-      DeviceDetect.isMobile() &&
-      !DeviceDetect.isMobileHuawei() &&
-      "Android" === DeviceDetectParser.getOS().name
-    );
-  }
-
-  static isAndroid() {
-    return "Android" === DeviceDetectParser.getOS().name;
-  }
-
-  static get0S() {
-    return DeviceDetectParser.getOS()?.name.toLowerCase();
-  }
-
-  static isMacOs() {
-    return !DeviceDetect.isMobile() && DeviceDetect.get0S()?.includes("mac os");
-  }
-
-  static isWindows() {
-    return !DeviceDetect.isMobile() && DeviceDetect.get0S()?.includes("window");
-  }
-
-  static isLinux() {
-    return (
-      !DeviceDetect.isMobile() &&
-      !DeviceDetect.isWindows() &&
-      !DeviceDetect.isMacOs()
-    );
-  }
-
-  static isIPad() {
-    return DeviceDetectParser.getDevice()?.model?.includes("iPad");
-  }
-}
 
 class Attribution {
   static upgradeStoreLink(e) {
@@ -2200,36 +2148,29 @@ const themeSwitchers = document.querySelectorAll("[data-theme-toggle]");
 const themeSlides = document.querySelectorAll(".hero__slide");
 const themeSwitcherBg = document.querySelector(".hero-slider__toggle-bg");
 
-if (themeSwitchers) {
-  Array.prototype.forEach.call(themeSwitchers, (toggle) => {
-    toggle.addEventListener("click", () => {
-      const theme = toggle.getAttribute("data-theme-toggle");
-      toggle.classList.toggle("text-black");
-      if (theme === "dark") {
-        const themeSwitcherLight = document.querySelector(
-          '[data-theme-toggle="light"]',
-        );
-        themeSwitcherBg.classList.add("is--dark");
-        themeSwitcherLight.classList.add("text-platinum");
-        Array.prototype.forEach.call(themeSlides, (slide) => {
-          const darkSlide = slide.querySelector(".image-h-full.absolute");
-          darkSlide && darkSlide.classList.remove("opacity-0");
-        });
-      } else {
-        themeSwitcherBg.classList.remove("is--dark");
-        const themeSwitcherDark = document.querySelector(
-          '[data-theme-toggle="dark"]',
-        );
-        themeSwitcherDark.classList.add("text-platinum");
-        Array.prototype.forEach.call(themeSlides, (slide) => {
-          const darkSlide = slide.querySelector(".image-h-full.absolute");
-          darkSlide && darkSlide.classList.add("opacity-0");
-        });
-      }
-      toggle.classList.remove("text-platinum");
+themeSwitchers.forEach((toggle) => {
+  toggle.addEventListener("click", () => {
+    const isDark = toggle.getAttribute("data-theme-toggle") === "dark";
+
+    // Класс на каждом .hero__slide: им CSS свапает фоны кнопки play
+    // (img:nth-child(3/4)) и светлый/тёмный постер слайда.
+    themeSlides.forEach((slide) => {
+      slide.classList.toggle("is--dark", isDark);
+      slide.classList.toggle("is--light", !isDark);
+      const darkImage = slide.querySelector(".image-h-full.absolute");
+      if (darkImage) darkImage.classList.toggle("opacity-0", !isDark);
+    });
+
+    themeSwitcherBg?.classList.toggle("is--dark", isDark);
+
+    // Активный переключатель — text-black, неактивный — text-platinum.
+    themeSwitchers.forEach((item) => {
+      const active = item === toggle;
+      item.classList.toggle("text-black", active);
+      item.classList.toggle("text-platinum", !active);
     });
   });
-}
+});
 
 var scrollDistance = 0;
 var scrollBarWidth = window.innerWidth - document.body.clientWidth;
@@ -2331,6 +2272,8 @@ $(document).on("opening", ".remodal", function () {
       "#video-detailing-group",
       "#video-daily",
       "#video-good-people",
+      "#video-hero-screen",
+      "#video-hero-screen-mobile"
     ].includes(modalId)
   ) {
     html.classList.add(
@@ -2662,22 +2605,16 @@ if (isMobileDevice) {
   });
 }
 
-function showCopyNote(text, error) {
+// Универсальный тост: кладёт произвольный текст в .event__message и показывает
+// его по той же механике классов/таймеров. options.error — красный стиль.
+function showMessage(text, options) {
+  const error = (options && options.error) || false;
   clearTimeout(closingMessageTimeout);
   const messageElement = document.querySelector(".event__message");
+  if (!messageElement) return;
 
-  if (text !== "") {
-    messageElement.innerHTML = text;
-  }
-
-  if (error) {
-    messageElement.classList.add("is--error");
-  } else {
-    messageElement.classList.remove("is--error");
-    messageElement.innerHTML =
-      "Ссылка на скачивание Compass для&nbsp;компьютера скопирована";
-  }
-
+  messageElement.innerHTML = text;
+  messageElement.classList.toggle("is--error", error);
   messageElement.classList.add("is--display-block");
 
   setTimeout(function () {
@@ -2690,6 +2627,20 @@ function showCopyNote(text, error) {
       messageElement.classList.remove("is--display-block");
     }, 300);
   }, 3000);
+}
+
+// Доступ из других модулей (напр. vimeo-fullscreen.js).
+window.showMessage = showMessage;
+window.sendPageEvent = sendPageEvent;
+
+// Сообщение о скопированной ссылке — частный случай showMessage.
+function showCopyNote(text, error) {
+  showMessage(
+    error
+      ? text
+      : "Ссылка на скачивание Compass для&nbsp;компьютера скопирована",
+    { error: error },
+  );
 }
 
 // Touch event handler for message
@@ -3241,43 +3192,11 @@ function getScrollPercentage() {
   return (scrollTop / (documentHeight - windowHeight)) * 100;
 }
 
-// Устанавливаем ширину видео в зависимости от высоты экрана
-const setVideoModalWidth = () => {
-  const videoModals = document.querySelectorAll(
-    ".popup-content.remodal.is--video-modal",
-  );
-  const videoModalPadding = window.innerWidth > 767 ? 6 : 7;
-  const sizeFactor = getSize();
-
-  Array.prototype.forEach.call(videoModals, (videoModal) => {
-    const modalHeight = window.innerHeight - sizeFactor * videoModalPadding;
-    const modalWidth = videoModal.offsetWidth ? videoModal.offsetWidth : 1;
-    if (modalWidth / modalHeight > 1.7 && modalWidth / modalHeight < 1.7) {
-      videoModal.style.width = `${modalWidth}px`;
-    } else if (
-      modalHeight < sizeFactor * 20.1 &&
-      window.innerWidth < 768 &&
-      window.innerWidth > 468
-    ) {
-      videoModal.style.width = `100%`;
-    } else if (modalHeight < sizeFactor * 17.33333 && window.innerWidth < 469) {
-      videoModal.style.width = `100%`;
-    } else if (modalHeight < sizeFactor * 22.5 && window.innerWidth > 767) {
-      videoModal.style.width = `${(sizeFactor * 22.5 * 1.7777778).toFixed(0)}px`;
-    } else {
-      videoModal.style.width = `${(modalHeight * 1.7777778).toFixed(0)}px`;
-    }
-  });
-};
-
-setVideoModalWidth();
-
 window.addEventListener("resize", () => {
   remSize = getComputedStyle(document.documentElement).getPropertyValue(
     "--remSize",
   );
   setCenterCTAListArrow();
-  setVideoModalWidth();
 
   if (window.innerWidth > 767) {
     // Удаляем аттрибут style у меню когда открыта десктопная версия
@@ -4263,6 +4182,10 @@ function analyticsModal(hash) {
     case "#video-windows-7":
     case "#video-windows-7-msi":
       sendEvent("75");
+      break;
+    case "#video-hero-screen-mobile":
+    case "#video-hero-screen":
+      sendPageEvent('VO0001')
       break;
   }
 }

@@ -229,6 +229,76 @@ html {
     background: #811fff;
 }
 
+.hero__screenshot-call::before,
+.hero__screenshot-main::before {
+    content: "";
+    display: block;
+    background-color: rgba(4, 4, 10, 0.2);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* При наведении показываем кнопку и затемняем скрины */
+.hero__screenshot-main.is--hovered ~ .hero__screenshot-play,
+.hero__screenshot-call.is--hovered::before,
+.hero__screenshot-main.is--hovered::before {
+    opacity: 1;
+}
+
+.hero__screenshot-play {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.hero__screenshot-play:hover {
+    transform: scale(1.2);
+}
+
+.popup-content.remodal.is--video-modal {
+    aspect-ratio: 16 / 9;
+    background-color: #2e2e3e;
+    width: 100%;
+    /* Ширину ограничиваем не только по горизонтали (66.444rem),
+       но и по доступной высоте экрана (вьюпорт минус вертикальные
+       отступы .remodal-wrapper: 2 × 6.67rem). Иначе при широком и низком
+       окне max-height обрезает высоту, ширина остаётся прежней — и
+       aspect-ratio 16:9 ломается: контейнер становится шире кадра,
+       а внутренний .popup__video-iframe (padding-top: 56.25%) выходит
+       за его пределы и даёт внутренний скролл. */
+    max-width: min(66.444rem, calc((100dvh - 13.34rem) / 9 * 16));
+    min-height: min(22.5rem, calc(100dvh - 13.34rem));
+    max-height: calc(100dvh - 13.34rem);
+}
+
+/* Вертикальное видео. Пропорция задаётся переменной --video-ar (ширина/высота,
+   десятичное число или calc). По умолчанию 9:16 = 0.5625; под конкретное видео
+   переопредели инлайном, напр. style="--video-ar: calc(720 / 1360)".
+   Для вертикали главный лимит — высота экрана, поэтому ширину выводим из высоты. */
+.popup-content.remodal.is--video-modal.is--vertical {
+    --video-ar: 0.5305;   /* = 226/426 из Vimeo (точная пропорция ролика); переопредели инлайном под другой ролик */
+    --video-max-h: 40rem; /* потолок высоты на больших экранах */
+    /* Опорная величина — максимальная доступная высота: минимум из потолка,
+       высоты вьюпорта (минус вертикальные отступы обёртки 13.34rem) и «сколько
+       влезет по ширине» (ширина = высота×ar не должна превысить вьюпорт − тень).
+       И height, и width считаются ИЗ НЕЁ → пропорция жёсткая, без скролла. */
+    --video-h: min(var(--video-max-h), calc(100dvh - 13.34rem), calc((100vw - 0.84rem) / var(--video-ar)));
+    aspect-ratio: auto;
+    height: var(--video-h);
+    width: calc(var(--video-h) * var(--video-ar));
+    min-height: 0;
+    max-width: none;
+    max-height: none;
+}
+
+/* Внутренний бокс под iframe: высота = ширина / пропорция (padding-top в %). */
+.is--video-modal.is--vertical .popup__video-iframe {
+    padding-top: calc(100% / var(--video-ar));
+}
 
 .w-checkbox.is--error .checkbox {
     box-shadow: var(--salmon-2) 0 0 0 1px inset;
@@ -1752,7 +1822,7 @@ picture img {
     background: rgba(4, 4, 10, 0.9);
     transition: 0.3s;
 }
-
+html.is--black-overlay.is--small-p-modal .remodal-wrapper,
 .is--small-p-modal .remodal-wrapper {
     padding: 3rem 0;
 }
@@ -2778,9 +2848,111 @@ html * {
         border-radius: 1.66rem;
     }
 
+    /* На мобиле (≤767px) .remodal-wrapper имеет padding: 0 и height: 100dvh,
+       поэтому из доступной высоты НЕ нужно вычитать десктопные 13.34rem. */
+    .popup-content.remodal.is--video-modal {
+        /* Кольцевая тень имеет spread 0.42rem с каждой стороны (0.84rem всего).
+           Ужимаем модалку на эту величину (100% - 0.84rem), чтобы тень не
+           уходила за вьюпорт и не обрезалась overflow-x обёртки по бокам. */
+        max-width: min(66.444rem, calc(100dvh / 9 * 16), calc(100% - 0.84rem));
+        /* На мобиле высоту целиком диктует ширина через aspect-ratio 16:9.
+           min-height (22.5rem) на узких экранах больше реальной 16:9-высоты и,
+           будучи сильнее aspect-ratio, растягивает контейнер выше видео —
+           снизу появляется пустой фон, видео прижимается вверх. Убираем floor. */
+        min-height: 0;
+        max-height: 100dvh;
+    }
+
+    /* Вертикальное видео на мобиле: обёртка без паддингов (height: 100dvh),
+       модалка прижата к верху (vertical-align: top). Крестик is--video-close
+       вынесен над модалкой (top: -3rem) → резервируем 6rem (3 сверху под крестик,
+       3 снизу), margin-top сдвигает модалку вниз, чтобы крестик попал на экран.
+       Та же height-driven модель: высота — драйвер, ширина авто; высота = минимум
+       из доступной высоты (100dvh − 6rem) и ограничения по ширине. Потолка нет —
+       на мобиле вертикаль занимает доступное. */
+    .popup-content.remodal.is--video-modal.is--vertical {
+        margin-top: 3rem;
+        /* Та же модель: опорная высота = min(доступная высота 100dvh − 6rem,
+           ограничение по ширине). Из неё — и height, и width. */
+        --video-h: min(calc(100dvh - 13rem), calc((100vw - 0.84rem) / var(--video-ar)));
+        aspect-ratio: auto;
+        height: var(--video-h);
+        width: calc(var(--video-h) * var(--video-ar));
+        max-width: none;
+        max-height: none;
+    }
+
     .remodal.is--video-modal .popup__scroll-content {
         max-height: 100%;
         border-radius: 1.667rem;
+    }
+
+    /* На мобиле убираем скругления только там, где мы их сами задаём: сама
+       модалка, scroll-content, popup__video-iframe и iframe — чтобы видео не
+       резалось по углам. Класс is--video-rounded-none на .popup-content; за счёт
+       него специфичность ≥ исходных правил, !important не нужен. */
+    .popup-content.remodal.is--video-modal.rounded-8,
+    .is--video-modal.rounded-8 .popup__scroll-content,
+    .is--video-modal.rounded-8 .popup__video-iframe,
+    .is--video-modal.rounded-8 iframe {
+        border-radius: var(--s8);
+    }
+
+    .is--close-btn-inside .form__button-close.is--video-close {
+        top: var(--s7);
+        right: var(--s7);
+        background-color: rgba(0, 0, 0, 0.6);
+        border-radius: 100%;
+        width: var(--s24);
+        height: var(--s24);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .is--close-btn-inside .form__button-close.is--video-close .modal-close {
+        width: var(--s18);
+        height: var(--s18);
+    }
+
+    .hero__slide_play-btn.is--loading img:nth-child(1), /* Скрываем кнгопку плей на время loading */
+    .hero__slide_play-btn img:nth-child(2) {
+        display: none;
+    }
+
+    .hero__slide_play-btn.is--loading img:nth-child(2) {
+        display: block;
+        animation: hero-play-loader-rotate 0.8s linear infinite;
+    }
+
+    @keyframes hero-play-loader-rotate {
+        to { transform: rotate(360deg); }
+    }
+
+    /* Увеличение кнопки на 15% при нажатии */
+    .hero__slide_play-btn {
+        pointer-events: none;
+        transition: transform 0.2s;
+    }
+
+    [data-open-vimeo-fullscreen]:active .hero__slide_play-btn {
+        transform: translateX(-50%) scale(1.15);
+    }
+
+    .hero__slide_play-btn img:nth-child(3),
+    .hero__slide_play-btn img:nth-child(4) {
+        transition: all 400ms;
+        border-radius: 100%;
+    }
+
+    .hero__slide.is--light .hero__slide_play-btn img:nth-child(4),
+    .hero__slide.is--dark .hero__slide_play-btn img:nth-child(3) {
+        opacity: 0;
+    }
+
+    .hero__slide.is--light .hero__slide_play-btn img:nth-child(3),
+    .hero__slide.is--dark .hero__slide_play-btn img:nth-child(4) {
+        opacity: 1;
     }
 
     .menu-wrapper--is--mobile .bn__dropdown.is--hidden {

@@ -156,7 +156,7 @@ body {
 .home-media-carousel::before,
 .home-media-carousel::after {
     content: "";
-    width: var(--d100);
+    width: var(--s100);
     height: 100%;
     background: linear-gradient(
             90deg,
@@ -1118,6 +1118,10 @@ body {
     border-radius: var(--d20);
 }
 
+.rounded-30 {
+    border-radius: var(--d30);
+}
+
 .rounded-32 {
     border-radius: var(--d32);
 }
@@ -1125,6 +1129,10 @@ body {
 .rounded-50\%,
 .rounded-50pr {
     border-radius: 50%;
+}
+
+.rounded-full {
+    border-radius: 100%;
 }
 
 .border-1 {
@@ -1826,7 +1834,7 @@ body {
 }
 
 .pb-58 {
-    padding-bottom: var(--d58);
+    padding-bottom: var(--s58);
 }
 
 .pt-60 {
@@ -1860,11 +1868,11 @@ body {
 }
 
 .pb-100 {
-    padding-bottom: var(--d100);
+    padding-bottom: var(--s100);
 }
 
 .pt-100 {
-    padding-top: var(--d100);
+    padding-top: var(--s100);
 }
 
 .pt-120 {
@@ -2168,6 +2176,10 @@ body {
     height: var(--d18);
 }
 
+.sh-22 {
+    height: var(--s22);
+}
+
 .sh-24 {
     height: var(--d24);
 }
@@ -2190,6 +2202,10 @@ body {
 
 .sh-\[37\] {
     height: var(--d37);
+}
+
+.sh-38 {
+    height: var(--s38);
 }
 
 .sh-40 {
@@ -2225,7 +2241,7 @@ body {
 }
 
 .sh-58 {
-    height: var(--d58);
+    height: var(--s58);
 }
 
 .sh-59 {
@@ -2246,6 +2262,10 @@ body {
 
 .sh-62 {
     height: var(--s62);
+}
+
+.sh-64 {
+    height: var(--s64);
 }
 
 .sh-71 {
@@ -2292,8 +2312,16 @@ body {
     height: var(--d90);
 }
 
+.sh-96 {
+    height: var(--s96);
+}
+
 .sh-99 {
     height: var(--d99);
+}
+
+.sh-100 {
+    height: var(--s100);
 }
 
 .sh-101 {
@@ -2489,6 +2517,10 @@ body {
     height: var(--d376);
 }
 
+.sh-382 {
+    height: var(--s382);
+}
+
 .sh-\[390\] {
     height: var(--d390);
 }
@@ -2569,6 +2601,10 @@ body {
     width: var(--d18);
 }
 
+.sw-22 {
+    width: var(--s22);
+}
+
 .sw-24 {
     width: var(--d24);
 }
@@ -2587,6 +2623,10 @@ body {
 
 .sw-36 {
     width: var(--d36);
+}
+
+.sw-38 {
+    width: var(--s38);
 }
 
 .sw-40 {
@@ -2609,6 +2649,10 @@ body {
     width: var(--d53);
 }
 
+.sw-58 {
+    width: var(--s58);
+}
+
 .sw-60 {
     width: var(--d60);
 }
@@ -2619,6 +2663,10 @@ body {
 
 .sw-62 {
     width: var(--s62);
+}
+
+.sw-64 {
+    width: var(--s64);
 }
 
 .sw-76 {
@@ -2641,12 +2689,17 @@ body {
     width: var(--d86);
 }
 
+.sw-92,
 .sw-\[92\] {
     width: var(--s92);
 }
 
+.sw-96 {
+    width: var(--d96);
+}
+
 .sw-100 {
-    width: var(--d100);
+    width: var(--s100);
 }
 
 .sw-126 {
@@ -3515,6 +3568,10 @@ body {
 
     .sh-80 {
         height: var(--m80);
+    }
+
+    .sh-92 {
+        height: var(--s92);
     }
 
     .sh-\[107\] {

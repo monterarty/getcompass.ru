@@ -1,8 +1,17 @@
 import { defineConfig } from "vite";
+import { fileURLToPath } from "node:url";
 
-const releaseVersion = "2.6.21";
+const releaseVersion = "2.6.27";
 export default defineConfig({
   base: "/getcompass.ru/", // Указываем базовый путь для проекта
+  resolve: {
+    alias: {
+      // Резолвим импорты вида "src/..." и "@/..." от папки src,
+      // как это настроено в tsconfig.json (baseUrl: "src")
+      src: fileURLToPath(new URL("./src", import.meta.url)),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
   build: {
     //cssMinify: 'lightningcss',
     //minify: "none",

@@ -1,7 +1,7 @@
 {
   "name": "getcompass.ru",
   "private": true,
-  "version": "2.6.21",
+  "version": "2.6.27",
   "type": "module",
   "scripts": {
     "dev": "vite",
