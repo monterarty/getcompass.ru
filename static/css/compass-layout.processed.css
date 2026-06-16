@@ -2,16 +2,20 @@
     --s14: .7777777778rem;
     --s15: .8333333333rem;
     --s17: .9444444444rem;
+    --s22: 1.222222222rem;
     --s26: 1.444444444rem;
     --d30: 1.666666667rem;
     --s37: 2.055555555rem;
+    --s38: 2.111111111rem;
     --s45: 2.5rem;
     --s62: 3.4444444444rem;
+    --s64: 3.555555555rem;
     --s81: 4.5rem;
     --s84: 4.666666667rem;
     --s91: 5.0555555556rem;
     --s92: 5.1111111111rem;
     --s96: 5.3333333333rem;
+    --s100: 5.555555555rem;
     --s106: 5.8888888889rem;
     --s113: 6.2777777777rem;
     --d136: 7.5555555556rem;
@@ -55,12 +59,15 @@
         --s14: 1.166666667rem;
         --s15: 1.25rem;
         --s17: 1.416666667rem;
+        --s22: 1.8333333333rem;
         --s26: 2.166666667rem;
         --s34: 2.833333333rem;
         --s37: 3.083333333rem;
+        --s38: 3.166666667rem;
         --s45: 3.75rem;
         --m61: 5.0833333333rem;
         --s62: 5.1666666667rem;
+        --s64: 5.33333333333rem;
         --s77: 6.4166666667rem;
         --s81: 6.75rem;
         --m82: 6.8333333333rem;
@@ -68,6 +75,7 @@
         --s91: 7.5833333333rem;
         --s92: 7.6666666667rem;
         --s96: 8rem;
+        --s100: 8.3333333333rem;
         --s106: 8.8333333333rem;
         --m130: 10.8333333333rem;
         --s152: 12.6666666667rem;
@@ -261,7 +269,7 @@ body {
 .home-media-carousel::before,
 .home-media-carousel::after {
     content: "";
-    width: var(--d100);
+    width: var(--s100);
     height: 100%;
     background: linear-gradient(
             90deg,
@@ -1235,6 +1243,10 @@ body {
     border-radius: 50%;
 }
 
+.rounded-full {
+    border-radius: 100%;
+}
+
 .border-1 {
     border-width: 1px;
 }
@@ -1968,11 +1980,11 @@ body {
 }
 
 .pb-100 {
-    padding-bottom: var(--d100);
+    padding-bottom: var(--s100);
 }
 
 .pt-100 {
-    padding-top: var(--d100);
+    padding-top: var(--s100);
 }
 
 .pt-120 {
@@ -2277,6 +2289,10 @@ body {
     height: var(--d18);
 }
 
+.sh-22 {
+    height: var(--s22);
+}
+
 .sh-24 {
     height: var(--d24);
 }
@@ -2299,6 +2315,10 @@ body {
 
 .sh-\[37\] {
     height: var(--d37);
+}
+
+.sh-38 {
+    height: var(--s38);
 }
 
 .sh-40 {
@@ -2357,6 +2377,10 @@ body {
     height: var(--s62);
 }
 
+.sh-64 {
+    height: var(--s64);
+}
+
 .sh-71 {
     height: var(--d71);
 }
@@ -2407,6 +2431,10 @@ body {
 
 .sh-99 {
     height: var(--d99);
+}
+
+.sh-100 {
+    height: var(--s100);
 }
 
 .sh-101 {
@@ -2687,6 +2715,10 @@ body {
     width: var(--d18);
 }
 
+.sw-22 {
+    width: var(--s22);
+}
+
 .sw-24 {
     width: var(--d24);
 }
@@ -2705,6 +2737,10 @@ body {
 
 .sw-36 {
     width: var(--d36);
+}
+
+.sw-38 {
+    width: var(--s38);
 }
 
 .sw-40 {
@@ -2739,6 +2775,10 @@ body {
     width: var(--s62);
 }
 
+.sw-64 {
+    width: var(--s64);
+}
+
 .sw-76 {
     width: var(--d76);
 }
@@ -2759,6 +2799,7 @@ body {
     width: var(--d86);
 }
 
+.sw-92,
 .sw-\[92\] {
     width: var(--s92);
 }
@@ -2768,7 +2809,7 @@ body {
 }
 
 .sw-100 {
-    width: var(--d100);
+    width: var(--s100);
 }
 
 .sw-126 {
@@ -3638,6 +3679,10 @@ body {
 
     .sh-80 {
         height: var(--m80);
+    }
+
+    .sh-92 {
+        height: var(--s92);
     }
 
     .sh-\[107\] {
